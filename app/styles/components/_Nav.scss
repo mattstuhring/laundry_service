@@ -1,0 +1,21 @@
+.top-nav {
+
+  .navbar-nav > li > a.active-link {
+    color: cyan;
+    font-weight: bold;
+  }
+
+  .navbar-nav > li > a {
+    color: blue;
+    @include transition(color 0.75s ease);
+    &:hover, &:focus {
+      color: cyan;
+      text-decoration: none;
+      background-color: transparent;
+    }
+  }
+
+  .navbar-nav.navbar-right {
+    margin-right: 30px;
+  }  
+}
