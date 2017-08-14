@@ -6,7 +6,7 @@
   "scripts": {
     "test": "karma start",
     "knex": "knex",
-    "start": "nodemon server.js"
+    "start": "node server.js"
   },
   "author": "Matt Stuhring <whereyouatmatt@gmail.com>",
   "license": "MIT",
