@@ -83,10 +83,6 @@ export default class Navigation extends React.Component {
               </ul>
 
               <ul className="nav navbar-nav navbar-right">
-
-                <li>
-                  <Link to="#" activeClassName="active-link">ADD</Link>
-                </li>
                 <li>
                   <Link to="/cart" activeClassName="active-link"><span className="glyphicon glyphicon-cog" aria-hidden="true"></span></Link>
                 </li>
