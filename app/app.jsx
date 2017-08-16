@@ -1,8 +1,6 @@
-var React = require('react');
-var ReactDOM = require('react-dom');
-var { Route, Router, IndexRoute, hashHistory } = require('react-router');
-import Home from 'Home';
-import Main from 'Main';
+import React from 'react';
+import ReactDOM from 'react-dom';
+import Routes from 'Routes';
 
 // Be sure to include styles at some point, probably during your bootstrapping
 require('style!css!react-select/dist/react-select.css');
@@ -19,13 +17,8 @@ require('style!css!font-awesome/css/font-awesome.css');
 // App scss
 require('style!css!sass!applicationStyles');
 
-ReactDOM.render(
-  <Router history={hashHistory}>
-    <Route path="/" component={Main}>
-      <IndexRoute component={Home}/>
-      {/* <Route path="about" component={About}/> */}
 
-    </Route>
-  </Router>,
+ReactDOM.render(
+  <Routes />,
   document.getElementById('app')
 );

@@ -1,8 +1,8 @@
 import React from 'react';
+import { browserHistory, withRouter } from 'react-router';
 import Navigation from 'Navigation';
 
-
-export default class Main extends React.Component {
+export class Main extends React.Component {
   constructor(props) {
     super(props);
 
@@ -22,19 +22,15 @@ export default class Main extends React.Component {
                 {/* HEADER */}
                 <div className="col-sm-12">
                   <div className="page-header text-center">
-                    <h1>React Project Template</h1>
+                    <h1>Laundry Service</h1>
                   </div>
                 </div>
               </div>
 
               <div className="row">
                 {/* React router child components */}
-                <div className="col-sm-9">
-                  <div className="row">
-                    <div className="col-sm-12">
-                      {this.props.children}
-                    </div>
-                  </div>
+                <div className="col-sm-12">
+                  {this.props.children}
                 </div>
               </div>
             </div>
@@ -44,3 +40,5 @@ export default class Main extends React.Component {
     );
   }
 }
+
+export default withRouter(Main);

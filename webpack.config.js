@@ -24,19 +24,14 @@ module.exports = {
     alias: {
       applicationStyles: 'app/styles/app.scss',
       About: 'app/components/About.jsx',
-      Cart: 'app/components/Cart.jsx',
-      Categories: 'app/components/Categories.jsx',
-      Collections: 'app/components/Collections.jsx',
       Contact: 'app/components/Contact.jsx',
-      Gallery: 'app/components/Gallery.jsx',
-      Header: 'app/components/Header.jsx',
       Home: 'app/components/Home.jsx',
+      Login: 'app/components/users/Login.jsx',
       Main: 'app/components/Main.jsx',
       Navigation: 'app/components/Navigation.jsx',
-      ProductDetails: 'app/components/ProductDetails.jsx',
-      ProductForm: 'app/components/ProductForm.jsx',
+      Profile: 'app/components/users/Profile.jsx',
       Playground: 'app/components/playground.jsx',
-      SideNav: 'app/components/SideNav.jsx'
+      Routes: 'app/components/Routes.jsx'
     },
     extensions: ['', '.js', '.jsx']
   },

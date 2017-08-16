@@ -15,7 +15,8 @@ const bodyParser = require('body-parser');
 const cookieSession = require('cookie-session');
 
 // Routes go here
-const example = require('./routes/example');
+const users = require('./routes/users');
+const token = require('./routes/token');
 
 const app = express();
 
@@ -33,7 +34,8 @@ switch (app.get('env')) {
   default:
 }
 
-app.use(express.static('public'));
+// serve static assets normally
+app.use(express.static(__dirname + '/public'))
 
 app.use(bodyParser.json());
 
@@ -42,11 +44,16 @@ app.use(bodyParser.json());
 //   secret: process.env.SESSION_SECRET
 // }));
 
-app.use('/api', example);
+app.use('/api', users);
+app.use('/api', token);
 
-app.use((_req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'index.html'));
-});
+// app.use((_req, res) => {
+//   res.sendFile(path.join(__dirname, 'public', 'index.html'));
+// });
+
+app.get('*', function (request, response){
+  response.sendFile(path.resolve(__dirname, 'public', 'index.html'))
+})
 
 // error catch all 400
 app.use((_req, res, _next) => {
