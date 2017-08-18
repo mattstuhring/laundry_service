@@ -26,9 +26,9 @@ router.post('/token', (req, res, next) => {
     })
     .then(() => {
       const expiry = new Date(Date.now() + 1000 * 60 * 60 * 24 * 30);
-      const access = user.access;
+
       const token = jwt.sign(
-        { userId: user.id },
+        { userId: user.id, access: user.access },
         process.env.JWT_SECRET,
         { expiresIn: '30 days' }
       );
@@ -44,10 +44,10 @@ router.post('/token', (req, res, next) => {
         secure: router.get('env') === 'production'
       });
 
-      res.cookie('access', access, {
-        expires: expiry,
-        secure: router.get('env') === 'production'
-      });
+      // res.cookie('access', access, {
+      //   expires: expiry,
+      //   secure: router.get('env') === 'production'
+      // });
 
       res.sendStatus(200);
     })
@@ -62,7 +62,7 @@ router.post('/token', (req, res, next) => {
 router.delete('/token', (req, res) => {
   res.clearCookie('accessToken');
   res.clearCookie('loggedIn');
-  res.clearCookie('access');
+  // res.clearCookie('access');
   res.sendStatus(200);
 });
 

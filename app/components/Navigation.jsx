@@ -76,9 +76,7 @@ export default class Navigation extends React.Component {
 
   render() {
     const loggedIn = () => {
-      let cookieArr = document.cookie.split(';');
-
-      if (cookieArr[1] === ' access=customer') {
+      if (document.cookie === 'loggedIn=true') {
         return <li>
             <a href="#" onClick={() => {this.handleLogOut()}}>Log Out</a>
         </li>;

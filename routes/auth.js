@@ -12,8 +12,25 @@ const jwt = require('jsonwebtoken');
 const router = express.Router();
 
 router.get('/auth', checkAuth, (req, res, next) => {
-  console.log(res.data, '************** auth');
-  res.sendStatus(200);
+  console.log(req.token, '************ token');
+  const { userId, access } = req.token;
+
+  if (req.token.access === 'customer') {
+    knex('customers')
+    .select('*')
+    .where({
+      id: userId,
+      access: access
+    })
+    .then((result) => {
+      res.send(result);
+    })
+    .catch((err) => {
+      next(err)
+    });
+  } else {
+    res.sendStatus(401);
+  }
 });
 
 module.exports = router;

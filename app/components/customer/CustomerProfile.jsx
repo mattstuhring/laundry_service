@@ -8,15 +8,16 @@ class CustomerProfile extends React.Component {
     super(props)
   }
 
-  // componentWillMount() {
-  //   axios.get('/auth')
-  //     .then((res) => {
-  //       console.log(res.status);
-  //     })
-  //     .catch((err) => {
-  //       console.log(err);
-  //     });
-  // }
+  componentWillMount() {
+    axios.get('/api/auth')
+    .then((res) => {
+      console.log(res);
+    })
+    .catch((err) => {
+      console.log(err);
+      browserHistory.push('/login');
+    });
+  }
 
   render() {
     return (

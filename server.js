@@ -12,11 +12,13 @@ const morgan = require('morgan');
 
 // Middleware
 const bodyParser = require('body-parser');
-const cookieSession = require('cookie-session');
+const cookieParser = require('cookie-parser');
+// const cookieSession = require('cookie-session');
 
 // Routes go here
 const customers = require('./routes/customers');
 const token = require('./routes/token');
+const auth = require('./routes/auth');
 
 const app = express();
 
@@ -38,6 +40,7 @@ switch (app.get('env')) {
 app.use(express.static(__dirname + '/public'))
 
 app.use(bodyParser.json());
+app.use(cookieParser());
 
 // app.use(cookieSession({
 //   name: 'fused_glass_dev',
@@ -46,14 +49,11 @@ app.use(bodyParser.json());
 
 app.use('/api', customers);
 app.use('/api', token);
+app.use('/api', auth);
 
-// app.use((_req, res) => {
-//   res.sendFile(path.join(__dirname, 'public', 'index.html'));
-// });
-
-app.get('*', function (request, response){
-  response.sendFile(path.resolve(__dirname, 'public', 'index.html'))
-})
+app.use((_req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
 
 // error catch all 400
 app.use((_req, res, _next) => {

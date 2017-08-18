@@ -11,7 +11,7 @@ export class Customer extends React.Component {
       firstName: '',
       lastName: '',
       email: '',
-      phone: '',
+      phoneNumber: '',
       password: '',
       loginError: '',
       signupError: ''
@@ -31,15 +31,34 @@ export class Customer extends React.Component {
       })
       .catch((err) => {
         console.log(err);
-        this.setState({loginError: err})
+        this.setState({loginError: err});
       });
   }
 
 
   // SIGN UP
   handleSubmit(event) {
+    console.log(event);
     event.preventDefault();
-    console.log('Here at the submit method');
+    const { firstName, lastName, email, phoneNumber, password } = this.state;
+    const newCustomer = { firstName, lastName, email, phoneNumber, password };
+
+    axios.post('/api/customers', newCustomer)
+      .then((res) => {
+        console.log(res, '****** res');
+        this.setState({
+          firstName: '',
+          lastName: '',
+          email: '',
+          phoneNumber: '',
+          password: ''
+        });
+
+        browserHistory.push('/login');
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }
 
 
@@ -127,6 +146,10 @@ export class Customer extends React.Component {
                 </Tab>
 
 
+
+
+
+
                 {/* CUSTOMER SIGN UP */}
                 <Tab eventKey={2} title="Sign Up">
                   <div className="row">
@@ -166,6 +189,21 @@ export class Customer extends React.Component {
                         <FormGroup controlId="user">
                           <InputGroup>
                             <InputGroup.Addon>
+                              <span className="glyphicon glyphicon-home" aria-hidden="true"></span>
+                            </InputGroup.Addon>
+                            <FormControl
+                              type="text"
+                              bsSize="large"
+                              placeholder="Address"
+                              name="address"
+                              value={this.state.address}
+                              onChange={this.handleChange.bind(this)}
+                            />
+                          </InputGroup>
+                        </FormGroup>
+                        <FormGroup controlId="user">
+                          <InputGroup>
+                            <InputGroup.Addon>
                               <span className="glyphicon glyphicon-envelope" aria-hidden="true"></span>
                             </InputGroup.Addon>
                             <FormControl
@@ -187,8 +225,8 @@ export class Customer extends React.Component {
                               type="text"
                               bsSize="large"
                               placeholder="(123) 456-7890"
-                              name="phone"
-                              value={this.state.phone}
+                              name="phoneNumber"
+                              value={this.state.phoneNumber}
                               onChange={this.handleChange.bind(this)}
                             />
                           </InputGroup>
