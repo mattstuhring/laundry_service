@@ -18,7 +18,7 @@ export class Customer extends React.Component {
     }
   }
 
-
+  // LOGIN
   handleLogin(event) {
     event.preventDefault();
 
@@ -35,11 +35,15 @@ export class Customer extends React.Component {
       });
   }
 
+
+  // SIGN UP
   handleSubmit(event) {
     event.preventDefault();
     console.log('Here at the submit method');
   }
 
+
+  // HANDLE FORM INPUT EVENT CHANGES
   handleChange(event) {
     this.setState({[event.target.name]: event.target.value});
   }
@@ -54,6 +58,8 @@ export class Customer extends React.Component {
                   <PageHeader>Customer Login</PageHeader>
                 </div>
               </div>
+
+              {/* CUSTOMER LOGIN */}
               <Tabs defaultActiveKey={1} id="loginTabs">
                 <Tab eventKey={1} title="Log In">
                   <div className="row">
@@ -111,6 +117,8 @@ export class Customer extends React.Component {
                           </div>
                         </div>
                       </form>
+
+                      {/* LOGIN ERROR ALERT */}
                       { this.state.loginError &&
                         <Alert bsStyle="danger">{this.state.loginError}</Alert>
                       }
@@ -118,6 +126,8 @@ export class Customer extends React.Component {
                   </div>
                 </Tab>
 
+
+                {/* CUSTOMER SIGN UP */}
                 <Tab eventKey={2} title="Sign Up">
                   <div className="row">
                     <div className="col-sm-10 col-sm-offset-1">
@@ -221,6 +231,7 @@ export class Customer extends React.Component {
                         </div>
                       </form>
 
+                      {/* SIGN UP ERROR ALERT */}
                       { this.state.signupError &&
                         <Alert bsStyle="danger">{this.state.signupError}</Alert>
                       }

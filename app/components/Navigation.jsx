@@ -75,8 +75,6 @@ export default class Navigation extends React.Component {
   }
 
   render() {
-
-
     const loggedIn = () => {
       let cookieArr = document.cookie.split(';');
 
