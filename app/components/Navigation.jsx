@@ -1,4 +1,6 @@
 import React from 'react';
+import { browserHistory } from 'react-router';
+import axios from 'axios';
 import $ from 'jQuery';
 import { Link, IndexLink } from 'react-router';
 import { Button } from 'react-bootstrap';
@@ -59,9 +61,32 @@ export default class Navigation extends React.Component {
   constructor(props) {
     super(props)
 
+    this.handleLogOut = this.handleLogOut.bind(this);
+  }
+
+  handleLogOut() {
+    axios.delete('api/token')
+      .then(() => {
+        browserHistory.push('/');
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }
 
   render() {
+
+
+    const loggedIn = () => {
+      let cookieArr = document.cookie.split(';');
+
+      if (cookieArr[1] === ' access=customer') {
+        return <li>
+            <a href="#" onClick={() => {this.handleLogOut()}}>Log Out</a>
+        </li>;
+      }
+    }
+
     return (
       <div className="top-nav">
         <nav className="navbar navbar-default navbar-fixed-top">
@@ -83,8 +108,11 @@ export default class Navigation extends React.Component {
               </ul>
 
               <ul className="nav navbar-nav navbar-right">
+
+                {loggedIn()}
+
                 <li>
-                  <Link to="/cart" activeClassName="active-link"><span className="glyphicon glyphicon-cog" aria-hidden="true"></span></Link>
+                  <Link to="/" activeClassName="active-link"><span className="glyphicon glyphicon-cog" aria-hidden="true"></span></Link>
                 </li>
               </ul>
 

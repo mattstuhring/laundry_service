@@ -13,7 +13,7 @@ const router = express.Router();
 router.post('/token', (req, res, next) => {
   let user;
 
-  knex('users')
+  knex('customers')
     .where('email', req.body.email)
     .first()
     .then((row) => {
@@ -25,23 +25,29 @@ router.post('/token', (req, res, next) => {
       return bcrypt.compare(req.body.password, user.hashedPassword);
     })
     .then(() => {
-      // const expiry = new Date(Date.now() + 1000 * 60 * 60 * 24 * 30);
-      // const token = jwt.sign(
-      //   { userId: user.id },
-      //   process.env.JWT_SECRET,
-      //   { expiresIn: '30 days' }
-      // );
-      //
-      // res.cookie('accessToken', token, {
-      //   httpOnly: true,
-      //   expires: expiry,
-      //   secure: router.get('env') === 'production'
-      // });
-      // res.cookie('loggedIn', true, {
-      //   expires: expiry,
-      //   secure: router.get('env') ===
-      //   'production'
-      // });
+      const expiry = new Date(Date.now() + 1000 * 60 * 60 * 24 * 30);
+      const access = user.access;
+      const token = jwt.sign(
+        { userId: user.id },
+        process.env.JWT_SECRET,
+        { expiresIn: '30 days' }
+      );
+
+      res.cookie('accessToken', token, {
+        httpOnly: true,
+        expires: expiry,
+        secure: router.get('env') === 'production'
+      });
+
+      res.cookie('loggedIn', true, {
+        expires: expiry,
+        secure: router.get('env') === 'production'
+      });
+
+      res.cookie('access', access, {
+        expires: expiry,
+        secure: router.get('env') === 'production'
+      });
 
       res.sendStatus(200);
     })
@@ -53,10 +59,11 @@ router.post('/token', (req, res, next) => {
     });
 });
 
-// router.delete('/token', (req, res) => {
-//   res.clearCookie('accessToken');
-//   res.clearCookie('loggedIn');
-//   res.sendStatus(200);
-// });
+router.delete('/token', (req, res) => {
+  res.clearCookie('accessToken');
+  res.clearCookie('loggedIn');
+  res.clearCookie('access');
+  res.sendStatus(200);
+});
 
 module.exports = router;

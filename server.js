@@ -15,7 +15,7 @@ const bodyParser = require('body-parser');
 const cookieSession = require('cookie-session');
 
 // Routes go here
-const users = require('./routes/users');
+const customers = require('./routes/customers');
 const token = require('./routes/token');
 
 const app = express();
@@ -44,7 +44,7 @@ app.use(bodyParser.json());
 //   secret: process.env.SESSION_SECRET
 // }));
 
-app.use('/api', users);
+app.use('/api', customers);
 app.use('/api', token);
 
 // app.use((_req, res) => {
