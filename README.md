@@ -1,10 +1,9 @@
-# Fused Glass by Celeste
+# Laundry Service
 
-## eCommerce website
+## Never do laundry again!
 
 ### Tools:
   - React
   - Webpack v1
   - Bootstrap
   - Font Awesome
-# laundry_service
