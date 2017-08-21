@@ -24,7 +24,7 @@ module.exports = {
     alias: {
       applicationStyles: 'app/styles/app.scss',
       About: 'app/components/About.jsx',
-      Employee: 'app/components/employee/Employee.jsx',
+      EmployeeLogin: 'app/components/employee/EmployeeLogin.jsx',
       EmployeeProfile: 'app/components/employee/EmployeeProfile.jsx',
       Home: 'app/components/Home.jsx',
       Login: 'app/components/Login.jsx',
@@ -32,7 +32,7 @@ module.exports = {
       Navigation: 'app/components/Navigation.jsx',
       Routes: 'app/components/Routes.jsx',
       AdminProfile: 'app/components/admin/AdminProfile.jsx',
-      Customer: 'app/components/customer/Customer.jsx',
+      CustomerLogin: 'app/components/customer/CustomerLogin.jsx',
       CustomerProfile: 'app/components/customer/CustomerProfile.jsx'
     },
     extensions: ['', '.js', '.jsx']

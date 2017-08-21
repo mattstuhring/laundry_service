@@ -75,11 +75,42 @@ export default class Navigation extends React.Component {
   }
 
   render() {
+    // console.log(document.cookie, '******** cookie');
+
+
     const loggedIn = () => {
-      if (document.cookie === 'loggedIn=true') {
-        return <li>
-            <a href="#" onClick={() => {this.handleLogOut()}}>Log Out</a>
-        </li>;
+      if (document.cookie) {
+        let profile;
+
+        if (document.cookie) {
+          const cookie = document.cookie.split(';');
+          const status = cookie[0];
+          const access = cookie[1].trim();
+
+          if (access === 'access=admin') {
+            profile = '/adminProfile';
+          } else if (access === 'access=employee') {
+            profile = '/employeeProfile';
+          } else if (access === 'access=customer') {
+            profile = '/customerProfile';
+          } else {
+            profile = '/';
+          }
+        }
+
+        return (
+          <ul className="nav navbar-nav navbar-right">
+            <li>
+              <a href="#" onClick={() => {browserHistory.push('/customerProfile')}}>PROFILE</a>
+            </li>
+            <li>
+              <a href="#" onClick={() => {this.handleLogOut()}}>LOG OUT</a>
+            </li>
+            <li>
+              <Link to="/" activeClassName="active-link"><span className="glyphicon glyphicon-cog" aria-hidden="true"></span></Link>
+            </li>
+          </ul>
+        );
       }
     }
 
@@ -103,14 +134,7 @@ export default class Navigation extends React.Component {
                 </li>
               </ul>
 
-              <ul className="nav navbar-nav navbar-right">
-
                 {loggedIn()}
-
-                <li>
-                  <Link to="/" activeClassName="active-link"><span className="glyphicon glyphicon-cog" aria-hidden="true"></span></Link>
-                </li>
-              </ul>
 
             </div>
           </div>

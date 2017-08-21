@@ -13,7 +13,7 @@ const router = express.Router();
 router.post('/token', (req, res, next) => {
   let user;
 
-  knex('customers')
+  knex('users')
     .where('email', req.body.email)
     .first()
     .then((row) => {
@@ -44,10 +44,10 @@ router.post('/token', (req, res, next) => {
         secure: router.get('env') === 'production'
       });
 
-      // res.cookie('access', access, {
-      //   expires: expiry,
-      //   secure: router.get('env') === 'production'
-      // });
+      res.cookie('access', user.access, {
+        expires: expiry,
+        secure: router.get('env') === 'production'
+      });
 
       res.sendStatus(200);
     })
@@ -62,7 +62,7 @@ router.post('/token', (req, res, next) => {
 router.delete('/token', (req, res) => {
   res.clearCookie('accessToken');
   res.clearCookie('loggedIn');
-  // res.clearCookie('access');
+  res.clearCookie('access');
   res.sendStatus(200);
 });
 

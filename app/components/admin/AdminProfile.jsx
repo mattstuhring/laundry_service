@@ -1,8 +1,30 @@
 import React from 'react';
+import axios from 'axios';
 import { browserHistory, withRouter } from 'react-router';
 import {Jumbotron} from 'react-bootstrap';
 
 class AdminProfile extends React.Component {
+  constructor(props) {
+    super(props)
+
+    this.state = {
+
+    }
+  }
+
+  componentWillMount() {
+    axios.get('/api/authAdmin')
+    .then((res) => {
+      console.log(res);
+      // const data = res.data[0];
+
+    })
+    .catch((err) => {
+      console.log(err);
+      browserHistory.push('/login');
+    });
+  }
+
 
   render() {
     return (

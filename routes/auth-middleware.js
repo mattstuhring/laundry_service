@@ -3,8 +3,6 @@
 const jwt = require('jsonwebtoken');
 
 const checkAuth = function(req, res, next) {
-  console.log(req.cookies.accessToken, '********** accessToken');
-
   jwt.verify(req.cookies.accessToken, process.env.JWT_SECRET, (err, decoded) => {
     if (err) {
       return res.sendStatus(401);

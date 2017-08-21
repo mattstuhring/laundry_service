@@ -1,13 +1,15 @@
-.login {
+.user-login {
 
-  .btn.btn-warning {
-    margin-top: 15px;
-    margin-bottom: 20px;
+  .nav-tabs, .form-group {
+    margin-bottom: 25px;
   }
 
-  .btn.btn-primary {
-    margin-top: 20px;
-    margin-bottom: 15px;
+  .input-lg {
+    font-size: 14px;
+  }
+
+  .btn-actions {
+    margin-bottom: 10px;
   }
 
 }

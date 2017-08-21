@@ -16,9 +16,11 @@ const cookieParser = require('cookie-parser');
 // const cookieSession = require('cookie-session');
 
 // Routes go here
-const customers = require('./routes/customers');
+const users = require('./routes/users');
 const token = require('./routes/token');
-const auth = require('./routes/auth');
+const authCustomer = require('./routes/authCustomer');
+const authEmployee = require('./routes/authEmployee');
+const authAdmin = require('./routes/authAdmin');
 
 const app = express();
 
@@ -47,9 +49,11 @@ app.use(cookieParser());
 //   secret: process.env.SESSION_SECRET
 // }));
 
-app.use('/api', customers);
+app.use('/api', users);
 app.use('/api', token);
-app.use('/api', auth);
+app.use('/api', authCustomer);
+app.use('/api', authEmployee);
+app.use('/api', authAdmin);
 
 app.use((_req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
