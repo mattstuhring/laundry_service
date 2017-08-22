@@ -1,7 +1,7 @@
 import React from 'react';
 import { browserHistory, withRouter } from 'react-router';
 import axios from 'axios';
-import {Tabs, Tab, Button, FormGroup, FormControl, Alert, InputGroup, Panel, PageHeader} from 'react-bootstrap';
+import {Tabs, Tab, Button, FormGroup, FormControl, Alert, InputGroup, Panel, PageHeader, HelpBlock} from 'react-bootstrap';
 import superagent from 'superagent';
 
 export class Login extends React.Component {
@@ -10,11 +10,14 @@ export class Login extends React.Component {
     this.state = {
       firstName: '',
       lastName: '',
+      address: '',
       email: '',
       phoneNumber: '',
       password: '',
+      passwordCheck: '',
       loginError: '',
-      signupError: ''
+      signupError: '',
+      honeypot: ''
     }
   }
 
@@ -56,33 +59,63 @@ export class Login extends React.Component {
 
   // SIGN UP
   handleSubmit(event) {
-    console.log(event);
     event.preventDefault();
-    const { firstName, lastName, email, phoneNumber, password } = this.state;
-    const newUser = { firstName, lastName, email, phoneNumber, password };
+    const { password, passwordCheck } = this.state;
 
-    axios.post('/api/users', newUser)
-      .then((res) => {
-        console.log(res, '****** res');
-        this.setState({
-          firstName: '',
-          lastName: '',
-          email: '',
-          phoneNumber: '',
-          password: ''
+    if (this.state.honeypot === '' && password === passwordCheck) {
+      const { firstName, lastName, address, email, phoneNumber, password } = this.state;
+      const newUser = { firstName, lastName, address, email, phoneNumber, password };
+
+      axios.post('/api/users', newUser)
+        .then((res) => {
+          console.log(res, '****** res');
+          this.setState({
+            firstName: '',
+            lastName: '',
+            address: '',
+            email: '',
+            phoneNumber: '',
+            password: '',
+            key: 1
+          });
+        })
+        .catch((err) => {
+          console.log(err);
         });
-
-        browserHistory.push('/login');
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    } else {
+      console.log('SPAM!!!');
+    }
   }
 
 
   // HANDLE FORM INPUT EVENT CHANGES
   handleChange(event) {
     this.setState({[event.target.name]: event.target.value});
+  }
+
+  handleSelect(key) {
+    this.setState({key});
+  }
+
+  getPasswordValidationState() {
+    const { password } = this.state;
+
+    if (password.length > 0) {
+      return 'success';
+    }
+  }
+
+
+  getValidationState() {
+    const { password, passwordCheck } = this.state;
+
+    if (password === passwordCheck && password.length > 0 && passwordCheck.length > 0) {
+      return 'success';
+    } else if (password === '') {
+      return null;
+    } else {
+      return 'error';
+    }
   }
 
   render() {
@@ -97,7 +130,7 @@ export class Login extends React.Component {
               </div>
 
               {/* LOGIN */}
-              <Tabs defaultActiveKey={1} id="loginTabs">
+              <Tabs defaultActiveKey={1} activeKey={this.state.key} onSelect={this.handleSelect} id="loginTabs">
                 <Tab eventKey={1} title="Log In">
                   <div className="row">
                     <div className="col-sm-10 col-sm-offset-1">
@@ -146,7 +179,7 @@ export class Login extends React.Component {
                             <Button
                               bsStyle="primary"
                               type="button"
-                              onClick={() => browserHistory.push('/login')}
+                              onClick={() => browserHistory.push('/')}
                               block
                             >
                               Cancel
@@ -227,7 +260,7 @@ export class Login extends React.Component {
                             <FormControl
                               type="text"
                               bsSize="large"
-                              placeholder="example@address.com"
+                              placeholder="Email"
                               name="email"
                               value={this.state.email}
                               onChange={this.handleChange.bind(this)}
@@ -249,7 +282,10 @@ export class Login extends React.Component {
                             />
                           </InputGroup>
                         </FormGroup>
-                        <FormGroup controlId="user">
+
+
+
+                        <FormGroup controlId="user" validationState={this.getPasswordValidationState()}>
                           <InputGroup>
                             <InputGroup.Addon>
                               <span className="glyphicon glyphicon-lock" aria-hidden="true"></span>
@@ -264,6 +300,39 @@ export class Login extends React.Component {
                             />
                           </InputGroup>
                         </FormGroup>
+
+
+                        <FormGroup controlId="user" validationState={this.getValidationState()}>
+                          <InputGroup>
+                            <InputGroup.Addon>
+                              <span className="glyphicon glyphicon-lock" aria-hidden="true"></span>
+                            </InputGroup.Addon>
+                            <FormControl
+                              type="password"
+                              bsSize="large"
+                              placeholder="Retype password"
+                              name="passwordCheck"
+                              value={this.state.passwordCheck}
+                              onChange={this.handleChange.bind(this)}
+                            />
+                            <FormControl.Feedback />
+                          </InputGroup>
+                          <HelpBlock>Passwords must match</HelpBlock>
+                        </FormGroup>
+
+
+                        {/* SPAM PROTECTION */}
+                        <div className="form-group hidden">
+                          <label>Keep this field blank</label>
+                          <input
+                            type="text"
+                            className="form-control"
+                            name="honeypot"
+                            value={this.state.honeypot} onChange={this.handleChange.bind(this)}
+                          />
+                        </div>
+
+
                         <div className="row btn-actions">
                           <div className="col-sm-6">
                             <Button
@@ -278,7 +347,7 @@ export class Login extends React.Component {
                             <Button
                               bsStyle="primary"
                               type="button"
-                              onClick={() => browserHistory.push('/login')}
+                              onClick={() => browserHistory.push('/')}
                               block
                             >
                               Cancel

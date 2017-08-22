@@ -10,7 +10,7 @@ const router = express.Router();
 
 // CREATE NEW CUSTOMER
 router.post('/users', (req, res, next) => {
-  const { firstName, lastName, email, phoneNumber, password } = req.body;
+  const { firstName, lastName, address, email, phoneNumber, password } = req.body;
 
   knex('users')
     .select(knex.raw('1=1'))
@@ -24,7 +24,7 @@ router.post('/users', (req, res, next) => {
       return bcrypt.hash(password, 12);
     })
     .then((hashedPassword) => {
-      const newUser = { firstName, lastName, email, phoneNumber, access_id: 1 };
+      const newUser = { firstName, lastName, address, email, phoneNumber, hashedPassword, access: 'customer' };
       const row = decamelizeKeys(newUser);
 
       return knex('users')
