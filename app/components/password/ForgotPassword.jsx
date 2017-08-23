@@ -18,17 +18,16 @@ export class ForgotPassword extends React.Component {
   handleSubmit(event) {
     event.preventDefault();
 
-
     if (this.state.honeypot === '') {
-      console.log('You are here!');
       const { email } = this.state;
 
       axios.post('/api/forgotPassword', {email})
         .then((res) => {
-          console.log(res, '****** res');
+          this.props.setToast('A password reset email has been sent to you.', {type: 'success'});
           browserHistory.push('/login')
         })
         .catch((err) => {
+          this.props.setToast('Please try again.', {type: 'error'});
           console.log(err);
         });
     } else {

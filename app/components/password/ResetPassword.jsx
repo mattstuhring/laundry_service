@@ -25,10 +25,11 @@ export class ResetPassword extends React.Component {
 
     axios.put('/api/resetPassword', payload)
       .then((res) => {
-        console.log(res);
+        this.props.setToast('Password reset was a success!', {type: 'success'});
         browserHistory.push('/login');
       })
       .catch((err) => {
+        this.props.setToast('Server error!', {type: 'error'});
         console.log(err);
       });
   }

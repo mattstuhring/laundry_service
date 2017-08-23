@@ -2,7 +2,7 @@ import React from 'react';
 import { browserHistory, withRouter, Link } from 'react-router';
 import axios from 'axios';
 import {Tabs, Tab, Button, FormGroup, FormControl, Alert, InputGroup, Panel, PageHeader, HelpBlock} from 'react-bootstrap';
-import superagent from 'superagent';
+import { ToastContainer, toast } from 'react-toastify';
 
 export class Login extends React.Component {
   constructor(props) {
@@ -53,7 +53,7 @@ export class Login extends React.Component {
       })
       .catch((err) => {
         console.log(err);
-        this.setState({loginError: err});
+        this.props.setToast('Invalid email or password!', {type: 'error'});
       });
   }
 
@@ -69,7 +69,6 @@ export class Login extends React.Component {
 
       axios.post('/api/users', newUser)
         .then((res) => {
-          console.log(res, '****** res');
           this.setState({
             firstName: '',
             lastName: '',
@@ -79,6 +78,8 @@ export class Login extends React.Component {
             password: '',
             key: 1
           });
+
+          this.props.setToast('Thank you for signing up!', {type: 'success'});
         })
         .catch((err) => {
           console.log(err);
@@ -122,6 +123,7 @@ export class Login extends React.Component {
     return (
         <div className="row user-login">
           <div className="col-sm-6 col-sm-offset-3">
+
             <Panel>
               <div className="row">
                 <div className="col-sm-12 text-center">

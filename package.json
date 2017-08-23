@@ -43,6 +43,7 @@
     "react-dropzone-component": "^2.0.0",
     "react-router": "^2.8.1",
     "react-select": "^1.0.0-rc.4",
+    "react-toastify": "^2.0.0-rc.3",
     "superagent": "^3.5.2"
   },
   "devDependencies": {

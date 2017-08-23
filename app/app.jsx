@@ -2,19 +2,22 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import Routes from 'Routes';
 
-// Be sure to include styles at some point, probably during your bootstrapping
+// React-Select
 require('style!css!react-select/dist/react-select.css');
 
-// react-dropzone-component CSS
+// React-Dropzone-Component
 require('style!css!react-dropzone-component/styles/filepicker.css'); require('style!css!dropzone/dist/min/dropzone.min.css');
 
-// Load Bootstrap
+// Bootstrap
 require('style!css!bootstrap/dist/css/bootstrap.min.css');
 
-// Load Font Awesome
+// Font Awesome
 require('style!css!font-awesome/css/font-awesome.css');
 
-// App scss
+// React-Toast
+require('style!css!react-toastify/dist/ReactToastify.min.css');
+
+// App SCSS
 require('style!css!sass!applicationStyles');
 
 

@@ -1,16 +1,34 @@
 import React from 'react';
 import { browserHistory, withRouter } from 'react-router';
 import Navigation from 'Navigation';
+import { ToastContainer, toast } from 'react-toastify';
 
 export class Main extends React.Component {
   constructor(props) {
     super(props);
 
+    this.setToast = this.setToast.bind(this);
+  }
+
+  setToast(message, type) {
+    toast(message, type);
   }
 
   render() {
     return (
       <div className="main">
+
+        {/* React Toast Container */}
+        <ToastContainer
+          position="top-center"
+          autoClose={5000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          pauseOnHover
+          style={{position: 'fixed', zIndex: 2}}
+        />
+
         {/* TOP NAVBAR */}
         <Navigation/>
 
@@ -27,10 +45,15 @@ export class Main extends React.Component {
                 </div>
               </div>
 
+
               <div className="row">
                 {/* React router child components */}
                 <div className="col-sm-12">
-                  {this.props.children}
+
+                  {React.cloneElement(this.props.children, {
+                    setToast: this.setToast
+                  })}
+
                 </div>
               </div>
             </div>
