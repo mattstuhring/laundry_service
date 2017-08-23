@@ -6,6 +6,8 @@ import Login from 'Login';
 import AdminProfile from 'AdminProfile';
 import CustomerProfile from 'CustomerProfile';
 import EmployeeProfile from 'EmployeeProfile';
+import ForgotPassword from 'ForgotPassword';
+import ResetPassword from 'ResetPassword';
 
 export default class Routes extends React.Component {
   render() {
@@ -16,6 +18,8 @@ export default class Routes extends React.Component {
         <Route path="adminProfile" component={AdminProfile}/>
         <Route path="customerProfile" component={CustomerProfile}/>
         <Route path="employeeProfile" component={EmployeeProfile}/>
+        <Route path="forgotPassword" component={ForgotPassword}/>
+        <Route path="resetPassword" component={ResetPassword}/>
       </Route>
     </Router>;
   }

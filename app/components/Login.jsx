@@ -1,12 +1,13 @@
 import React from 'react';
-import { browserHistory, withRouter } from 'react-router';
+import { browserHistory, withRouter, Link } from 'react-router';
 import axios from 'axios';
 import {Tabs, Tab, Button, FormGroup, FormControl, Alert, InputGroup, Panel, PageHeader, HelpBlock} from 'react-bootstrap';
 import superagent from 'superagent';
 
 export class Login extends React.Component {
-  constructor(context) {
-    super()
+  constructor(props) {
+    super(props)
+
     this.state = {
       firstName: '',
       lastName: '',
@@ -105,7 +106,6 @@ export class Login extends React.Component {
     }
   }
 
-
   getValidationState() {
     const { password, passwordCheck } = this.state;
 
@@ -164,6 +164,7 @@ export class Login extends React.Component {
                               onChange={this.handleChange.bind(this)}
                             />
                           </InputGroup>
+                          <Link to="/forgotPassword">Forgot password?</Link>
                         </FormGroup>
                         <div className="row btn-actions">
                           <div className="col-sm-6">

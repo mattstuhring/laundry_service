@@ -10,6 +10,7 @@ exports.up = function(knex) {
     table.string('phone_number').defaultTo('');
     table.specificType('hashed_password', 'char(60)').notNullable();
     table.string('access').notNullable().defaultTo('');
+    table.string('reset_password_token').defaultTo('');
     table.timestamps(true, true);
   })
 };

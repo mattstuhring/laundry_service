@@ -21,6 +21,8 @@ const token = require('./routes/token');
 const authCustomer = require('./routes/authCustomer');
 const authEmployee = require('./routes/authEmployee');
 const authAdmin = require('./routes/authAdmin');
+const forgotPassword = require('./routes/forgotPassword');
+const resetPassword = require('./routes/resetPassword');
 
 const app = express();
 
@@ -54,6 +56,8 @@ app.use('/api', token);
 app.use('/api', authCustomer);
 app.use('/api', authEmployee);
 app.use('/api', authAdmin);
+app.use('/api', forgotPassword);
+app.use('/api', resetPassword);
 
 app.use((_req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));

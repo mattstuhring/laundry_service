@@ -24,16 +24,18 @@ module.exports = {
     alias: {
       applicationStyles: 'app/styles/app.scss',
       About: 'app/components/About.jsx',
+      AdminProfile: 'app/components/admin/AdminProfile.jsx',
+      CustomerLogin: 'app/components/customer/CustomerLogin.jsx',
+      CustomerProfile: 'app/components/customer/CustomerProfile.jsx',
       EmployeeLogin: 'app/components/employee/EmployeeLogin.jsx',
       EmployeeProfile: 'app/components/employee/EmployeeProfile.jsx',
+      ForgotPassword: 'app/components/password/ForgotPassword.jsx',
       Home: 'app/components/Home.jsx',
       Login: 'app/components/Login.jsx',
       Main: 'app/components/Main.jsx',
       Navigation: 'app/components/Navigation.jsx',
-      Routes: 'app/components/Routes.jsx',
-      AdminProfile: 'app/components/admin/AdminProfile.jsx',
-      CustomerLogin: 'app/components/customer/CustomerLogin.jsx',
-      CustomerProfile: 'app/components/customer/CustomerProfile.jsx'
+      ResetPassword: 'app/components/password/ResetPassword.jsx',
+      Routes: 'app/components/Routes.jsx'
     },
     extensions: ['', '.js', '.jsx']
   },
