@@ -1,7 +1,7 @@
 import React from 'react';
 import { browserHistory, withRouter, Link } from 'react-router';
 import axios from 'axios';
-import {Tabs, Tab, Button, FormGroup, FormControl, Alert, InputGroup, Panel, PageHeader, HelpBlock} from 'react-bootstrap';
+import {Tabs, Tab, Button, FormGroup, FormControl, InputGroup, Panel, PageHeader, HelpBlock} from 'react-bootstrap';
 import { ToastContainer, toast } from 'react-toastify';
 
 export class Login extends React.Component {
@@ -16,8 +16,6 @@ export class Login extends React.Component {
       phoneNumber: '',
       password: '',
       passwordCheck: '',
-      loginError: '',
-      signupError: '',
       honeypot: ''
     }
   }
@@ -190,11 +188,6 @@ export class Login extends React.Component {
                           </div>
                         </div>
                       </form>
-
-                      {/* LOGIN ERROR ALERT */}
-                      { this.state.loginError &&
-                        <Alert bsStyle="danger">{this.state.loginError}</Alert>
-                      }
                     </div>
                   </div>
                 </Tab>
@@ -358,11 +351,6 @@ export class Login extends React.Component {
                           </div>
                         </div>
                       </form>
-
-                      {/* SIGN UP ERROR ALERT */}
-                      { this.state.signupError &&
-                        <Alert bsStyle="danger">{this.state.signupError}</Alert>
-                      }
                     </div>
                   </div>
                 </Tab>

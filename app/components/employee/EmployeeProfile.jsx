@@ -28,10 +28,16 @@ class EmployeeProfile extends React.Component {
   render() {
     return (
       <div className="row">
-        <div className="col-sm-6 col-sm-offset-3">
-          <Jumbotron>
-            <h2>Welcome, <small>Employee</small>!</h2>
-          </Jumbotron>
+        <div className="col-sm-12">
+
+          <div className="row">
+            <div className="col-sm-6 col-sm-offset-3">
+              <h1>Welcome, <small>Employee</small>!</h1>
+
+
+            </div>
+          </div>
+
         </div>
       </div>
     )

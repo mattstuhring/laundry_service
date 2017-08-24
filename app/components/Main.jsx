@@ -21,7 +21,7 @@ export class Main extends React.Component {
         {/* React Toast Container */}
         <ToastContainer
           position="top-center"
-          autoClose={5000}
+          autoClose={2000}
           hideProgressBar={false}
           newestOnTop={false}
           closeOnClick
@@ -30,7 +30,7 @@ export class Main extends React.Component {
         />
 
         {/* TOP NAVBAR */}
-        <Navigation/>
+        <Navigation setToast={this.setToast}/>
 
         <div className="container">
           <div className="panel panel-default main-overlay">

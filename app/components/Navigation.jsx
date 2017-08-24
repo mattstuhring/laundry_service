@@ -67,7 +67,7 @@ export default class Navigation extends React.Component {
   handleLogOut() {
     axios.delete('api/token')
       .then(() => {
-        this.props.setToast('You are now logged out!');
+        this.props.setToast('You are now logged out!', {type: 'success'});
         browserHistory.push('/');
       })
       .catch((err) => {
@@ -75,10 +75,8 @@ export default class Navigation extends React.Component {
       });
   }
 
+
   render() {
-    // console.log(document.cookie, '******** cookie');
-
-
     const loggedIn = () => {
       if (document.cookie) {
         let profile;
