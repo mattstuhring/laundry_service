@@ -1,14 +1,16 @@
 import React from 'react';
 import axios from 'axios';
 import { browserHistory, withRouter } from 'react-router';
-import {Button, FormGroup, FormControl, InputGroup, Panel, ControlLabel, Table} from 'react-bootstrap';
+import { Button, FormGroup, FormControl, InputGroup, Panel, ControlLabel, Table } from 'react-bootstrap';
 import moment from 'moment';
+import Popup from 'Popup';
 
 class CustomerProfile extends React.Component {
   constructor(props) {
     super(props)
 
     this.state = {
+      orderId: null,
       customer: {
         customerId: null,
         firstName: '',
@@ -19,14 +21,25 @@ class CustomerProfile extends React.Component {
       },
       newAddress: '',
       honeypot: '',
-      orders: {
-        queue: [],
-        complete: []
+      queueOrders: [],
+      completeOrders: [],
+      showModal: false,
+      modal: {
+        title: '',
+        message: '',
+        action: null
       }
     }
 
     this.handleHome = this.handleHome.bind(this);
+    this.handleRemove = this.handleRemove.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.close = this.close.bind(this);
+    this.openHome = this.openHome.bind(this);
+    this.openRemove = this.openRemove.bind(this);
+    this.openNewAddress = this.openNewAddress.bind(this);
   }
+
 
   componentWillMount() {
     axios.get('/api/authCustomer')
@@ -46,14 +59,9 @@ class CustomerProfile extends React.Component {
 
       return axios.get(`/api/orders`)
         .then((res) => {
-          console.log(res.data[0], '******* queue');
-          console.log(res.data[1], '******* complete');
-
           this.setState({
-            orders: {
-              queue: res.data[0],
-              complete: res.data[1]
-            }
+            queueOrders: res.data[0],
+            completeOrders: res.data[1]
           });
         })
         .catch((err) => {
@@ -67,16 +75,17 @@ class CustomerProfile extends React.Component {
   }
 
 
+  // HOME ORDER BTN -> sets home address as pick up location
   handleHome() {
     const { address } = this.state.customer;
 
     axios.post('/api/orders', {address})
       .then((res) => {
         const data = res.data;
-        let orders = Object.assign([], this.state.orders);
-        orders.unshift(data);
+        let q = Object.assign([], this.state.queueOrders);
+        q.unshift(data);
 
-        this.setState({ orders });
+        this.setState({ queueOrders: q, showModal: false });
       })
       .catch((err) => {
         console.log(err);
@@ -84,8 +93,45 @@ class CustomerProfile extends React.Component {
   }
 
 
-  handleSubmit(event) {
-    event.preventDefault();
+  // SUBMIT NEW ADDRESS FORM -> sets home address as pick up location
+  handleSubmit() {
+    const { newAddress } = this.state;
+
+    axios.post('/api/orders', {newAddress})
+      .then((res) => {
+        const data = res.data;
+        let q = Object.assign([], this.state.queueOrders);
+        q.unshift(data);
+
+        this.setState({ queueOrders: q, newAddress: '', showModal: false });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+
+
+  // REMOVE ORDER FROM QUEUE
+  handleRemove() {
+    const { orderId } = this.state;
+
+    axios.delete(`/api/orders/${orderId}`)
+      .then((res) => {
+        const data = res.data;
+        let q = Object.assign([], this.state.queueOrders);
+
+        for (let i = 0; i < data.length; i++) {
+          if (data[i].id === orderId) {
+            data.splice(i, 1);
+            break;
+          }
+        }
+
+        this.setState({ queueOrders: data, showModal: false });
+      })
+      .catch((err) => {
+        console.log(err);
+      })
   }
 
 
@@ -94,13 +140,61 @@ class CustomerProfile extends React.Component {
     this.setState({[event.target.name]: event.target.value});
   }
 
+  close() {
+    this.setState({ showModal: false });
+  }
 
+  openHome() {
+    this.setState({
+      showModal: true,
+      modal: {
+        title: 'Submit Order:',
+        message: 'Any special instructions?',
+        action: this.handleHome
+      }
+    });
+  }
+
+  openNewAddress() {
+    this.setState({
+      showModal: true,
+      modal: {
+        title: 'Submit Order:',
+        message: 'Any special instructions?',
+        action: this.handleSubmit
+      }
+    });
+  }
+
+  openRemove(id) {
+    this.setState({
+      showModal: true,
+      orderId: id,
+      modal: {
+        title: 'Delete Order:',
+        message: 'Are you sure you want to delete this order?',
+        action: this.handleRemove
+      }
+    });
+  }
+
+
+  // ***************************  RENDER  ***************************
   render() {
     const { firstName } = this.state.customer;
 
     return (
       <div className="row customer-profile">
         <div className="col-sm-12">
+
+          {/* MODAL */}
+          <Popup
+            title={this.state.modal.title}
+            message={this.state.modal.message}
+            showModal={this.state.showModal}
+            close={this.close}
+            action={this.state.modal.action}
+          />
 
           <div className="row">
             <div className="col-sm-6 col-sm-offset-3">
@@ -132,7 +226,7 @@ class CustomerProfile extends React.Component {
                       type="button"
                       bsSize="large"
                       block
-                      onClick={() => {this.handleHome()}}
+                      onClick={() => {this.openHome()}}
                     >
                       HOME
                     </Button>
@@ -151,7 +245,7 @@ class CustomerProfile extends React.Component {
                 {/* NEW ADDRESS FORM */}
                 <div className="row">
                   <div className="col-sm-12">
-                    <form onSubmit={this.handleSubmit.bind(this)}>
+                    <form>
                       <div className="row">
                         <div className="col-sm-8 col-sm-offset-2">
                           <FormGroup controlId="user">
@@ -159,7 +253,7 @@ class CustomerProfile extends React.Component {
                               <FormControl
                                 type="text"
                                 placeholder="Address"
-                                name="address"
+                                name="newAddress"
                                 value={this.state.newAddress}
                                 onChange={this.handleChange.bind(this)}
                               />
@@ -179,11 +273,20 @@ class CustomerProfile extends React.Component {
                       </div>
                       <div className="row send-btn">
                         <div className="col-sm-6 col-sm-offset-3">
-                          <Button
+                          {/* <Button
                             bsStyle="primary"
                             type="submit"
                             bsSize="large"
                             block
+                          >
+                            SEND
+                          </Button> */}
+                          <Button
+                            bsStyle="primary"
+                            type="button"
+                            bsSize="large"
+                            block
+                            onClick={() => {this.openNewAddress()}}
                           >
                             SEND
                           </Button>
@@ -205,7 +308,7 @@ class CustomerProfile extends React.Component {
               </div>
               <h4>Queue:</h4>
               <Table striped bordered condensed hover>
-                <thead>
+                <thead className="text-center">
                   <tr>
                     <th>#</th>
                     <th>Date</th>
@@ -216,7 +319,7 @@ class CustomerProfile extends React.Component {
                 </thead>
                 <tbody>
 
-                  {this.state.orders.queue.map((q) => {
+                  {this.state.queueOrders.map((q) => {
                     const startDate = moment(q.created_at).format('L');
 
                     return <tr key={q.id}>
@@ -224,11 +327,11 @@ class CustomerProfile extends React.Component {
                       <td>{startDate}</td>
                       <td>{q.address}</td>
                       <td>{q.status}</td>
-                      <td>
+                      <td className="text-center">
                         <Button
                           bsStyle="danger"
                           bsSize="xsmall"
-                          // onClick={() => this.removeProduct(p.productId)}
+                          onClick={() => this.openRemove(q.id)}
                         >
                           <span className="glyphicon glyphicon-remove" aria-hidden="true"></span>
                         </Button>
@@ -259,7 +362,7 @@ class CustomerProfile extends React.Component {
                 </thead>
                 <tbody>
 
-                  {this.state.orders.complete.map((o) => {
+                  {this.state.completeOrders.map((o) => {
                     const startDate = moment(o.created_at).format('L');
                     const endDate = moment(o.upadated_at).format('L');
 

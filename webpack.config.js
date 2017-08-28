@@ -34,6 +34,7 @@ module.exports = {
       Login: 'app/components/Login.jsx',
       Main: 'app/components/Main.jsx',
       Navigation: 'app/components/Navigation.jsx',
+      Popup: 'app/components/Popup.jsx',
       ResetPassword: 'app/components/password/ResetPassword.jsx',
       Routes: 'app/components/Routes.jsx'
     },

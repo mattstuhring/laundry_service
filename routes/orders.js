@@ -21,8 +21,8 @@ router.get('/orders', checkAuth, (req, res, next) => {
       .where('status', 'Queue')
       .orderBy('orders.id', 'desc')
       .then((queue) => {
-        console.log(queue, '*********** queue');
         let orders = [queue];
+
         return knex('orders')
           .select('*')
           .innerJoin('payments', 'orders.payment_id', 'payments.id')
@@ -30,7 +30,6 @@ router.get('/orders', checkAuth, (req, res, next) => {
           .where('status', 'Complete')
           .orderBy('orders.id', 'desc')
           .then((complete) => {
-            console.log(complete, '*********** complete');
             orders.push(complete);
 
             res.send(orders);
@@ -51,7 +50,14 @@ router.get('/orders', checkAuth, (req, res, next) => {
 // CREATE NEW ORDER
 router.post('/orders', checkAuth, (req, res, next) => {
   const { userId, access } = req.token;
-  const { address } = req.body;
+  const { address, newAddress } = req.body;
+  let location = '';
+
+  if (address) {
+    location = address;
+  } else if (newAddress) {
+    location = newAddress;
+  }
 
   if (access === 'customer') {
     knex('payments')
@@ -65,7 +71,7 @@ router.post('/orders', checkAuth, (req, res, next) => {
           .insert({
             customer_id: userId,
             payment_id: parseInt(paymentId[0]),
-            address: address,
+            address: location,
             status: 'Queue'
           })
           .returning('id')
@@ -86,7 +92,42 @@ router.post('/orders', checkAuth, (req, res, next) => {
       .catch((err) => {
         next(err);
       });
-  } else {
+  }
+  else {
+    res.sendStatus(401);
+  }
+});
+
+
+// DELETE ORDER BY ID
+router.delete('/orders/:id', checkAuth, (req, res, next) => {
+  const { userId, access } = req.token;
+
+  if (access === 'customer') {
+    knex('orders')
+      .where('orders.id', req.params.id)
+      .del()
+      .then(() => {
+        return knex('orders')
+          .select('*')
+          .innerJoin('payments', 'orders.payment_id', 'payments.id')
+          .where('customer_id', userId)
+          .where('status', 'Queue')
+          .orderBy('orders.id', 'desc')
+          .then((queue) => {
+
+            console.log(queue, '********** queue');
+            res.send(queue);
+          })
+          .catch((err) => {
+            next(err);
+          });
+      })
+      .catch((err) => {
+        next(err);
+      });
+  }
+  else {
     res.sendStatus(401);
   }
 });
