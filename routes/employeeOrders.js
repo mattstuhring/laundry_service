@@ -17,7 +17,6 @@ router.get('/employeeOrders', checkAuth, (req, res, next) => {
     knex('orders')
       .select('*')
       .innerJoin('payments', 'orders.payment_id', 'payments.id')
-      .where('employee_id', userId)
       .where('status', 'Queue')
       .orderBy('orders.id', 'desc')
       .then((queue) => {
@@ -60,52 +59,31 @@ router.get('/employeeOrders', checkAuth, (req, res, next) => {
 });
 
 
-// CREATE NEW ORDER
+
 router.put('/employeeOrders', checkAuth, (req, res, next) => {
   const { userId, access } = req.token;
-  const { orderId } = req.body;
+  const { orderId, check } = req.body;
+  let status;
 
+  if (check === 'active') {
+    status = 'Active';
+  } else if (check === 'complete') {
+    status = 'Complete';
+  }
 
   if (access === 'employee') {
     knex('orders')
-    .where('employee_id', userId)
     .where('orders.id', orderId)
     .update({
-      status: 'Active',
+      status: status,
       employee_id: userId
     })
-    .then((result) => {
-      knex('orders')
-        .select('*')
-        .innerJoin('payments', 'orders.payment_id', 'payments.id')
-        .where('status', 'Queue')
-        .orderBy('orders.id', 'desc')
-        .then((queue) => {
-          let orders = [queue];
-
-          return knex('orders')
-            .select('*')
-            .innerJoin('payments', 'orders.payment_id', 'payments.id')
-            .where('employee_id', userId)
-            .where('status', 'Active')
-            .orderBy('orders.id', 'desc')
-            .then((active) => {
-              orders.push(active);
-
-              res.send(orders);
-            })
-            .catch((err) => {
-              next(err);
-            });
-        })
-        .catch((err) => {
-          next(err);
-        });
+    .then(() => {
+      res.sendStatus(200);
     })
     .catch((err) => {
       next(err);
-    })
-
+    });
   } else {
     res.sendStatus(401);
   }
@@ -125,32 +103,7 @@ router.delete('/employeeOrders/:id', checkAuth, (req, res, next) => {
       employee_id: null
     })
     .then((result) => {
-      knex('orders')
-        .select('*')
-        .innerJoin('payments', 'orders.payment_id', 'payments.id')
-        .where('status', 'Queue')
-        .orderBy('orders.id', 'desc')
-        .then((queue) => {
-          let orders = [queue];
-
-          return knex('orders')
-            .select('*')
-            .innerJoin('payments', 'orders.payment_id', 'payments.id')
-            .where('employee_id', userId)
-            .where('status', 'Active')
-            .orderBy('orders.id', 'desc')
-            .then((active) => {
-              orders.push(active);
-
-              res.send(orders);
-            })
-            .catch((err) => {
-              next(err);
-            });
-        })
-        .catch((err) => {
-          next(err);
-        });
+      res.sendStatus(200);
     })
     .catch((err) => {
       next(err);

@@ -25,10 +25,11 @@ class EmployeeProfile extends React.Component {
     }
 
     this.close = this.close.bind(this);
-    this.openJob = this.openJob.bind(this);
+    this.openActive = this.openActive.bind(this);
     this.openRemove = this.openRemove.bind(this);
-    this.handleActiveJob = this.handleActiveJob.bind(this);
+    this.handleActive = this.handleActive.bind(this);
     this.handleRemove = this.handleRemove.bind(this);
+    this.handleComplete = this.handleComplete.bind(this);
   }
 
   componentWillMount() {
@@ -55,26 +56,73 @@ class EmployeeProfile extends React.Component {
     });
   }
 
-  handleActiveJob() {
+  handleActive() {
     const {orderId} = this.state;
+    const check = 'active';
 
-    axios.put(`/api/employeeOrders`, {orderId})
-      .then((res) => {
-        console.log(res, '********* res');
-        this.setState({ showModal: false, queueOrders: res.data[0], activeOrders: res.data[1] });
+    axios.put(`/api/employeeOrders`, {orderId, check})
+      .then((r) => {
+        return axios.get(`/api/employeeOrders`)
+          .then((res) => {
+            this.setState({
+              showModal: false,
+              queueOrders: res.data[0],
+              completeOrders: res.data[1],
+              activeOrders: res.data[2]
+            });
+          })
+          .catch((err) => {
+            console.log(err);
+          });
       })
       .catch((err) => {
         console.log(err);
       });
   }
 
+
   handleRemove() {
     const {orderId} = this.state;
 
     axios.delete(`/api/employeeOrders/${orderId}`)
+      .then((r) => {
+        return axios.get(`/api/employeeOrders`)
+          .then((res) => {
+            this.setState({
+              showModal: false,
+              queueOrders: res.data[0],
+              completeOrders: res.data[1],
+              activeOrders: res.data[2]
+            });
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+
+
+  handleComplete() {
+    const {orderId} = this.state;
+    const check = 'complete';
+
+    axios.put(`/api/employeeOrders`, {orderId, check})
       .then((res) => {
-        console.log(res);
-        this.setState({ showModal: false, queueOrders: res.data[0], activeOrders: res.data[1] });
+        return axios.get(`/api/employeeOrders`)
+          .then((res) => {
+            this.setState({
+              showModal: false,
+              queueOrders: res.data[0],
+              completeOrders: res.data[1],
+              activeOrders: res.data[2]
+            });
+          })
+          .catch((err) => {
+            console.log(err);
+          });
       })
       .catch((err) => {
         console.log(err);
@@ -85,15 +133,26 @@ class EmployeeProfile extends React.Component {
     this.setState({ showModal: false });
   }
 
+  openComplete(id) {
+    this.setState({
+      showModal: true,
+      orderId: id,
+      modal: {
+        title: 'Job:',
+        message: 'Ready to complete this order?',
+        action: this.handleComplete
+      }
+    });
+  }
 
-  openJob(id) {
+  openActive(id) {
     this.setState({
       showModal: true,
       orderId: id,
       modal: {
         title: 'Job:',
         message: 'Do you accept this order?',
-        action: this.handleActiveJob
+        action: this.handleActive
       }
     });
   }
@@ -169,6 +228,13 @@ class EmployeeProfile extends React.Component {
                       <td>{a.status}</td>
                       <td className="text-center">
                         <Button
+                          bsStyle="success"
+                          bsSize="xsmall"
+                          onClick={() => this.openComplete(a.id)}
+                        >
+                          <span className="glyphicon glyphicon-check" aria-hidden="true"></span>
+                        </Button>
+                        <Button
                           bsStyle="danger"
                           bsSize="xsmall"
                           onClick={() => this.openRemove(a.id)}
@@ -212,9 +278,9 @@ class EmployeeProfile extends React.Component {
                         <Button
                           bsStyle="success"
                           bsSize="xsmall"
-                          onClick={() => this.openJob(q.id)}
+                          onClick={() => this.openActive(q.id)}
                         >
-                          <span className="glyphicon glyphicon-ok" aria-hidden="true"></span>
+                          <span className="glyphicon glyphicon-plus" aria-hidden="true"></span>
                         </Button>
                       </td>
                     </tr>
