@@ -100,7 +100,8 @@ export default class Navigation extends React.Component {
         return (
           <ul className="nav navbar-nav navbar-right">
             <li>
-              <a href="#" onClick={() => {browserHistory.push('/customerProfile')}}>PROFILE</a>
+              <Link to={profile} activeClassName="active-link">PROFILE</Link>
+              {/* <a href="#" onClick={() => {browserHistory.push('/customerProfile')}}>PROFILE</a> */}
             </li>
             <li>
               <a href="#" onClick={() => {this.handleLogOut()}}>LOG OUT</a>

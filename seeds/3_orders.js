@@ -24,6 +24,17 @@ exports.seed = function(knex) {
         payment_id: 2,
         created_at: new Date('2017-08-16 12:12:16 UTC'),
         updated_at: new Date('2017-08-16 12:12:16 UTC')
+      },
+      {
+        id: 3,
+        address: '22309 Old Poplar Way, Brier, WA 98036',
+        status: 'Active',
+        instructions: '1 load of laundry',
+        customer_id: 3,
+        employee_id: 2,
+        payment_id: 3,
+        created_at: new Date('2017-08-19 12:12:16 UTC'),
+        updated_at: new Date('2017-08-19 12:12:16 UTC')
       }])
     )
     .then(() => knex.raw(

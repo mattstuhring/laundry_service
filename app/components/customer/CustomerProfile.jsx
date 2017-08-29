@@ -57,7 +57,7 @@ class CustomerProfile extends React.Component {
         }
       });
 
-      return axios.get(`/api/orders`)
+      return axios.get(`/api/customerOrders`)
         .then((res) => {
           this.setState({
             queueOrders: res.data[0],
@@ -79,7 +79,7 @@ class CustomerProfile extends React.Component {
   handleHome() {
     const { address } = this.state.customer;
 
-    axios.post('/api/orders', {address})
+    axios.post('/api/customerOrders', {address})
       .then((res) => {
         const data = res.data;
         let q = Object.assign([], this.state.queueOrders);
@@ -97,7 +97,7 @@ class CustomerProfile extends React.Component {
   handleSubmit() {
     const { newAddress } = this.state;
 
-    axios.post('/api/orders', {newAddress})
+    axios.post('/api/customerOrders', {newAddress})
       .then((res) => {
         const data = res.data;
         let q = Object.assign([], this.state.queueOrders);
@@ -115,7 +115,7 @@ class CustomerProfile extends React.Component {
   handleRemove() {
     const { orderId } = this.state;
 
-    axios.delete(`/api/orders/${orderId}`)
+    axios.delete(`/api/customerOrders/${orderId}`)
       .then((res) => {
         const data = res.data;
         let q = Object.assign([], this.state.queueOrders);

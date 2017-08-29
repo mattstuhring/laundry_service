@@ -16,6 +16,13 @@ exports.seed = function(knex) {
         amount: 10.00,
         created_at: new Date('2017-08-17 12:12:16 UTC'),
         updated_at: new Date('2017-08-17 12:12:16 UTC')
+      },
+      {
+        id: 3,
+        type: 'Cash',
+        amount: 10.00,
+        created_at: new Date('2017-08-18 12:12:16 UTC'),
+        updated_at: new Date('2017-08-18 12:12:16 UTC')
       }])
     )
     .then(() => knex.raw(

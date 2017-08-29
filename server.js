@@ -23,7 +23,8 @@ const authEmployee = require('./routes/authEmployee');
 const authAdmin = require('./routes/authAdmin');
 const forgotPassword = require('./routes/forgotPassword');
 const resetPassword = require('./routes/resetPassword');
-const orders = require('./routes/orders');
+const customerOrders = require('./routes/customerOrders');
+const employeeOrders = require('./routes/employeeOrders');
 
 const app = express();
 
@@ -59,7 +60,9 @@ app.use('/api', authEmployee);
 app.use('/api', authAdmin);
 app.use('/api', forgotPassword);
 app.use('/api', resetPassword);
-app.use('/api', orders);
+app.use('/api', customerOrders);
+app.use('/api', employeeOrders);
+
 
 app.use((_req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
