@@ -25,6 +25,7 @@ module.exports = {
       applicationStyles: 'app/styles/app.scss',
       About: 'app/components/About.jsx',
       AdminProfile: 'app/components/admin/AdminProfile.jsx',
+      Checkout: 'app/components/Checkout.jsx',
       CustomerLogin: 'app/components/customer/CustomerLogin.jsx',
       CustomerProfile: 'app/components/customer/CustomerProfile.jsx',
       EmployeeLogin: 'app/components/employee/EmployeeLogin.jsx',
@@ -33,7 +34,9 @@ module.exports = {
       Home: 'app/components/Home.jsx',
       Login: 'app/components/Login.jsx',
       Main: 'app/components/Main.jsx',
+      Map: 'app/components/Map.jsx',
       Navigation: 'app/components/Navigation.jsx',
+      Playground: 'app/components/Playground.jsx',
       Popup: 'app/components/Popup.jsx',
       ResetPassword: 'app/components/password/ResetPassword.jsx',
       Routes: 'app/components/Routes.jsx'

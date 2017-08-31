@@ -6,14 +6,13 @@ if (process.env.NODE_ENV !== 'production') {
 
 const express = require('express');
 const path = require('path');
-const PORT = process.env.PORT || 3000;
+// const PORT = process.env.PORT || 3000;
 const ev = require('express-validation');
 const morgan = require('morgan');
 
 // Middleware
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
-// const cookieSession = require('cookie-session');
 
 // Routes go here
 const users = require('./routes/users');
@@ -25,8 +24,13 @@ const forgotPassword = require('./routes/forgotPassword');
 const resetPassword = require('./routes/resetPassword');
 const customerOrders = require('./routes/customerOrders');
 const employeeOrders = require('./routes/employeeOrders');
+const charge = require('./routes/charge');
+
+const SERVER_CONFIGS = require('./constants/server');
+const configureServer = require('./server-config');
 
 const app = express();
+configureServer(app);
 
 app.disable('x-powered-by');
 
@@ -62,6 +66,7 @@ app.use('/api', forgotPassword);
 app.use('/api', resetPassword);
 app.use('/api', customerOrders);
 app.use('/api', employeeOrders);
+app.use('/api', charge);
 
 
 app.use((_req, res) => {
@@ -90,10 +95,14 @@ app.use((err, _req, res, _next) => {
   res.sendStatus(500);
 });
 
-app.listen(PORT, () => {
-  if (process.env.NODE_ENV !== 'test') {
-    console.log('Listening on PORT', PORT);
-  }
+// app.listen(PORT, () => {
+//   if (process.env.NODE_ENV !== 'test') {
+//     console.log('Listening on PORT', PORT);
+//   }
+// });
+app.listen(SERVER_CONFIGS.PORT, error => {
+  if (error) throw error;
+  console.log('Server running on port: ' + SERVER_CONFIGS.PORT);
 });
 
 module.exports = app;

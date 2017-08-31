@@ -49,15 +49,23 @@ router.get('/customerOrders', checkAuth, (req, res, next) => {
 
 // CREATE NEW ORDER
 router.post('/customerOrders', checkAuth, (req, res, next) => {
+  console.log('hello');
   const { userId, access } = req.token;
-  const { address, newAddress } = req.body;
-  let location = '';
+  const { orderAddress, orderContact, orderInstructions } = req.body.newOrder;
 
-  if (address) {
-    location = address;
-  } else if (newAddress) {
-    location = newAddress;
+  let orderLoads = parseInt(req.body.newOrder.orderLoads);
+  let { orderServices } = req.body.newOrder;
+  let clean, fold = false;
+
+  if (orderServices.includes('clean')) {
+    clean = true;
   }
+
+  if (orderServices.includes('fold')) {
+    fold = true;
+  }
+
+  let arr = [];
 
   if (access === 'customer') {
     knex('payments')
@@ -67,19 +75,36 @@ router.post('/customerOrders', checkAuth, (req, res, next) => {
       })
       .returning('id')
       .then((paymentId) => {
-        return knex('orders')
+        arr.push(paymentId);
+
+        return knex('settings')
           .insert({
-            customer_id: userId,
-            payment_id: parseInt(paymentId[0]),
-            address: location,
-            status: 'Queue'
+            amount: orderLoads,
+            clean: clean,
+            fold: fold
           })
           .returning('id')
-          .then((orderId) => {
+          .then((settingId) => {
+            arr.push(settingId);
+
             return knex('orders')
-              .where('id', parseInt(orderId[0]))
-              .then((r) => {
-                res.send(r[0]);
+              .insert({
+                customer_id: userId,
+                payment_id: parseInt(arr[0][0]),
+                setting_id: parseInt(arr[1][0]),
+                address: orderAddress,
+                status: 'Queue',
+              })
+              .returning('id')
+              .then((orderId) => {
+                return knex('orders')
+                  .where('id', parseInt(orderId[0]))
+                  .then((r) => {
+                    res.send(r[0]);
+                  })
+                  .catch((err) => {
+                    next(err);
+                  });
               })
               .catch((err) => {
                 next(err);
@@ -88,14 +113,52 @@ router.post('/customerOrders', checkAuth, (req, res, next) => {
           .catch((err) => {
             next(err);
           });
+
       })
       .catch((err) => {
         next(err);
       });
-  }
-  else {
-    res.sendStatus(401);
-  }
+    }
+    else {
+      res.sendStatus(401);
+    }
+
+
+
+
+    // knex('payments')
+    //   .insert({
+    //     type: '',
+    //     amount: null
+    //   })
+    //   .returning('id')
+    //   .then((paymentId) => {
+    //     return knex('orders')
+    //       .insert({
+    //         customer_id: userId,
+    //         payment_id: parseInt(paymentId[0]),
+    //         address: orderAddress,
+    //         status: 'Queue',
+    //       })
+    //       .returning('id')
+    //       .then((orderId) => {
+    //         return knex('orders')
+    //           .where('id', parseInt(orderId[0]))
+    //           .then((r) => {
+    //             res.send(r[0]);
+    //           })
+    //           .catch((err) => {
+    //             next(err);
+    //           });
+    //       })
+    //       .catch((err) => {
+    //         next(err);
+    //       });
+    //   })
+    //   .catch((err) => {
+    //     next(err);
+    //   });
+
 });
 
 

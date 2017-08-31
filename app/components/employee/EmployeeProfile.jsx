@@ -232,7 +232,7 @@ class EmployeeProfile extends React.Component {
                           bsSize="xsmall"
                           onClick={() => this.openComplete(a.id)}
                         >
-                          <span className="glyphicon glyphicon-check" aria-hidden="true"></span>
+                          <span className="glyphicon glyphicon-ok" aria-hidden="true"></span>
                         </Button>
                         <Button
                           bsStyle="danger"

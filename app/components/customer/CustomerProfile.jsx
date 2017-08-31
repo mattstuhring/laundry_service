@@ -1,7 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import { browserHistory, withRouter } from 'react-router';
-import { Button, FormGroup, FormControl, InputGroup, Panel, ControlLabel, Table } from 'react-bootstrap';
+import { Button, FormGroup, FormControl, InputGroup, Panel, ControlLabel, Table, Tabs, Tab, ProgressBar, Checkbox, Radio } from 'react-bootstrap';
 import moment from 'moment';
 import Popup from 'Popup';
 
@@ -19,7 +19,6 @@ class CustomerProfile extends React.Component {
         email: '',
         phoneNumber: '',
       },
-      newAddress: '',
       honeypot: '',
       queueOrders: [],
       completeOrders: [],
@@ -28,82 +27,74 @@ class CustomerProfile extends React.Component {
         title: '',
         message: '',
         action: null
-      }
+      },
+      orderAddress: '',
+      orderServices: [],
+      orderLoads: null,
+      orderContact: '',
+      orderInstructions: '',
+      key: 1
     }
 
-    this.handleHome = this.handleHome.bind(this);
     this.handleRemove = this.handleRemove.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleOrder = this.handleOrder.bind(this);
+    this.handleSelect = this.handleSelect.bind(this);
     this.close = this.close.bind(this);
-    this.openHome = this.openHome.bind(this);
+    this.openOrder = this.openOrder.bind(this);
     this.openRemove = this.openRemove.bind(this);
-    this.openNewAddress = this.openNewAddress.bind(this);
+    this.handleBoxChange = this.handleBoxChange.bind(this);
   }
 
 
   componentWillMount() {
     axios.get('/api/authCustomer')
-    .then((res) => {
-      const data = res.data[0];
-
-      this.setState({
-        customer: {
-          customerId: data.id,
-          firstName: data.firstName,
-          lastName: data.lastName,
-          address: data.address,
-          email: data.email,
-          phoneNumber: data.phoneNumber
-        }
-      });
-
-      return axios.get(`/api/customerOrders`)
-        .then((res) => {
-          this.setState({
-            queueOrders: res.data[0],
-            completeOrders: res.data[1]
-          });
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    })
-    .catch((err) => {
-      console.log(err);
-      browserHistory.push('/login');
-    });
-  }
-
-
-  // HOME ORDER BTN -> sets home address as pick up location
-  handleHome() {
-    const { address } = this.state.customer;
-
-    axios.post('/api/customerOrders', {address})
       .then((res) => {
-        const data = res.data;
-        let q = Object.assign([], this.state.queueOrders);
-        q.unshift(data);
+        const data = res.data[0];
 
-        this.setState({ queueOrders: q, showModal: false });
+        this.setState({
+          customer: {
+            customerId: data.id,
+            firstName: data.firstName,
+            lastName: data.lastName,
+            address: data.address,
+            email: data.email,
+            phoneNumber: data.phoneNumber
+          }
+        });
+
+        return axios.get(`/api/customerOrders`)
+          .then((res) => {
+            this.setState({
+              queueOrders: res.data[0],
+              completeOrders: res.data[1]
+            });
+          })
+          .catch((err) => {
+            console.log(err);
+          });
       })
       .catch((err) => {
         console.log(err);
+        browserHistory.push('/login');
       });
   }
 
 
-  // SUBMIT NEW ADDRESS FORM -> sets home address as pick up location
-  handleSubmit() {
-    const { newAddress } = this.state;
 
-    axios.post('/api/customerOrders', {newAddress})
+  // SUBMIT NEW ORDER FORM
+  handleOrder() {
+    const { orderAddress, orderServices, orderLoads, orderContact, orderInstructions  } = this.state;
+    const newOrder = { orderAddress, orderServices, orderLoads, orderContact, orderInstructions };
+
+
+    axios.post('/api/customerOrders', {newOrder})
       .then((res) => {
         const data = res.data;
         let q = Object.assign([], this.state.queueOrders);
         q.unshift(data);
 
-        this.setState({ queueOrders: q, newAddress: '', showModal: false });
+        console.log(q, '*********** queue orders');
+        this.setState({ queueOrders: q, showModal: false, orderAddress: '', orderServices: [], orderLoads: null, orderContact: '', orderInstructions: '', key: 2 });
       })
       .catch((err) => {
         console.log(err);
@@ -140,31 +131,23 @@ class CustomerProfile extends React.Component {
     this.setState({[event.target.name]: event.target.value});
   }
 
+
   close() {
     this.setState({ showModal: false });
   }
 
-  openHome() {
+
+  openOrder() {
     this.setState({
       showModal: true,
       modal: {
-        title: 'Submit Order:',
-        message: 'Any special instructions?',
-        action: this.handleHome
+        title: 'Order:',
+        message: 'Everything good to go?',
+        action: this.handleOrder
       }
     });
   }
 
-  openNewAddress() {
-    this.setState({
-      showModal: true,
-      modal: {
-        title: 'Submit Order:',
-        message: 'Any special instructions?',
-        action: this.handleSubmit
-      }
-    });
-  }
 
   openRemove(id) {
     this.setState({
@@ -178,10 +161,35 @@ class CustomerProfile extends React.Component {
     });
   }
 
+  handleSelect(key) {
+    console.log('selected ' + key);
+    this.setState({key});
+  }
+
+  handleBoxChange(event) {
+    let {orderServices} = this.state;
+    let arr = Object.assign([], this.state.orderServices);
+
+    if (orderServices.length > 0) {
+      for (let i = 0; i < orderServices.length; i++) {
+        if (orderServices[i] === event.target.value) {
+          arr.splice(i, 1);
+          this.setState({orderServices: arr});
+
+          return;
+        }
+      }
+    }
+
+    arr.push(event.target.value);
+    this.setState({orderServices: arr});
+  }
+
 
   // ***************************  RENDER  ***************************
   render() {
     const { firstName } = this.state.customer;
+    const now = 60;
 
     return (
       <div className="row customer-profile">
@@ -209,92 +217,189 @@ class CustomerProfile extends React.Component {
               </div>
 
               <Panel>
-                <div className="row">
-                  <div className="col-sm-12">
-                    {/* PAGE HEADER */}
-                    <div className="page-header text-center">
-                      <h3><em>Where is your laundry?</em></h3>
+                <Tabs activeKey={this.state.key} onSelect={this.handleSelect} id="controlled-tab-example">
+                  <Tab eventKey={1} title="Schedule Pick-up">
+
+                    {/* NEW ORDER FORM */}
+                    <div className="row">
+                      <div className="col-sm-12">
+                        <form>
+                          <div className="row">
+                            <div className="col-sm-10 col-sm-offset-1">
+
+
+                              {/* ADDRESS */}
+                              <FormGroup controlId="user">
+                                <ControlLabel>Address:</ControlLabel>
+                                <FormControl
+                                  type="text"
+                                  placeholder="Address"
+                                  name="orderAddress"
+                                  value={this.state.orderAddress}
+                                  onChange={this.handleChange.bind(this)}
+                                />
+                              </FormGroup>
+
+
+                              {/* SERVICES */}
+                              <FormGroup controlId="user">
+                                <ControlLabel bsClass="click-input">Services:</ControlLabel>
+                                <Checkbox
+                                  inline
+                                  value={'clean'}
+                                  onChange={this.handleBoxChange.bind(this)}
+                                >
+                                  Wash/Dry
+                                </Checkbox>
+                                {' '}
+                                <Checkbox
+                                  inline
+                                  value={'fold'}
+                                  onChange={this.handleBoxChange.bind(this)}
+                                >
+                                  Fold
+                                </Checkbox>
+                              </FormGroup>
+
+
+                              {/* NUMBER OF LOADS */}
+                              <FormGroup controlId="user">
+                                <ControlLabel bsClass="click-input">Number of Loads:</ControlLabel>
+                                <Radio
+                                  name="radioGroup"
+                                  inline
+                                  name="orderLoads"
+                                  value={1}
+                                  onChange={this.handleChange.bind(this)}
+                                >
+                                  1
+                                </Radio>
+                                {' '}
+                                <Radio
+                                  name="radioGroup"
+                                  inline
+                                  name="orderLoads"
+                                  value={2}
+                                  onChange={this.handleChange.bind(this)}
+                                >
+                                  2
+                                </Radio>
+                                {' '}
+                                <Radio
+                                  name="radioGroup"
+                                  inline
+                                  name="orderLoads"
+                                  value={3}
+                                  onChange={this.handleChange.bind(this)}
+                                >
+                                  3
+                                </Radio>
+                              </FormGroup>
+
+
+                              {/* CONTACT */}
+                              <FormGroup controlId="user">
+                                <ControlLabel>Contact:</ControlLabel>
+                                  <FormControl
+                                    type="text"
+                                    placeholder="How would you like to be contacted?"
+                                    name="orderContact"
+                                    value={this.state.orderContact}
+                                    onChange={this.handleChange.bind(this)}
+                                  />
+                              </FormGroup>
+
+
+                              {/* SPECIAL INSTRUCTIONS */}
+                              <FormGroup controlId="user">
+                                <ControlLabel>Instructions:</ControlLabel>
+                                  <FormControl
+                                    componentClass="textarea"
+                                    type="text"
+                                    placeholder="Any special instructions?"
+                                    name="orderInstructions"
+                                    value={this.state.orderInstructions}
+                                    onChange={this.handleChange.bind(this)}
+                                  />
+                              </FormGroup>
+                            </div>
+                          </div>
+
+
+                          {/* SPAM PROTECTION */}
+                          <div className="form-group hidden">
+                            <label>Keep this field blank</label>
+                            <input
+                              type="text"
+                              className="form-control"
+                              name="honeypot"
+                              value={this.state.honeypot} onChange={this.handleChange.bind(this)}
+                            />
+                          </div>
+
+
+                          {/* OREDER BTN */}
+                          <div className="row send-btn">
+                            <div className="col-sm-6 col-sm-offset-3">
+                              <Button
+                                bsStyle="primary"
+                                type="button"
+                                bsSize="large"
+                                onClick={() => {this.openOrder()}}
+                                block
+                              >
+                                SEND
+                              </Button>
+                            </div>
+                          </div>
+                        </form>
+                      </div>
                     </div>
-                  </div>
-                </div>
-
-                {/* HOME BTN */}
-                <div className="row home-btn">
-                  <div className="col-sm-6 col-sm-offset-3">
-                    <Button
-                      bsStyle="primary"
-                      type="button"
-                      bsSize="large"
-                      block
-                      onClick={() => {this.openHome()}}
-                    >
-                      HOME
-                    </Button>
-                  </div>
-                </div>
+                  </Tab>
 
 
-                {/* OR */}
-                <div className="row">
-                  <div className="col-sm-12 text-center">
-                    <p>or</p>
-                  </div>
-                </div>
+                  {/* PROGRESS BAR */}
+                  <Tab eventKey={2} title="Order Status">
+                    {this.state.queueOrders.map((q) => {
+                      const startDate = moment(q.created_at).format('L');
 
+                      let step;
+                      if (q.status === 'Queue') {
+                        step = <ProgressBar striped active active bsStyle="info" now={10} key={1} label={'Queue'} />;
+                      } else if (q.step === 'Pick-up') {
+                        step = <div><ProgressBar striped active  active bsStyle="info" now={10} key={1} label={'Queue'} /><ProgressBar striped active bsStyle="success" now={30} key={2} label={'Pick-up'}/></div>;
+                      } else if (q.step === 'Cleaning') {
+                        step = <div><ProgressBar striped active  active bsStyle="info" now={10} key={1} label={'Queue'} />
+                        <ProgressBar striped active bsStyle="success" now={30} key={2} label={'Pick-up'}/>
+                        <ProgressBar striped active  bsStyle="warning" now={30} key={3} label={'Cleaning'}/></div>;
+                      } else if (q.step === 'Drop-off') {
+                        step = <div><ProgressBar striped active  active bsStyle="info" now={10} key={1} label={'Queue'} />
+                        <ProgressBar striped active bsStyle="success" now={30} key={2} label={'Pick-up'}/>
+                        <ProgressBar striped active  bsStyle="warning" now={30} key={3} label={'Cleaning'}/>
+                        <ProgressBar striped active  active bsStyle="danger" now={30} key={4} label={'Drop-off'} /></div>;
+                      }
 
-                {/* NEW ADDRESS FORM */}
-                <div className="row">
-                  <div className="col-sm-12">
-                    <form>
-                      <div className="row">
-                        <div className="col-sm-8 col-sm-offset-2">
-                          <FormGroup controlId="user">
-                            <ControlLabel>New Address</ControlLabel>
-                              <FormControl
-                                type="text"
-                                placeholder="Address"
-                                name="newAddress"
-                                value={this.state.newAddress}
-                                onChange={this.handleChange.bind(this)}
-                              />
-                          </FormGroup>
+                      return <div key={q.id}>
+                        <div className="page-header">
+                          <p>{'#' + q.id + ' ' + startDate}</p>
                         </div>
-                      </div>
 
-                      {/* SPAM PROTECTION */}
-                      <div className="form-group hidden">
-                        <label>Keep this field blank</label>
-                        <input
-                          type="text"
-                          className="form-control"
-                          name="honeypot"
-                          value={this.state.honeypot} onChange={this.handleChange.bind(this)}
-                        />
+                        <ProgressBar>
+                          { step }
+                        </ProgressBar>
+
+                        {/* <Button
+                          bsStyle="danger"
+                          bsSize="xsmall"
+                          onClick={() => this.openRemove(q.id)}
+                        >
+                          <span className="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                        </Button> */}
+
                       </div>
-                      <div className="row send-btn">
-                        <div className="col-sm-6 col-sm-offset-3">
-                          {/* <Button
-                            bsStyle="primary"
-                            type="submit"
-                            bsSize="large"
-                            block
-                          >
-                            SEND
-                          </Button> */}
-                          <Button
-                            bsStyle="primary"
-                            type="button"
-                            bsSize="large"
-                            block
-                            onClick={() => {this.openNewAddress()}}
-                          >
-                            SEND
-                          </Button>
-                        </div>
-                      </div>
-                    </form>
-                  </div>
-                </div>
+                    })}
+                  </Tab>
+                </Tabs>
               </Panel>
             </div>
           </div>
