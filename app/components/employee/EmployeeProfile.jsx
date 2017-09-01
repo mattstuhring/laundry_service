@@ -28,9 +28,8 @@ class EmployeeProfile extends React.Component {
 
     this.close = this.close.bind(this);
     this.openActive = this.openActive.bind(this);
-    this.openRemove = this.openRemove.bind(this);
+    this.openComplete = this.openComplete.bind(this);
     this.handleActive = this.handleActive.bind(this);
-    this.handleRemove = this.handleRemove.bind(this);
     this.handleComplete = this.handleComplete.bind(this);
   }
 
@@ -88,7 +87,7 @@ class EmployeeProfile extends React.Component {
   }
 
 
-  handleRemove() {
+  handleComplete() {
     const { orderId, orderStep } = this.state;
 
     axios.delete(`/api/employeeOrders/${orderId}/${orderStep}`)
@@ -112,45 +111,10 @@ class EmployeeProfile extends React.Component {
   }
 
 
-  handleComplete() {
-    const {orderId} = this.state;
-    const check = 'complete';
-
-    axios.put(`/api/employeeOrders`, {orderId, check})
-      .then((res) => {
-        return axios.get(`/api/employeeOrders`)
-          .then((res) => {
-            this.setState({
-              showModal: false,
-              queueOrders: res.data[0],
-              completeOrders: res.data[1],
-              activeOrders: res.data[2]
-            });
-          })
-          .catch((err) => {
-            console.log(err);
-          });
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }
-
   close() {
     this.setState({ showModal: false });
   }
 
-  openComplete(id) {
-    this.setState({
-      showModal: true,
-      orderId: id,
-      modal: {
-        title: 'Job:',
-        message: 'Ready to complete this order?',
-        action: this.handleComplete
-      }
-    });
-  }
 
   openActive(oId, status, tId) {
     this.setState({
@@ -166,7 +130,7 @@ class EmployeeProfile extends React.Component {
     });
   }
 
-  openRemove(id, step) {
+  openComplete(id, step) {
     let message;
     if (step === 'Pick-up') {
       message = 'Did you pick up customers laundry?';
@@ -183,7 +147,7 @@ class EmployeeProfile extends React.Component {
       modal: {
         title: 'Job:',
         message: message,
-        action: this.handleRemove
+        action: this.handleComplete
       }
     });
   }
@@ -269,17 +233,10 @@ class EmployeeProfile extends React.Component {
                       <td>{a.amount}</td>
                       <td>{a.instructions}</td>
                       <td className="text-center">
-                        {/* <Button
-                          bsStyle="success"
-                          bsSize="xsmall"
-                          onClick={() => this.openComplete(a.id)}
-                        >
-                          <span className="glyphicon glyphicon-ok" aria-hidden="true"></span>
-                        </Button> */}
                         <Button
                           bsStyle="success"
                           bsSize="xsmall"
-                          onClick={() => this.openRemove(a.id, a.step)}
+                          onClick={() => this.openComplete(a.id, a.step)}
                         >
                           <span className="glyphicon glyphicon-ok" aria-hidden="true"></span>
                         </Button>

@@ -10,10 +10,10 @@ const { checkAuth } = require('./auth-middleware');
 const router = express.Router();
 
 // GET ALL EMPLOYEE ORDERS
-router.get('/employeeOrders', checkAuth, (req, res, next) => {
+router.get('/admin', checkAuth, (req, res, next) => {
   const { userId, access } = req.token;
 
-  if (access === 'employee') {
+  if (access === 'admin') {
     knex('orders')
       .select('*')
       .innerJoin('payments', 'orders.payment_id', 'payments.id')
@@ -22,9 +22,7 @@ router.get('/employeeOrders', checkAuth, (req, res, next) => {
       .innerJoin('tasks', 'orders.task_id', 'tasks.id')
       .orderBy('orders.id', 'desc')
       .then((queue) => {
-        console.log(queue, '************* queue');
         let orders = [queue];
-        console.log(orders, '******* orders');
 
         return knex('orders')
           .select('*')
@@ -39,7 +37,6 @@ router.get('/employeeOrders', checkAuth, (req, res, next) => {
             return knex('orders')
               .select('*')
               .where('status', 'Active')
-              .where('employee_id', userId)
               .innerJoin('payments', 'orders.payment_id', 'payments.id')
               .innerJoin('settings', 'orders.setting_id', 'settings.id')
               .innerJoin('tasks', 'orders.task_id', 'tasks.id')
@@ -67,19 +64,15 @@ router.get('/employeeOrders', checkAuth, (req, res, next) => {
 
 
 
-router.put('/employeeOrders', checkAuth, (req, res, next) => {
+router.put('/admin', checkAuth, (req, res, next) => {
   const { userId, access } = req.token;
   const { orderId, check, orderStep, taskId } = req.body;
   let orderStatus;
   let stepName;
   let column;
 
-  console.log(orderStep, '********** step');
 
-
-
-
-  if (access === 'employee') {
+  if (access === 'admin') {
 
     if (check === 'active') {
       orderStatus = 'Active';
@@ -133,14 +126,14 @@ router.put('/employeeOrders', checkAuth, (req, res, next) => {
 
 
 // DELETE ORDER BY ID
-router.delete('/employeeOrders/:orderId/:orderStep', checkAuth, (req, res, next) => {
+router.delete('/admin/:orderId/:orderStep', checkAuth, (req, res, next) => {
   const { userId, access } = req.token;
   const { orderId, orderStep } = req.params;
   let stepName;
 
 
 
-  if (access === 'employee') {
+  if (access === 'admin') {
 
     if (orderStep === 'Pick-up') {
       stepName = 'Cleaning';

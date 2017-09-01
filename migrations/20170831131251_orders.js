@@ -10,23 +10,28 @@ exports.up = function(knex) {
     table.integer('customer_id')
       .unsigned()
       .references('id')
-      .inTable('users');
+      .inTable('users')
+      .onDelete('SET NULL');
     table.integer('employee_id')
       .unsigned()
       .references('id')
-      .inTable('users');
+      .inTable('users')
+      .onDelete('SET NULL');
     table.integer('payment_id')
       .unsigned()
       .references('id')
-      .inTable('payments');
+      .inTable('payments')
+      .onDelete('RESTRICT');
     table.integer('setting_id')
       .unsigned()
       .references('id')
-      .inTable('settings');
+      .inTable('settings')
+      .onDelete('RESTRICT');
     table.integer('task_id')
       .unsigned()
       .references('id')
-      .inTable('tasks');
+      .inTable('tasks')
+      .onDelete('RESTRICT');
     table.timestamps(true, true);
   })
 };

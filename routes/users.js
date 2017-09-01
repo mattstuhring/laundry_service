@@ -5,8 +5,44 @@ const express = require('express');
 const bcrypt = require('bcrypt-as-promised');
 const boom = require('boom');
 const { camelizeKeys, decamelizeKeys } = require('humps');
-
+const { checkAuth } = require('./auth-middleware');
 const router = express.Router();
+
+
+
+
+router.get('/users', checkAuth, (req, res, next) => {
+  const { userId, access } = req.token;
+  let persons = [];
+
+  if (access === 'admin') {
+
+    knex('users')
+      .select('id', 'first_name', 'last_name', 'address', 'email', 'phone_number', 'created_at')
+      .where('access', 'customer')
+      .then((c) => {
+        persons.push(c);
+
+        return knex('users')
+          .select('id', 'first_name', 'last_name', 'email', 'phone_number', 'created_at')
+          .where('access', 'employee')
+          .then((e) => {
+            persons.push(e);
+
+            res.send(persons)
+          })
+          .catch((err) => {
+            next(err);
+          });
+      })
+      .catch((err) => {
+        next(err);
+      });
+  }
+});
+
+
+
 
 // CREATE NEW CUSTOMER
 router.post('/users', (req, res, next) => {
@@ -36,6 +72,56 @@ router.post('/users', (req, res, next) => {
     .catch((err) => {
       next(err);
     });
+});
+
+
+
+// UPDATE USER TO EMPLOYEE ACCESS
+router.put('/users', checkAuth, (req, res, next) => {
+  const { access } = req.token;
+  const { userId } = req.body;
+
+  if (access === 'admin') {
+    knex('users')
+      .where('id', userId)
+      .update({
+        access: 'employee'
+      })
+      .then(() => {
+        res.sendStatus(200);
+      })
+      .catch((err) => {
+        next(err);
+      });
+  }
+  else {
+    res.sendStatus(401);
+  }
+
+});
+
+
+
+
+// DELETE USER BY ID
+router.delete('/users/:removeUserId', checkAuth, (req, res, next) => {
+  const { userId, access } = req.token;
+  const { removeUserId } = req.params;
+
+  if (access === 'admin') {
+    knex('users')
+      .where('id', removeUserId)
+      .del()
+      .then(() => {
+        res.sendStatus(200);
+      })
+      .catch((err) => {
+        next(err);
+      });
+  }
+  else {
+    res.sendStatus(401);
+  }
 });
 
 module.exports = router;

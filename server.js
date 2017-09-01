@@ -25,6 +25,7 @@ const resetPassword = require('./routes/resetPassword');
 const customerOrders = require('./routes/customerOrders');
 const employeeOrders = require('./routes/employeeOrders');
 const charge = require('./routes/charge');
+const admin = require('./routes/admin');
 
 const SERVER_CONFIGS = require('./constants/server');
 const configureServer = require('./server-config');
@@ -67,6 +68,7 @@ app.use('/api', resetPassword);
 app.use('/api', customerOrders);
 app.use('/api', employeeOrders);
 app.use('/api', charge);
+app.use('/api', admin);
 
 
 app.use((_req, res) => {
