@@ -362,21 +362,21 @@ class CustomerProfile extends React.Component {
                   <Tab eventKey={2} title="Order Status">
                     {this.state.queueOrders.map((q) => {
                       const startDate = moment(q.created_at).format('L');
-
+                      console.log(q, '******* q');
                       let step;
-                      if (q.status === 'Queue') {
+                      if (q.step === 'Queue') {
                         step = <ProgressBar striped active active bsStyle="info" now={10} key={1} label={'Queue'} />;
                       } else if (q.step === 'Pick-up') {
-                        step = <div><ProgressBar striped active  active bsStyle="info" now={10} key={1} label={'Queue'} /><ProgressBar striped active bsStyle="success" now={30} key={2} label={'Pick-up'}/></div>;
+                        step = <ProgressBar><ProgressBar striped active  active bsStyle="info" now={10} key={1} label={'Queue'} /><ProgressBar striped active bsStyle="success" now={30} key={2} label={'Pick-up'}/></ProgressBar>;
                       } else if (q.step === 'Cleaning') {
-                        step = <div><ProgressBar striped active  active bsStyle="info" now={10} key={1} label={'Queue'} />
+                        step = <ProgressBar><ProgressBar striped active  active bsStyle="info" now={10} key={1} label={'Queue'} />
                         <ProgressBar striped active bsStyle="success" now={30} key={2} label={'Pick-up'}/>
-                        <ProgressBar striped active  bsStyle="warning" now={30} key={3} label={'Cleaning'}/></div>;
+                        <ProgressBar striped active  bsStyle="warning" now={30} key={3} label={'Cleaning'}/></ProgressBar>;
                       } else if (q.step === 'Drop-off') {
-                        step = <div><ProgressBar striped active  active bsStyle="info" now={10} key={1} label={'Queue'} />
+                        step = <ProgressBar><ProgressBar striped active  active bsStyle="info" now={10} key={1} label={'Queue'} />
                         <ProgressBar striped active bsStyle="success" now={30} key={2} label={'Pick-up'}/>
                         <ProgressBar striped active  bsStyle="warning" now={30} key={3} label={'Cleaning'}/>
-                        <ProgressBar striped active  active bsStyle="danger" now={30} key={4} label={'Drop-off'} /></div>;
+                        <ProgressBar striped active  active bsStyle="danger" now={30} key={4} label={'Drop-off'} /></ProgressBar>;
                       }
 
                       return <div key={q.id}>
@@ -384,9 +384,10 @@ class CustomerProfile extends React.Component {
                           <p>{'#' + q.id + ' ' + startDate}</p>
                         </div>
 
-                        <ProgressBar>
+                        {/* PROGRESS BAR */}
+                        <div>
                           { step }
-                        </ProgressBar>
+                        </div>
 
                         {/* <Button
                           bsStyle="danger"

@@ -18,24 +18,31 @@ router.get('/employeeOrders', checkAuth, (req, res, next) => {
       .select('*')
       .innerJoin('payments', 'orders.payment_id', 'payments.id')
       .where('status', 'Queue')
+      .innerJoin('settings', 'orders.setting_id', 'settings.id')
+      .innerJoin('tasks', 'orders.task_id', 'tasks.id')
       .orderBy('orders.id', 'desc')
       .then((queue) => {
+        console.log(queue, '************* queue');
         let orders = [queue];
+        console.log(orders, '******* orders');
 
         return knex('orders')
           .select('*')
           .innerJoin('payments', 'orders.payment_id', 'payments.id')
-          .where('employee_id', userId)
           .where('status', 'Complete')
+          .innerJoin('settings', 'orders.setting_id', 'settings.id')
+          .innerJoin('tasks', 'orders.task_id', 'tasks.id')
           .orderBy('orders.id', 'desc')
           .then((complete) => {
             orders.push(complete);
 
             return knex('orders')
               .select('*')
-              .innerJoin('payments', 'orders.payment_id', 'payments.id')
-              .where('employee_id', userId)
               .where('status', 'Active')
+              .where('employee_id', userId)
+              .innerJoin('payments', 'orders.payment_id', 'payments.id')
+              .innerJoin('settings', 'orders.setting_id', 'settings.id')
+              .innerJoin('tasks', 'orders.task_id', 'tasks.id')
               .orderBy('orders.id', 'desc')
               .then((active) => {
                 orders.push(active);
@@ -62,29 +69,62 @@ router.get('/employeeOrders', checkAuth, (req, res, next) => {
 
 router.put('/employeeOrders', checkAuth, (req, res, next) => {
   const { userId, access } = req.token;
-  const { orderId, check } = req.body;
-  let status;
+  const { orderId, check, orderStep, taskId } = req.body;
+  let orderStatus;
+  let stepName;
+  let column;
+
+  console.log(orderStep, '********** step');
 
   if (check === 'active') {
-    status = 'Active';
+    orderStatus = 'Active';
   } else if (check === 'complete') {
-    status = 'Complete';
+    orderStatus = 'Complete';
   }
 
+
+  if (orderStep === 'Queue') {
+    stepName = 'Pick-up';
+  } else if (orderStep === 'Drop-off') {
+    stepName = 'Drop-off';
+  }
+
+
   if (access === 'employee') {
+
     knex('orders')
-    .where('orders.id', orderId)
-    .update({
-      status: status,
-      employee_id: userId
-    })
-    .then(() => {
-      res.sendStatus(200);
-    })
-    .catch((err) => {
-      next(err);
-    });
-  } else {
+      .where('orders.id', orderId)
+      .update({
+        status: orderStatus,
+        step: stepName,
+        employee_id: parseInt(userId)
+      })
+      .then(() => {
+        if (stepName === 'Pick-up') {
+          column = {pickup: orderId};
+        } else if (stepName === 'Cleaning') {
+          column = {wash_dry: orderId};
+        } else if (stepName === 'Drop-off') {
+          column = {dropoff: orderId};
+        } else {
+          column = {dropoff: orderId};
+        }
+
+        return knex('tasks')
+          .where('tasks.id', taskId)
+          .update(column)
+          .then(() => {
+            res.sendStatus(200);
+          })
+          .catch((err) => {
+            next(err);
+          });
+      })
+      .catch((err) => {
+        next(err);
+      });
+  }
+  else {
     res.sendStatus(401);
   }
 
@@ -92,22 +132,47 @@ router.put('/employeeOrders', checkAuth, (req, res, next) => {
 
 
 // DELETE ORDER BY ID
-router.delete('/employeeOrders/:id', checkAuth, (req, res, next) => {
+router.delete('/employeeOrders/:orderId/:orderStep', checkAuth, (req, res, next) => {
   const { userId, access } = req.token;
+  const { orderId, orderStep } = req.params;
+  let stepName;
+
+  if (orderStep === 'Pick-up') {
+    stepName = 'Cleaning';
+  } else if (orderStep === 'Cleaning') {
+    stepName = 'Drop-off';
+  } else if (orderStep === 'Drop-off') {
+    stepName = 'Complete';
+  }
 
   if (access === 'employee') {
-    knex('orders')
-    .where('orders.id', req.params.id)
-    .update({
-      status: 'Queue',
-      employee_id: null
-    })
-    .then((result) => {
-      res.sendStatus(200);
-    })
-    .catch((err) => {
-      next(err);
-    });
+    if (stepName === 'Complete') {
+      knex('orders')
+        .where('orders.id', orderId)
+        .update({
+          status: 'Complete'
+        })
+        .then((result) => {
+          res.sendStatus(200);
+        })
+        .catch((err) => {
+          next(err);
+        });
+    }
+    else {
+      knex('orders')
+        .where('orders.id', orderId)
+        .update({
+          status: 'Queue',
+          step: stepName
+        })
+        .then((result) => {
+          res.sendStatus(200);
+        })
+        .catch((err) => {
+          next(err);
+        });
+    }
   }
   else {
     res.sendStatus(401);

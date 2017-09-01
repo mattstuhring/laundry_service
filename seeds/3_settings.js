@@ -10,22 +10,6 @@ exports.seed = function(knex) {
         fold: true,
         created_at: new Date('2017-08-15 12:12:16 UTC'),
         updated_at: new Date('2017-08-15 12:12:16 UTC')
-      },
-      {
-        id: 2,
-        amount: 2,
-        clean: true,
-        fold: false,
-        created_at: new Date('2017-08-16 12:12:16 UTC'),
-        updated_at: new Date('2017-08-16 12:12:16 UTC')
-      },
-      {
-        id: 3,
-        amount: 3,
-        clean: true,
-        fold: true,
-        created_at: new Date('2017-08-19 12:12:16 UTC'),
-        updated_at: new Date('2017-08-19 12:12:16 UTC')
       }])
     )
     .then(() => knex.raw(
@@ -33,3 +17,37 @@ exports.seed = function(knex) {
       )
     );
 };
+
+// ,
+// {
+//   id: 2,
+//   amount: 2,
+//   clean: true,
+//   fold: false,
+//   created_at: new Date('2017-08-16 12:12:16 UTC'),
+//   updated_at: new Date('2017-08-16 12:12:16 UTC')
+// },
+// {
+//   id: 3,
+//   amount: 3,
+//   clean: true,
+//   fold: true,
+//   created_at: new Date('2017-08-19 12:12:16 UTC'),
+//   updated_at: new Date('2017-08-19 12:12:16 UTC')
+// },
+// {
+//   id: 4,
+//   amount: 1,
+//   clean: true,
+//   fold: false,
+//   created_at: new Date('2017-08-20 12:12:16 UTC'),
+//   updated_at: new Date('2017-08-20 12:12:16 UTC')
+// },
+// {
+//   id: 5,
+//   amount: 2,
+//   clean: true,
+//   fold: true,
+//   created_at: new Date('2017-08-21 12:12:16 UTC'),
+//   updated_at: new Date('2017-08-21 12:12:16 UTC')
+// }

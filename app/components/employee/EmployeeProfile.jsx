@@ -12,7 +12,9 @@ class EmployeeProfile extends React.Component {
 
     this.state = {
       orderId: null,
+      taskId: null,
       firstName: '',
+      orderStep: '',
       queueOrders: [],
       completeOrders: [],
       activeOrders: [],
@@ -40,6 +42,7 @@ class EmployeeProfile extends React.Component {
 
       return axios.get(`/api/employeeOrders`)
         .then((res) => {
+          console.log(res.data, '******** res');
           this.setState({
             queueOrders: res.data[0],
             completeOrders: res.data[1],
@@ -56,14 +59,18 @@ class EmployeeProfile extends React.Component {
     });
   }
 
+
   handleActive() {
-    const {orderId} = this.state;
+    const {orderId, orderStep, taskId } = this.state;
     const check = 'active';
 
-    axios.put(`/api/employeeOrders`, {orderId, check})
+    axios.put(`/api/employeeOrders`, {orderId, check, orderStep, taskId})
       .then((r) => {
+
         return axios.get(`/api/employeeOrders`)
           .then((res) => {
+            console.log(res, '*********** res');
+
             this.setState({
               showModal: false,
               queueOrders: res.data[0],
@@ -82,9 +89,9 @@ class EmployeeProfile extends React.Component {
 
 
   handleRemove() {
-    const {orderId} = this.state;
+    const { orderId, orderStep } = this.state;
 
-    axios.delete(`/api/employeeOrders/${orderId}`)
+    axios.delete(`/api/employeeOrders/${orderId}/${orderStep}`)
       .then((r) => {
         return axios.get(`/api/employeeOrders`)
           .then((res) => {
@@ -145,10 +152,12 @@ class EmployeeProfile extends React.Component {
     });
   }
 
-  openActive(id) {
+  openActive(oId, status, tId) {
     this.setState({
       showModal: true,
-      orderId: id,
+      orderId: oId,
+      taskId: tId,
+      orderStep: status,
       modal: {
         title: 'Job:',
         message: 'Do you accept this order?',
@@ -157,13 +166,23 @@ class EmployeeProfile extends React.Component {
     });
   }
 
-  openRemove(id) {
+  openRemove(id, step) {
+    let message;
+    if (step === 'Pick-up') {
+      message = 'Did you pick up customers laundry?';
+    } else if (step === 'Cleaning') {
+      message = 'Did you clean the customers laundry?';
+    } else if (step === 'Drop-off') {
+      message = 'Did you drop-off customers laundry?';
+    }
+
     this.setState({
       showModal: true,
       orderId: id,
+      orderStep: step,
       modal: {
         title: 'Job:',
-        message: 'Remove job from active?',
+        message: message,
         action: this.handleRemove
       }
     });
@@ -213,6 +232,11 @@ class EmployeeProfile extends React.Component {
                     <th>Date</th>
                     <th>Address</th>
                     <th>Status</th>
+                    <th>Step</th>
+                    <th>Clean</th>
+                    <th>Fold</th>
+                    <th>Loads</th>
+                    <th>Instructions</th>
                     <th>Action</th>
                   </tr>
                 </thead>
@@ -220,26 +244,44 @@ class EmployeeProfile extends React.Component {
 
                   {this.state.activeOrders.map((a) => {
                     const startDate = moment(a.created_at).format('L');
+                    let clean, fold;
+
+                    if (a.fold === true) {
+                      fold = 'true';
+                    } else {
+                      fold = 'false'
+                    }
+
+                    if (a.clean === true) {
+                      clean = 'true';
+                    } else {
+                      clean = 'false'
+                    }
 
                     return <tr key={a.id}>
                       <td>{a.id}</td>
                       <td>{startDate}</td>
                       <td>{a.address}</td>
                       <td>{a.status}</td>
+                      <td>{a.step}</td>
+                      <td>{clean}</td>
+                      <td>{fold}</td>
+                      <td>{a.amount}</td>
+                      <td>{a.instructions}</td>
                       <td className="text-center">
-                        <Button
+                        {/* <Button
                           bsStyle="success"
                           bsSize="xsmall"
                           onClick={() => this.openComplete(a.id)}
                         >
                           <span className="glyphicon glyphicon-ok" aria-hidden="true"></span>
-                        </Button>
+                        </Button> */}
                         <Button
-                          bsStyle="danger"
+                          bsStyle="success"
                           bsSize="xsmall"
-                          onClick={() => this.openRemove(a.id)}
+                          onClick={() => this.openRemove(a.id, a.step)}
                         >
-                          <span className="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                          <span className="glyphicon glyphicon-ok" aria-hidden="true"></span>
                         </Button>
                       </td>
                     </tr>
@@ -261,6 +303,11 @@ class EmployeeProfile extends React.Component {
                     <th>Date</th>
                     <th>Address</th>
                     <th>Status</th>
+                    <th>Step</th>
+                    <th>Clean</th>
+                    <th>Fold</th>
+                    <th>Loads</th>
+                    <th>Instructions</th>
                     <th>Action</th>
                   </tr>
                 </thead>
@@ -268,17 +315,35 @@ class EmployeeProfile extends React.Component {
 
                   {this.state.queueOrders.map((q) => {
                     const startDate = moment(q.created_at).format('L');
+                    let clean, fold;
+
+                    if (q.fold === true) {
+                      fold = 'true';
+                    } else {
+                      fold = 'false'
+                    }
+
+                    if (q.clean === true) {
+                      clean = 'true';
+                    } else {
+                      clean = 'false'
+                    }
 
                     return <tr key={q.id}>
                       <td>{q.id}</td>
                       <td>{startDate}</td>
                       <td>{q.address}</td>
                       <td>{q.status}</td>
+                      <td>{q.step}</td>
+                      <td>{clean}</td>
+                      <td>{fold}</td>
+                      <td>{q.amount}</td>
+                      <td>{q.instructions}</td>
                       <td className="text-center">
                         <Button
                           bsStyle="success"
                           bsSize="xsmall"
-                          onClick={() => this.openActive(q.id)}
+                          onClick={() => this.openActive(q.id, q.step, q.task_id)}
                         >
                           <span className="glyphicon glyphicon-plus" aria-hidden="true"></span>
                         </Button>
