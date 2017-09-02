@@ -1,0 +1,23 @@
+.home {
+
+  background-image: url('/images/laundry.jpg');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  -webkit-background-size: cover;
+
+  .jumbotron {
+    text-align: center;
+    background-color: transparent;
+    padding-top: 160px;
+    padding-bottom: 120px;
+
+    h2 {
+      margin-bottom: 40px;
+      color: white;
+    }
+  }
+}

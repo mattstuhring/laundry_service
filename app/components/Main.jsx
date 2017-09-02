@@ -39,7 +39,7 @@ export class Main extends React.Component {
               <div className="row">
                 {/* HEADER */}
                 <div className="col-sm-12">
-                  <div className="page-header text-center">
+                  <div className="page-header main-header text-center">
                     <h1>Laundry Service</h1>
                   </div>
                 </div>
@@ -59,6 +59,7 @@ export class Main extends React.Component {
             </div>
           </div>
         </div>
+
       </div>
     );
   }
