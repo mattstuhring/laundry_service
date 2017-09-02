@@ -9,8 +9,14 @@ exports.seed = function(knex) {
         amount: 10.00,
         created_at: new Date('2017-08-15 12:12:16 UTC'),
         updated_at: new Date('2017-08-15 12:12:16 UTC')
-      }
-])
+      },
+      {
+        id: 2,
+        type: 'Credit',
+        amount: 10.00,
+        created_at: new Date('2017-08-17 12:12:16 UTC'),
+        updated_at: new Date('2017-08-17 12:12:16 UTC')
+      }])
     )
     .then(() => knex.raw(
         "SELECT setval('payments_id_seq', (SELECT MAX(id) FROM payments));"

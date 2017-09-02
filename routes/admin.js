@@ -126,12 +126,10 @@ router.put('/admin', checkAuth, (req, res, next) => {
 
 
 // DELETE ORDER BY ID
-router.delete('/admin/:orderId/:orderStep', checkAuth, (req, res, next) => {
+router.post('/admin/:orderId/:orderStep', checkAuth, (req, res, next) => {
   const { userId, access } = req.token;
   const { orderId, orderStep } = req.params;
   let stepName;
-
-
 
   if (access === 'admin') {
 
@@ -140,6 +138,61 @@ router.delete('/admin/:orderId/:orderStep', checkAuth, (req, res, next) => {
     } else if (orderStep === 'Cleaning') {
       stepName = 'Drop-off';
     } else if (orderStep === 'Drop-off') {
+      stepName = 'Complete';
+    }
+
+    if (stepName === 'Complete') {
+      knex('orders')
+        .where('orders.id', orderId)
+        .update({
+          status: 'Complete'
+        })
+        .then((result) => {
+          res.sendStatus(200);
+        })
+        .catch((err) => {
+          next(err);
+        });
+    }
+    else {
+      knex('orders')
+        .where('orders.id', orderId)
+        .update({
+          status: 'Queue',
+          step: stepName
+        })
+        .then((result) => {
+          res.sendStatus(200);
+        })
+        .catch((err) => {
+          next(err);
+        });
+    }
+  }
+  else {
+    res.sendStatus(401);
+  }
+});
+
+
+
+
+router.delete('/employeeOrders/:orderId/:orderStep', checkAuth, (req, res, next) => {
+  const { userId, access } = req.token;
+  const { orderId, orderStep } = req.params;
+  let stepName;
+
+  if (access === 'employee') {
+
+    if (orderStep === 'Queue') {
+      stepName = 'Queue';
+    } else if (orderStep === 'Pick-up') {
+      stepName = 'Queue';
+    } else if (orderStep === 'Cleaning') {
+      stepName = 'Pick-up';
+    } else if (orderStep === 'Drop-off') {
+      stepName = 'Cleaning';
+    } else if (orderStep === 'Complete') {
       stepName = 'Complete';
     }
 

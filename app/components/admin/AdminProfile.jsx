@@ -32,10 +32,12 @@ class AdminProfile extends React.Component {
     this.openActive = this.openActive.bind(this);
     this.openComplete = this.openComplete.bind(this);
     this.openRemoveUser = this.openRemoveUser.bind(this);
+    this.openRemoveOrder = this.openRemoveOrder.bind(this);
     this.handleActive = this.handleActive.bind(this);
     this.handleUserAccess = this.handleUserAccess.bind(this);
     this.handleComplete = this.handleComplete.bind(this);
     this.handleRemoveUser = this.handleRemoveUser.bind(this);
+    this.handleRemoveOrder = this.handleRemoveOrder.bind(this);
   }
 
   componentWillMount() {
@@ -102,7 +104,7 @@ class AdminProfile extends React.Component {
   handleComplete() {
     const { orderId, orderStep } = this.state;
 
-    axios.delete(`/api/admin/${orderId}/${orderStep}`)
+    axios.post(`/api/admin/${orderId}/${orderStep}`)
       .then((r) => {
         return axios.get('/api/admin')
           .then((res) => {
@@ -145,6 +147,56 @@ class AdminProfile extends React.Component {
   }
 
 
+  handleRemoveOrder() {
+    const { orderId } = this.state;
+
+    axios.delete(`/api/customerOrders/${orderId}`)
+      .then((r) => {
+        console.log(r, '******** res');
+
+        return axios.get('/api/admin')
+          .then((res) => {
+            this.setState({
+              showModal: false,
+              queueOrders: res.data[0],
+              completeOrders: res.data[1],
+              activeOrders: res.data[2]
+            });
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+  }
+
+
+  handleStepBack() {
+    const { orderId, orderStep } = this.state;
+
+    axios.delete(`/api/admin/${orderId}/${orderStep}`)
+      .then((r) => {
+        return axios.get(`/api/admin`)
+          .then((res) => {
+            this.setState({
+              showModal: false,
+              queueOrders: res.data[0],
+              completeOrders: res.data[1],
+              activeOrders: res.data[2]
+            });
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+
+
   handleUserAccess() {
     const { userId } = this.state;
 
@@ -175,6 +227,19 @@ class AdminProfile extends React.Component {
   }
 
 
+  openRemoveOrder(id) {
+    this.setState({
+      showModal: true,
+      orderId: id,
+      modal: {
+        title: 'Job:',
+        message: 'Warning: You are about to delete this order?',
+        action: this.handleRemoveOrder
+      }
+    });
+  }
+
+
   openRemoveUser(id) {
     this.setState({
       showModal: true,
@@ -183,6 +248,19 @@ class AdminProfile extends React.Component {
         title: 'Job:',
         message: 'Warning: You are about to delete this account?',
         action: this.handleRemoveUser
+      }
+    });
+  }
+
+  openStepBack(id, step) {
+    this.setState({
+      showModal: true,
+      orderId: id,
+      orderStep: step,
+      modal: {
+        title: 'Job:',
+        message: 'Whoops! Put order back into the queue?',
+        action: this.handleStepBack
       }
     });
   }
@@ -370,6 +448,26 @@ class AdminProfile extends React.Component {
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
               {/* ALL ORDERS TABLE */}
               <div className="page-header">
                 <h3>Orders</h3>
@@ -431,9 +529,16 @@ class AdminProfile extends React.Component {
                         <Button
                           bsStyle="danger"
                           bsSize="xsmall"
-                          onClick={() => this.openRemoveUser(a.id)}
+                          onClick={() => this.openRemoveOrder(a.id)}
                         >
                           <span className="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                        </Button>
+                        <Button
+                          bsStyle="warning"
+                          bsSize="xsmall"
+                          onClick={() => this.openStepBack(a.id, a.step)}
+                        >
+                          <span className="glyphicon glyphicon-backward" aria-hidden="true"></span>
                         </Button>
                       </td>
                     </tr>
@@ -502,7 +607,7 @@ class AdminProfile extends React.Component {
                         <Button
                           bsStyle="danger"
                           bsSize="xsmall"
-                          // onClick={() => this.openComplete(a.id, a.step)}
+                          onClick={() => this.openRemoveOrder(q.id)}
                         >
                           <span className="glyphicon glyphicon-remove" aria-hidden="true"></span>
                         </Button>
@@ -550,7 +655,7 @@ class AdminProfile extends React.Component {
                         <Button
                           bsStyle="danger"
                           bsSize="xsmall"
-                          // onClick={() => this.openComplete(a.id, a.step)}
+                          onClick={() => this.openRemoveOrder(c.id)}
                         >
                           <span className="glyphicon glyphicon-remove" aria-hidden="true"></span>
                         </Button>

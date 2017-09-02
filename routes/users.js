@@ -111,7 +111,9 @@ router.delete('/users/:removeUserId', checkAuth, (req, res, next) => {
   if (access === 'admin') {
     knex('users')
       .where('id', removeUserId)
-      .del()
+      .update({
+        access: ''
+      })
       .then(() => {
         res.sendStatus(200);
       })

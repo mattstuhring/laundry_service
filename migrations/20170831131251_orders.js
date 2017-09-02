@@ -20,18 +20,15 @@ exports.up = function(knex) {
     table.integer('payment_id')
       .unsigned()
       .references('id')
-      .inTable('payments')
-      .onDelete('RESTRICT');
+      .inTable('payments');
     table.integer('setting_id')
       .unsigned()
       .references('id')
-      .inTable('settings')
-      .onDelete('RESTRICT');
+      .inTable('settings');
     table.integer('task_id')
       .unsigned()
       .references('id')
-      .inTable('tasks')
-      .onDelete('RESTRICT');
+      .inTable('tasks');
     table.timestamps(true, true);
   })
 };

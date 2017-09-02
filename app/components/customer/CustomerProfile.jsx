@@ -93,7 +93,6 @@ class CustomerProfile extends React.Component {
         let q = Object.assign([], this.state.queueOrders);
         q.unshift(data);
 
-        console.log(q, '*********** queue orders');
         this.setState({ queueOrders: q, showModal: false, orderAddress: '', orderServices: [], orderLoads: null, orderContact: '', orderInstructions: '', key: 2 });
       })
       .catch((err) => {
@@ -107,18 +106,18 @@ class CustomerProfile extends React.Component {
     const { orderId } = this.state;
 
     axios.delete(`/api/customerOrders/${orderId}`)
-      .then((res) => {
-        const data = res.data;
-        let q = Object.assign([], this.state.queueOrders);
-
-        for (let i = 0; i < data.length; i++) {
-          if (data[i].id === orderId) {
-            data.splice(i, 1);
-            break;
-          }
-        }
-
-        this.setState({ queueOrders: data, showModal: false });
+      .then(() => {
+        return axios.get(`/api/customerOrders`)
+          .then((res) => {
+            this.setState({
+              showModal: false,
+              queueOrders: res.data[0],
+              completeOrders: res.data[1]
+            });
+          })
+          .catch((err) => {
+            console.log(err);
+          });
       })
       .catch((err) => {
         console.log(err);

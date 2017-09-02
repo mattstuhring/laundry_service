@@ -29,8 +29,10 @@ class EmployeeProfile extends React.Component {
     this.close = this.close.bind(this);
     this.openActive = this.openActive.bind(this);
     this.openComplete = this.openComplete.bind(this);
+    this.openRemove = this.openRemove.bind(this);
     this.handleActive = this.handleActive.bind(this);
     this.handleComplete = this.handleComplete.bind(this);
+    this.handleRemove = this.handleRemove.bind(this);
   }
 
   componentWillMount() {
@@ -41,7 +43,6 @@ class EmployeeProfile extends React.Component {
 
       return axios.get(`/api/employeeOrders`)
         .then((res) => {
-          console.log(res.data, '******** res');
           this.setState({
             queueOrders: res.data[0],
             completeOrders: res.data[1],
@@ -68,8 +69,6 @@ class EmployeeProfile extends React.Component {
 
         return axios.get(`/api/employeeOrders`)
           .then((res) => {
-            console.log(res, '*********** res');
-
             this.setState({
               showModal: false,
               queueOrders: res.data[0],
@@ -88,6 +87,30 @@ class EmployeeProfile extends React.Component {
 
 
   handleComplete() {
+    const { orderId, orderStep } = this.state;
+
+    axios.post(`/api/employeeOrders/${orderId}/${orderStep}`)
+      .then((r) => {
+        return axios.get(`/api/employeeOrders`)
+          .then((res) => {
+            this.setState({
+              showModal: false,
+              queueOrders: res.data[0],
+              completeOrders: res.data[1],
+              activeOrders: res.data[2]
+            });
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+
+
+  handleRemove() {
     const { orderId, orderStep } = this.state;
 
     axios.delete(`/api/employeeOrders/${orderId}/${orderStep}`)
@@ -111,11 +134,6 @@ class EmployeeProfile extends React.Component {
   }
 
 
-  close() {
-    this.setState({ showModal: false });
-  }
-
-
   openActive(oId, status, tId) {
     this.setState({
       showModal: true,
@@ -126,6 +144,19 @@ class EmployeeProfile extends React.Component {
         title: 'Job:',
         message: 'Do you accept this order?',
         action: this.handleActive
+      }
+    });
+  }
+
+  openRemove(id, step) {
+    this.setState({
+      showModal: true,
+      orderId: id,
+      orderStep: step,
+      modal: {
+        title: 'Job:',
+        message: 'Whoops! Put order back into the queue?',
+        action: this.handleRemove
       }
     });
   }
@@ -152,7 +183,12 @@ class EmployeeProfile extends React.Component {
     });
   }
 
+  close() {
+    this.setState({ showModal: false });
+  }
 
+
+  // ***************************  RENDER  *********************************
   render() {
     const { firstName } = this.state;
 
@@ -238,7 +274,14 @@ class EmployeeProfile extends React.Component {
                           bsSize="xsmall"
                           onClick={() => this.openComplete(a.id, a.step)}
                         >
-                          <span className="glyphicon glyphicon-ok" aria-hidden="true"></span>
+                          <span className="glyphicon glyphicon-check" aria-hidden="true"></span>
+                        </Button>
+                        <Button
+                          bsStyle="danger"
+                          bsSize="xsmall"
+                          onClick={() => this.openRemove(a.id, a.step)}
+                        >
+                          <span className="glyphicon glyphicon-remove" aria-hidden="true"></span>
                         </Button>
                       </td>
                     </tr>
@@ -302,7 +345,7 @@ class EmployeeProfile extends React.Component {
                           bsSize="xsmall"
                           onClick={() => this.openActive(q.id, q.step, q.task_id)}
                         >
-                          <span className="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                          <span className="glyphicon glyphicon-ok" aria-hidden="true"></span>
                         </Button>
                       </td>
                     </tr>

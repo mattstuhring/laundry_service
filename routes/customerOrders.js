@@ -96,7 +96,7 @@ router.post('/customerOrders', checkAuth, (req, res, next) => {
               .returning('id')
               .then((taskId) => {
                 arr.push(taskId)
-              
+
                 return knex('orders')
                   .insert({
                     customer_id: userId,
@@ -140,69 +140,20 @@ router.post('/customerOrders', checkAuth, (req, res, next) => {
     else {
       res.sendStatus(401);
     }
-
-
-
-
-    // knex('payments')
-    //   .insert({
-    //     type: '',
-    //     amount: null
-    //   })
-    //   .returning('id')
-    //   .then((paymentId) => {
-    //     return knex('orders')
-    //       .insert({
-    //         customer_id: userId,
-    //         payment_id: parseInt(paymentId[0]),
-    //         address: orderAddress,
-    //         status: 'Queue',
-    //       })
-    //       .returning('id')
-    //       .then((orderId) => {
-    //         return knex('orders')
-    //           .where('id', parseInt(orderId[0]))
-    //           .then((r) => {
-    //             res.send(r[0]);
-    //           })
-    //           .catch((err) => {
-    //             next(err);
-    //           });
-    //       })
-    //       .catch((err) => {
-    //         next(err);
-    //       });
-    //   })
-    //   .catch((err) => {
-    //     next(err);
-    //   });
-
 });
 
 
 // DELETE ORDER BY ID
 router.delete('/customerOrders/:id', checkAuth, (req, res, next) => {
   const { userId, access } = req.token;
+  const { id } = req.params;
 
-  if (access === 'customer') {
+  if (access === 'customer' || access === 'admin') {
     knex('orders')
-      .where('orders.id', req.params.id)
+      .where('orders.id', id)
       .del()
       .then(() => {
-        return knex('orders')
-          .select('*')
-          .innerJoin('payments', 'orders.payment_id', 'payments.id')
-          .where('customer_id', userId)
-          .where('status', 'Queue')
-          .orderBy('orders.id', 'desc')
-          .then((queue) => {
-
-            console.log(queue, '********** queue');
-            res.send(queue);
-          })
-          .catch((err) => {
-            next(err);
-          });
+        res.sendStatus(200);
       })
       .catch((err) => {
         next(err);
