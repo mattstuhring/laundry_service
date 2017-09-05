@@ -1,23 +1,18 @@
 .home {
 
   background-image: url('/images/laundry.jpg');
-  background-position: center;
+  background-position: top;
   background-repeat: no-repeat;
-  background-attachment: fixed;
-  background-size: cover;
-  -moz-background-size: cover;
-  -o-background-size: cover;
-  -webkit-background-size: cover;
+  background-size: contain;
+  height: 765px;
 
-  .jumbotron {
+  .welcome {
     text-align: center;
-    background-color: transparent;
-    padding-top: 160px;
-    padding-bottom: 120px;
+    color: white;
+    margin-top: 23%;
 
-    h2 {
-      margin-bottom: 40px;
-      color: white;
+    h1 {
+      padding-bottom: 20px;
     }
   }
 }
