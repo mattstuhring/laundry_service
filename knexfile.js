@@ -5,8 +5,7 @@ module.exports = {
   },
 
   production: {
-    client: 'pg',
-    ssl: true,
+    client: 'postgresql',
     connection: process.env.DATABASE_URL
   }
 };
