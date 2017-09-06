@@ -10,6 +10,9 @@ import ForgotPassword from 'ForgotPassword';
 import ResetPassword from 'ResetPassword';
 import Playground from 'Playground';
 
+import Success from 'Success';
+import Failure from 'Failure';
+
 export default class Routes extends React.Component {
   render() {
     return <Router history={browserHistory}>
@@ -21,7 +24,9 @@ export default class Routes extends React.Component {
         <Route path="employeeProfile" component={EmployeeProfile}/>
         <Route path="forgotPassword" component={ForgotPassword}/>
         <Route path="resetPassword" component={ResetPassword}/>
-
+        <Route path="success" component={Success}/>
+        <Route path="failure" component={Failure}/>
+        
         <Route path="playground" component={Playground}/>
       </Route>
     </Router>;

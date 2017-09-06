@@ -10,8 +10,6 @@ const router = express.Router();
 
 
 router.post('/charge', (req, res, next) => {
-
-
   const { source, amount, description } = req.body;
 
   stripe.charges.create({
@@ -26,24 +24,6 @@ router.post('/charge', (req, res, next) => {
   .catch((err) => {
     next(err);
   });
-
-  // stripe.customers.create({
-  //      email: req.body.stripeEmail,
-  //     source: req.body.stripeToken
-  //   })
-  //   .then(customer =>
-  //     stripe.charges.create({
-  //       amount: req.body.amount,
-  //       description: "Sample Charge",
-  //          currency: "usd",
-  //          customer: customer.id
-  //     }))
-  //   .then(() => {
-  //     res.sendStatus(200);
-  //   })
-  //   .catch((err) => {
-  //     next(err);
-  //   });
 });
 
 

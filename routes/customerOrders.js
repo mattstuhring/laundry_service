@@ -79,7 +79,7 @@ router.post('/customerOrders', checkAuth, (req, res, next) => {
 
         return knex('settings')
           .insert({
-            amount: orderLoads,
+            amount: parseInt(orderLoads),
             clean: clean,
             fold: fold
           })
@@ -99,7 +99,7 @@ router.post('/customerOrders', checkAuth, (req, res, next) => {
 
                 return knex('orders')
                   .insert({
-                    customer_id: userId,
+                    customer_id: parseInt(userId),
                     payment_id: parseInt(arr[0][0]),
                     setting_id: parseInt(arr[1][0]),
                     address: orderAddress,

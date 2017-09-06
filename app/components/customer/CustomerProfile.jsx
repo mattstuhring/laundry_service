@@ -1,10 +1,13 @@
 import React from 'react';
 import axios from 'axios';
 import { browserHistory, withRouter } from 'react-router';
-import { Button, FormGroup, FormControl, InputGroup, Panel, ControlLabel, Table, Tabs, Tab, ProgressBar, Checkbox, Radio, Breadcrumb } from 'react-bootstrap';
+import { Button, FormGroup, FormControl, InputGroup, Panel, ControlLabel, Table, Tabs, Tab, ProgressBar, Checkbox, Radio, Breadcrumb, Alert, Pager, Form, Col } from 'react-bootstrap';
 import moment from 'moment';
 import Popup from 'Popup';
-import Checkout from 'Checkout';
+import StripeCheckout from 'react-stripe-checkout';
+import STRIPE_PUBLISHABLE from '../constants/stripe';
+
+
 
 class CustomerProfile extends React.Component {
   constructor(props) {
@@ -37,18 +40,20 @@ class CustomerProfile extends React.Component {
       key: 1,
       formKey: 1,
       activeServices: false,
-      activePersonal: false,
-      activePayment: false
+      activeInfo: false,
+      activePayment: false,
+      alertVisible: false
     }
 
     this.handleRemove = this.handleRemove.bind(this);
-    this.handleOrder = this.handleOrder.bind(this);
     this.handleSelect = this.handleSelect.bind(this);
     this.handleSelectKey = this.handleSelectKey.bind(this);
     this.close = this.close.bind(this);
-    this.openOrder = this.openOrder.bind(this);
     this.openRemove = this.openRemove.bind(this);
     this.handleBoxChange = this.handleBoxChange.bind(this);
+    this.handleAlertDismiss = this.handleAlertDismiss.bind(this);
+    this.onToken = this.onToken.bind(this);
+
   }
 
 
@@ -83,27 +88,6 @@ class CustomerProfile extends React.Component {
       .catch((err) => {
         console.log(err);
         browserHistory.push('/login');
-      });
-  }
-
-
-
-  // SUBMIT NEW ORDER FORM
-  handleOrder() {
-    const { orderAddress, orderServices, orderLoads, orderContact, orderInstructions  } = this.state;
-    const newOrder = { orderAddress, orderServices, orderLoads, orderContact, orderInstructions };
-
-
-    axios.post('/api/customerOrders', {newOrder})
-      .then((res) => {
-        const data = res.data;
-        let q = Object.assign([], this.state.queueOrders);
-        q.unshift(data);
-
-        this.setState({ queueOrders: q, showModal: false, orderAddress: '', orderServices: [], orderLoads: null, orderContact: '', orderInstructions: '', key: 2 });
-      })
-      .catch((err) => {
-        console.log(err);
       });
   }
 
@@ -143,18 +127,6 @@ class CustomerProfile extends React.Component {
   }
 
 
-  openOrder() {
-    this.setState({
-      showModal: true,
-      modal: {
-        title: 'Order:',
-        message: 'Everything good to go?',
-        action: this.handleOrder
-      }
-    });
-  }
-
-
   openRemove(id) {
     this.setState({
       showModal: true,
@@ -172,15 +144,16 @@ class CustomerProfile extends React.Component {
     this.setState({key});
   }
 
+
   handleSelectKey(key) {
-    const { activeServices, activePersonal, activePayment } = this.state;
+    const { activeServices, activeInfo, activePayment } = this.state;
 
     if (key === 1) {
-      this.setState({formKey: key, activeServices: true, activePersonal: false, activePayment: false});
+      this.setState({formKey: key, activeServices: true, activeInfo: false, activePayment: false});
     } else if (key === 2) {
-      this.setState({formKey: key, activeServices: false, activePersonal: true, activePayment: false});
+      this.setState({formKey: key, activeServices: false, activeInfo: true, activePayment: false});
     } else {
-      this.setState({formKey: key, activeServices: false, activePersonal: false, activePayment: true});
+      this.setState({formKey: key, activeServices: false, activeInfo: false, activePayment: true});
     }
   }
 
@@ -205,6 +178,44 @@ class CustomerProfile extends React.Component {
   }
 
 
+
+
+  onToken = (token) => {
+    axios.post('/api/charge',
+      {
+        description: 'Pick-up, clean, & drop-off!',
+        source: token.id,
+        currency: 'USD',
+        amount: 1500
+      })
+      .then((res) => {
+        const { orderAddress, orderServices, orderLoads, orderContact, orderInstructions  } = this.state;
+        const newOrder = { orderAddress, orderServices, orderLoads, orderContact, orderInstructions };
+
+        axios.post('/api/customerOrders', {newOrder})
+          .then((res) => {
+            const data = res.data;
+            let q = Object.assign([], this.state.queueOrders);
+            q.unshift(data);
+
+            this.setState({ queueOrders: q, showModal: false, orderAddress: '', orderServices: [], orderLoads: null, orderContact: '', orderInstructions: '', key: 2, formKey: 1, alertVisible: true });
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      })
+      .catch((err) => {
+        console.log(err);
+        this.props.setToast('Payment declined. Please try again!', {type: 'error'});
+      });
+  }
+
+  handleAlertDismiss() {
+    this.setState({alertVisible: false});
+  }
+
+
+
   // ***************************  RENDER  ***************************
   render() {
     const { firstName } = this.state.customer;
@@ -215,169 +226,209 @@ class CustomerProfile extends React.Component {
 
       if (formKey === 1) {
         return <div>
-          <FormGroup controlId="user">
-            <ControlLabel bsClass="click-input">Services:</ControlLabel>
-            <Checkbox
-              inline
-              value={'clean'}
-              onChange={this.handleBoxChange.bind(this)}
-            >
-              Wash/Dry
-            </Checkbox>
-            {' '}
-            <Checkbox
-              inline
-              value={'fold'}
-              onChange={this.handleBoxChange.bind(this)}
-            >
-              Fold
-            </Checkbox>
-          </FormGroup>
+          <Form horizontal>
 
-          {/* NUMBER OF LOADS */}
-          <FormGroup controlId="user">
-            <ControlLabel bsClass="click-input">Number of Loads:</ControlLabel>
-            <Radio
-              name="radioGroup"
-              inline
-              name="orderLoads"
-              value={1}
-              onChange={this.handleChange.bind(this)}
-            >
-              1
-            </Radio>
-            {' '}
-            <Radio
-              name="radioGroup"
-              inline
-              name="orderLoads"
-              value={2}
-              onChange={this.handleChange.bind(this)}
-            >
-              2
-            </Radio>
-            {' '}
-            <Radio
-              name="radioGroup"
-              inline
-              name="orderLoads"
-              value={3}
-              onChange={this.handleChange.bind(this)}
-            >
-              3
-            </Radio>
-          </FormGroup>
+            {/* SERVICES */}
+            <FormGroup>
+              <Col componentClass={ControlLabel} sm={3}>
+                Services:
+              </Col>
+              <Col sm={9}>
+                <Checkbox
+                  inline
+                  value={'clean'}
+                  onChange={this.handleBoxChange.bind(this)}
+                >
+                  Wash/Dry
+                </Checkbox>
+                {' '}
+                <Checkbox
+                  inline
+                  value={'fold'}
+                  onChange={this.handleBoxChange.bind(this)}
+                >
+                  Fold
+                </Checkbox>
+              </Col>
+            </FormGroup>
 
-          {/* SPECIAL INSTRUCTIONS */}
-          <FormGroup controlId="user">
-            <ControlLabel>Instructions:</ControlLabel>
-              <FormControl
-                componentClass="textarea"
-                type="text"
-                placeholder="Any special instructions?"
-                name="orderInstructions"
-                value={this.state.orderInstructions}
-                onChange={this.handleChange.bind(this)}
-              />
-          </FormGroup>
+            {/* NUMBER OF LOADS */}
+            <FormGroup>
+              <Col componentClass={ControlLabel} sm={3}>
+                Loads:
+              </Col>
+              <Col sm={9}>
+                <Radio
+                  name="radioGroup"
+                  inline
+                  name="orderLoads"
+                  value={1}
+                  onChange={this.handleChange.bind(this)}
+                >
+                  1
+                </Radio>
+                {' '}
+                <Radio
+                  name="radioGroup"
+                  inline
+                  name="orderLoads"
+                  value={2}
+                  onChange={this.handleChange.bind(this)}
+                >
+                  2
+                </Radio>
+                {' '}
+                <Radio
+                  name="radioGroup"
+                  inline
+                  name="orderLoads"
+                  value={3}
+                  onChange={this.handleChange.bind(this)}
+                >
+                  3
+                </Radio>
+              </Col>
+            </FormGroup>
 
-          <div className="row">
-            <div className="col-sm-6">
-              <Button
-                bsStyle="primary"
-                type="button"
-                onClick={() => this.handleSelectKey(2)}
-                block
-              >
-                Next
-              </Button>
+            {/* SPECIAL INSTRUCTIONS */}
+            <FormGroup>
+              <Col componentClass={ControlLabel} sm={3}>
+                Instructions:
+              </Col>
+              <Col sm={9}>
+                <FormControl
+                  componentClass="textarea"
+                  type="text"
+                  placeholder="Any special instructions?"
+                  name="orderInstructions"
+                  value={this.state.orderInstructions}
+                  onChange={this.handleChange.bind(this)}
+                />
+              </Col>
+            </FormGroup>
+
+            {/* ACTION BTNS */}
+            <div className="row">
+              <Pager>
+                <Pager.Item href="#" next onClick={() => this.handleSelectKey(2)}>Next &rarr;</Pager.Item>
+              </Pager>
             </div>
-          </div>
+          </Form>
         </div>;
       } else if (formKey === 2) {
         return <div>
-          <FormGroup controlId="user">
-            <ControlLabel>Address:</ControlLabel>
-            <FormControl
-              type="text"
-              placeholder="Address"
-              name="orderAddress"
-              value={this.state.orderAddress}
-              onChange={this.handleChange.bind(this)}
-            />
-          </FormGroup>
+          <Form horizontal>
+            {/* ADDRESS */}
+            <FormGroup>
+              <Col componentClass={ControlLabel} sm={3}>
+                Address:
+              </Col>
+              <Col sm={9}>
+                <FormControl
+                  type="text"
+                  placeholder="Enter laundry pick-up address."
+                  name="orderAddress"
+                  value={this.state.orderAddress}
+                  onChange={this.handleChange.bind(this)}
+                />
+              </Col>
+            </FormGroup>
 
-          {/* CONTACT */}
-          <FormGroup controlId="user">
-            <ControlLabel>Contact:</ControlLabel>
-              <FormControl
+
+            {/* CONTACT */}
+            <FormGroup>
+              <Col componentClass={ControlLabel} sm={3}>
+                Contact:
+              </Col>
+              <Col sm={9}>
+                <FormControl
+                  type="text"
+                  placeholder="Number to be contacted at?"
+                  name="orderContact"
+                  value={this.state.orderContact}
+                  onChange={this.handleChange.bind(this)}
+                />
+              </Col>
+            </FormGroup>
+
+
+            {/* SPAM PROTECTION */}
+            <div className="form-group hidden">
+              <label>Keep this field blank</label>
+              <input
                 type="text"
-                placeholder="How would you like to be contacted?"
-                name="orderContact"
-                value={this.state.orderContact}
-                onChange={this.handleChange.bind(this)}
+                className="form-control"
+                name="honeypot"
+                value={this.state.honeypot} onChange={this.handleChange.bind(this)}
               />
-          </FormGroup>
-
-          {/* SPAM PROTECTION */}
-          <div className="form-group hidden">
-            <label>Keep this field blank</label>
-            <input
-              type="text"
-              className="form-control"
-              name="honeypot"
-              value={this.state.honeypot} onChange={this.handleChange.bind(this)}
-            />
-          </div>
-
-
-          <div className="row">
-            <div className="col-sm-6">
-              <Button
-                bsStyle="primary"
-                type="button"
-                onClick={() => this.handleSelectKey(1)}
-                block
-              >
-                Back
-              </Button>
             </div>
-            <div className="col-sm-6">
-              <Button
-                bsStyle="primary"
-                type="button"
-                onClick={() => this.handleSelectKey(3)}
-                block
-              >
-                Next
-              </Button>
+
+            {/* ACTION BTNS */}
+            <div className="row">
+              <Pager>
+                <Pager.Item href="#" previous onClick={() => this.handleSelectKey(1)}>&larr; Back</Pager.Item>
+                {' '}
+                <Pager.Item href="#" next onClick={() => this.handleSelectKey(3)}>Next &rarr;</Pager.Item>
+              </Pager>
             </div>
-          </div>
+          </Form>
         </div>;
       } else if (formKey === 3) {
         return <div>
+
+          {/* PAYMENT */}
           <div className="row">
-            <div className="col-sm-6">
-              <Button
-                bsStyle="primary"
-                type="button"
-                onClick={() => this.handleSelectKey(2)}
-                block
-              >
-                Back
-              </Button>
+            <div className="col-sm-12">
+              <div className="row">
+                <div className="col-sm-12 text-center">
+                  <h2>Total: $15.00</h2>
+                </div>
+              </div>
+
+              <ul className="payment">
+                <li>
+                  We offer free pick up and delivery for UW students Monday through Friday, 9am-5pm.
+                </li>
+                <li>
+                  We'll pick up your laundry and bring it back within 48 hours.
+                </li>
+              </ul>
             </div>
-            <div className="col-sm-6">
-              <Checkout
-                name={'The Road to learn React'}
-                description={'Only the Book'}
-                amount={5000}
-              />
+          </div>
+          <div className="row">
+            <div className="col-sm-12">
+              {/* ACTION BTNS */}
+              <Pager>
+                <Pager.Item href="#" previous onClick={() => this.handleSelectKey(2)}>&larr; Back</Pager.Item>
+                {' '}
+                <Pager.Item href="#" next onClick={() => this.handleSelectKey(3)}>
+                  {/* STRIPE PAYMENT BTN */}
+                  <StripeCheckout
+                    name="Laundry Service"
+                    description="Pick-up, clean, & drop-off!"
+                    amount={1500}
+                    token={this.onToken}
+                    currency="USD"
+                    stripeKey={STRIPE_PUBLISHABLE}
+                  />
+                </Pager.Item>
+              </Pager>
             </div>
           </div>
         </div>;
       }
     }
+
+    // SUCCESS PAYMENT ALERT
+    const alert = () => {
+      if (this.state.alertVisible) {
+        return <Alert bsStyle="success" onDismiss={this.handleAlertDismiss}>
+          <h4>Your Payment was a success!</h4>
+          <p>Check the progress bar below to track your order.</p>
+        </Alert>;
+      }
+    };
+
 
     return (
       <div className="row customer-profile">
@@ -419,8 +470,8 @@ class CustomerProfile extends React.Component {
                               <Breadcrumb.Item href="#" onClick={() => {this.handleSelectKey(1)}} active={this.state.activeServices}>
                                 Services
                               </Breadcrumb.Item>
-                              <Breadcrumb.Item href="#" onClick={() => {this.handleSelectKey(2)}} active={this.state.activePersonal}>
-                                Personal
+                              <Breadcrumb.Item href="#" onClick={() => {this.handleSelectKey(2)}} active={this.state.activeInfo}>
+                                Info
                               </Breadcrumb.Item>
                               <Breadcrumb.Item href="#" onClick={() => {this.handleSelectKey(3)}} active={this.state.activePayment}>
                                 Payment
@@ -437,6 +488,10 @@ class CustomerProfile extends React.Component {
 
                   {/* PROGRESS BAR */}
                   <Tab eventKey={2} title="Order Status">
+
+                    {/* SUCCESS PAYMENT ALERT */}
+                    {alert()}
+
                     {this.state.queueOrders.map((q) => {
                       const startDate = moment(q.created_at).format('L');
                       let step;

@@ -30,6 +30,7 @@ module.exports = {
       CustomerProfile: 'app/components/customer/CustomerProfile.jsx',
       EmployeeLogin: 'app/components/employee/EmployeeLogin.jsx',
       EmployeeProfile: 'app/components/employee/EmployeeProfile.jsx',
+      Failure: 'app/components/payment/Failure.jsx',
       ForgotPassword: 'app/components/password/ForgotPassword.jsx',
       Home: 'app/components/Home.jsx',
       Login: 'app/components/Login.jsx',
@@ -39,7 +40,8 @@ module.exports = {
       Playground: 'app/components/Playground.jsx',
       Popup: 'app/components/Popup.jsx',
       ResetPassword: 'app/components/password/ResetPassword.jsx',
-      Routes: 'app/components/Routes.jsx'
+      Routes: 'app/components/Routes.jsx',
+      Success: 'app/components/payment/Success.jsx'
     },
     extensions: ['', '.js', '.jsx']
   },

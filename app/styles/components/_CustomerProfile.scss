@@ -20,4 +20,23 @@
     padding: 15px 20px;
   }
 
+  .payment {
+
+    li {
+      padding: 15px 0px;
+    }
+  }
+
+  button.StripeCheckout {
+    background: transparent !important;
+    box-shadow: none !important;
+
+    span {
+      background-image: none !important;
+      color: blue !important;
+      height: 15px !important;
+      line-height: 15px !important;
+
+    }
+  }
 }
