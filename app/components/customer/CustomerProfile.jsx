@@ -1,9 +1,10 @@
 import React from 'react';
 import axios from 'axios';
 import { browserHistory, withRouter } from 'react-router';
-import { Button, FormGroup, FormControl, InputGroup, Panel, ControlLabel, Table, Tabs, Tab, ProgressBar, Checkbox, Radio } from 'react-bootstrap';
+import { Button, FormGroup, FormControl, InputGroup, Panel, ControlLabel, Table, Tabs, Tab, ProgressBar, Checkbox, Radio, Breadcrumb } from 'react-bootstrap';
 import moment from 'moment';
 import Popup from 'Popup';
+import Checkout from 'Checkout';
 
 class CustomerProfile extends React.Component {
   constructor(props) {
@@ -33,12 +34,17 @@ class CustomerProfile extends React.Component {
       orderLoads: null,
       orderContact: '',
       orderInstructions: '',
-      key: 1
+      key: 1,
+      formKey: 1,
+      activeServices: false,
+      activePersonal: false,
+      activePayment: false
     }
 
     this.handleRemove = this.handleRemove.bind(this);
     this.handleOrder = this.handleOrder.bind(this);
     this.handleSelect = this.handleSelect.bind(this);
+    this.handleSelectKey = this.handleSelectKey.bind(this);
     this.close = this.close.bind(this);
     this.openOrder = this.openOrder.bind(this);
     this.openRemove = this.openRemove.bind(this);
@@ -66,7 +72,8 @@ class CustomerProfile extends React.Component {
           .then((res) => {
             this.setState({
               queueOrders: res.data[0],
-              completeOrders: res.data[1]
+              completeOrders: res.data[1],
+              activeServices: true
             });
           })
           .catch((err) => {
@@ -160,10 +167,23 @@ class CustomerProfile extends React.Component {
     });
   }
 
+
   handleSelect(key) {
-    console.log('selected ' + key);
     this.setState({key});
   }
+
+  handleSelectKey(key) {
+    const { activeServices, activePersonal, activePayment } = this.state;
+
+    if (key === 1) {
+      this.setState({formKey: key, activeServices: true, activePersonal: false, activePayment: false});
+    } else if (key === 2) {
+      this.setState({formKey: key, activeServices: false, activePersonal: true, activePayment: false});
+    } else {
+      this.setState({formKey: key, activeServices: false, activePersonal: false, activePayment: true});
+    }
+  }
+
 
   handleBoxChange(event) {
     let {orderServices} = this.state;
@@ -190,6 +210,175 @@ class CustomerProfile extends React.Component {
     const { firstName } = this.state.customer;
     const now = 60;
 
+    const form = () => {
+      let {formKey} = this.state;
+
+      if (formKey === 1) {
+        return <div>
+          <FormGroup controlId="user">
+            <ControlLabel bsClass="click-input">Services:</ControlLabel>
+            <Checkbox
+              inline
+              value={'clean'}
+              onChange={this.handleBoxChange.bind(this)}
+            >
+              Wash/Dry
+            </Checkbox>
+            {' '}
+            <Checkbox
+              inline
+              value={'fold'}
+              onChange={this.handleBoxChange.bind(this)}
+            >
+              Fold
+            </Checkbox>
+          </FormGroup>
+
+          {/* NUMBER OF LOADS */}
+          <FormGroup controlId="user">
+            <ControlLabel bsClass="click-input">Number of Loads:</ControlLabel>
+            <Radio
+              name="radioGroup"
+              inline
+              name="orderLoads"
+              value={1}
+              onChange={this.handleChange.bind(this)}
+            >
+              1
+            </Radio>
+            {' '}
+            <Radio
+              name="radioGroup"
+              inline
+              name="orderLoads"
+              value={2}
+              onChange={this.handleChange.bind(this)}
+            >
+              2
+            </Radio>
+            {' '}
+            <Radio
+              name="radioGroup"
+              inline
+              name="orderLoads"
+              value={3}
+              onChange={this.handleChange.bind(this)}
+            >
+              3
+            </Radio>
+          </FormGroup>
+
+          {/* SPECIAL INSTRUCTIONS */}
+          <FormGroup controlId="user">
+            <ControlLabel>Instructions:</ControlLabel>
+              <FormControl
+                componentClass="textarea"
+                type="text"
+                placeholder="Any special instructions?"
+                name="orderInstructions"
+                value={this.state.orderInstructions}
+                onChange={this.handleChange.bind(this)}
+              />
+          </FormGroup>
+
+          <div className="row">
+            <div className="col-sm-6">
+              <Button
+                bsStyle="primary"
+                type="button"
+                onClick={() => this.handleSelectKey(2)}
+                block
+              >
+                Next
+              </Button>
+            </div>
+          </div>
+        </div>;
+      } else if (formKey === 2) {
+        return <div>
+          <FormGroup controlId="user">
+            <ControlLabel>Address:</ControlLabel>
+            <FormControl
+              type="text"
+              placeholder="Address"
+              name="orderAddress"
+              value={this.state.orderAddress}
+              onChange={this.handleChange.bind(this)}
+            />
+          </FormGroup>
+
+          {/* CONTACT */}
+          <FormGroup controlId="user">
+            <ControlLabel>Contact:</ControlLabel>
+              <FormControl
+                type="text"
+                placeholder="How would you like to be contacted?"
+                name="orderContact"
+                value={this.state.orderContact}
+                onChange={this.handleChange.bind(this)}
+              />
+          </FormGroup>
+
+          {/* SPAM PROTECTION */}
+          <div className="form-group hidden">
+            <label>Keep this field blank</label>
+            <input
+              type="text"
+              className="form-control"
+              name="honeypot"
+              value={this.state.honeypot} onChange={this.handleChange.bind(this)}
+            />
+          </div>
+
+
+          <div className="row">
+            <div className="col-sm-6">
+              <Button
+                bsStyle="primary"
+                type="button"
+                onClick={() => this.handleSelectKey(1)}
+                block
+              >
+                Back
+              </Button>
+            </div>
+            <div className="col-sm-6">
+              <Button
+                bsStyle="primary"
+                type="button"
+                onClick={() => this.handleSelectKey(3)}
+                block
+              >
+                Next
+              </Button>
+            </div>
+          </div>
+        </div>;
+      } else if (formKey === 3) {
+        return <div>
+          <div className="row">
+            <div className="col-sm-6">
+              <Button
+                bsStyle="primary"
+                type="button"
+                onClick={() => this.handleSelectKey(2)}
+                block
+              >
+                Back
+              </Button>
+            </div>
+            <div className="col-sm-6">
+              <Checkout
+                name={'The Road to learn React'}
+                description={'Only the Book'}
+                amount={5000}
+              />
+            </div>
+          </div>
+        </div>;
+      }
+    }
+
     return (
       <div className="row customer-profile">
         <div className="col-sm-12">
@@ -204,7 +393,7 @@ class CustomerProfile extends React.Component {
           />
 
           <div className="row">
-            <div className="col-sm-6 col-sm-offset-3">
+            <div className="col-sm-8 col-sm-offset-2">
               <div className="row">
                 <div className="col-sm-12">
 
@@ -217,141 +406,30 @@ class CustomerProfile extends React.Component {
 
               <Panel>
                 <Tabs activeKey={this.state.key} onSelect={this.handleSelect} id="controlled-tab-example">
-                  <Tab eventKey={1} title="Schedule Pick-up">
 
-                    {/* NEW ORDER FORM */}
+
+                  {/* NEW LAUNDRY ORDER FORM */}
+                  <Tab eventKey={1} title="Schedule Pick-up">
                     <div className="row">
                       <div className="col-sm-12">
-                        <form>
-                          <div className="row">
-                            <div className="col-sm-10 col-sm-offset-1">
 
+                        <div className="row">
+                          <div className="col-sm-8 col-sm-offset-2">
+                            <Breadcrumb>
+                              <Breadcrumb.Item href="#" onClick={() => {this.handleSelectKey(1)}} active={this.state.activeServices}>
+                                Services
+                              </Breadcrumb.Item>
+                              <Breadcrumb.Item href="#" onClick={() => {this.handleSelectKey(2)}} active={this.state.activePersonal}>
+                                Personal
+                              </Breadcrumb.Item>
+                              <Breadcrumb.Item href="#" onClick={() => {this.handleSelectKey(3)}} active={this.state.activePayment}>
+                                Payment
+                              </Breadcrumb.Item>
+                            </Breadcrumb>
 
-                              {/* ADDRESS */}
-                              <FormGroup controlId="user">
-                                <ControlLabel>Address:</ControlLabel>
-                                <FormControl
-                                  type="text"
-                                  placeholder="Address"
-                                  name="orderAddress"
-                                  value={this.state.orderAddress}
-                                  onChange={this.handleChange.bind(this)}
-                                />
-                              </FormGroup>
-
-
-                              {/* SERVICES */}
-                              <FormGroup controlId="user">
-                                <ControlLabel bsClass="click-input">Services:</ControlLabel>
-                                <Checkbox
-                                  inline
-                                  value={'clean'}
-                                  onChange={this.handleBoxChange.bind(this)}
-                                >
-                                  Wash/Dry
-                                </Checkbox>
-                                {' '}
-                                <Checkbox
-                                  inline
-                                  value={'fold'}
-                                  onChange={this.handleBoxChange.bind(this)}
-                                >
-                                  Fold
-                                </Checkbox>
-                              </FormGroup>
-
-
-                              {/* NUMBER OF LOADS */}
-                              <FormGroup controlId="user">
-                                <ControlLabel bsClass="click-input">Number of Loads:</ControlLabel>
-                                <Radio
-                                  name="radioGroup"
-                                  inline
-                                  name="orderLoads"
-                                  value={1}
-                                  onChange={this.handleChange.bind(this)}
-                                >
-                                  1
-                                </Radio>
-                                {' '}
-                                <Radio
-                                  name="radioGroup"
-                                  inline
-                                  name="orderLoads"
-                                  value={2}
-                                  onChange={this.handleChange.bind(this)}
-                                >
-                                  2
-                                </Radio>
-                                {' '}
-                                <Radio
-                                  name="radioGroup"
-                                  inline
-                                  name="orderLoads"
-                                  value={3}
-                                  onChange={this.handleChange.bind(this)}
-                                >
-                                  3
-                                </Radio>
-                              </FormGroup>
-
-
-                              {/* CONTACT */}
-                              <FormGroup controlId="user">
-                                <ControlLabel>Contact:</ControlLabel>
-                                  <FormControl
-                                    type="text"
-                                    placeholder="How would you like to be contacted?"
-                                    name="orderContact"
-                                    value={this.state.orderContact}
-                                    onChange={this.handleChange.bind(this)}
-                                  />
-                              </FormGroup>
-
-
-                              {/* SPECIAL INSTRUCTIONS */}
-                              <FormGroup controlId="user">
-                                <ControlLabel>Instructions:</ControlLabel>
-                                  <FormControl
-                                    componentClass="textarea"
-                                    type="text"
-                                    placeholder="Any special instructions?"
-                                    name="orderInstructions"
-                                    value={this.state.orderInstructions}
-                                    onChange={this.handleChange.bind(this)}
-                                  />
-                              </FormGroup>
-                            </div>
+                            {form()}
                           </div>
-
-
-                          {/* SPAM PROTECTION */}
-                          <div className="form-group hidden">
-                            <label>Keep this field blank</label>
-                            <input
-                              type="text"
-                              className="form-control"
-                              name="honeypot"
-                              value={this.state.honeypot} onChange={this.handleChange.bind(this)}
-                            />
-                          </div>
-
-
-                          {/* OREDER BTN */}
-                          <div className="row send-btn">
-                            <div className="col-sm-6 col-sm-offset-3">
-                              <Button
-                                bsStyle="primary"
-                                type="button"
-                                bsSize="large"
-                                onClick={() => {this.openOrder()}}
-                                block
-                              >
-                                SEND
-                              </Button>
-                            </div>
-                          </div>
-                        </form>
+                        </div>
                       </div>
                     </div>
                   </Tab>
@@ -361,8 +439,8 @@ class CustomerProfile extends React.Component {
                   <Tab eventKey={2} title="Order Status">
                     {this.state.queueOrders.map((q) => {
                       const startDate = moment(q.created_at).format('L');
-                      console.log(q, '******* q');
                       let step;
+
                       if (q.step === 'Queue') {
                         step = <ProgressBar striped active active bsStyle="info" now={10} key={1} label={'Queue'} />;
                       } else if (q.step === 'Pick-up') {
@@ -389,101 +467,56 @@ class CustomerProfile extends React.Component {
                         </div>
 
                         {/* <Button
-                          bsStyle="danger"
-                          bsSize="xsmall"
+                          bsStyle="link"
                           onClick={() => this.openRemove(q.id)}
                         >
-                          <span className="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                          Cancel
                         </Button> */}
 
                       </div>
                     })}
                   </Tab>
+
+                  <Tab eventKey={3} title="Complete">
+                    <div className="row">
+                      <div className="col-sm-12">
+                        <h4>Completed:</h4>
+                        <Table striped bordered condensed hover>
+                          <thead>
+                            <tr>
+                              <th>#</th>
+                              <th>Date</th>
+                              <th>Address</th>
+                              <th>Payment</th>
+                              <th>Price</th>
+                              <th>Status</th>
+                              <th>Completed</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+
+                            {this.state.completeOrders.map((o) => {
+                              const startDate = moment(o.created_at).format('L');
+                              const endDate = moment(o.upadated_at).format('L');
+
+                              return <tr key={o.id}>
+                                <td>{o.id}</td>
+                                <td>{startDate}</td>
+                                <td>{o.address}</td>
+                                <td>{o.type}</td>
+                                <td>{o.amount}</td>
+                                <td>{o.status}</td>
+                                <td>{endDate}</td>
+                              </tr>
+                            })}
+
+                          </tbody>
+                        </Table>
+                      </div>
+                    </div>
+                  </Tab>
                 </Tabs>
               </Panel>
-            </div>
-          </div>
-
-
-          {/* QUEUE TABLE */}
-          <div className="row">
-            <div className="col-sm-10 col-sm-offset-1">
-              <div className="page-header">
-                <h2>Laundry Service</h2>
-              </div>
-              <h4>Queue:</h4>
-              <Table striped bordered condensed hover>
-                <thead className="text-center">
-                  <tr>
-                    <th>#</th>
-                    <th>Date</th>
-                    <th>Address</th>
-                    <th>Status</th>
-                    <th>Action</th>
-                  </tr>
-                </thead>
-                <tbody>
-
-                  {this.state.queueOrders.map((q) => {
-                    const startDate = moment(q.created_at).format('L');
-
-                    return <tr key={q.id}>
-                      <td>{q.id}</td>
-                      <td>{startDate}</td>
-                      <td>{q.address}</td>
-                      <td>{q.status}</td>
-                      <td className="text-center">
-                        <Button
-                          bsStyle="danger"
-                          bsSize="xsmall"
-                          onClick={() => this.openRemove(q.id)}
-                        >
-                          <span className="glyphicon glyphicon-remove" aria-hidden="true"></span>
-                        </Button>
-                      </td>
-                    </tr>
-                  })}
-                </tbody>
-              </Table>
-            </div>
-          </div>
-
-
-          {/* COMPLETED TABLE */}
-          <div className="row">
-            <div className="col-sm-10 col-sm-offset-1">
-              <h4>Completed:</h4>
-              <Table striped bordered condensed hover>
-                <thead>
-                  <tr>
-                    <th>#</th>
-                    <th>Date</th>
-                    <th>Address</th>
-                    <th>Payment</th>
-                    <th>Price</th>
-                    <th>Status</th>
-                    <th>Completed</th>
-                  </tr>
-                </thead>
-                <tbody>
-
-                  {this.state.completeOrders.map((o) => {
-                    const startDate = moment(o.created_at).format('L');
-                    const endDate = moment(o.upadated_at).format('L');
-
-                    return <tr key={o.id}>
-                      <td>{o.id}</td>
-                      <td>{startDate}</td>
-                      <td>{o.address}</td>
-                      <td>{o.type}</td>
-                      <td>{o.amount}</td>
-                      <td>{o.status}</td>
-                      <td>{endDate}</td>
-                    </tr>
-                  })}
-
-                </tbody>
-              </Table>
             </div>
           </div>
         </div>

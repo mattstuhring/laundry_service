@@ -1,5 +1,8 @@
 .user-login {
 
+  position: absolute;
+  z-index: 1 !important;
+
   .nav-tabs, .form-group {
     margin-bottom: 25px;
   }

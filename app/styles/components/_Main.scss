@@ -2,6 +2,10 @@
 
   .panel.panel-default.main-overlay {
     margin-top: 80px;
-    height: 700px;
+    min-height: 700px;
+  }
+
+  .toast {
+    z-index: 3 !important;
   }
 }

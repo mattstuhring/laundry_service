@@ -20,13 +20,14 @@ export class Main extends React.Component {
 
         {/* React Toast Container */}
         <ToastContainer
+          toastClassName="toast"
           position="top-center"
           autoClose={2000}
           hideProgressBar={false}
           newestOnTop={false}
           closeOnClick
           pauseOnHover
-          style={{position: 'fixed', zIndex: 2}}
+          style={{position: 'fixed', zIndex: 3}}
         />
 
         {/* TOP NAVBAR */}
