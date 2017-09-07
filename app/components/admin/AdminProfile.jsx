@@ -350,320 +350,304 @@ class AdminProfile extends React.Component {
                 <h1>Dashboard</h1>
               </div>
 
-              <div className="page-header">
-                <h3>Users</h3>
-              </div>
 
-              {/* EMPLOYEES TABLE */}
-              <h4>Employees:</h4>
-              <Table striped bordered condensed hover responsive>
-                <thead>
-                  <tr className="text-center">
-                    <th>#</th>
-                    <th>First</th>
-                    <th>Last</th>
-                    <th>Email</th>
-                    <th>Contact</th>
-                    <th>Start</th>
-                    <th style={{width: '100px'}}>Action</th>
-                  </tr>
-                </thead>
-                <tbody>
-
-                  {this.state.employees.map((e) => {
-                    const startDate = moment(e.created_at).format('L');
-
-                    return <tr key={e.id}>
-                      <td>{e.id}</td>
-                      <td>{e.first_name}</td>
-                      <td>{e.last_name}</td>
-                      <td>{e.email}</td>
-                      <td>{e.phone_number}</td>
-                      <td>{startDate}</td>
-                      <td className="text-center">
-                        <Button
-                          bsStyle="danger"
-                          bsSize="xsmall"
-                          onClick={() => this.openRemoveUser(e.id)}
-                        >
-                          <span className="glyphicon glyphicon-remove" aria-hidden="true"></span>
-                        </Button>
-                      </td>
+              {/* QUEUE TABLE */}
+              <Panel>
+                <div className="page-header">
+                  <h3>Laundry Queue:</h3>
+                </div>
+                <Table striped bordered condensed hover responsive>
+                  <thead>
+                    <tr className="text-center">
+                      <th>#</th>
+                      <th>Date</th>
+                      <th>Address</th>
+                      <th>Status</th>
+                      <th>Step</th>
+                      <th>Clean</th>
+                      <th>Fold</th>
+                      <th>Loads</th>
+                      <th>Instructions</th>
+                      <th style={{width: '100px'}}>Action</th>
                     </tr>
-                  })}
-                </tbody>
-              </Table>
+                  </thead>
+                  <tbody>
 
+                    {this.state.queueOrders.map((q) => {
+                      const startDate = moment(q.created_at).format('L');
+                      let clean, fold;
 
-              {/* CUSTOMERS TABLE */}
-              <h4>Customers:</h4>
-              <Table striped bordered condensed hover responsive>
-                <thead>
-                  <tr className="text-center">
-                    <th>#</th>
-                    <th>First</th>
-                    <th>Last</th>
-                    <th>Address</th>
-                    <th>Email</th>
-                    <th>Contact</th>
-                    <th>Start</th>
-                    <th style={{width: '100px'}}>Action</th>
-                  </tr>
-                </thead>
-                <tbody>
+                      if (q.fold === true) {
+                        fold = 'true';
+                      } else {
+                        fold = 'false'
+                      }
 
-                  {this.state.customers.map((c) => {
-                    const startDate = moment(c.created_at).format('L');
+                      if (q.clean === true) {
+                        clean = 'true';
+                      } else {
+                        clean = 'false'
+                      }
 
-                    return <tr key={c.id}>
-                      <td>{c.id}</td>
-                      <td>{c.first_name}</td>
-                      <td>{c.last_name}</td>
-                      <td>{c.address}</td>
-                      <td>{c.email}</td>
-                      <td>{c.phone_number}</td>
-                      <td>{startDate}</td>
-                      <td className="text-center">
-                        <Button
-                          bsStyle="primary"
-                          bsSize="xsmall"
-                          onClick={() => this.openAccess(c.id)}
-                        >
-                          <span className="glyphicon glyphicon-lock" aria-hidden="true"></span>
-                        </Button>
-                        <Button
-                          bsStyle="danger"
-                          bsSize="xsmall"
-                          onClick={() => this.openRemoveUser(c.id)}
-                        >
-                          <span className="glyphicon glyphicon-remove" aria-hidden="true"></span>
-                        </Button>
-                      </td>
-                    </tr>
-                  })}
-                </tbody>
-              </Table>
+                      return <tr key={q.id}>
+                        <td>{q.id}</td>
+                        <td>{startDate}</td>
+                        <td>{q.address}</td>
+                        <td>{q.status}</td>
+                        <td>{q.step}</td>
+                        <td>{clean}</td>
+                        <td>{fold}</td>
+                        <td>{q.amount}</td>
+                        <td>{q.instructions}</td>
+                        <td className="text-center">
+                          <Button
+                            bsStyle="warning"
+                            bsSize="xsmall"
+                            onClick={() => this.openActive(q.id, q.step, q.task_id)}
+                          >
+                            <span className="glyphicon glyphicon-ok" aria-hidden="true"></span>
+                          </Button>
+                          <Button
+                            bsStyle="danger"
+                            bsSize="xsmall"
+                            onClick={() => this.openRemoveOrder(q.id)}
+                          >
+                            <span className="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                          </Button>
+                        </td>
+                      </tr>
+                    })}
+                  </tbody>
+                </Table>
+              </Panel>
 
 
 
+              {/* ORDERS */}
+              <Panel>
+                <div className="page-header">
+                  <h3>Active Jobs:</h3>
+                </div>
+                <Tabs activeKey={this.state.key} onSelect={this.handleSelect} id="controlled-tab-example">
+                  <Tab eventKey={1} title="Active">
+                    {/* ACTIVE ORDERS */}
+                    <Table striped bordered condensed hover responsive>
+                      <thead>
+                        <tr className="text-center">
+                          <th>#</th>
+                          <th>Date</th>
+                          <th>Address</th>
+                          <th>Status</th>
+                          <th>Step</th>
+                          <th>Clean</th>
+                          <th>Fold</th>
+                          <th>Loads</th>
+                          <th>Instructions</th>
+                          <th style={{width: '100px'}}>Action</th>
+                        </tr>
+                      </thead>
+                      <tbody>
 
+                        {this.state.activeOrders.map((a) => {
+                          const startDate = moment(a.created_at).format('L');
+                          let clean, fold;
 
+                          if (a.fold === true) {
+                            fold = 'true';
+                          } else {
+                            fold = 'false'
+                          }
 
+                          if (a.clean === true) {
+                            clean = 'true';
+                          } else {
+                            clean = 'false'
+                          }
 
+                          return <tr key={a.id}>
+                            <td>{a.id}</td>
+                            <td>{startDate}</td>
+                            <td>{a.address}</td>
+                            <td>{a.status}</td>
+                            <td>{a.step}</td>
+                            <td>{clean}</td>
+                            <td>{fold}</td>
+                            <td>{a.amount}</td>
+                            <td>{a.instructions}</td>
+                            <td className="text-center">
+                              <Button
+                                bsStyle="success"
+                                bsSize="xsmall"
+                                onClick={() => this.openComplete(a.id, a.step)}
+                              >
+                                <span className="glyphicon glyphicon-check" aria-hidden="true"></span>
+                              </Button>
+                              <Button
+                                bsStyle="danger"
+                                bsSize="xsmall"
+                                onClick={() => this.openRemoveOrder(a.id)}
+                              >
+                                <span className="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                              </Button>
+                              <Button
+                                bsStyle="warning"
+                                bsSize="xsmall"
+                                onClick={() => this.openStepBack(a.id, a.step)}
+                              >
+                                <span className="glyphicon glyphicon-backward" aria-hidden="true"></span>
+                              </Button>
+                            </td>
+                          </tr>
+                        })}
+                      </tbody>
+                    </Table>
+                  </Tab>
+                  <Tab eventKey={2} title="Complete">
+                    {/* COMPLETE TABLE */}
+                    <Table striped bordered condensed hover responsive>
+                      <thead>
+                        <tr className="text-center">
+                          <th>#</th>
+                          <th>Date</th>
+                          <th>Address</th>
+                          <th>Status</th>
+                          <th>Payment</th>
+                          <th>Amount</th>
+                          <th>Completed</th>
+                          <th style={{width: '100px'}}>Action</th>
+                        </tr>
+                      </thead>
+                      <tbody>
 
+                        {this.state.completeOrders.map((c) => {
+                          const startDate = moment(c.created_at).format('L');
+                          const endDate = moment(c.updated_at).format('L');
 
+                          return <tr key={c.id}>
+                            <td>{c.id}</td>
+                            <td>{startDate}</td>
+                            <td>{c.address}</td>
+                            <td>{c.status}</td>
+                            <td>{c.type}</td>
+                            <td>{c.amount}</td>
+                            <td>{endDate}</td>
+                            <td className="text-center">
+                              <Button
+                                bsStyle="danger"
+                                bsSize="xsmall"
+                                onClick={() => this.openRemoveOrder(c.id)}
+                              >
+                                <span className="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                              </Button>
+                            </td>
+                          </tr>
+                        })}
+                      </tbody>
+                    </Table>
+                  </Tab>
+                </Tabs>
+              </Panel>
 
+              {/* USERS */}
+              <Panel>
+                <div className="page-header">
+                  <h3>Users</h3>
+                </div>
 
+                <Tabs activeKey={this.state.key} onSelect={this.handleSelect} id="controlled-tab-example">
 
+                  <Tab eventKey={1} title="Employees">
+                    {/* EMPLOYEES TABLE */}
+                    <Table striped bordered condensed hover responsive>
+                      <thead>
+                        <tr className="text-center">
+                          <th>#</th>
+                          <th>First</th>
+                          <th>Last</th>
+                          <th>Email</th>
+                          <th>Contact</th>
+                          <th>Start</th>
+                          <th style={{width: '100px'}}>Action</th>
+                        </tr>
+                      </thead>
+                      <tbody>
 
+                        {this.state.employees.map((e) => {
+                          const startDate = moment(e.created_at).format('L');
 
+                          return <tr key={e.id}>
+                            <td>{e.id}</td>
+                            <td>{e.first_name}</td>
+                            <td>{e.last_name}</td>
+                            <td>{e.email}</td>
+                            <td>{e.phone_number}</td>
+                            <td>{startDate}</td>
+                            <td className="text-center">
+                              <Button
+                                bsStyle="danger"
+                                bsSize="xsmall"
+                                onClick={() => this.openRemoveUser(e.id)}
+                              >
+                                <span className="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                              </Button>
+                            </td>
+                          </tr>
+                        })}
+                      </tbody>
+                    </Table>
+                  </Tab>
+                  <Tab eventKey={2} title="Customers">
+                    {/* CUSTOMERS TABLE */}
+                    <Table striped bordered condensed hover responsive>
+                      <thead>
+                        <tr className="text-center">
+                          <th>#</th>
+                          <th>First</th>
+                          <th>Last</th>
+                          <th>Address</th>
+                          <th>Email</th>
+                          <th>Contact</th>
+                          <th>Start</th>
+                          <th style={{width: '100px'}}>Action</th>
+                        </tr>
+                      </thead>
+                      <tbody>
 
+                        {this.state.customers.map((c) => {
+                          const startDate = moment(c.created_at).format('L');
 
+                          return <tr key={c.id}>
+                            <td>{c.id}</td>
+                            <td>{c.first_name}</td>
+                            <td>{c.last_name}</td>
+                            <td>{c.address}</td>
+                            <td>{c.email}</td>
+                            <td>{c.phone_number}</td>
+                            <td>{startDate}</td>
+                            <td className="text-center">
+                              <Button
+                                bsStyle="primary"
+                                bsSize="xsmall"
+                                onClick={() => this.openAccess(c.id)}
+                              >
+                                <span className="glyphicon glyphicon-lock" aria-hidden="true"></span>
+                              </Button>
+                              <Button
+                                bsStyle="danger"
+                                bsSize="xsmall"
+                                onClick={() => this.openRemoveUser(c.id)}
+                              >
+                                <span className="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                              </Button>
+                            </td>
+                          </tr>
+                        })}
+                      </tbody>
+                    </Table>
+                  </Tab>
+                </Tabs>
+              </Panel>
 
-
-
-
-
-
-
-
-
-              {/* ALL ORDERS TABLE */}
-              <div className="page-header">
-                <h3>Orders</h3>
-              </div>
-
-              {/* ACTIVE ORDERS */}
-              <h4>Active:</h4>
-              <Table striped bordered condensed hover responsive>
-                <thead>
-                  <tr className="text-center">
-                    <th>#</th>
-                    <th>Date</th>
-                    <th>Address</th>
-                    <th>Status</th>
-                    <th>Step</th>
-                    <th>Clean</th>
-                    <th>Fold</th>
-                    <th>Loads</th>
-                    <th>Instructions</th>
-                    <th style={{width: '100px'}}>Action</th>
-                  </tr>
-                </thead>
-                <tbody>
-
-                  {this.state.activeOrders.map((a) => {
-                    const startDate = moment(a.created_at).format('L');
-                    let clean, fold;
-
-                    if (a.fold === true) {
-                      fold = 'true';
-                    } else {
-                      fold = 'false'
-                    }
-
-                    if (a.clean === true) {
-                      clean = 'true';
-                    } else {
-                      clean = 'false'
-                    }
-
-                    return <tr key={a.id}>
-                      <td>{a.id}</td>
-                      <td>{startDate}</td>
-                      <td>{a.address}</td>
-                      <td>{a.status}</td>
-                      <td>{a.step}</td>
-                      <td>{clean}</td>
-                      <td>{fold}</td>
-                      <td>{a.amount}</td>
-                      <td>{a.instructions}</td>
-                      <td className="text-center">
-                        <Button
-                          bsStyle="success"
-                          bsSize="xsmall"
-                          onClick={() => this.openComplete(a.id, a.step)}
-                        >
-                          <span className="glyphicon glyphicon-check" aria-hidden="true"></span>
-                        </Button>
-                        <Button
-                          bsStyle="danger"
-                          bsSize="xsmall"
-                          onClick={() => this.openRemoveOrder(a.id)}
-                        >
-                          <span className="glyphicon glyphicon-remove" aria-hidden="true"></span>
-                        </Button>
-                        <Button
-                          bsStyle="warning"
-                          bsSize="xsmall"
-                          onClick={() => this.openStepBack(a.id, a.step)}
-                        >
-                          <span className="glyphicon glyphicon-backward" aria-hidden="true"></span>
-                        </Button>
-                      </td>
-                    </tr>
-                  })}
-                </tbody>
-              </Table>
-            </div>
-          </div>
-
-
-          {/* QUEUE TABLE */}
-          <div className="row">
-            <div className="col-sm-10 col-sm-offset-1">
-              <h4>Queue:</h4>
-              <Table striped bordered condensed hover responsive>
-                <thead>
-                  <tr className="text-center">
-                    <th>#</th>
-                    <th>Date</th>
-                    <th>Address</th>
-                    <th>Status</th>
-                    <th>Step</th>
-                    <th>Clean</th>
-                    <th>Fold</th>
-                    <th>Loads</th>
-                    <th>Instructions</th>
-                    <th style={{width: '100px'}}>Action</th>
-                  </tr>
-                </thead>
-                <tbody>
-
-                  {this.state.queueOrders.map((q) => {
-                    const startDate = moment(q.created_at).format('L');
-                    let clean, fold;
-
-                    if (q.fold === true) {
-                      fold = 'true';
-                    } else {
-                      fold = 'false'
-                    }
-
-                    if (q.clean === true) {
-                      clean = 'true';
-                    } else {
-                      clean = 'false'
-                    }
-
-                    return <tr key={q.id}>
-                      <td>{q.id}</td>
-                      <td>{startDate}</td>
-                      <td>{q.address}</td>
-                      <td>{q.status}</td>
-                      <td>{q.step}</td>
-                      <td>{clean}</td>
-                      <td>{fold}</td>
-                      <td>{q.amount}</td>
-                      <td>{q.instructions}</td>
-                      <td className="text-center">
-                        <Button
-                          bsStyle="warning"
-                          bsSize="xsmall"
-                          onClick={() => this.openActive(q.id, q.step, q.task_id)}
-                        >
-                          <span className="glyphicon glyphicon-ok" aria-hidden="true"></span>
-                        </Button>
-                        <Button
-                          bsStyle="danger"
-                          bsSize="xsmall"
-                          onClick={() => this.openRemoveOrder(q.id)}
-                        >
-                          <span className="glyphicon glyphicon-remove" aria-hidden="true"></span>
-                        </Button>
-                      </td>
-                    </tr>
-                  })}
-                </tbody>
-              </Table>
-            </div>
-          </div>
-
-
-          {/* COMPLETE TABLE */}
-          <div className="row">
-            <div className="col-sm-10 col-sm-offset-1">
-              <h4>Complete:</h4>
-              <Table striped bordered condensed hover responsive>
-                <thead>
-                  <tr className="text-center">
-                    <th>#</th>
-                    <th>Date</th>
-                    <th>Address</th>
-                    <th>Status</th>
-                    <th>Payment</th>
-                    <th>Amount</th>
-                    <th>Completed</th>
-                    <th style={{width: '100px'}}>Action</th>
-                  </tr>
-                </thead>
-                <tbody>
-
-                  {this.state.completeOrders.map((c) => {
-                    const startDate = moment(c.created_at).format('L');
-                    const endDate = moment(c.updated_at).format('L');
-
-                    return <tr key={c.id}>
-                      <td>{c.id}</td>
-                      <td>{startDate}</td>
-                      <td>{c.address}</td>
-                      <td>{c.status}</td>
-                      <td>{c.type}</td>
-                      <td>{c.amount}</td>
-                      <td>{endDate}</td>
-                      <td className="text-center">
-                        <Button
-                          bsStyle="danger"
-                          bsSize="xsmall"
-                          onClick={() => this.openRemoveOrder(c.id)}
-                        >
-                          <span className="glyphicon glyphicon-remove" aria-hidden="true"></span>
-                        </Button>
-                      </td>
-                    </tr>
-                  })}
-                </tbody>
-              </Table>
             </div>
           </div>
         </div>

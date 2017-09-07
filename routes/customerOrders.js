@@ -110,7 +110,9 @@ router.post('/customerOrders', checkAuth, (req, res, next) => {
                   })
                   .returning('id')
                   .then((orderId) => {
+                    console.log(orderId, '********** order Id');
                     return knex('orders')
+                      .select('*')
                       .where('id', parseInt(orderId[0]))
                       .then((r) => {
                         res.send(r[0]);

@@ -384,15 +384,18 @@ class CustomerProfile extends React.Component {
                   <h2>Total: $15.00</h2>
                 </div>
               </div>
-
-              <ul className="payment">
-                <li>
-                  We offer free pick up and delivery for UW students Monday through Friday, 9am-5pm.
-                </li>
-                <li>
-                  We'll pick up your laundry and bring it back within 48 hours.
-                </li>
-              </ul>
+              <div className="row">
+                <div className="col-sm-8 col-sm-offset-2">
+                  <ul className="payment">
+                    <li>
+                      We offer free pick up and delivery for UW students Monday through Friday, 9am-5pm.
+                    </li>
+                    <li>
+                      We'll pick up your laundry and bring it back within 48 hours.
+                    </li>
+                  </ul>
+                </div>
+              </div>
             </div>
           </div>
           <div className="row">
@@ -465,7 +468,7 @@ class CustomerProfile extends React.Component {
                       <div className="col-sm-12">
 
                         <div className="row">
-                          <div className="col-sm-8 col-sm-offset-2">
+                          <div className="col-sm-10 col-sm-offset-1">
                             <Breadcrumb>
                               <Breadcrumb.Item href="#" onClick={() => {this.handleSelectKey(1)}} active={this.state.activeServices}>
                                 Services
@@ -495,6 +498,8 @@ class CustomerProfile extends React.Component {
                     {this.state.queueOrders.map((q) => {
                       const startDate = moment(q.created_at).format('L');
                       let step;
+
+                      console.log(q, '*********** q id');
 
                       if (q.step === 'Queue') {
                         step = <ProgressBar striped active active bsStyle="info" now={10} key={1} label={'Queue'} />;
