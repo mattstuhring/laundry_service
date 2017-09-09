@@ -17,6 +17,9 @@ require('style!css!font-awesome/css/font-awesome.css');
 // React-Toast
 require('style!css!react-toastify/dist/ReactToastify.min.css');
 
+// React Bootstrap Table
+require('style!css!react-bootstrap-table/dist/react-bootstrap-table-all.min.css');
+
 // App SCSS
 require('style!css!sass!applicationStyles');
 

@@ -4,6 +4,7 @@ import { browserHistory, withRouter } from 'react-router';
 import {Jumbotron, Table, Button, Panel, Tabs, Tab} from 'react-bootstrap';
 import moment from 'moment';
 import Popup from 'Popup';
+import {BootstrapTable, TableHeaderColumn, InsertButton} from 'react-bootstrap-table';
 
 
 class EmployeeProfile extends React.Component {
@@ -33,6 +34,7 @@ class EmployeeProfile extends React.Component {
     this.handleActive = this.handleActive.bind(this);
     this.handleComplete = this.handleComplete.bind(this);
     this.handleRemove = this.handleRemove.bind(this);
+    this.cellButton = this.cellButton.bind(this);
   }
 
   componentWillMount() {
@@ -188,9 +190,64 @@ class EmployeeProfile extends React.Component {
   }
 
 
+  cellButton(cell, row, enumObject, rowIndex) {
+  	return (
+      <Button
+        bsStyle="success"
+        bsSize="xsmall"
+        onClick={() => this.openActive(row.id, row.step, row.task_id)}
+      >
+        <span className="glyphicon glyphicon-ok" aria-hidden="true"></span>
+      </Button>
+    );
+  }
+
+
+
   // ***************************  RENDER  *********************************
   render() {
     const { firstName } = this.state;
+
+    const selectRowProp = {
+      mode: 'checkbox'
+    };
+
+    // const data = [
+    //   {id: 1},
+    //   {id: 2},
+    //   {id: 3},
+    //   {id: 4},
+    //   {id: 5},
+    //   {id: 6},
+    //   {id: 7},
+    //   {id: 8},
+    //   {id: 9},
+    //   {id: 10},
+    //   {id: 11},
+    //   {id: 12},
+    //   {id: 13},
+    //   {id: 14},
+    //   {id: 15},
+    //   {id: 16},
+    //   {id: 17},
+    //   {id: 18},
+    //   {id: 19},
+    //   {id: 20},
+    //   {id: 21},
+    //   {id: 22},
+    //   {id: 23},
+    //   {id: 24},
+    //   {id: 25},
+    //   {id: 26},
+    //   {id: 27},
+    //   {id: 28},
+    //   {id: 29},
+    //   {id: 30}
+    // ];
+
+    const options = {
+      insertBtn: this.createCustomInsertButton
+    };
 
     return (
       <div className="row employee-profile">
@@ -216,6 +273,11 @@ class EmployeeProfile extends React.Component {
             </div>
           </div>
 
+          <BootstrapTable data={ this.state.queueOrders } selectRow={ selectRowProp }>
+            <TableHeaderColumn dataField='id' isKey>Product ID</TableHeaderColumn>
+            <TableHeaderColumn dataField='name'>Product Name</TableHeaderColumn>
+            <TableHeaderColumn dataField='price'>Product Price</TableHeaderColumn>
+          </BootstrapTable>
 
 
           {/* JOBS TABLE */}
@@ -225,15 +287,55 @@ class EmployeeProfile extends React.Component {
                 <h2>Dashboard</h2>
               </div>
 
-
-
-
               <Panel>
-                <div className="page-header">
-                  <h3>Laundry Queue:</h3>
-                </div>
+                <BootstrapTable data={ this.state.queueOrders }>
+                  <TableHeaderColumn
+                    dataField='#'
+                    isKey
+                    width='50'
+                  >id</TableHeaderColumn>
+                  <TableHeaderColumn
+                    dataField='created_at'
+                  >Date</TableHeaderColumn>
+                  <TableHeaderColumn
+                    dataField='address'
+                  >Address</TableHeaderColumn>
+                  <TableHeaderColumn
+                    dataField='status'
+                    width='60'
+                  >Status</TableHeaderColumn>
+                  <TableHeaderColumn
+                    dataField='step'
+                    width='60'
+                  >Step</TableHeaderColumn>
+                  <TableHeaderColumn
+                    dataField='clean'
+                    width='60'
+                  >Clean</TableHeaderColumn>
+                  <TableHeaderColumn
+                    dataField='fold'
+                    width='60'
+                  >Fold</TableHeaderColumn>
+                  <TableHeaderColumn
+                    dataField='amount'
+                    width='60'
+                  >Loads</TableHeaderColumn>
+                  <TableHeaderColumn
+                    dataField='instructions'
+                  >Instructions</TableHeaderColumn>
+                  <TableHeaderColumn
+                    dataField='action'
+                    dataFormat={this.cellButton}
+                    width='60'
+                  >Action</TableHeaderColumn>
+                </BootstrapTable>
+              </Panel>
+
+
+              <Panel header="Laundry Queue" bsStyle="primary">
                 {/* QUEUE TABLE */}
-                <Table striped bordered condensed hover>
+
+                <table className="table table-striped">
                   <thead className="text-center">
                     <tr>
                       <th>#</th>
@@ -248,6 +350,7 @@ class EmployeeProfile extends React.Component {
                       <th>Action</th>
                     </tr>
                   </thead>
+
                   <tbody>
 
                     {this.state.queueOrders.map((q) => {
@@ -288,7 +391,7 @@ class EmployeeProfile extends React.Component {
                       </tr>
                     })}
                   </tbody>
-                </Table>
+                </table>
               </Panel>
 
 
@@ -298,10 +401,7 @@ class EmployeeProfile extends React.Component {
 
 
               {/* ORDERS */}
-              <Panel>
-                <div className="page-header">
-                  <h3>My Jobs:</h3>
-                </div>
+              <Panel header="My Jobs" bsStyle="primary">
                 <Tabs activeKey={this.state.key} onSelect={this.handleSelect} id="controlled-tab-example">
                   <Tab eventKey={1} title="Active">
                     {/* ACTIVE ORDERS */}

@@ -145,6 +145,7 @@ router.post('/customerOrders', checkAuth, (req, res, next) => {
 });
 
 
+
 // DELETE ORDER BY ID
 router.delete('/customerOrders/:id', checkAuth, (req, res, next) => {
   const { userId, access } = req.token;

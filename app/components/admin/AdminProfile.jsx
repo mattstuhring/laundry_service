@@ -2,8 +2,12 @@ import React from 'react';
 import axios from 'axios';
 import { browserHistory, withRouter } from 'react-router';
 import { Button, FormGroup, FormControl, InputGroup, Panel, ControlLabel, Table, Tabs, Tab, Checkbox, Radio } from 'react-bootstrap';
+import {BootstrapTable, TableHeaderColumn, InsertButton, DeleteButton} from 'react-bootstrap-table';
 import moment from 'moment';
 import Popup from 'Popup';
+
+
+
 
 class AdminProfile extends React.Component {
   constructor(props) {
@@ -16,6 +20,8 @@ class AdminProfile extends React.Component {
       orderStep: '',
       queueOrders: [],
       completeOrders: [],
+      selectedQueueOrders: [],
+      selectedActiveOrders: [],
       activeOrders: [],
       customers: [],
       employees: [],
@@ -38,6 +44,14 @@ class AdminProfile extends React.Component {
     this.handleComplete = this.handleComplete.bind(this);
     this.handleRemoveUser = this.handleRemoveUser.bind(this);
     this.handleRemoveOrder = this.handleRemoveOrder.bind(this);
+    this.handleStepBack = this.handleStepBack.bind(this);
+    this.queueButtons = this.queueButtons.bind(this);
+    this.onQueueRowSelect = this.onQueueRowSelect.bind(this);
+    this.onQueueSelectAll = this.onQueueSelectAll.bind(this);
+    this.onActiveRowSelect = this.onActiveRowSelect.bind(this);
+    this.onActiveSelectAll = this.onActiveSelectAll.bind(this);
+    this.dateFormatter = this.dateFormatter.bind(this);
+    this.activeButtons = this.activeButtons.bind(this);
   }
 
   componentWillMount() {
@@ -55,7 +69,9 @@ class AdminProfile extends React.Component {
               this.setState({
                 queueOrders: res.data[0],
                 completeOrders: res.data[1],
-                activeOrders: res.data[2]
+                activeOrders: res.data[2],
+                selectedActiveOrders: [],
+                selectedQueueOrders: []
               });
             })
             .catch((err) => {
@@ -73,22 +89,55 @@ class AdminProfile extends React.Component {
   }
 
 
-  handleActive() {
-    const {orderId, orderStep, taskId } = this.state;
-    const check = 'active';
 
-    axios.put('/api/admin', {orderId, check, orderStep, taskId})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  handleActive() {
+    const { selectedQueueOrders } = this.state;
+    const check = 'active';
+    console.log(selectedQueueOrders, '*************** selected orders');
+
+    axios.put('/api/admin', {selectedQueueOrders, check})
       .then((r) => {
+
+        this.refs.queueTable.setState({
+          selectedRowKeys: []
+        });
 
         return axios.get('/api/admin')
           .then((res) => {
-            console.log(res, '*********** res');
+            console.log(res.data, '************  data');
 
             this.setState({
-              showModal: false,
               queueOrders: res.data[0],
               completeOrders: res.data[1],
-              activeOrders: res.data[2]
+              activeOrders: res.data[2],
+              selectedQueueOrders: [],
+              selectedActiveOrders: [],
+              showModal: false
             });
           })
           .catch((err) => {
@@ -99,20 +148,54 @@ class AdminProfile extends React.Component {
         console.log(err);
       });
   }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
   handleComplete() {
-    const { orderId, orderStep } = this.state;
+    const { selectedActiveOrders } = this.state;
+    console.log(selectedActiveOrders, '********** complete');
 
-    axios.post(`/api/admin/${orderId}/${orderStep}`)
+    axios.post('/api/admin', { selectedActiveOrders })
       .then((r) => {
+        this.refs.activeTable.setState({
+          selectedRowKeys: []
+        });
+
         return axios.get('/api/admin')
           .then((res) => {
+            console.log(res.data, '********* complete data');
+
             this.setState({
               showModal: false,
               queueOrders: res.data[0],
               completeOrders: res.data[1],
-              activeOrders: res.data[2]
+              activeOrders: res.data[2],
+              selectedActiveOrders: [],
+              selectedQueueOrders: []
             });
           })
           .catch((err) => {
@@ -123,6 +206,21 @@ class AdminProfile extends React.Component {
         console.log(err);
       });
   }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   handleRemoveUser() {
     const { userId } = this.state;
@@ -147,36 +245,44 @@ class AdminProfile extends React.Component {
   }
 
 
+
   handleRemoveOrder() {
     const { orderId } = this.state;
+    const { selectedOrders } = this.state;
 
-    axios.delete(`/api/customerOrders/${orderId}`)
-      .then((r) => {
-        console.log(r, '******** res');
-
-        return axios.get('/api/admin')
-          .then((res) => {
-            this.setState({
-              showModal: false,
-              queueOrders: res.data[0],
-              completeOrders: res.data[1],
-              activeOrders: res.data[2]
-            });
-          })
-          .catch((err) => {
-            console.log(err);
-          });
-      })
-      .catch((err) => {
-        console.log(err);
-      })
+    // for (let i = 0; i < selectedOrders.length; i++) {
+    //
+    //   axios.delete(`/api/customerOrders/${selectedOrders[i].id}`)
+    //     .then((r) => {
+    //       console.log(r);
+    //     })
+    //     .catch((err) => {
+    //       console.log(err);
+    //       return;
+    //     })
+    // }
+    //
+    // axios.get('/api/admin')
+    //   .then((res) => {
+    //     this.setState({
+    //       showModal: false,
+    //       queueOrders: res.data[0],
+    //       completeOrders: res.data[1],
+    //       activeOrders: res.data[2],
+    //       selectedOrders: []
+    //     });
+    //   })
+    //   .catch((err) => {
+    //     console.log(err);
+    //   });
   }
 
 
-  handleStepBack() {
-    const { orderId, orderStep } = this.state;
 
-    axios.delete(`/api/admin/${orderId}/${orderStep}`)
+  handleStepBack() {
+    const { selectedOrders } = this.state;
+
+    axios.put('/api/adminRemove', { selectedOrders })
       .then((r) => {
         return axios.get(`/api/admin`)
           .then((res) => {
@@ -184,7 +290,8 @@ class AdminProfile extends React.Component {
               showModal: false,
               queueOrders: res.data[0],
               completeOrders: res.data[1],
-              activeOrders: res.data[2]
+              activeOrders: res.data[2],
+              selectedOrders: []
             });
           })
           .catch((err) => {
@@ -195,6 +302,7 @@ class AdminProfile extends React.Component {
         console.log(err);
       });
   }
+
 
 
   handleUserAccess() {
@@ -222,15 +330,16 @@ class AdminProfile extends React.Component {
   }
 
 
+
   close() {
     this.setState({ showModal: false });
   }
 
 
-  openRemoveOrder(id) {
+
+  openRemoveOrder() {
     this.setState({
       showModal: true,
-      orderId: id,
       modal: {
         title: 'Job:',
         message: 'Warning: You are about to delete this order?',
@@ -240,7 +349,8 @@ class AdminProfile extends React.Component {
   }
 
 
-  openRemoveUser(id) {
+
+  openRemoveUser() {
     this.setState({
       showModal: true,
       userId: id,
@@ -252,11 +362,11 @@ class AdminProfile extends React.Component {
     });
   }
 
-  openStepBack(id, step) {
+
+
+  openStepBack() {
     this.setState({
       showModal: true,
-      orderId: id,
-      orderStep: step,
       modal: {
         title: 'Job:',
         message: 'Whoops! Put order back into the queue?',
@@ -265,19 +375,20 @@ class AdminProfile extends React.Component {
     });
   }
 
-  openActive(oId, status, tId) {
+
+
+  openActive() {
     this.setState({
       showModal: true,
-      orderId: oId,
-      taskId: tId,
-      orderStep: status,
       modal: {
         title: 'Job:',
-        message: 'Do you accept this order?',
+        message: 'Do you accept the order(s)?',
         action: this.handleActive
       }
     });
   }
+
+
 
   openAccess(id) {
     this.setState({
@@ -292,32 +403,326 @@ class AdminProfile extends React.Component {
     });
   }
 
-  openComplete(id, step) {
-    let message;
-    if (step === 'Pick-up') {
-      message = 'Did you pick up customers laundry?';
-    } else if (step === 'Cleaning') {
-      message = 'Did you clean the customers laundry?';
-    } else if (step === 'Drop-off') {
-      message = 'Did you drop-off customers laundry?';
-    }
 
+
+  openComplete() {
     this.setState({
       showModal: true,
-      orderId: id,
-      orderStep: step,
       modal: {
         title: 'Job:',
-        message: message,
+        message: 'Did you complete the job(s)?',
         action: this.handleComplete
       }
     });
   }
 
 
-  render() {
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  queueButtons() {
+  	return (
+      <div>
+        <Button
+          bsStyle="success"
+          bsSize="xsmall"
+          onClick={() => this.openActive()}
+        >
+          <span className="glyphicon glyphicon-ok" aria-hidden="true"></span>
+          Accept
+        </Button>
+        <Button
+          bsStyle="danger"
+          bsSize="xsmall"
+          onClick={() => this.openRemoveOrder()}
+        >
+          <span className="glyphicon glyphicon-remove" aria-hidden="true"></span>
+          Delete
+        </Button>
+        <Button
+          bsStyle="warning"
+          bsSize="xsmall"
+          onClick={() => this.openStepBack()}
+        >
+          <span className="glyphicon glyphicon-backward" aria-hidden="true"></span>
+          Go Back
+        </Button>
+      </div>
+    );
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  activeButtons() {
     return (
-      <div className="row employee-profile">
+      <div>
+        <Button
+          bsStyle="success"
+          bsSize="xsmall"
+          onClick={() => this.openComplete()}
+        >
+          <span className="glyphicon glyphicon-check" aria-hidden="true"></span>
+          Complete
+        </Button>
+        <Button
+          bsStyle="danger"
+          bsSize="xsmall"
+          onClick={() => this.openRemoveOrder()}
+        >
+          <span className="glyphicon glyphicon-remove" aria-hidden="true"></span>
+          Delete
+        </Button>
+        <Button
+          bsStyle="warning"
+          bsSize="xsmall"
+          onClick={() => this.openStepBack()}
+        >
+          <span className="glyphicon glyphicon-backward" aria-hidden="true"></span>
+          Go Back
+        </Button>
+      </div>
+    );
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  onQueueRowSelect(row, isSelected, e) {
+    let arr = Object.assign([], this.state.selectedQueueOrders);
+
+    if (isSelected) {
+      arr.push(row);
+      this.setState({selectedQueueOrders: arr, selectedActiveOrders: []});
+    }
+    else {
+      for (let i = 0; i < arr.length; i++) {
+        if (arr[i].id === row.id) {
+          arr.splice(i, 1);
+        }
+      }
+
+      this.setState({ selectedQueueOrders: arr});
+    }
+  }
+
+
+
+  onQueueSelectAll(isSelected, rows) {
+    let arr = Object.assign([], this.state.selectedQueueOrders);
+
+    if (isSelected) {
+      for (let i = 0; i < rows.length; i++) {
+        arr.push(rows[i]);
+      }
+
+      this.setState({selectedQueueOrders: arr, selectedActiveOrders: []});
+    } else {
+      this.setState({selectedQueueOrders: []});
+    }
+  }
+
+
+
+  onActiveRowSelect(row, isSelected, e) {
+    let arr = Object.assign([], this.state.selectedActiveOrders);
+
+    if (isSelected) {
+      arr.push(row);
+      this.setState({selectedActiveOrders: arr, selectedQueueOrders: []});
+    }
+    else {
+      for (let i = 0; i < arr.length; i++) {
+        if (arr[i].id === row.id) {
+          arr.splice(i, 1);
+        }
+      }
+
+      this.setState({ selectedActiveOrders: arr, selectedQueueOrders: []});
+    }
+  }
+
+
+
+  onActiveSelectAll(isSelected, rows) {
+    let arr = Object.assign([], this.state.selectedActiveOrders);
+
+    if (isSelected) {
+      for (let i = 0; i < rows.length; i++) {
+        arr.push(rows[i]);
+      }
+
+      this.setState({selectedActiveOrders: arr, selectedQueueOrders: []});
+    } else {
+      this.setState({selectedActiveOrders: [], selectedQueueOrders: []});
+    }
+  }
+
+
+
+  dateFormatter(cell, row) {
+    const startDate = moment(row.created_at).format('L');
+    return startDate;
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  // ***************************  RENDER  ******************************
+  render() {
+    console.log(this.state.selectedQueueOrders, '******* select q orders');
+    console.log(this.state.selectedActiveOrders, '******* select a orders');
+
+    const queueOptions = {
+      insertBtn: this.queueButtons
+    };
+
+    const activeOptions = {
+      insertBtn: this.activeButtons
+    };
+
+    const selectQueueRow = {
+      mode: 'checkbox',
+      clickToSelect: true,
+      onSelect: this.onQueueRowSelect,
+      onSelectAll: this.onQueueSelectAll
+    };
+
+    const selectActiveRow = {
+      mode: 'checkbox',
+      clickToSelect: true,
+      onSelect: this.onActiveRowSelect,
+      onSelectAll: this.onActiveSelectAll
+    };
+
+
+    // const data = [
+    //   {id: 1},
+    //   {id: 2},
+    //   {id: 3},
+    //   {id: 4},
+    //   {id: 5},
+    //   {id: 6},
+    //   {id: 7},
+    //   {id: 8},
+    //   {id: 9},
+    //   {id: 10},
+    //   {id: 11},
+    //   {id: 12},
+    //   {id: 13},
+    //   {id: 14},
+    //   {id: 15},
+    //   {id: 16},
+    //   {id: 17},
+    //   {id: 18},
+    //   {id: 19},
+    //   {id: 20},
+    //   {id: 21},
+    //   {id: 22},
+    //   {id: 23},
+    //   {id: 24},
+    //   {id: 25},
+    //   {id: 26},
+    //   {id: 27},
+    //   {id: 28},
+    //   {id: 29},
+    //   {id: 30}
+    // ];
+
+    return (
+      <div className="row admin-profile">
         <div className="col-sm-12">
 
           {/* MODAL */}
@@ -351,156 +756,192 @@ class AdminProfile extends React.Component {
               </div>
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
               {/* QUEUE TABLE */}
-              <Panel>
-                <div className="page-header">
-                  <h3>Laundry Queue:</h3>
-                </div>
-                <Table striped bordered condensed hover responsive>
-                  <thead>
-                    <tr className="text-center">
-                      <th>#</th>
-                      <th>Date</th>
-                      <th>Address</th>
-                      <th>Status</th>
-                      <th>Step</th>
-                      <th>Clean</th>
-                      <th>Fold</th>
-                      <th>Loads</th>
-                      <th>Instructions</th>
-                      <th style={{width: '100px'}}>Action</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-
-                    {this.state.queueOrders.map((q) => {
-                      const startDate = moment(q.created_at).format('L');
-                      let clean, fold;
-
-                      if (q.fold === true) {
-                        fold = 'true';
-                      } else {
-                        fold = 'false'
-                      }
-
-                      if (q.clean === true) {
-                        clean = 'true';
-                      } else {
-                        clean = 'false'
-                      }
-
-                      return <tr key={q.id}>
-                        <td>{q.id}</td>
-                        <td>{startDate}</td>
-                        <td>{q.address}</td>
-                        <td>{q.status}</td>
-                        <td>{q.step}</td>
-                        <td>{clean}</td>
-                        <td>{fold}</td>
-                        <td>{q.amount}</td>
-                        <td>{q.instructions}</td>
-                        <td className="text-center">
-                          <Button
-                            bsStyle="warning"
-                            bsSize="xsmall"
-                            onClick={() => this.openActive(q.id, q.step, q.task_id)}
-                          >
-                            <span className="glyphicon glyphicon-ok" aria-hidden="true"></span>
-                          </Button>
-                          <Button
-                            bsStyle="danger"
-                            bsSize="xsmall"
-                            onClick={() => this.openRemoveOrder(q.id)}
-                          >
-                            <span className="glyphicon glyphicon-remove" aria-hidden="true"></span>
-                          </Button>
-                        </td>
-                      </tr>
-                    })}
-                  </tbody>
-                </Table>
+              <Panel header="Laundry Queue" bsStyle="primary">
+                <BootstrapTable ref='queueTable' striped condensed
+                  options={ queueOptions }
+                  bordered={ false }
+                  data={ this.state.queueOrders }
+                  // data={ data }
+                  selectRow={ selectQueueRow }
+                  bodyContainerClass='table-body-container'
+                  pagination
+                  insertRow
+                >
+                  <TableHeaderColumn
+                    dataField='id'
+                    isKey
+                    width='50px'
+                  >#</TableHeaderColumn>
+                  <TableHeaderColumn
+                    dataField='created_at'
+                    dataFormat={ this.dateFormatter }
+                    width='100px'
+                  >Date</TableHeaderColumn>
+                  <TableHeaderColumn
+                    dataField='address'
+                  >Address</TableHeaderColumn>
+                  <TableHeaderColumn
+                    dataField='status'
+                    width='60px'
+                  >Status</TableHeaderColumn>
+                  <TableHeaderColumn
+                    dataField='step'
+                    width='60px'
+                  >Step</TableHeaderColumn>
+                  <TableHeaderColumn
+                    dataField='clean'
+                    width='60px'
+                  >Clean</TableHeaderColumn>
+                  <TableHeaderColumn
+                    dataField='fold'
+                    width='60px'
+                  >Fold</TableHeaderColumn>
+                  <TableHeaderColumn
+                    dataField='amount'
+                    width='60px'
+                  >Loads</TableHeaderColumn>
+                  <TableHeaderColumn
+                    dataField='instructions'
+                  >Instructions</TableHeaderColumn>
+                </BootstrapTable>
               </Panel>
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
               {/* ORDERS */}
-              <Panel>
-                <div className="page-header">
-                  <h3>Active Jobs:</h3>
-                </div>
+              <Panel header="Active Jobs" bsStyle="primary">
                 <Tabs activeKey={this.state.key} onSelect={this.handleSelect} id="controlled-tab-example">
                   <Tab eventKey={1} title="Active">
                     {/* ACTIVE ORDERS */}
-                    <Table striped bordered condensed hover responsive>
-                      <thead>
-                        <tr className="text-center">
-                          <th>#</th>
-                          <th>Date</th>
-                          <th>Address</th>
-                          <th>Status</th>
-                          <th>Step</th>
-                          <th>Clean</th>
-                          <th>Fold</th>
-                          <th>Loads</th>
-                          <th>Instructions</th>
-                          <th style={{width: '100px'}}>Action</th>
-                        </tr>
-                      </thead>
-                      <tbody>
+                    <BootstrapTable ref="activeTable" striped condensed
+                      options={ activeOptions }
+                      bordered={ false }
+                      data={ this.state.activeOrders }
+                      // data={ data }
+                      selectRow={ selectActiveRow }
+                      bodyContainerClass='table-body-container'
+                      pagination
+                      insertRow
+                    >
+                      <TableHeaderColumn
+                        dataField='id'
+                        isKey
+                        width='50px'
+                      >#</TableHeaderColumn>
+                      <TableHeaderColumn
+                        dataField='created_at'
+                        dataFormat={ this.dateFormatter }
+                        width='100px'
+                      >Date</TableHeaderColumn>
+                      <TableHeaderColumn
+                        dataField='address'
+                      >Address</TableHeaderColumn>
+                      <TableHeaderColumn
+                        dataField='status'
+                        width='60px'
+                      >Status</TableHeaderColumn>
+                      <TableHeaderColumn
+                        dataField='step'
+                        width='60px'
+                      >Step</TableHeaderColumn>
+                      <TableHeaderColumn
+                        dataField='clean'
+                        width='60px'
+                      >Clean</TableHeaderColumn>
+                      <TableHeaderColumn
+                        dataField='fold'
+                        width='60px'
+                      >Fold</TableHeaderColumn>
+                      <TableHeaderColumn
+                        dataField='amount'
+                        width='60px'
+                      >Loads</TableHeaderColumn>
+                      <TableHeaderColumn
+                        dataField='instructions'
+                      >Instructions</TableHeaderColumn>
+                    </BootstrapTable>
 
-                        {this.state.activeOrders.map((a) => {
-                          const startDate = moment(a.created_at).format('L');
-                          let clean, fold;
 
-                          if (a.fold === true) {
-                            fold = 'true';
-                          } else {
-                            fold = 'false'
-                          }
 
-                          if (a.clean === true) {
-                            clean = 'true';
-                          } else {
-                            clean = 'false'
-                          }
 
-                          return <tr key={a.id}>
-                            <td>{a.id}</td>
-                            <td>{startDate}</td>
-                            <td>{a.address}</td>
-                            <td>{a.status}</td>
-                            <td>{a.step}</td>
-                            <td>{clean}</td>
-                            <td>{fold}</td>
-                            <td>{a.amount}</td>
-                            <td>{a.instructions}</td>
-                            <td className="text-center">
-                              <Button
-                                bsStyle="success"
-                                bsSize="xsmall"
-                                onClick={() => this.openComplete(a.id, a.step)}
-                              >
-                                <span className="glyphicon glyphicon-check" aria-hidden="true"></span>
-                              </Button>
-                              <Button
-                                bsStyle="danger"
-                                bsSize="xsmall"
-                                onClick={() => this.openRemoveOrder(a.id)}
-                              >
-                                <span className="glyphicon glyphicon-remove" aria-hidden="true"></span>
-                              </Button>
-                              <Button
-                                bsStyle="warning"
-                                bsSize="xsmall"
-                                onClick={() => this.openStepBack(a.id, a.step)}
-                              >
-                                <span className="glyphicon glyphicon-backward" aria-hidden="true"></span>
-                              </Button>
-                            </td>
-                          </tr>
-                        })}
-                      </tbody>
-                    </Table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                   </Tab>
                   <Tab eventKey={2} title="Complete">
                     {/* COMPLETE TABLE */}
