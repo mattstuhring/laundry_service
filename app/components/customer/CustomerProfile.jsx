@@ -2,6 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import { browserHistory, withRouter } from 'react-router';
 import { Button, FormGroup, FormControl, InputGroup, Panel, ControlLabel, Table, Tabs, Tab, ProgressBar, Checkbox, Radio, Breadcrumb, Alert, Pager, Form, Col } from 'react-bootstrap';
+import {BootstrapTable, TableHeaderColumn, InsertButton} from 'react-bootstrap-table';
 import moment from 'moment';
 import Popup from 'Popup';
 import StripeCheckout from 'react-stripe-checkout';
@@ -53,6 +54,9 @@ class CustomerProfile extends React.Component {
     this.handleBoxChange = this.handleBoxChange.bind(this);
     this.handleAlertDismiss = this.handleAlertDismiss.bind(this);
     this.onToken = this.onToken.bind(this);
+    this.startDateFormatter = this.startDateFormatter.bind(this);
+    this.endDateFormatter = this.endDateFormatter.bind(this);
+    this.customSearch = this.customSearch.bind(this);
 
   }
 
@@ -218,8 +222,12 @@ class CustomerProfile extends React.Component {
 
   // ***************************  RENDER  ***************************
   render() {
+    const completeOptions = {
+      clearSearch: true,
+      searchField: this.customSearch
+    };
+
     const { firstName } = this.state.customer;
-    const now = 60;
 
     const form = () => {
       let {formKey} = this.state;
@@ -499,8 +507,6 @@ class CustomerProfile extends React.Component {
                       const startDate = moment(q.created_at).format('L');
                       let step;
 
-                      console.log(q, '*********** q id');
-
                       if (q.step === 'Queue') {
                         step = <ProgressBar striped active active bsStyle="info" now={10} key={1} label={'Queue'} />;
                       } else if (q.step === 'Pick-up') {
@@ -541,37 +547,58 @@ class CustomerProfile extends React.Component {
                     <div className="row">
                       <div className="col-sm-12">
                         <h4>Completed:</h4>
-                        <Table striped bordered condensed hover>
-                          <thead>
-                            <tr>
-                              <th>#</th>
-                              <th>Date</th>
-                              <th>Address</th>
-                              <th>Payment</th>
-                              <th>Price</th>
-                              <th>Status</th>
-                              <th>Completed</th>
-                            </tr>
-                          </thead>
-                          <tbody>
 
-                            {this.state.completeOrders.map((o) => {
-                              const startDate = moment(o.created_at).format('L');
-                              const endDate = moment(o.upadated_at).format('L');
 
-                              return <tr key={o.id}>
-                                <td>{o.id}</td>
-                                <td>{startDate}</td>
-                                <td>{o.address}</td>
-                                <td>{o.type}</td>
-                                <td>{o.amount}</td>
-                                <td>{o.status}</td>
-                                <td>{endDate}</td>
-                              </tr>
-                            })}
-
-                          </tbody>
-                        </Table>
+                        {/* COMPLETE TABLE */}
+                        <BootstrapTable ref="completeTable" striped condensed
+                          options={ completeOptions }
+                          bordered={ false }
+                          data={ this.state.completeOrders }
+                          bodyContainerClass='table-body-container'
+                          pagination
+                          search
+                        >
+                          <TableHeaderColumn
+                            dataField='id'
+                            isKey
+                            width='50px'
+                          >#</TableHeaderColumn>
+                          <TableHeaderColumn
+                            dataField='created_at'
+                            dataFormat={ this.startDateFormatter }
+                            width='100px'
+                          >Date</TableHeaderColumn>
+                          <TableHeaderColumn
+                            dataField='address'
+                          >Address</TableHeaderColumn>
+                          <TableHeaderColumn
+                            dataField='status'
+                            width='60px'
+                          >Status</TableHeaderColumn>
+                          <TableHeaderColumn
+                            dataField='step'
+                            width='60px'
+                          >Step</TableHeaderColumn>
+                          <TableHeaderColumn
+                            dataField='clean'
+                            width='60px'
+                          >Clean</TableHeaderColumn>
+                          <TableHeaderColumn
+                            dataField='fold'
+                            width='60px'
+                          >Fold</TableHeaderColumn>
+                          <TableHeaderColumn
+                            dataField='amount'
+                            width='60px'
+                          >Loads</TableHeaderColumn>
+                          <TableHeaderColumn
+                            dataField='instructions'
+                          >Instructions</TableHeaderColumn>
+                          <TableHeaderColumn
+                            dataField='updated_at'
+                            dataFormat={ this.endDateFormatter }
+                          >Complete</TableHeaderColumn>
+                        </BootstrapTable>
                       </div>
                     </div>
                   </Tab>

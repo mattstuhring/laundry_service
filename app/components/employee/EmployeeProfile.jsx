@@ -19,6 +19,8 @@ class EmployeeProfile extends React.Component {
       queueOrders: [],
       completeOrders: [],
       activeOrders: [],
+      selectedQueueOrders: [],
+      selectedActiveOrders: [],
       showModal: false,
       modal: {
         title: '',
@@ -34,7 +36,15 @@ class EmployeeProfile extends React.Component {
     this.handleActive = this.handleActive.bind(this);
     this.handleComplete = this.handleComplete.bind(this);
     this.handleRemove = this.handleRemove.bind(this);
-    this.cellButton = this.cellButton.bind(this);
+    this.queueButtons = this.queueButtons.bind(this);
+    this.activeButtons = this.activeButtons.bind(this);
+    this.onQueueRowSelect = this.onQueueRowSelect.bind(this);
+    this.onQueueSelectAll = this.onQueueSelectAll.bind(this);
+    this.onActiveRowSelect = this.onActiveRowSelect.bind(this);
+    this.onActiveSelectAll = this.onActiveSelectAll.bind(this);
+    this.startDateFormatter = this.startDateFormatter.bind(this);
+    this.endDateFormatter = this.endDateFormatter.bind(this);
+    this.customSearch = this.customSearch.bind(this);
   }
 
   componentWillMount() {
@@ -63,11 +73,15 @@ class EmployeeProfile extends React.Component {
 
 
   handleActive() {
-    const {orderId, orderStep, taskId } = this.state;
+    const { selectedQueueOrders } = this.state;
     const check = 'active';
 
-    axios.put(`/api/employeeOrders`, {orderId, check, orderStep, taskId})
+    axios.put(`/api/employeeOrders`, {selectedQueueOrders, check})
       .then((r) => {
+        this.refs.queueTable.cleanSelected();
+        this.refs.queueTable.setState({
+          selectedRowKeys: []
+        });
 
         return axios.get(`/api/employeeOrders`)
           .then((res) => {
@@ -75,7 +89,8 @@ class EmployeeProfile extends React.Component {
               showModal: false,
               queueOrders: res.data[0],
               completeOrders: res.data[1],
-              activeOrders: res.data[2]
+              activeOrders: res.data[2],
+              selectedQueueOrders: [],
             });
           })
           .catch((err) => {
@@ -90,16 +105,23 @@ class EmployeeProfile extends React.Component {
 
   handleComplete() {
     const { orderId, orderStep } = this.state;
+    const { selectedActiveOrders } = this.state;
 
-    axios.post(`/api/employeeOrders/${orderId}/${orderStep}`)
+    axios.post('/api/employeeOrders/', {selectedActiveOrders})
       .then((r) => {
+        this.refs.activeTable.cleanSelected();
+        this.refs.activeTable.setState({
+          selectedRowKeys: []
+        });
+
         return axios.get(`/api/employeeOrders`)
           .then((res) => {
             this.setState({
               showModal: false,
               queueOrders: res.data[0],
               completeOrders: res.data[1],
-              activeOrders: res.data[2]
+              activeOrders: res.data[2],
+              selectedActiveOrders: []
             });
           })
           .catch((err) => {
@@ -136,15 +158,12 @@ class EmployeeProfile extends React.Component {
   }
 
 
-  openActive(oId, status, tId) {
+  openActive() {
     this.setState({
       showModal: true,
-      orderId: oId,
-      taskId: tId,
-      orderStep: status,
       modal: {
         title: 'Job:',
-        message: 'Do you accept this order?',
+        message: 'Do you accept the order(s)?',
         action: this.handleActive
       }
     });
@@ -163,23 +182,12 @@ class EmployeeProfile extends React.Component {
     });
   }
 
-  openComplete(id, step) {
-    let message;
-    if (step === 'Pick-up') {
-      message = 'Did you pick up customers laundry?';
-    } else if (step === 'Cleaning') {
-      message = 'Did you clean the customers laundry?';
-    } else if (step === 'Drop-off') {
-      message = 'Did you drop-off customers laundry?';
-    }
-
+  openComplete() {
     this.setState({
       showModal: true,
-      orderId: id,
-      orderStep: step,
       modal: {
         title: 'Job:',
-        message: message,
+        message: 'Did you complete the job(s)',
         action: this.handleComplete
       }
     });
@@ -190,17 +198,144 @@ class EmployeeProfile extends React.Component {
   }
 
 
-  cellButton(cell, row, enumObject, rowIndex) {
+
+  queueButtons() {
   	return (
-      <Button
-        bsStyle="success"
-        bsSize="xsmall"
-        onClick={() => this.openActive(row.id, row.step, row.task_id)}
-      >
-        <span className="glyphicon glyphicon-ok" aria-hidden="true"></span>
-      </Button>
+      <div>
+        <Button
+          bsStyle="success"
+          bsSize="xsmall"
+          onClick={() => this.openActive()}
+        >
+          <span className="glyphicon glyphicon-ok" aria-hidden="true"></span>
+          Accept
+        </Button>
+      </div>
     );
   }
+
+
+
+  activeButtons() {
+    return (
+      <div>
+        <Button
+          bsStyle="success"
+          bsSize="xsmall"
+          onClick={() => this.openComplete()}
+        >
+          <span className="glyphicon glyphicon-check" aria-hidden="true"></span>
+          Complete
+        </Button>
+        <Button
+          bsStyle="warning"
+          bsSize="xsmall"
+          // onClick={() => this.openStepBack('active')}
+        >
+          <span className="glyphicon glyphicon-backward" aria-hidden="true"></span>
+          Go Back
+        </Button>
+      </div>
+    );
+  }
+
+
+
+  onQueueRowSelect(row, isSelected, e) {
+    let arr = Object.assign([], this.state.selectedQueueOrders);
+
+    if (isSelected) {
+      arr.push(row);
+      this.setState({selectedQueueOrders: arr});
+    }
+    else {
+      for (let i = 0; i < arr.length; i++) {
+        if (arr[i].id === row.id) {
+          arr.splice(i, 1);
+        }
+      }
+
+      this.setState({ selectedQueueOrders: arr});
+    }
+  }
+
+
+
+  onQueueSelectAll(isSelected, rows) {
+    let arr = Object.assign([], this.state.selectedQueueOrders);
+
+    if (isSelected) {
+      for (let i = 0; i < rows.length; i++) {
+        arr.push(rows[i]);
+      }
+
+      this.setState({selectedQueueOrders: arr});
+    } else {
+      this.setState({selectedQueueOrders: []});
+    }
+  }
+
+
+  onActiveRowSelect(row, isSelected, e) {
+    let arr = Object.assign([], this.state.selectedActiveOrders);
+
+    if (isSelected) {
+      arr.push(row);
+      this.setState({selectedActiveOrders: arr});
+    }
+    else {
+      for (let i = 0; i < arr.length; i++) {
+        if (arr[i].id === row.id) {
+          arr.splice(i, 1);
+        }
+      }
+
+      this.setState({ selectedActiveOrders: arr});
+    }
+  }
+
+
+
+  onActiveSelectAll(isSelected, rows) {
+    let arr = Object.assign([], this.state.selectedActiveOrders);
+
+    if (isSelected) {
+      for (let i = 0; i < rows.length; i++) {
+        arr.push(rows[i]);
+      }
+
+      this.setState({selectedActiveOrders: arr});
+    } else {
+      this.setState({selectedActiveOrders: []});
+    }
+  }
+
+
+  customSearch = (props) => {
+    return (
+      <SearchField
+        className='my-custom-class'
+        defaultValue={ props.defaultSearch }
+        placeholder={ props.searchPlaceholder }/>
+    );
+  }
+
+
+
+  startDateFormatter(cell, row) {
+    const startDate = moment(row.created_at).format('L');
+    return startDate;
+  }
+
+
+
+  endDateFormatter(cell, row) {
+    const endDate = moment(row.created_at).format('L');
+    return endDate;
+  }
+
+
+
 
 
 
@@ -208,46 +343,53 @@ class EmployeeProfile extends React.Component {
   render() {
     const { firstName } = this.state;
 
-    const selectRowProp = {
-      mode: 'checkbox'
+    const queueOptions = {
+      insertBtn: this.queueButtons,
+      clearSearch: true,
+      searchField: this.customSearch
     };
 
-    // const data = [
-    //   {id: 1},
-    //   {id: 2},
-    //   {id: 3},
-    //   {id: 4},
-    //   {id: 5},
-    //   {id: 6},
-    //   {id: 7},
-    //   {id: 8},
-    //   {id: 9},
-    //   {id: 10},
-    //   {id: 11},
-    //   {id: 12},
-    //   {id: 13},
-    //   {id: 14},
-    //   {id: 15},
-    //   {id: 16},
-    //   {id: 17},
-    //   {id: 18},
-    //   {id: 19},
-    //   {id: 20},
-    //   {id: 21},
-    //   {id: 22},
-    //   {id: 23},
-    //   {id: 24},
-    //   {id: 25},
-    //   {id: 26},
-    //   {id: 27},
-    //   {id: 28},
-    //   {id: 29},
-    //   {id: 30}
-    // ];
-
-    const options = {
-      insertBtn: this.createCustomInsertButton
+    const activeOptions = {
+      insertBtn: this.activeButtons,
+      clearSearch: true,
+      searchField: this.customSearch
     };
+
+    const completeOptions = {
+      clearSearch: true,
+      searchField: this.customSearch
+    };
+
+    const selectQueueRow = {
+      mode: 'checkbox',
+      clickToSelect: true,
+      onSelect: this.onQueueRowSelect,
+      onSelectAll: this.onQueueSelectAll
+      // bgColor: function(row, isSelect) {
+      //   if (isSelect) {
+      //     if (row.step === 'Queue') {
+      //       return '#AED6F1';
+      //     } else if (row.step === 'Pick-up') {
+      //       return '#F9E79F';
+      //     } else if (row.step === 'Cleaning') {
+      //       return '#A3E4D7';
+      //     } else if (row.step === 'Drop-off') {
+      //       return '#ABEBC6';
+      //     }
+      //   }
+      //
+      //   return null;
+      // }
+    };
+
+    const selectActiveRow = {
+      mode: 'checkbox',
+      clickToSelect: true,
+      onSelect: this.onActiveRowSelect,
+      onSelectAll: this.onActiveSelectAll
+    };
+
+
 
     return (
       <div className="row employee-profile">
@@ -273,11 +415,7 @@ class EmployeeProfile extends React.Component {
             </div>
           </div>
 
-          <BootstrapTable data={ this.state.queueOrders } selectRow={ selectRowProp }>
-            <TableHeaderColumn dataField='id' isKey>Product ID</TableHeaderColumn>
-            <TableHeaderColumn dataField='name'>Product Name</TableHeaderColumn>
-            <TableHeaderColumn dataField='price'>Product Price</TableHeaderColumn>
-          </BootstrapTable>
+
 
 
           {/* JOBS TABLE */}
@@ -287,112 +425,58 @@ class EmployeeProfile extends React.Component {
                 <h2>Dashboard</h2>
               </div>
 
-              <Panel>
-                <BootstrapTable data={ this.state.queueOrders }>
+              {/* QUEUE TABLE */}
+              <Panel header="Laundry Queue" bsStyle="primary">
+                <BootstrapTable ref='queueTable' striped condensed
+                  options={ queueOptions }
+                  bordered={ false }
+                  data={ this.state.queueOrders }
+                  selectRow={ selectQueueRow }
+                  bodyContainerClass='table-body-container'
+                  pagination
+                  insertRow
+                  search
+                  cleanSelected
+                >
                   <TableHeaderColumn
-                    dataField='#'
+                    dataField='id'
                     isKey
-                    width='50'
-                  >id</TableHeaderColumn>
+                    width='50px'
+                  >#</TableHeaderColumn>
                   <TableHeaderColumn
                     dataField='created_at'
+                    dataFormat={ this.startDateFormatter }
+                    width='100px'
                   >Date</TableHeaderColumn>
                   <TableHeaderColumn
                     dataField='address'
                   >Address</TableHeaderColumn>
                   <TableHeaderColumn
                     dataField='status'
-                    width='60'
+                    width='60px'
                   >Status</TableHeaderColumn>
                   <TableHeaderColumn
                     dataField='step'
-                    width='60'
+                    width='60px'
                   >Step</TableHeaderColumn>
                   <TableHeaderColumn
                     dataField='clean'
-                    width='60'
+                    width='60px'
                   >Clean</TableHeaderColumn>
                   <TableHeaderColumn
                     dataField='fold'
-                    width='60'
+                    width='60px'
                   >Fold</TableHeaderColumn>
                   <TableHeaderColumn
                     dataField='amount'
-                    width='60'
+                    width='60px'
                   >Loads</TableHeaderColumn>
                   <TableHeaderColumn
                     dataField='instructions'
                   >Instructions</TableHeaderColumn>
-                  <TableHeaderColumn
-                    dataField='action'
-                    dataFormat={this.cellButton}
-                    width='60'
-                  >Action</TableHeaderColumn>
                 </BootstrapTable>
               </Panel>
 
-
-              <Panel header="Laundry Queue" bsStyle="primary">
-                {/* QUEUE TABLE */}
-
-                <table className="table table-striped">
-                  <thead className="text-center">
-                    <tr>
-                      <th>#</th>
-                      <th>Date</th>
-                      <th>Address</th>
-                      <th>Status</th>
-                      <th>Step</th>
-                      <th>Clean</th>
-                      <th>Fold</th>
-                      <th>Loads</th>
-                      <th>Instructions</th>
-                      <th>Action</th>
-                    </tr>
-                  </thead>
-
-                  <tbody>
-
-                    {this.state.queueOrders.map((q) => {
-                      const startDate = moment(q.created_at).format('L');
-                      let clean, fold;
-
-                      if (q.fold === true) {
-                        fold = 'true';
-                      } else {
-                        fold = 'false'
-                      }
-
-                      if (q.clean === true) {
-                        clean = 'true';
-                      } else {
-                        clean = 'false'
-                      }
-
-                      return <tr key={q.id}>
-                        <td>{q.id}</td>
-                        <td>{startDate}</td>
-                        <td>{q.address}</td>
-                        <td>{q.status}</td>
-                        <td>{q.step}</td>
-                        <td>{clean}</td>
-                        <td>{fold}</td>
-                        <td>{q.amount}</td>
-                        <td>{q.instructions}</td>
-                        <td className="text-center">
-                          <Button
-                            bsStyle="success"
-                            bsSize="xsmall"
-                            onClick={() => this.openActive(q.id, q.step, q.task_id)}
-                          >
-                            <span className="glyphicon glyphicon-ok" aria-hidden="true"></span>
-                          </Button>
-                        </td>
-                      </tr>
-                    })}
-                  </tbody>
-                </table>
-              </Panel>
 
 
 
@@ -405,102 +489,106 @@ class EmployeeProfile extends React.Component {
                 <Tabs activeKey={this.state.key} onSelect={this.handleSelect} id="controlled-tab-example">
                   <Tab eventKey={1} title="Active">
                     {/* ACTIVE ORDERS */}
-                    <Table striped bordered condensed hover>
-                      <thead className="text-center">
-                        <tr>
-                          <th>#</th>
-                          <th>Date</th>
-                          <th>Address</th>
-                          <th>Status</th>
-                          <th>Step</th>
-                          <th>Clean</th>
-                          <th>Fold</th>
-                          <th>Loads</th>
-                          <th>Instructions</th>
-                          <th>Action</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-
-                        {this.state.activeOrders.map((a) => {
-                          const startDate = moment(a.created_at).format('L');
-                          let clean, fold;
-
-                          if (a.fold === true) {
-                            fold = 'true';
-                          } else {
-                            fold = 'false'
-                          }
-
-                          if (a.clean === true) {
-                            clean = 'true';
-                          } else {
-                            clean = 'false'
-                          }
-
-                          return <tr key={a.id}>
-                            <td>{a.id}</td>
-                            <td>{startDate}</td>
-                            <td>{a.address}</td>
-                            <td>{a.status}</td>
-                            <td>{a.step}</td>
-                            <td>{clean}</td>
-                            <td>{fold}</td>
-                            <td>{a.amount}</td>
-                            <td>{a.instructions}</td>
-                            <td className="text-center">
-                              <Button
-                                bsStyle="success"
-                                bsSize="xsmall"
-                                onClick={() => this.openComplete(a.id, a.step)}
-                              >
-                                <span className="glyphicon glyphicon-check" aria-hidden="true"></span>
-                              </Button>
-                              <Button
-                                bsStyle="danger"
-                                bsSize="xsmall"
-                                onClick={() => this.openRemove(a.id, a.step)}
-                              >
-                                <span className="glyphicon glyphicon-remove" aria-hidden="true"></span>
-                              </Button>
-                            </td>
-                          </tr>
-                        })}
-                      </tbody>
-                    </Table>
+                    <BootstrapTable ref="activeTable" striped condensed
+                      options={ activeOptions }
+                      bordered={ false }
+                      data={ this.state.activeOrders }
+                      selectRow={ selectActiveRow }
+                      bodyContainerClass='table-body-container'
+                      pagination
+                      insertRow
+                      search
+                      cleanSelected
+                    >
+                      <TableHeaderColumn
+                        dataField='id'
+                        isKey
+                        width='50px'
+                      >#</TableHeaderColumn>
+                      <TableHeaderColumn
+                        dataField='created_at'
+                        dataFormat={ this.startDateFormatter }
+                        width='100px'
+                      >Date</TableHeaderColumn>
+                      <TableHeaderColumn
+                        dataField='address'
+                      >Address</TableHeaderColumn>
+                      <TableHeaderColumn
+                        dataField='status'
+                        width='60px'
+                      >Status</TableHeaderColumn>
+                      <TableHeaderColumn
+                        dataField='step'
+                        width='60px'
+                      >Step</TableHeaderColumn>
+                      <TableHeaderColumn
+                        dataField='clean'
+                        width='60px'
+                      >Clean</TableHeaderColumn>
+                      <TableHeaderColumn
+                        dataField='fold'
+                        width='60px'
+                      >Fold</TableHeaderColumn>
+                      <TableHeaderColumn
+                        dataField='amount'
+                        width='60px'
+                      >Loads</TableHeaderColumn>
+                      <TableHeaderColumn
+                        dataField='instructions'
+                      >Instructions</TableHeaderColumn>
+                    </BootstrapTable>
                   </Tab>
                   <Tab eventKey={2} title="Complete">
                     {/* COMPLETE TABLE */}
-                    <Table striped bordered condensed hover>
-                      <thead className="text-center">
-                        <tr>
-                          <th>#</th>
-                          <th>Date</th>
-                          <th>Address</th>
-                          <th>Status</th>
-                          <th>Payment</th>
-                          <th>Amount</th>
-                          <th>Completed</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-
-                        {this.state.completeOrders.map((c) => {
-                          const startDate = moment(c.created_at).format('L');
-                          const endDate = moment(c.updated_at).format('L');
-
-                          return <tr key={c.id}>
-                            <td>{c.id}</td>
-                            <td>{startDate}</td>
-                            <td>{c.address}</td>
-                            <td>{c.status}</td>
-                            <td>{c.type}</td>
-                            <td>{c.amount}</td>
-                            <td>{endDate}</td>
-                          </tr>
-                        })}
-                      </tbody>
-                    </Table>
+                    <BootstrapTable ref="completeTable" striped condensed
+                      options={ completeOptions }
+                      bordered={ false }
+                      data={ this.state.completeOrders }
+                      bodyContainerClass='table-body-container'
+                      pagination
+                      search
+                    >
+                      <TableHeaderColumn
+                        dataField='id'
+                        isKey
+                        width='50px'
+                      >#</TableHeaderColumn>
+                      <TableHeaderColumn
+                        dataField='created_at'
+                        dataFormat={ this.startDateFormatter }
+                        width='100px'
+                      >Date</TableHeaderColumn>
+                      <TableHeaderColumn
+                        dataField='address'
+                      >Address</TableHeaderColumn>
+                      <TableHeaderColumn
+                        dataField='status'
+                        width='60px'
+                      >Status</TableHeaderColumn>
+                      <TableHeaderColumn
+                        dataField='step'
+                        width='60px'
+                      >Step</TableHeaderColumn>
+                      <TableHeaderColumn
+                        dataField='clean'
+                        width='60px'
+                      >Clean</TableHeaderColumn>
+                      <TableHeaderColumn
+                        dataField='fold'
+                        width='60px'
+                      >Fold</TableHeaderColumn>
+                      <TableHeaderColumn
+                        dataField='amount'
+                        width='60px'
+                      >Loads</TableHeaderColumn>
+                      <TableHeaderColumn
+                        dataField='instructions'
+                      >Instructions</TableHeaderColumn>
+                      <TableHeaderColumn
+                        dataField='updated_at'
+                        dataFormat={ this.endDateFormatter }
+                      >Complete</TableHeaderColumn>
+                    </BootstrapTable>
                   </Tab>
                 </Tabs>
               </Panel>

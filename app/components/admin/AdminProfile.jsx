@@ -66,6 +66,7 @@ class AdminProfile extends React.Component {
     this.onCustomerSelectAll = this.onCustomerSelectAll.bind(this);
     this.startDateFormatter = this.startDateFormatter.bind(this);
     this.endDateFormatter = this.endDateFormatter.bind(this);
+    this.customSearch = this.customSearch.bind(this);
   }
 
 
@@ -115,6 +116,8 @@ class AdminProfile extends React.Component {
 
     axios.put('/api/admin', {selectedQueueOrders, check})
       .then((r) => {
+        this.refs.queueTable.cleanSelected();
+
         this.refs.queueTable.setState({
           selectedRowKeys: []
         });
@@ -149,6 +152,7 @@ class AdminProfile extends React.Component {
 
     axios.post('/api/admin', { selectedActiveOrders })
       .then((r) => {
+        this.refs.activeTable.cleanSelected();
         this.refs.activeTable.setState({
           selectedRowKeys: []
         });
@@ -191,14 +195,17 @@ class AdminProfile extends React.Component {
     axios.put('/api/adminDeleteOrder', {selectedOrders})
       .then((r) => {
         if (table === 'queue') {
+          this.refs.queueTable.cleanSelected();
           this.refs.queueTable.setState({
             selectedRowKeys: []
           });
         } else if (table === 'active') {
+          this.refs.activeTable.cleanSelected();
           this.refs.activeTable.setState({
             selectedRowKeys: []
           });
         } else if (table === 'complete') {
+          this.refs.completeTable.cleanSelected();
           this.refs.completeTable.setState({
             selectedRowKeys: []
           });
@@ -243,10 +250,12 @@ class AdminProfile extends React.Component {
     axios.put('/api/adminRemoveOrder', { selectedOrders })
       .then((r) => {
         if (table === 'queue') {
+          this.refs.queueTable.cleanSelected();
           this.refs.queueTable.setState({
             selectedRowKeys: []
           });
         } else if (table === 'active') {
+          this.refs.activeTable.cleanSelected();
           this.refs.activeTable.setState({
             selectedRowKeys: []
           });
@@ -289,10 +298,12 @@ class AdminProfile extends React.Component {
     axios.put('/api/adminDeleteUser', {selectedUsers})
       .then(() => {
         if (table === 'employee') {
+          this.refs.employeeTable.cleanSelected();
           this.refs.employeeTable.setState({
             selectedRowKeys: []
           });
         } else if (table === 'customer') {
+          this.refs.customerTable.cleanSelected();
           this.refs.customerTable.setState({
             selectedRowKeys: []
           });
@@ -329,6 +340,7 @@ class AdminProfile extends React.Component {
 
     axios.put('/api/users', {selectedCustomers})
       .then((res) => {
+        this.refs.customerTable.cleanSelected();
         this.refs.customerTable.setState({
           selectedRowKeys: []
         });
@@ -458,35 +470,6 @@ class AdminProfile extends React.Component {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
   queueButtons() {
   	return (
       <div>
@@ -517,7 +500,6 @@ class AdminProfile extends React.Component {
       </div>
     );
   }
-
 
 
 
@@ -610,31 +592,6 @@ class AdminProfile extends React.Component {
       </div>
     );
   }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -747,17 +704,6 @@ class AdminProfile extends React.Component {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
   onEmployeeRowSelect(row, isSelected, e) {
     let arr = Object.assign([], this.state.selectedEmployees);
 
@@ -775,17 +721,6 @@ class AdminProfile extends React.Component {
       this.setState({ selectedEmployees: arr});
     }
   }
-
-
-
-
-
-
-
-
-
-
-
 
 
   onEmployeeSelectAll(isSelected, rows) {
@@ -838,20 +773,14 @@ class AdminProfile extends React.Component {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+  customSearch = (props) => {
+    return (
+      <SearchField
+        className='my-custom-class'
+        defaultValue={ props.defaultSearch }
+        placeholder={ props.searchPlaceholder }/>
+    );
+  }
 
 
 
@@ -868,26 +797,50 @@ class AdminProfile extends React.Component {
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   // ***************************  RENDER  ******************************
   render() {
     const queueOptions = {
-      insertBtn: this.queueButtons
+      insertBtn: this.queueButtons,
+      clearSearch: true,
+      searchField: this.customSearch
     };
 
     const activeOptions = {
-      insertBtn: this.activeButtons
+      insertBtn: this.activeButtons,
+      clearSearch: true,
+      searchField: this.customSearch
     };
 
     const completeOptions = {
-      insertBtn: this.completeButtons
+      insertBtn: this.completeButtons,
+      clearSearch: true,
+      searchField: this.customSearch
     };
 
     const employeeOptions = {
-      insertBtn: this.employeeButtons
+      insertBtn: this.employeeButtons,
+      clearSearch: true,
+      searchField: this.customSearch
     };
 
     const customerOptions = {
-      insertBtn: this.customerButtons
+      insertBtn: this.customerButtons,
+      clearSearch: true,
+      searchField: this.customSearch
     };
 
     const selectQueueRow = {
@@ -895,6 +848,21 @@ class AdminProfile extends React.Component {
       clickToSelect: true,
       onSelect: this.onQueueRowSelect,
       onSelectAll: this.onQueueSelectAll
+      // bgColor: function(row, isSelect) {
+      //   if (isSelect) {
+      //     if (row.step === 'Queue') {
+      //       return '#AED6F1';
+      //     } else if (row.step === 'Pick-up') {
+      //       return '#F9E79F';
+      //     } else if (row.step === 'Cleaning') {
+      //       return '#A3E4D7';
+      //     } else if (row.step === 'Drop-off') {
+      //       return '#ABEBC6';
+      //     }
+      //   }
+      //
+      //   return null;
+      // }
     };
 
     const selectActiveRow = {
@@ -954,7 +922,7 @@ class AdminProfile extends React.Component {
           <div className="row">
             <div className="col-sm-10 col-sm-offset-1">
 
-              {/* ALL USERS TABLE */}
+              {/* ALL TABLE */}
               <div className="page-header text-center">
                 <h1>Dashboard</h1>
               </div>
@@ -970,6 +938,8 @@ class AdminProfile extends React.Component {
                   bodyContainerClass='table-body-container'
                   pagination
                   insertRow
+                  search
+                  cleanSelected
                 >
                   <TableHeaderColumn
                     dataField='id'
@@ -1025,6 +995,8 @@ class AdminProfile extends React.Component {
                       bodyContainerClass='table-body-container'
                       pagination
                       insertRow
+                      search
+                      cleanSelected
                     >
                       <TableHeaderColumn
                         dataField='id'
@@ -1075,6 +1047,8 @@ class AdminProfile extends React.Component {
                       bodyContainerClass='table-body-container'
                       pagination
                       insertRow
+                      search
+                      cleanSelected
                     >
                       <TableHeaderColumn
                         dataField='id'
@@ -1122,6 +1096,20 @@ class AdminProfile extends React.Component {
               </Panel>
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
               {/* USERS */}
               <Panel header="Users" bsStyle="primary">
                 <Tabs activeKey={this.state.key} onSelect={this.handleSelect} id="controlled-tab-example">
@@ -1137,6 +1125,8 @@ class AdminProfile extends React.Component {
                       bodyContainerClass='table-body-container'
                       pagination
                       insertRow
+                      search
+                      cleanSelected
                     >
                       <TableHeaderColumn
                         dataField='id'
@@ -1168,19 +1158,6 @@ class AdminProfile extends React.Component {
                   <Tab eventKey={2} title="Customers">
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
                     {/* CUSTOMERS TABLE */}
                     <BootstrapTable ref="customerTable" striped condensed
                       options={ customerOptions }
@@ -1191,6 +1168,8 @@ class AdminProfile extends React.Component {
                       bodyContainerClass='table-body-container'
                       pagination
                       insertRow
+                      search
+                      cleanSelected
                     >
                       <TableHeaderColumn
                         dataField='id'

@@ -147,8 +147,6 @@ router.post('/admin', checkAuth, (req, res, next) => {
   const { selectedActiveOrders } = req.body;
   let stepName;
 
-  console.log(selectedActiveOrders, '********** selected');
-
   if (access === 'admin') {
 
     for (let i = 0; i < selectedActiveOrders.length; i++) {
