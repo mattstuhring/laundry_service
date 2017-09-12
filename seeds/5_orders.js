@@ -16,6 +16,20 @@ exports.seed = function(knex) {
         task_id: 1,
         created_at: new Date('2017-08-15 12:12:16 UTC'),
         updated_at: new Date('2017-08-15 12:12:16 UTC')
+      },
+      {
+        id: 2,
+        address: '22309 Old Poplar Way, Brier, WA 98036',
+        status: 'Queue',
+        step: 'Queue',
+        instructions: 'Text me when you get here.',
+        customer_id: 3,
+        employee_id: 2,
+        payment_id: 2,
+        setting_id: 2,
+        task_id: 2,
+        created_at: new Date('2017-08-16 12:12:16 UTC'),
+        updated_at: new Date('2017-08-16 12:12:16 UTC')
       }])
     )
     .then(() => knex.raw(
@@ -25,20 +39,6 @@ exports.seed = function(knex) {
 };
 
 // ,
-// {
-//   id: 2,
-//   address: '22309 Old Poplar Way, Brier, WA 98036',
-//   status: 'Queue',
-//   step: 'Queue',
-//   instructions: 'Text me when you get here.',
-//   customer_id: 3,
-//   employee_id: 2,
-//   payment_id: 2,
-//   setting_id: 2,
-//   task_id: 2,
-//   created_at: new Date('2017-08-16 12:12:16 UTC'),
-//   updated_at: new Date('2017-08-16 12:12:16 UTC')
-// },
 // {
 //   id: 3,
 //   address: '22309 Old Poplar Way, Brier, WA 98036',

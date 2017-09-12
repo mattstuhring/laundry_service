@@ -79,20 +79,25 @@ router.post('/users', (req, res, next) => {
 // UPDATE USER TO EMPLOYEE ACCESS
 router.put('/users', checkAuth, (req, res, next) => {
   const { access } = req.token;
-  const { userId } = req.body;
+  const { selectedCustomers } = req.body;
 
   if (access === 'admin') {
-    knex('users')
-      .where('id', userId)
-      .update({
-        access: 'employee'
-      })
-      .then(() => {
-        res.sendStatus(200);
-      })
-      .catch((err) => {
-        next(err);
-      });
+
+    for (let i = 0; i < selectedCustomers.length; i++) {
+      knex('users')
+        .where('id', selectedCustomers[i].id)
+        .update({
+          access: 'employee'
+        })
+        .then((r) => {
+          console.log(r);
+        })
+        .catch((err) => {
+          next(err);
+        });
+    }
+
+    res.sendStatus(200);
   }
   else {
     res.sendStatus(401);
@@ -100,30 +105,5 @@ router.put('/users', checkAuth, (req, res, next) => {
 
 });
 
-
-
-
-// DELETE USER BY ID
-router.delete('/users/:removeUserId', checkAuth, (req, res, next) => {
-  const { userId, access } = req.token;
-  const { removeUserId } = req.params;
-
-  if (access === 'admin') {
-    knex('users')
-      .where('id', removeUserId)
-      .update({
-        access: ''
-      })
-      .then(() => {
-        res.sendStatus(200);
-      })
-      .catch((err) => {
-        next(err);
-      });
-  }
-  else {
-    res.sendStatus(401);
-  }
-});
 
 module.exports = router;
