@@ -76,9 +76,10 @@ export default class Navigation extends React.Component {
 
 
   render() {
+    let profile;
     const loggedIn = () => {
       if (document.cookie) {
-        let profile;
+
 
         if (document.cookie) {
           const cookie = document.cookie.split(';');
@@ -94,28 +95,47 @@ export default class Navigation extends React.Component {
           } else {
             profile = '/';
           }
+
         }
 
         return (
-          <ul className="nav navbar-nav navbar-right">
-            <li>
-              <Link to={profile} activeClassName="active-link">PROFILE</Link>
-            </li>
-            <li>
-              <a href="#" onClick={() => {this.handleLogOut()}}>LOG OUT</a>
-            </li>
-            <li>
-              <Link to="/" activeClassName="active-link"><span className="glyphicon glyphicon-cog" aria-hidden="true"></span></Link>
-            </li>
-          </ul>
+          <div>
+            <div className="navbar-header">
+              <div className="navbar-brand" href="#">
+                <Link to={profile}>
+                  <img alt="Laundry" src="images/machine.svg"/>
+                </Link>
+              </div>
+              <button type="button" className="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse-1" aria-expanded="false">
+                <span className="sr-only">Toggle navigation</span>
+                <span className="icon-bar"></span>
+                <span className="icon-bar"></span>
+                <span className="icon-bar"></span>
+              </button>
+            </div>
+
+            <div className="collapse navbar-collapse" id="navbar-collapse-1">
+              <ul className="nav navbar-nav navbar-right">
+                <li>
+                  <Link to={profile} activeClassName="active-link">PROFILE</Link>
+                </li>
+                <li>
+                  <a href="#" onClick={() => {this.handleLogOut()}}>LOG OUT</a>
+                </li>
+                <li>
+                  <IndexLink to="/faq" activeClassName="active-link">FAQ</IndexLink>
+                </li>
+                <li>
+                  <Link to="/settings" activeClassName="active-link"><span className="glyphicon glyphicon-cog" aria-hidden="true"></span></Link>
+                </li>
+              </ul>
+            </div>
+          </div>
         );
       }
-    }
-
-    return (
-      <div className="top-nav">
-        <nav className="navbar navbar-default navbar-fixed-top">
-          <div className="container-fluid">
+      else {
+        return (
+          <div>
             <div className="navbar-header">
               <div className="navbar-brand" href="#">
                 <Link to="/">
@@ -131,15 +151,26 @@ export default class Navigation extends React.Component {
             </div>
 
             <div className="collapse navbar-collapse" id="navbar-collapse-1">
-              <ul className="nav navbar-nav">
+              <ul className="nav navbar-nav navbar-right">
                 <li>
-                  <IndexLink to="/" activeClassName="active-link"></IndexLink>
+                  <IndexLink to="/faq" activeClassName="active-link">FAQ</IndexLink>
                 </li>
               </ul>
+            </div>
+          </div>
+        );
+      }
+    }
 
+    return (
+      <div className="top-nav">
+        <nav className="navbar navbar-default navbar-fixed-top">
+          <div className="container-fluid">
+
+
+                {/* NAV ACTION BTNS */}
                 {loggedIn()}
 
-            </div>
           </div>
         </nav>
       </div>

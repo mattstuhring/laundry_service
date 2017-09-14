@@ -38,8 +38,7 @@ export class Main extends React.Component {
             {/* HEADER */}
             <div className="col-sm-12">
               <div className="page-header main-header text-center">
-                {/* <img alt="Laundry Service" src="images/title.svg"/> */}
-                <h1>LAUNDRY SERVICE</h1>
+                <h1>Laundry Service</h1>
               </div>
             </div>
           </div>

@@ -1,16 +1,19 @@
+html {
+  height: 100%;
+}
+
+body {
+  min-height: 100%;
+  font-family: 'Raleway', sans-serif;
+  padding-top: 60px;
+}
+
 .main {
 
   .main-header {
-    margin-top: 8%;
-    margin-bottom: 25px;
-
+    
     h1 {
-      font-size: 6vw;
-      font-family: 'Graduate', cursive;
-    }
-
-    img {
-      width: 80%;
+      font-size: 5vw;
     }
   }
 

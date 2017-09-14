@@ -1,16 +1,24 @@
 .customer-profile {
+  background-image: url('/images/bubbles.jpg');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 765px;
+
+  .panel-primary {
+    margin-top: 55px;
+  }
 
   h3.panel-title {
-    font-family: 'Nothing You Could Do', cursive;
     font-size: 4vw;
     text-align: center;
   }
 
-  .panel.panel-body {
-    font-family: 'Raleway', sans-serif;
+  .panel-body {
+    margin-top: 20px;
 
-    .tab-content {
-      padding: 35px 0px;
+    .breadcrumb {
+      margin-top: 20px;
     }
 
     .click-input {
@@ -48,5 +56,9 @@
 
       }
     }
+  }
+
+  .react-bs-table-container {
+    margin-top: 20px;
   }
 }

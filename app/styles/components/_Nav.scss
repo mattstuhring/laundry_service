@@ -15,7 +15,7 @@
   }
 
   .navbar-nav > li > a {
-    color: blue;
+    color: white;
     @include transition(color 0.75s ease);
     &:hover, &:focus {
       color: cyan;

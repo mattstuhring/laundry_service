@@ -468,6 +468,9 @@ class CustomerProfile extends React.Component {
     );
 
 
+
+
+
     return (
       <div className="row customer-profile">
         <div className="col-sm-12">
@@ -491,25 +494,20 @@ class CustomerProfile extends React.Component {
                   {/* NEW LAUNDRY ORDER FORM */}
                   <Tab eventKey={1} title="Schedule Pick-up">
                     <div className="row">
-                      <div className="col-sm-12">
+                      <div className="col-sm-10 col-sm-offset-1">
+                        <Breadcrumb>
+                          <Breadcrumb.Item href="#" onClick={() => {this.handleSelectKey(1)}} active={this.state.activeServices}>
+                            Services
+                          </Breadcrumb.Item>
+                          <Breadcrumb.Item href="#" onClick={() => {this.handleSelectKey(2)}} active={this.state.activeInfo}>
+                            Info
+                          </Breadcrumb.Item>
+                          <Breadcrumb.Item href="#" onClick={() => {this.handleSelectKey(3)}} active={this.state.activePayment}>
+                            Payment
+                          </Breadcrumb.Item>
+                        </Breadcrumb>
 
-                        <div className="row">
-                          <div className="col-sm-10 col-sm-offset-1">
-                            <Breadcrumb>
-                              <Breadcrumb.Item href="#" onClick={() => {this.handleSelectKey(1)}} active={this.state.activeServices}>
-                                Services
-                              </Breadcrumb.Item>
-                              <Breadcrumb.Item href="#" onClick={() => {this.handleSelectKey(2)}} active={this.state.activeInfo}>
-                                Info
-                              </Breadcrumb.Item>
-                              <Breadcrumb.Item href="#" onClick={() => {this.handleSelectKey(3)}} active={this.state.activePayment}>
-                                Payment
-                              </Breadcrumb.Item>
-                            </Breadcrumb>
-
-                            {form()}
-                          </div>
-                        </div>
+                        {form()}
                       </div>
                     </div>
                   </Tab>
@@ -517,55 +515,56 @@ class CustomerProfile extends React.Component {
 
                   {/* PROGRESS BAR */}
                   <Tab eventKey={2} title="Order Status">
+                    <div className="row">
+                      <div className="col-sm-10 col-sm-offset-1">
+                        {/* SUCCESS PAYMENT ALERT */}
+                        {alert()}
 
-                    {/* SUCCESS PAYMENT ALERT */}
-                    {alert()}
+                        {this.state.queueOrders.map((q) => {
+                          const startDate = moment(q.created_at).format('L');
+                          let step;
 
-                    {this.state.queueOrders.map((q) => {
-                      const startDate = moment(q.created_at).format('L');
-                      let step;
+                          if (q.step === 'Queue') {
+                            step = <ProgressBar striped active active bsStyle="info" now={10} key={1} label={'Queue'} />;
+                          } else if (q.step === 'Pick-up') {
+                            step = <ProgressBar><ProgressBar striped active  active bsStyle="info" now={10} key={1} label={'Queue'} /><ProgressBar striped active bsStyle="success" now={30} key={2} label={'Pick-up'}/></ProgressBar>;
+                          } else if (q.step === 'Cleaning') {
+                            step = <ProgressBar><ProgressBar striped active  active bsStyle="info" now={10} key={1} label={'Queue'} />
+                            <ProgressBar striped active bsStyle="success" now={30} key={2} label={'Pick-up'}/>
+                            <ProgressBar striped active  bsStyle="warning" now={30} key={3} label={'Cleaning'}/></ProgressBar>;
+                          } else if (q.step === 'Drop-off') {
+                            step = <ProgressBar><ProgressBar striped active  active bsStyle="info" now={10} key={1} label={'Queue'} />
+                            <ProgressBar striped active bsStyle="success" now={30} key={2} label={'Pick-up'}/>
+                            <ProgressBar striped active  bsStyle="warning" now={30} key={3} label={'Cleaning'}/>
+                            <ProgressBar striped active  active bsStyle="danger" now={30} key={4} label={'Drop-off'} /></ProgressBar>;
+                          }
 
-                      if (q.step === 'Queue') {
-                        step = <ProgressBar striped active active bsStyle="info" now={10} key={1} label={'Queue'} />;
-                      } else if (q.step === 'Pick-up') {
-                        step = <ProgressBar><ProgressBar striped active  active bsStyle="info" now={10} key={1} label={'Queue'} /><ProgressBar striped active bsStyle="success" now={30} key={2} label={'Pick-up'}/></ProgressBar>;
-                      } else if (q.step === 'Cleaning') {
-                        step = <ProgressBar><ProgressBar striped active  active bsStyle="info" now={10} key={1} label={'Queue'} />
-                        <ProgressBar striped active bsStyle="success" now={30} key={2} label={'Pick-up'}/>
-                        <ProgressBar striped active  bsStyle="warning" now={30} key={3} label={'Cleaning'}/></ProgressBar>;
-                      } else if (q.step === 'Drop-off') {
-                        step = <ProgressBar><ProgressBar striped active  active bsStyle="info" now={10} key={1} label={'Queue'} />
-                        <ProgressBar striped active bsStyle="success" now={30} key={2} label={'Pick-up'}/>
-                        <ProgressBar striped active  bsStyle="warning" now={30} key={3} label={'Cleaning'}/>
-                        <ProgressBar striped active  active bsStyle="danger" now={30} key={4} label={'Drop-off'} /></ProgressBar>;
-                      }
+                          return <div key={q.id}>
+                            <div className="page-header">
+                              <p>{'#' + q.id + ' ' + startDate}</p>
+                            </div>
 
-                      return <div key={q.id}>
-                        <div className="page-header">
-                          <p>{'#' + q.id + ' ' + startDate}</p>
-                        </div>
+                            {/* PROGRESS BAR */}
+                            <div>
+                              { step }
+                            </div>
 
-                        {/* PROGRESS BAR */}
-                        <div>
-                          { step }
-                        </div>
+                            {/* <Button
+                              bsStyle="link"
+                              onClick={() => this.openRemove(q.id)}
+                            >
+                              Cancel
+                            </Button> */}
 
-                        {/* <Button
-                          bsStyle="link"
-                          onClick={() => this.openRemove(q.id)}
-                        >
-                          Cancel
-                        </Button> */}
-
+                          </div>
+                        })}
                       </div>
-                    })}
+                    </div>
                   </Tab>
 
-                  <Tab eventKey={3} title="Complete">
+                  <Tab eventKey={3} title="Completed Orders">
                     <div className="row">
                       <div className="col-sm-12">
-                        <h4>Completed:</h4>
-
 
                         {/* COMPLETE TABLE */}
                         <BootstrapTable ref="completeTable" striped condensed

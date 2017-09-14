@@ -31,6 +31,7 @@ module.exports = {
       EmployeeLogin: 'app/components/employee/EmployeeLogin.jsx',
       EmployeeProfile: 'app/components/employee/EmployeeProfile.jsx',
       Failure: 'app/components/payment/Failure.jsx',
+      Faq: 'app/components/Faq.jsx',
       ForgotPassword: 'app/components/password/ForgotPassword.jsx',
       Home: 'app/components/Home.jsx',
       Login: 'app/components/Login.jsx',
