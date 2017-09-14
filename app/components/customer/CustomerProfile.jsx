@@ -219,6 +219,29 @@ class CustomerProfile extends React.Component {
   }
 
 
+  customSearch = (props) => {
+    return (
+      <SearchField
+        className='my-custom-class'
+        defaultValue={ props.defaultSearch }
+        placeholder={ props.searchPlaceholder }/>
+    );
+  }
+
+
+  startDateFormatter(cell, row) {
+    const startDate = moment(row.created_at).format('L');
+    return startDate;
+  }
+
+
+
+  endDateFormatter(cell, row) {
+    const endDate = moment(row.created_at).format('L');
+    return endDate;
+  }
+
+
 
   // ***************************  RENDER  ***************************
   render() {
@@ -440,6 +463,10 @@ class CustomerProfile extends React.Component {
       }
     };
 
+    const dashboard = (
+      <h3>Welcome, <small>{firstName}</small></h3>
+    );
+
 
     return (
       <div className="row customer-profile">
@@ -456,17 +483,8 @@ class CustomerProfile extends React.Component {
 
           <div className="row">
             <div className="col-sm-8 col-sm-offset-2">
-              <div className="row">
-                <div className="col-sm-12">
 
-                  {/* WELCOME HEADER */}
-                  <div className="page-header">
-                    <h2>Welcome, <small>{firstName}</small>!</h2>
-                  </div>
-                </div>
-              </div>
-
-              <Panel>
+              <Panel header={dashboard} bsStyle="primary">
                 <Tabs activeKey={this.state.key} onSelect={this.handleSelect} id="controlled-tab-example">
 
 

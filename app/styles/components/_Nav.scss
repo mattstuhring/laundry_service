@@ -4,6 +4,11 @@
     z-index: 2 !important;
   }
 
+  .navbar-default {
+    background-color: #337ab7;
+    border-color: #2e6da4;
+  }
+
   .navbar-nav > li > a.active-link {
     color: cyan;
     font-weight: bold;
@@ -21,5 +26,16 @@
 
   .navbar-nav.navbar-right {
     margin-right: 30px;
+  }
+
+  .navbar-brand img {
+    width: 43px;
+    position: relative;
+    top: -11px;
+    @include transition(color 0.75s ease);
+    &:hover, &:focus {
+      text-decoration: none;
+      border-color: #286192;
+    }
   }
 }

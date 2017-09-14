@@ -1,8 +1,7 @@
 import React from 'react';
-import { browserHistory } from 'react-router';
+import { Link, IndexLink, browserHistory } from 'react-router';
 import axios from 'axios';
 import $ from 'jQuery';
-import { Link, IndexLink } from 'react-router';
 import { Button } from 'react-bootstrap';
 
 // Show and hide menu bar
@@ -101,7 +100,6 @@ export default class Navigation extends React.Component {
           <ul className="nav navbar-nav navbar-right">
             <li>
               <Link to={profile} activeClassName="active-link">PROFILE</Link>
-              {/* <a href="#" onClick={() => {browserHistory.push('/customerProfile')}}>PROFILE</a> */}
             </li>
             <li>
               <a href="#" onClick={() => {this.handleLogOut()}}>LOG OUT</a>
@@ -117,8 +115,13 @@ export default class Navigation extends React.Component {
     return (
       <div className="top-nav">
         <nav className="navbar navbar-default navbar-fixed-top">
-          <div className="container">
+          <div className="container-fluid">
             <div className="navbar-header">
+              <div className="navbar-brand" href="#">
+                <Link to="/">
+                  <img alt="Laundry" src="images/machine.svg"/>
+                </Link>
+              </div>
               <button type="button" className="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse-1" aria-expanded="false">
                 <span className="sr-only">Toggle navigation</span>
                 <span className="icon-bar"></span>
@@ -130,7 +133,7 @@ export default class Navigation extends React.Component {
             <div className="collapse navbar-collapse" id="navbar-collapse-1">
               <ul className="nav navbar-nav">
                 <li>
-                  <IndexLink to="/" activeClassName="active-link">HOME</IndexLink>
+                  <IndexLink to="/" activeClassName="active-link"></IndexLink>
                 </li>
               </ul>
 

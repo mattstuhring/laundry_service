@@ -9,10 +9,17 @@
   .welcome {
     text-align: center;
     color: white;
-    margin-top: 23%;
+    margin-top: 20%;
+    font-family: 'Nothing You Could Do', cursive;
 
     h1 {
       padding-bottom: 20px;
+      font-size: 4vw;
+    }
+
+    .btn-lrg {
+      padding: 14px 20px;
+      font-size: 24px;
     }
   }
 }

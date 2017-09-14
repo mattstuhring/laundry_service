@@ -34,33 +34,35 @@ export class Main extends React.Component {
         <Navigation setToast={this.setToast}/>
 
         <div className="container">
-          <div className="panel panel-default main-overlay">
-            <div className="panel-body">
-
-              <div className="row">
-                {/* HEADER */}
-                <div className="col-sm-12">
-                  <div className="page-header main-header text-center">
-                    <h1>Laundry Service</h1>
-                  </div>
-                </div>
-              </div>
-
-
-              <div className="row">
-                {/* React router child components */}
-                <div className="col-sm-12">
-
-                  {React.cloneElement(this.props.children, {
-                    setToast: this.setToast
-                  })}
-
-                </div>
+          <div className="row main-header">
+            {/* HEADER */}
+            <div className="col-sm-12">
+              <div className="page-header main-header text-center">
+                {/* <img alt="Laundry Service" src="images/title.svg"/> */}
+                <h1>LAUNDRY SERVICE</h1>
               </div>
             </div>
           </div>
         </div>
 
+        <div className="container-fluid">
+          <div className="row">
+            {/* React router child components */}
+            <div className="col-sm-12">
+
+              {React.cloneElement(this.props.children, {
+                setToast: this.setToast
+              })}
+
+            </div>
+          </div>
+        </div>
+
+        {/* <nav className="navbar navbar-default navbar-fixed-bottom">
+          <div className="container">
+            ...
+          </div>
+        </nav> */}
       </div>
     );
   }

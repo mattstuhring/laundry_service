@@ -1,42 +1,52 @@
 .customer-profile {
 
-  .tab-content {
-    padding: 35px 0px;
+  h3.panel-title {
+    font-family: 'Nothing You Could Do', cursive;
+    font-size: 4vw;
+    text-align: center;
   }
 
-  .click-input {
-    margin-right: 15px;
-  }
+  .panel.panel-body {
+    font-family: 'Raleway', sans-serif;
 
-  .home-btn {
-    margin-bottom: 35px;
-  }
-
-  .send-btn {
-    margin-bottom: 10px;
-  }
-
-  .panel-body {
-    padding: 15px 20px;
-  }
-
-  .payment {
-
-    li {
-      padding: 15px 0px;
+    .tab-content {
+      padding: 35px 0px;
     }
-  }
 
-  button.StripeCheckout {
-    background: transparent !important;
-    box-shadow: none !important;
+    .click-input {
+      margin-right: 15px;
+    }
 
-    span {
-      background-image: none !important;
-      color: blue !important;
-      height: 15px !important;
-      line-height: 15px !important;
+    .home-btn {
+      margin-bottom: 35px;
+    }
 
+    .send-btn {
+      margin-bottom: 10px;
+    }
+
+    .panel-body {
+      padding: 15px 20px;
+    }
+
+    .payment {
+
+      li {
+        padding: 15px 0px;
+      }
+    }
+
+    button.StripeCheckout {
+      background: transparent !important;
+      box-shadow: none !important;
+
+      span {
+        background-image: none !important;
+        color: blue !important;
+        height: 15px !important;
+        line-height: 15px !important;
+
+      }
     }
   }
 }

@@ -1,8 +1,17 @@
 .main {
 
-  .panel.panel-default.main-overlay {
-    margin-top: 80px;
-    min-height: 700px;
+  .main-header {
+    margin-top: 8%;
+    margin-bottom: 25px;
+
+    h1 {
+      font-size: 6vw;
+      font-family: 'Graduate', cursive;
+    }
+
+    img {
+      width: 80%;
+    }
   }
 
   .toast {

@@ -117,18 +117,19 @@ export class Login extends React.Component {
     }
   }
 
+
+
+  // ****************************  RENDER  *********************************
   render() {
+    const dashboard = (
+      <h3>Member Login</h3>
+    );
+
     return (
         <div className="row user-login">
           <div className="col-sm-6 col-sm-offset-3">
 
-            <Panel>
-              <div className="row">
-                <div className="col-sm-12 text-center">
-                  <PageHeader>Login</PageHeader>
-                </div>
-              </div>
-
+            <Panel header={dashboard} bsStyle="primary">
               {/* LOGIN */}
               <Tabs defaultActiveKey={1} activeKey={this.state.key} onSelect={this.handleSelect} id="loginTabs">
                 <Tab eventKey={1} title="Log In">
