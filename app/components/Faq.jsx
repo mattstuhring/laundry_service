@@ -4,40 +4,50 @@ import {Panel} from 'react-bootstrap';
 import { Link } from 'react-router';
 import $ from 'jQuery';
 
-$(document).ready(function() {
-	// Show or hide the sticky footer button
-	$(window).scroll(function() {
-		if ($(this).scrollTop() > 200) {
-			$('.go-top').fadeIn(200);
-		} else {
-			$('.go-top').fadeOut(200);
-		}
-	});
-
-	// Animate the scroll to top
-	$('.go-top').click(function(event) {
-		event.preventDefault();
-
-		$('html, body').animate({scrollTop: 0}, 300);
-	})
-});
-
-
-$(document).ready(function() {
-  $("li a").click(function(event) {
-
-    $('p').css({color: '#333'});
-
-    $('html, body').animate({
-      scrollTop: $( $(this).attr('href') ).offset().top
-    }, 500);
-
-    $( $(this).attr('href') + ' p:first' ).css({color: '#337ab7'});
-  });
-});
 
 
 export class Faq extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {};
+  }
+
+  componentDidMount() {
+    $(document).ready(function() {
+    	// Show or hide the sticky footer button
+    	$(window).scroll(function() {
+    		if ($(this).scrollTop() > 200) {
+    			$('.go-top').fadeIn(200);
+    		} else {
+    			$('.go-top').fadeOut(200);
+    		}
+    	});
+
+    	// Animate the scroll to top
+    	$('.go-top').click(function(event) {
+    		event.preventDefault();
+
+    		$('html, body').animate({scrollTop: 0}, 300);
+    	})
+    });
+
+
+    $(document).ready(function() {
+
+      $(".faq li a").click(function(event) {
+        event.preventDefault();
+
+        $('.faq p').css({color: '#333'});
+
+        $('html, body').animate({
+          scrollTop: $( $(this).attr('href') ).offset().top
+        }, 500);
+
+        $( '.faq ' + $(this).attr('href') + ' p:first' ).css({color: '#337ab7'});
+      });
+    });
+  }
 
   render() {
 
