@@ -20,6 +20,7 @@ router.get('/admin', checkAuth, (req, res, next) => {
       .where('status', 'Queue')
       .innerJoin('settings', 'orders.setting_id', 'settings.id')
       .innerJoin('tasks', 'orders.task_id', 'tasks.id')
+      .innerJoin('pickups', 'orders.pickup_id', 'pickups.id')
       .orderBy('orders.id', 'desc')
       .then((queue) => {
         let orders = [queue];
@@ -30,6 +31,7 @@ router.get('/admin', checkAuth, (req, res, next) => {
           .where('status', 'Complete')
           .innerJoin('settings', 'orders.setting_id', 'settings.id')
           .innerJoin('tasks', 'orders.task_id', 'tasks.id')
+          .innerJoin('pickups', 'orders.pickup_id', 'pickups.id')
           .orderBy('orders.id', 'desc')
           .then((complete) => {
             orders.push(complete);
@@ -40,6 +42,7 @@ router.get('/admin', checkAuth, (req, res, next) => {
               .innerJoin('payments', 'orders.payment_id', 'payments.id')
               .innerJoin('settings', 'orders.setting_id', 'settings.id')
               .innerJoin('tasks', 'orders.task_id', 'tasks.id')
+              .innerJoin('pickups', 'orders.pickup_id', 'pickups.id')
               .orderBy('orders.id', 'desc')
               .then((active) => {
                 orders.push(active);

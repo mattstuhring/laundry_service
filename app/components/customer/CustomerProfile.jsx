@@ -4,6 +4,7 @@ import { browserHistory, withRouter } from 'react-router';
 import { Button, FormGroup, FormControl, InputGroup, Panel, ControlLabel, Table, Tabs, Tab, ProgressBar, Checkbox, Radio, Breadcrumb, Alert, Pager, Form, Col } from 'react-bootstrap';
 import {BootstrapTable, TableHeaderColumn, InsertButton} from 'react-bootstrap-table';
 import moment from 'moment';
+import DatePicker from 'react-datepicker';
 import Popup from 'Popup';
 import StripeCheckout from 'react-stripe-checkout';
 import STRIPE_PUBLISHABLE from '../constants/stripe';
@@ -16,14 +17,12 @@ class CustomerProfile extends React.Component {
 
     this.state = {
       orderId: null,
-      customer: {
-        customerId: null,
-        firstName: '',
-        lastName: '',
-        address: '',
-        email: '',
-        phoneNumber: '',
-      },
+      customerId: null,
+      customerFirstName: '',
+      customerLastName: '',
+      customerAddress: '',
+      customerEmail: '',
+      customerPhoneNumber: '',
       honeypot: '',
       queueOrders: [],
       completeOrders: [],
@@ -38,6 +37,9 @@ class CustomerProfile extends React.Component {
       orderLoads: null,
       orderContact: '',
       orderInstructions: '',
+      orderPickupDate: undefined,
+      orderPickupTime: '',
+      orderPaymentTotal: 0,
       key: 1,
       formKey: 1,
       activeServices: false,
@@ -52,6 +54,8 @@ class CustomerProfile extends React.Component {
     this.close = this.close.bind(this);
     this.openRemove = this.openRemove.bind(this);
     this.handleBoxChange = this.handleBoxChange.bind(this);
+    this.handleDateChange = this.handleDateChange.bind(this);
+    this.handleTimeChange = this.handleTimeChange.bind(this);
     this.handleAlertDismiss = this.handleAlertDismiss.bind(this);
     this.onToken = this.onToken.bind(this);
     this.startDateFormatter = this.startDateFormatter.bind(this);
@@ -61,20 +65,43 @@ class CustomerProfile extends React.Component {
   }
 
 
+  // HANDLE INPUT EVENT CHANGES
+  handleChange(event) {
+    this.setState({[event.target.name]: event.target.value});
+  }
+
+  handleDateChange(date) {
+    this.setState({ orderPickupDate: date });
+  }
+
+  handleTimeChange(event) {
+    let time = event.target.value
+    console.log(event.target.value, '************* time');
+    this.setState({ orderPickupTime: time });
+  }
+
+  handleSelect(key) {
+    this.setState({ key });
+  }
+
+  close() {
+    this.setState({ showModal: false });
+  }
+
+
+
   componentWillMount() {
     axios.get('/api/authCustomer')
       .then((res) => {
         const data = res.data[0];
 
         this.setState({
-          customer: {
-            customerId: data.id,
-            firstName: data.firstName,
-            lastName: data.lastName,
-            address: data.address,
-            email: data.email,
-            phoneNumber: data.phoneNumber
-          }
+          customerId: data.id,
+          customerFirstName: data.firstName,
+          customerLastName: data.lastName,
+          customerAddress: data.address,
+          customerEmail: data.email,
+          customerPhoneNumber: data.phoneNumber
         });
 
         return axios.get(`/api/customerOrders`)
@@ -120,15 +147,7 @@ class CustomerProfile extends React.Component {
   }
 
 
-  // HANDLE FORM INPUT EVENT CHANGES
-  handleChange(event) {
-    this.setState({[event.target.name]: event.target.value});
-  }
 
-
-  close() {
-    this.setState({ showModal: false });
-  }
 
 
   openRemove(id) {
@@ -141,11 +160,6 @@ class CustomerProfile extends React.Component {
         action: this.handleRemove
       }
     });
-  }
-
-
-  handleSelect(key) {
-    this.setState({key});
   }
 
 
@@ -162,24 +176,67 @@ class CustomerProfile extends React.Component {
   }
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   handleBoxChange(event) {
+    let servs = event.target.value.split(',');
+    let servName = servs[0];
+    let servAmount = parseInt(servs[1]);
     let {orderServices} = this.state;
     let arr = Object.assign([], this.state.orderServices);
 
+    this.setState({ orderPaymentTotal: this.state.orderPaymentTotal + servAmount})
+
+    // Remove uncheck box value
     if (orderServices.length > 0) {
       for (let i = 0; i < orderServices.length; i++) {
-        if (orderServices[i] === event.target.value) {
+        if (orderServices[i] === servName) {
           arr.splice(i, 1);
-          this.setState({orderServices: arr});
+          this.setState({orderServices: arr, orderPaymentTotal: this.state.orderPaymentTotal - servAmount});
 
           return;
         }
       }
     }
 
-    arr.push(event.target.value);
+    arr.push(servName);
     this.setState({orderServices: arr});
   }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -193,16 +250,20 @@ class CustomerProfile extends React.Component {
         amount: 1500
       })
       .then((res) => {
-        const { orderAddress, orderServices, orderLoads, orderContact, orderInstructions  } = this.state;
-        const newOrder = { orderAddress, orderServices, orderLoads, orderContact, orderInstructions };
+        const { customerAddress, orderServices, orderLoads, customerPhoneNumber, orderInstructions, orderPaymentTotal, orderPickupTime } = this.state;
 
-        axios.post('/api/customerOrders', {newOrder})
+        let orderPickupDate = this.state;
+        orderPickupDate = moment(orderPickupDate).format('L');
+
+        const newOrder = { customerAddress, orderServices, orderLoads, customerPhoneNumber, orderInstructions, orderPickupDate, orderPaymentTotal, orderPickupTime };
+
+        axios.post('/api/customerOrders', { newOrder })
           .then((res) => {
             const data = res.data;
             let q = Object.assign([], this.state.queueOrders);
             q.unshift(data);
 
-            this.setState({ queueOrders: q, showModal: false, orderAddress: '', orderServices: [], orderLoads: null, orderContact: '', orderInstructions: '', key: 2, formKey: 1, alertVisible: true });
+            this.setState({ queueOrders: q, showModal: false, customerAddress: '', orderServices: [], orderLoads: null, customerPhoneNumber: '', orderInstructions: '', orderPickupDate: undefined, orderPaymentTotal: null, orderPickupTime: '',key: 2, formKey: 1, alertVisible: true });
           })
           .catch((err) => {
             console.log(err);
@@ -213,6 +274,8 @@ class CustomerProfile extends React.Component {
         this.props.setToast('Payment declined. Please try again!', {type: 'error'});
       });
   }
+
+
 
   handleAlertDismiss() {
     this.setState({alertVisible: false});
@@ -245,12 +308,15 @@ class CustomerProfile extends React.Component {
 
   // ***************************  RENDER  ***************************
   render() {
+
+    console.log(this.state.orderPaymentTotal, '************** amount');
+
     const completeOptions = {
       clearSearch: true,
       searchField: this.customSearch
     };
 
-    const { firstName } = this.state.customer;
+    const { customerFirstName } = this.state;
 
     const form = () => {
       let {formKey} = this.state;
@@ -267,7 +333,7 @@ class CustomerProfile extends React.Component {
               <Col sm={9}>
                 <Checkbox
                   inline
-                  value={'clean'}
+                  value={['clean', 5]}
                   onChange={this.handleBoxChange.bind(this)}
                 >
                   Wash/Dry
@@ -275,7 +341,7 @@ class CustomerProfile extends React.Component {
                 {' '}
                 <Checkbox
                   inline
-                  value={'fold'}
+                  value={['fold', 5]}
                   onChange={this.handleBoxChange.bind(this)}
                 >
                   Fold
@@ -340,9 +406,11 @@ class CustomerProfile extends React.Component {
 
             {/* ACTION BTNS */}
             <div className="row">
-              <Pager>
-                <Pager.Item href="#" next onClick={() => this.handleSelectKey(2)}>Next &rarr;</Pager.Item>
-              </Pager>
+              <div className="col-sm-12">
+                <Pager>
+                  <Pager.Item href="#" next onClick={() => this.handleSelectKey(2)}>Next &rarr;</Pager.Item>
+                </Pager>
+              </div>
             </div>
           </Form>
         </div>;
@@ -357,9 +425,9 @@ class CustomerProfile extends React.Component {
               <Col sm={9}>
                 <FormControl
                   type="text"
-                  placeholder="Enter laundry pick-up address."
-                  name="orderAddress"
-                  value={this.state.orderAddress}
+                  placeholder={this.state.customerAddress}
+                  name="customerAddress"
+                  value={this.state.customerAddress}
                   onChange={this.handleChange.bind(this)}
                 />
               </Col>
@@ -374,13 +442,114 @@ class CustomerProfile extends React.Component {
               <Col sm={9}>
                 <FormControl
                   type="text"
-                  placeholder="Number to be contacted at?"
-                  name="orderContact"
-                  value={this.state.orderContact}
+                  placeholder={this.state.customerPhoneNumber}
+                  name="customerPhoneNumber"
+                  value={this.state.customerPhoneNumber}
                   onChange={this.handleChange.bind(this)}
                 />
               </Col>
             </FormGroup>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            {/* DATE & TIME */}
+            <FormGroup>
+              <Col componentClass={ControlLabel} sm={3}>
+                <span className="date-time-label">Date/Time for Pick-up:</span>
+              </Col>
+              <Col sm={5}>
+
+
+                <DatePicker
+                  selected={this.state.orderPickupDate}
+                  onChange={this.handleDateChange}
+                  withPortal
+                  placeholderText="Please select date"
+                />
+
+
+              </Col>
+              <Col sm={3}>
+                <FormGroup controlId="formControlsSelect">
+                  <FormControl
+                    placeholder="Select time"
+                    componentClass="select"
+                    onChange={this.handleTimeChange}
+                    value={this.state.orderPickupTime}
+                  >
+                    <option>Select time</option>
+                    <option value="08:00 AM">08:00 AM</option>
+                    <option value="08:30 AM">08:30 AM</option>
+                    <option value="09:00 AM">09:00 AM</option>
+                    <option value="09:30 AM">09:30 AM</option>
+                    <option value="10:00 AM">10:00 AM</option>
+                    <option value="12:00 PM">12:00 PM</option>
+                    <option value="04:00 PM">04:00 PM</option>
+                    <option value="04:30 PM">04:30 PM</option>
+                    <option value="05:00 PM">05:00 PM</option>
+                  </FormControl>
+                </FormGroup>
+              </Col>
+            </FormGroup>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
             {/* SPAM PROTECTION */}
@@ -464,7 +633,7 @@ class CustomerProfile extends React.Component {
     };
 
     const dashboard = (
-      <h3>Welcome, <small>{firstName}</small></h3>
+      <h3>Welcome, <small>{customerFirstName}</small></h3>
     );
 
 
@@ -500,7 +669,7 @@ class CustomerProfile extends React.Component {
                             Services
                           </Breadcrumb.Item>
                           <Breadcrumb.Item href="#" onClick={() => {this.handleSelectKey(2)}} active={this.state.activeInfo}>
-                            Info
+                            Personal Info
                           </Breadcrumb.Item>
                           <Breadcrumb.Item href="#" onClick={() => {this.handleSelectKey(3)}} active={this.state.activePayment}>
                             Payment

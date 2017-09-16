@@ -20,6 +20,12 @@ require('style!css!react-toastify/dist/ReactToastify.min.css');
 // React Bootstrap Table
 require('style!css!react-bootstrap-table/dist/react-bootstrap-table-all.min.css');
 
+// React Date Picker
+require('style!css!react-datepicker/dist/react-datepicker.min.css');
+
+// React Day Picker
+require('style!css!react-day-picker/lib/style.css');
+
 // App SCSS
 require('style!css!sass!applicationStyles');
 

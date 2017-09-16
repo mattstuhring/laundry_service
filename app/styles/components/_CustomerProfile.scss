@@ -14,6 +14,11 @@
     text-align: center;
   }
 
+  .date-time-label {
+    position: relative;
+    bottom: 10px;
+  }
+
   .panel-body {
     margin-top: 20px;
 
@@ -35,6 +40,10 @@
 
     .panel-body {
       padding: 15px 20px;
+    }
+
+    .nav-tabs {
+      margin-bottom: 15px;
     }
 
     .payment {
@@ -60,5 +69,19 @@
 
   .react-bs-table-container {
     margin-top: 20px;
+  }
+
+  .react-datepicker {
+    font-size: 1.1rem;
+  }
+
+  .react-datepicker__input-container {
+    height: 34px;
+
+    input {
+      padding: 6px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
   }
 }

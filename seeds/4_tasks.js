@@ -5,17 +5,17 @@ exports.seed = function(knex) {
     .then(() => knex('tasks').insert([
       {
         id: 1,
-        pickup: 2,
-        wash_dry: 2,
-        dropoff: 2,
+        pickup: null,
+        wash_dry: null,
+        dropoff: null,
         created_at: new Date('2017-08-15 12:12:16 UTC'),
         updated_at: new Date('2017-08-15 12:12:16 UTC')
       },
       {
         id: 2,
-        pickup: 2,
-        wash_dry: 2,
-        dropoff: 2,
+        pickup: null,
+        wash_dry: null,
+        dropoff: null,
         created_at: new Date('2017-08-16 12:12:16 UTC'),
         updated_at: new Date('2017-08-16 12:12:16 UTC')
       }

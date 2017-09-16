@@ -20,6 +20,9 @@ router.get('/customerOrders', checkAuth, (req, res, next) => {
       .where('customer_id', userId)
       .where('status', 'Queue')
       .orWhere('status', 'Active')
+      .innerJoin('settings', 'orders.setting_id', 'settings.id')
+      .innerJoin('tasks', 'orders.task_id', 'tasks.id')
+      .innerJoin('pickups', 'orders.pickup_id', 'pickups.id')
       .orderBy('orders.id', 'desc')
       .then((queue) => {
         let orders = [queue];
@@ -29,6 +32,9 @@ router.get('/customerOrders', checkAuth, (req, res, next) => {
           .innerJoin('payments', 'orders.payment_id', 'payments.id')
           .where('customer_id', userId)
           .where('status', 'Complete')
+          .innerJoin('settings', 'orders.setting_id', 'settings.id')
+          .innerJoin('tasks', 'orders.task_id', 'tasks.id')
+          .innerJoin('pickups', 'orders.pickup_id', 'pickups.id')
           .orderBy('orders.id', 'desc')
           .then((complete) => {
             orders.push(complete);
@@ -51,7 +57,9 @@ router.get('/customerOrders', checkAuth, (req, res, next) => {
 // CREATE NEW ORDER
 router.post('/customerOrders', checkAuth, (req, res, next) => {
   const { userId, access } = req.token;
-  const { orderAddress, orderContact, orderInstructions } = req.body.newOrder;
+  const { customerAddress, customerPhoneNumber, orderInstructions, orderPickupDate, orderPaymentAmount, orderPickupTime } = req.body.newOrder;
+
+  console.log(orderPickupTime, '******************* time');
 
   let orderLoads = parseInt(req.body.newOrder.orderLoads);
   let { orderServices } = req.body.newOrder;
@@ -70,8 +78,8 @@ router.post('/customerOrders', checkAuth, (req, res, next) => {
   if (access === 'customer') {
     knex('payments')
       .insert({
-        type: '',
-        amount: null
+        type: 'Credit',
+        amount: orderPaymentAmount
       })
       .returning('id')
       .then((paymentId) => {
@@ -79,7 +87,7 @@ router.post('/customerOrders', checkAuth, (req, res, next) => {
 
         return knex('settings')
           .insert({
-            amount: parseInt(orderLoads),
+            amount: orderLoads,
             clean: clean,
             fold: fold
           })
@@ -97,25 +105,38 @@ router.post('/customerOrders', checkAuth, (req, res, next) => {
               .then((taskId) => {
                 arr.push(taskId)
 
-                return knex('orders')
+                return knex('pickups')
                   .insert({
-                    customer_id: parseInt(userId),
-                    payment_id: parseInt(arr[0][0]),
-                    setting_id: parseInt(arr[1][0]),
-                    address: orderAddress,
-                    instructions: orderInstructions,
-                    status: 'Queue',
-                    step: 'Queue',
-                    task_id: parseInt(arr[2][0])
+                    date: orderPickupDate,
+                    time: orderPickupTime,
                   })
                   .returning('id')
-                  .then((orderId) => {
-                    console.log(orderId, '********** order Id');
+                  .then((pickupId) => {
+                    arr.push(pickupId);
+
                     return knex('orders')
-                      .select('*')
-                      .where('id', parseInt(orderId[0]))
-                      .then((r) => {
-                        res.send(r[0]);
+                      .insert({
+                        customer_id: parseInt(userId),
+                        payment_id: parseInt(arr[0][0]),
+                        setting_id: parseInt(arr[1][0]),
+                        address: customerAddress,
+                        instructions: orderInstructions,
+                        status: 'Queue',
+                        step: 'Queue',
+                        task_id: parseInt(arr[2][0]),
+                        pickup_id: parseInt(arr[3][0])
+                      })
+                      .returning('id')
+                      .then((orderId) => {
+                        return knex('orders')
+                          .select('*')
+                          .where('id', parseInt(orderId[0]))
+                          .then((r) => {
+                            res.send(r[0]);
+                          })
+                          .catch((err) => {
+                            next(err);
+                          });
                       })
                       .catch((err) => {
                         next(err);
