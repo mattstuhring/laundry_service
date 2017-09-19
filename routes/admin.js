@@ -6,10 +6,12 @@ const bcrypt = require('bcrypt-as-promised');
 const boom = require('boom');
 const { camelizeKeys, decamelizeKeys } = require('humps');
 const { checkAuth } = require('./auth-middleware');
-
+const nodemailer = require('nodemailer');
+const smtpTransport = require('nodemailer-smtp-transport');
 const router = express.Router();
 
-// GET ALL EMPLOYEE ORDERS
+
+// GET ALL ORDERS -> queue, active, complete
 router.get('/admin', checkAuth, (req, res, next) => {
   const { userId, access } = req.token;
 
@@ -68,12 +70,7 @@ router.get('/admin', checkAuth, (req, res, next) => {
 
 
 
-
-
-
-
-
-
+// ACCEPTING A NEW ORDER -> Update orders status from QUEUE to ACTIVE
 router.put('/admin', checkAuth, (req, res, next) => {
   const { userId, access } = req.token;
   const { selectedQueueOrders, check } = req.body;
@@ -94,6 +91,10 @@ router.put('/admin', checkAuth, (req, res, next) => {
 
       if (selectedQueueOrders[i].step === 'Queue') {
         stepName = 'Pick-up';
+      } else if (selectedQueueOrders[i].step === 'Pick-up') {
+        stepName = 'Pick-up';
+      }else if (selectedQueueOrders[i].step === 'Cleaning') {
+        stepName = 'Cleaning';
       } else if (selectedQueueOrders[i].step === 'Drop-off') {
         stepName = 'Drop-off';
       }
@@ -143,8 +144,7 @@ router.put('/admin', checkAuth, (req, res, next) => {
 
 
 
-
-
+// COMPLETING AN ORDER -> Update orders status from ACTIVE to QUEUE
 router.post('/admin', checkAuth, (req, res, next) => {
   const { userId, access } = req.token;
   const { selectedActiveOrders } = req.body;
@@ -169,7 +169,30 @@ router.post('/admin', checkAuth, (req, res, next) => {
             status: 'Complete'
           })
           .then((result) => {
-            console.log(result);
+            var transporter = nodemailer.createTransport(smtpTransport({
+              service: 'Gmail',
+              auth: {
+                user: process.env.GMAIL_USER,
+                pass: process.env.GMAIL_PASSWORD
+              }
+            }));
+
+            let mailOptions = {
+               from: process.env.GMAIL_USER,
+               to: process.env.GMAIL_USER,
+               subject: 'Laundry Service - Completed Order',
+               text: `Completed order #: ${selectedActiveOrders[i].id}`
+            };
+
+            transporter.sendMail(mailOptions, (error, info) => {
+              if (error) {
+                console.log(error);
+                return;
+              }
+
+              console.log('Message %s sent: %s', info.messageId, info.response);
+              transporter.close();
+            });
           })
           .catch((err) => {
             next(err);
@@ -198,63 +221,5 @@ router.post('/admin', checkAuth, (req, res, next) => {
   }
 });
 
-
-
-
-
-
-
-
-router.delete('/admin/:orderId/:orderStep', checkAuth, (req, res, next) => {
-  const { userId, access } = req.token;
-  const { orderId, orderStep } = req.params;
-  let stepName;
-
-  if (access === 'admin') {
-
-    if (orderStep === 'Queue') {
-      stepName = 'Queue';
-    } else if (orderStep === 'Pick-up') {
-      stepName = 'Queue';
-    } else if (orderStep === 'Cleaning') {
-      stepName = 'Pick-up';
-    } else if (orderStep === 'Drop-off') {
-      stepName = 'Cleaning';
-    } else if (orderStep === 'Complete') {
-      stepName = 'Complete';
-    }
-
-    if (stepName === 'Complete') {
-      knex('orders')
-        .where('orders.id', orderId)
-        .update({
-          status: 'Complete'
-        })
-        .then((result) => {
-          res.sendStatus(200);
-        })
-        .catch((err) => {
-          next(err);
-        });
-    }
-    else {
-      knex('orders')
-        .where('orders.id', orderId)
-        .update({
-          status: 'Queue',
-          step: stepName
-        })
-        .then((result) => {
-          res.sendStatus(200);
-        })
-        .catch((err) => {
-          next(err);
-        });
-    }
-  }
-  else {
-    res.sendStatus(401);
-  }
-});
 
 module.exports = router;

@@ -34,12 +34,16 @@ class CustomerProfile extends React.Component {
       },
       orderAddress: '',
       orderServices: [],
-      orderLoads: null,
+      orderLoads: 1,
+      selectedLoadsOption: null,
+      selectedServiceClean: false,
+      selectedServiceFold: false,
       orderContact: '',
       orderInstructions: '',
       orderPickupDate: undefined,
       orderPickupTime: '',
-      orderPaymentTotal: 0,
+      orderTotalCost: 0,
+      orderServiceCost: 0,
       key: 1,
       formKey: 1,
       activeServices: false,
@@ -61,33 +65,8 @@ class CustomerProfile extends React.Component {
     this.startDateFormatter = this.startDateFormatter.bind(this);
     this.endDateFormatter = this.endDateFormatter.bind(this);
     this.customSearch = this.customSearch.bind(this);
-
+    this.handleTotalCost = this.handleTotalCost.bind(this);
   }
-
-
-  // HANDLE INPUT EVENT CHANGES
-  handleChange(event) {
-    this.setState({[event.target.name]: event.target.value});
-  }
-
-  handleDateChange(date) {
-    this.setState({ orderPickupDate: date });
-  }
-
-  handleTimeChange(event) {
-    let time = event.target.value
-    console.log(event.target.value, '************* time');
-    this.setState({ orderPickupTime: time });
-  }
-
-  handleSelect(key) {
-    this.setState({ key });
-  }
-
-  close() {
-    this.setState({ showModal: false });
-  }
-
 
 
   componentWillMount() {
@@ -121,6 +100,161 @@ class CustomerProfile extends React.Component {
         browserHistory.push('/login');
       });
   }
+
+
+  // HANDLE INPUT EVENT CHANGES
+  handleChange(event) {
+    this.setState({[event.target.name]: event.target.value});
+  }
+
+  handleDateChange(date) {
+    this.setState({ orderPickupDate: date });
+  }
+
+  handleTimeChange(event) {
+    let time = event.target.value
+    this.setState({ orderPickupTime: time });
+  }
+
+  handleSelect(key) {
+    this.setState({ key });
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  handleRadioChange(changeEvent) {
+    let num = parseInt(changeEvent.target.value);
+    console.log(num, '************ load number');
+    this.setState({ orderLoads: num, selectedLoadsOption: num });
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  handleBoxChange(event) {
+    console.log(event);
+    let servs = event.target.value.split(',');
+    let servName = servs[0];
+    let servAmount = parseInt(servs[1]);
+    let { orderServices } = this.state;
+    let arr = Object.assign([], this.state.orderServices);
+
+    if (event.target.checked) {
+      arr.push(servName)
+
+      if (servName === 'clean') {
+        this.setState({ selectedServiceClean: true, orderServices: arr, orderServiceCost: this.state.orderServiceCost + servAmount });
+      } else if (servName === 'fold') {
+        this.setState({ selectedServiceFold: true, orderServices: arr, orderServiceCost: this.state.orderServiceCost + servAmount });
+      }
+
+      console.log(true);
+    }
+    else {
+      const index = arr.indexOf(servName, 1);
+      arr.splice(index, 1);
+
+      if (servName === 'clean') {
+        this.setState({ selectedServiceClean: false, orderServices: arr, orderServiceCost: this.state.orderServiceCost - servAmount });
+      } else if (servName === 'fold') {
+        this.setState({ selectedServiceFold: false, orderServices: arr, orderServiceCost: this.state.orderServiceCost - servAmount });
+      }
+      console.log(false);
+    }
+
+
+
+
+    // Remove uncheck box value
+    // if (orderServices.length > 0) {
+    //   for (let i = 0; i < orderServices.length; i++) {
+    //     if (orderServices[i] === servName) {
+    //       arr.splice(i, 1);
+    //       this.setState({
+    //         orderServices: arr,
+    //         orderServiceCost: this.state.orderServiceCost - servAmount
+    //       });
+    //
+    //       return;
+    //     }
+    //   }
+    // }
+    //
+    // arr.push(servName);
+    // this.setState({orderServices: arr});
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  handleTotalCost(key) {
+    const { activeServices, activeInfo, activePayment, orderServiceCost, orderLoads } = this.state;
+
+    if (key === 1) {
+      this.setState({formKey: key, activeServices: true, activeInfo: false, activePayment: false, orderTotalCost: orderServiceCost * orderLoads});
+    } else if (key === 2) {
+      this.setState({formKey: key, activeServices: false, activeInfo: true, activePayment: false, orderTotalCost: orderServiceCost * orderLoads});
+    } else {
+      this.setState({formKey: key, activeServices: false, activeInfo: false, activePayment: true, orderTotalCost: orderServiceCost * orderLoads});
+    }
+  }
+
+
+
+
+  handleSelectKey(key) {
+    const { activeServices, activeInfo, activePayment } = this.state;
+
+    if (key === 1) {
+      this.setState({formKey: key, activeServices: true, activeInfo: false, activePayment: false});
+    } else if (key === 2) {
+      this.setState({formKey: key, activeServices: false, activeInfo: true, activePayment: false});
+    } else {
+      this.setState({formKey: key, activeServices: false, activeInfo: false, activePayment: true});
+    }
+  }
+
 
 
   // REMOVE ORDER FROM QUEUE
@@ -163,83 +297,6 @@ class CustomerProfile extends React.Component {
   }
 
 
-  handleSelectKey(key) {
-    const { activeServices, activeInfo, activePayment } = this.state;
-
-    if (key === 1) {
-      this.setState({formKey: key, activeServices: true, activeInfo: false, activePayment: false});
-    } else if (key === 2) {
-      this.setState({formKey: key, activeServices: false, activeInfo: true, activePayment: false});
-    } else {
-      this.setState({formKey: key, activeServices: false, activeInfo: false, activePayment: true});
-    }
-  }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  handleBoxChange(event) {
-    let servs = event.target.value.split(',');
-    let servName = servs[0];
-    let servAmount = parseInt(servs[1]);
-    let {orderServices} = this.state;
-    let arr = Object.assign([], this.state.orderServices);
-
-    this.setState({ orderPaymentTotal: this.state.orderPaymentTotal + servAmount})
-
-    // Remove uncheck box value
-    if (orderServices.length > 0) {
-      for (let i = 0; i < orderServices.length; i++) {
-        if (orderServices[i] === servName) {
-          arr.splice(i, 1);
-          this.setState({orderServices: arr, orderPaymentTotal: this.state.orderPaymentTotal - servAmount});
-
-          return;
-        }
-      }
-    }
-
-    arr.push(servName);
-    this.setState({orderServices: arr});
-  }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
   onToken = (token) => {
     axios.post('/api/charge',
@@ -250,12 +307,12 @@ class CustomerProfile extends React.Component {
         amount: 1500
       })
       .then((res) => {
-        const { customerAddress, orderServices, orderLoads, customerPhoneNumber, orderInstructions, orderPaymentTotal, orderPickupTime } = this.state;
+        const { customerAddress, orderServices, orderLoads, customerPhoneNumber, orderInstructions, orderTotalCost, orderPickupTime } = this.state;
 
         let orderPickupDate = this.state;
         orderPickupDate = moment(orderPickupDate).format('L');
 
-        const newOrder = { customerAddress, orderServices, orderLoads, customerPhoneNumber, orderInstructions, orderPickupDate, orderPaymentTotal, orderPickupTime };
+        const newOrder = { customerAddress, orderServices, orderLoads, customerPhoneNumber, orderInstructions, orderPickupDate, orderTotalCost, orderPickupTime };
 
         axios.post('/api/customerOrders', { newOrder })
           .then((res) => {
@@ -263,7 +320,15 @@ class CustomerProfile extends React.Component {
             let q = Object.assign([], this.state.queueOrders);
             q.unshift(data);
 
-            this.setState({ queueOrders: q, showModal: false, customerAddress: '', orderServices: [], orderLoads: null, customerPhoneNumber: '', orderInstructions: '', orderPickupDate: undefined, orderPaymentTotal: null, orderPickupTime: '',key: 2, formKey: 1, alertVisible: true });
+            this.setState({ queueOrders: q, showModal: false, customerAddress: '', orderServices: [], orderLoads: 1, customerPhoneNumber: '', orderInstructions: '', orderPickupDate: undefined, orderTotalCost: 0, orderPickupTime: '',key: 2, formKey: 1, alertVisible: true });
+
+            return axios.post('/api/notify', { newOrder, orderId: data.id })
+              .then((r) => {
+                console.log(r, '************* notify res');
+              })
+              .catch((err) => {
+                console.log(err);
+              });
           })
           .catch((err) => {
             console.log(err);
@@ -278,7 +343,12 @@ class CustomerProfile extends React.Component {
 
 
   handleAlertDismiss() {
-    this.setState({alertVisible: false});
+    this.setState({ alertVisible: false });
+  }
+
+
+  close() {
+    this.setState({ showModal: false });
   }
 
 
@@ -309,7 +379,9 @@ class CustomerProfile extends React.Component {
   // ***************************  RENDER  ***************************
   render() {
 
-    console.log(this.state.orderPaymentTotal, '************** amount');
+    console.log(this.state.orderTotalCost, '************** total cost');
+    console.log(this.state.orderServiceCost, '*********** service cost');
+    console.log(this.state.orderLoads, '********** load number');
 
     const completeOptions = {
       clearSearch: true,
@@ -335,6 +407,7 @@ class CustomerProfile extends React.Component {
                   inline
                   value={['clean', 5]}
                   onChange={this.handleBoxChange.bind(this)}
+                  checked={this.state.selectedServiceClean}
                 >
                   Wash/Dry
                 </Checkbox>
@@ -343,11 +416,38 @@ class CustomerProfile extends React.Component {
                   inline
                   value={['fold', 5]}
                   onChange={this.handleBoxChange.bind(this)}
+                  checked={this.state.selectedServiceFold}
                 >
                   Fold
                 </Checkbox>
               </Col>
             </FormGroup>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
             {/* NUMBER OF LOADS */}
             <FormGroup>
@@ -360,7 +460,8 @@ class CustomerProfile extends React.Component {
                   inline
                   name="orderLoads"
                   value={1}
-                  onChange={this.handleChange.bind(this)}
+                  onChange={this.handleRadioChange.bind(this)}
+                  checked={this.state.selectedLoadsOption === 1}
                 >
                   1
                 </Radio>
@@ -370,7 +471,8 @@ class CustomerProfile extends React.Component {
                   inline
                   name="orderLoads"
                   value={2}
-                  onChange={this.handleChange.bind(this)}
+                  onChange={this.handleRadioChange.bind(this)}
+                  checked={this.state.selectedLoadsOption === 2}
                 >
                   2
                 </Radio>
@@ -380,12 +482,41 @@ class CustomerProfile extends React.Component {
                   inline
                   name="orderLoads"
                   value={3}
-                  onChange={this.handleChange.bind(this)}
+                  onChange={this.handleRadioChange.bind(this)}
+                  checked={this.state.selectedLoadsOption === 3}
                 >
                   3
                 </Radio>
               </Col>
             </FormGroup>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
             {/* SPECIAL INSTRUCTIONS */}
             <FormGroup>
@@ -408,7 +539,7 @@ class CustomerProfile extends React.Component {
             <div className="row">
               <div className="col-sm-12">
                 <Pager>
-                  <Pager.Item href="#" next onClick={() => this.handleSelectKey(2)}>Next &rarr;</Pager.Item>
+                  <Pager.Item href="#" next onClick={() => this.handleTotalCost(2)}>Next &rarr;</Pager.Item>
                 </Pager>
               </div>
             </div>
@@ -433,7 +564,6 @@ class CustomerProfile extends React.Component {
               </Col>
             </FormGroup>
 
-
             {/* CONTACT */}
             <FormGroup>
               <Col componentClass={ControlLabel} sm={3}>
@@ -450,50 +580,18 @@ class CustomerProfile extends React.Component {
               </Col>
             </FormGroup>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
             {/* DATE & TIME */}
             <FormGroup>
               <Col componentClass={ControlLabel} sm={3}>
                 <span className="date-time-label">Date/Time for Pick-up:</span>
               </Col>
               <Col sm={5}>
-
-
                 <DatePicker
                   selected={this.state.orderPickupDate}
                   onChange={this.handleDateChange}
                   withPortal
-                  placeholderText="Please select date"
+                  placeholderText="Click to select date"
                 />
-
-
               </Col>
               <Col sm={3}>
                 <FormGroup controlId="formControlsSelect">
@@ -517,40 +615,6 @@ class CustomerProfile extends React.Component {
                 </FormGroup>
               </Col>
             </FormGroup>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
             {/* SPAM PROTECTION */}
             <div className="form-group hidden">

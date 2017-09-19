@@ -54,14 +54,15 @@ router.get('/customerOrders', checkAuth, (req, res, next) => {
 });
 
 
+
 // CREATE NEW ORDER
 router.post('/customerOrders', checkAuth, (req, res, next) => {
   const { userId, access } = req.token;
-  const { customerAddress, customerPhoneNumber, orderInstructions, orderPickupDate, orderPaymentAmount, orderPickupTime } = req.body.newOrder;
+  const { customerAddress, customerPhoneNumber, orderInstructions, orderPickupDate, orderPickupTime } = req.body.newOrder;
 
-  console.log(orderPickupTime, '******************* time');
 
   let orderLoads = parseInt(req.body.newOrder.orderLoads);
+  let orderTotalCost = parseInt(req.body.newOrder.orderTotalCost);
   let { orderServices } = req.body.newOrder;
   let clean, fold = false;
 
@@ -79,7 +80,7 @@ router.post('/customerOrders', checkAuth, (req, res, next) => {
     knex('payments')
       .insert({
         type: 'Credit',
-        amount: orderPaymentAmount
+        amount: orderTotalCost
       })
       .returning('id')
       .then((paymentId) => {
@@ -164,6 +165,7 @@ router.post('/customerOrders', checkAuth, (req, res, next) => {
       res.sendStatus(401);
     }
 });
+
 
 
 
