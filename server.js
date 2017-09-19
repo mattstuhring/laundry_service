@@ -29,6 +29,7 @@ const admin = require('./routes/admin');
 const adminRemoveOrder = require('./routes/adminRemoveOrder');
 const adminDeleteOrder = require('./routes/adminDeleteOrder');
 const adminDeleteUser = require('./routes/adminDeleteUser');
+const employeeRemoveOrder = require('./routes/employeeRemoveOrder');
 const notify = require('./routes/notify');
 
 const SERVER_CONFIGS = require('./constants/server');
@@ -76,6 +77,7 @@ app.use('/api', admin);
 app.use('/api', adminRemoveOrder);
 app.use('/api', adminDeleteOrder);
 app.use('/api', adminDeleteUser);
+app.use('/api', employeeRemoveOrder);
 app.use('/api', notify);
 
 

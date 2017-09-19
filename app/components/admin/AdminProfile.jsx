@@ -43,6 +43,7 @@ class AdminProfile extends React.Component {
     this.openComplete = this.openComplete.bind(this);
     this.openRemoveUser = this.openRemoveUser.bind(this);
     this.openRemoveOrder = this.openRemoveOrder.bind(this);
+    this.openStepBack = this.openStepBack.bind(this);
     this.handleActive = this.handleActive.bind(this);
     this.handleUserAccess = this.handleUserAccess.bind(this);
     this.handleComplete = this.handleComplete.bind(this);
@@ -362,30 +363,6 @@ class AdminProfile extends React.Component {
         console.log(err);
       });
   }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import { browserHistory, withRouter } from 'react-router';
-import {Jumbotron, Table, Button, Panel, Tabs, Tab} from 'react-bootstrap';
+import {Jumbotron, Table, Button, Panel, Tabs, Tab, Collapse} from 'react-bootstrap';
 import moment from 'moment';
 import Popup from 'Popup';
 import {BootstrapTable, TableHeaderColumn, InsertButton} from 'react-bootstrap-table';
@@ -16,6 +16,7 @@ class EmployeeProfile extends React.Component {
       taskId: null,
       firstName: '',
       orderStep: '',
+      table: '',
       queueOrders: [],
       completeOrders: [],
       activeOrders: [],
@@ -32,10 +33,10 @@ class EmployeeProfile extends React.Component {
     this.close = this.close.bind(this);
     this.openActive = this.openActive.bind(this);
     this.openComplete = this.openComplete.bind(this);
-    this.openRemove = this.openRemove.bind(this);
+    this.openStepBack = this.openStepBack.bind(this);
     this.handleActive = this.handleActive.bind(this);
     this.handleComplete = this.handleComplete.bind(this);
-    this.handleRemove = this.handleRemove.bind(this);
+    this.handleStepBack = this.handleStepBack.bind(this);
     this.queueButtons = this.queueButtons.bind(this);
     this.activeButtons = this.activeButtons.bind(this);
     this.onQueueRowSelect = this.onQueueRowSelect.bind(this);
@@ -45,7 +46,13 @@ class EmployeeProfile extends React.Component {
     this.startDateFormatter = this.startDateFormatter.bind(this);
     this.endDateFormatter = this.endDateFormatter.bind(this);
     this.customSearch = this.customSearch.bind(this);
+    this.isExpandableRow = this.isExpandableRow.bind(this);
+    this.expandComponent = this.expandComponent.bind(this);
+    this.buttonFormatter = this.buttonFormatter.bind(this);
+    this.cleanFormatter = this.cleanFormatter.bind(this);
+    this.foldFormatter = this.foldFormatter.bind(this);
   }
+
 
   componentWillMount() {
     axios.get('/api/authEmployee')
@@ -134,18 +141,24 @@ class EmployeeProfile extends React.Component {
   }
 
 
-  handleRemove() {
-    const { orderId, orderStep } = this.state;
+  handleStepBack() {
+    const { selectedActiveOrders } = this.state;
 
-    axios.delete(`/api/employeeOrders/${orderId}/${orderStep}`)
+    axios.put('/api/employeeRemoveOrder', { selectedActiveOrders })
       .then((r) => {
+        this.refs.activeTable.cleanSelected();
+        this.refs.activeTable.setState({
+          selectedRowKeys: []
+        });
+
         return axios.get(`/api/employeeOrders`)
           .then((res) => {
             this.setState({
               showModal: false,
               queueOrders: res.data[0],
               completeOrders: res.data[1],
-              activeOrders: res.data[2]
+              activeOrders: res.data[2],
+              selectedActiveOrders: []
             });
           })
           .catch((err) => {
@@ -169,18 +182,6 @@ class EmployeeProfile extends React.Component {
     });
   }
 
-  openRemove(id, step) {
-    this.setState({
-      showModal: true,
-      orderId: id,
-      orderStep: step,
-      modal: {
-        title: 'Job:',
-        message: 'Whoops! Put order back into the queue?',
-        action: this.handleRemove
-      }
-    });
-  }
 
   openComplete() {
     this.setState({
@@ -189,6 +190,18 @@ class EmployeeProfile extends React.Component {
         title: 'Job:',
         message: 'Did you complete the job(s)',
         action: this.handleComplete
+      }
+    });
+  }
+
+
+  openStepBack() {
+    this.setState({
+      showModal: true,
+      modal: {
+        title: 'Job:',
+        message: 'Whoops! Put order back into the queue?',
+        action: this.handleStepBack
       }
     });
   }
@@ -230,7 +243,7 @@ class EmployeeProfile extends React.Component {
         <Button
           bsStyle="warning"
           bsSize="xsmall"
-          // onClick={() => this.openStepBack('active')}
+          onClick={() => this.openStepBack()}
         >
           <span className="glyphicon glyphicon-backward" aria-hidden="true"></span>
           Go Back
@@ -323,7 +336,7 @@ class EmployeeProfile extends React.Component {
 
 
   startDateFormatter(cell, row) {
-    const startDate = moment(row.created_at).format('L');
+    const startDate = moment(row.created_at).format('MM-DD-YYYY');
     return startDate;
   }
 
@@ -335,6 +348,56 @@ class EmployeeProfile extends React.Component {
   }
 
 
+  isExpandableRow(row) {
+    if (row.id) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+
+  expandComponent(row) {
+    return (
+      <BootstrapTable data={ [row] }>
+        <TableHeaderColumn dataField='id' isKey={ true }>#</TableHeaderColumn>
+        <TableHeaderColumn dataField='instructions'>Instructions</TableHeaderColumn>
+      </BootstrapTable>
+    );
+  }
+
+
+
+  buttonFormatter(cell, row){
+    return (
+      <Button
+        bsStyle="link"
+        onClick={ ()=> this.expandComponent(row)}
+      >
+        Details
+      </Button>
+    );
+  }
+
+
+  cleanFormatter(cell, row) {
+    if (row.clean) {
+      return ( <span className="glyphicon glyphicon-ok" aria-hidden="true"></span> );
+    } else {
+      return ( <span className="glyphicon glyphicon-remove" aria-hidden="true"></span> );
+    }
+  }
+
+  foldFormatter(cell, row) {
+    if (row.fold) {
+      return ( <span className="glyphicon glyphicon-ok" aria-hidden="true"></span> );
+    } else {
+      return ( <span className="glyphicon glyphicon-remove" aria-hidden="true"></span> );
+    }
+  }
+
+
+
 
 
 
@@ -343,16 +406,22 @@ class EmployeeProfile extends React.Component {
   render() {
     const { firstName } = this.state;
 
+
+
     const queueOptions = {
       insertBtn: this.queueButtons,
       clearSearch: true,
-      searchField: this.customSearch
+      searchField: this.customSearch,
+      expandBy: 'column',
+      expandRowBgColor: '#337ab7'
     };
 
     const activeOptions = {
       insertBtn: this.activeButtons,
       clearSearch: true,
-      searchField: this.customSearch
+      searchField: this.customSearch,
+      expandBy: 'column',
+      expandRowBgColor: '#337ab7'
     };
 
     const completeOptions = {
@@ -363,6 +432,7 @@ class EmployeeProfile extends React.Component {
     const selectQueueRow = {
       mode: 'checkbox',
       clickToSelect: true,
+      clickToExpand: true,
       onSelect: this.onQueueRowSelect,
       onSelectAll: this.onQueueSelectAll
       // bgColor: function(row, isSelect) {
@@ -385,9 +455,12 @@ class EmployeeProfile extends React.Component {
     const selectActiveRow = {
       mode: 'checkbox',
       clickToSelect: true,
+      clickToExpand: true,
       onSelect: this.onActiveRowSelect,
       onSelectAll: this.onActiveSelectAll
     };
+
+
 
 
 
@@ -409,8 +482,8 @@ class EmployeeProfile extends React.Component {
             <div className="col-sm-6 col-sm-offset-3">
 
               {/* WELCOME HEADER */}
-              <div className="page-header">
-                <h2>Welcome, <small>{firstName}</small>!</h2>
+              <div className="page-header text-center">
+                <h2>Dashboard</h2>
               </div>
             </div>
           </div>
@@ -422,60 +495,75 @@ class EmployeeProfile extends React.Component {
           <div className="row">
             <div className="col-sm-10 col-sm-offset-1">
               <div className="page-header">
-                <h2>Dashboard</h2>
+
+                <h3>Welcome, <small>{firstName}</small>!</h3>
               </div>
 
               {/* QUEUE TABLE */}
-              <Panel header="Laundry Queue" bsStyle="primary">
-                <BootstrapTable ref='queueTable' striped condensed
-                  options={ queueOptions }
-                  bordered={ false }
-                  data={ this.state.queueOrders }
-                  selectRow={ selectQueueRow }
-                  bodyContainerClass='table-body-container'
-                  pagination
-                  insertRow
-                  search
-                  cleanSelected
-                >
-                  <TableHeaderColumn
-                    dataField='id'
-                    isKey
-                    width='50px'
-                  >#</TableHeaderColumn>
-                  <TableHeaderColumn
-                    dataField='created_at'
-                    dataFormat={ this.startDateFormatter }
-                    width='100px'
-                  >Date</TableHeaderColumn>
-                  <TableHeaderColumn
-                    dataField='address'
-                  >Address</TableHeaderColumn>
-                  <TableHeaderColumn
-                    dataField='status'
-                    width='60px'
-                  >Status</TableHeaderColumn>
-                  <TableHeaderColumn
-                    dataField='step'
-                    width='60px'
-                  >Step</TableHeaderColumn>
-                  <TableHeaderColumn
-                    dataField='clean'
-                    width='60px'
-                  >Clean</TableHeaderColumn>
-                  <TableHeaderColumn
-                    dataField='fold'
-                    width='60px'
-                  >Fold</TableHeaderColumn>
-                  <TableHeaderColumn
-                    dataField='amount'
-                    width='60px'
-                  >Loads</TableHeaderColumn>
-                  <TableHeaderColumn
-                    dataField='instructions'
-                  >Instructions</TableHeaderColumn>
-                </BootstrapTable>
-              </Panel>
+              <div className="queue">
+                <Panel header="Laundry Queue" bsStyle="primary">
+                  <BootstrapTable ref='queueTable' hover condensed
+                    options={ queueOptions }
+                    bordered={ false }
+                    data={ this.state.queueOrders }
+                    selectRow={ selectQueueRow }
+                    expandableRow={ this.isExpandableRow }
+                    expandComponent={ this.expandComponent }
+                    bodyContainerClass='table-body-container'
+                    pagination
+                    insertRow
+                    search={true}
+                    cleanSelected
+                  >
+                    <TableHeaderColumn
+                      dataField='id'
+                      isKey
+                      width='60px'
+                      filter={ { type: 'TextFilter', delay: 1000 } }
+                      expandable={ false }
+                    >#</TableHeaderColumn>
+                    <TableHeaderColumn
+                      dataField='created_at'
+                      dataFormat={ this.startDateFormatter }
+                      width='120px'
+                      expandable={ false }
+                    >Date</TableHeaderColumn>
+                    <TableHeaderColumn
+                      dataField='address'
+                      expandable={ false }
+                    >Address</TableHeaderColumn>
+                    <TableHeaderColumn
+                      dataField='step'
+                      width='70px'
+                      expandable={ false }
+                    >Step</TableHeaderColumn>
+                    <TableHeaderColumn
+                      dataField='clean'
+                      width='90px'
+                      expandable={ false }
+                      dataAlign='center'
+                      dataFormat={this.cleanFormatter}
+                    >Wash/Dry</TableHeaderColumn>
+                    <TableHeaderColumn
+                      dataField='fold'
+                      width='50px'
+                      expandable={ false }
+                      dataAlign='center'
+                      dataFormat={this.foldFormatter}
+                    >Fold</TableHeaderColumn>
+                    <TableHeaderColumn
+                      dataField='amount'
+                      width='60px'
+                      expandable={ false }
+                      dataAlign='center'
+                    >Loads</TableHeaderColumn>
+                    <TableHeaderColumn
+                      width='80px'
+                      dataFormat={this.buttonFormatter}
+                    ></TableHeaderColumn>
+                  </BootstrapTable>
+                </Panel>
+              </div>
 
 
 
@@ -489,11 +577,13 @@ class EmployeeProfile extends React.Component {
                 <Tabs activeKey={this.state.key} onSelect={this.handleSelect} id="controlled-tab-example">
                   <Tab eventKey={1} title="Active">
                     {/* ACTIVE ORDERS */}
-                    <BootstrapTable ref="activeTable" striped condensed
+                    <BootstrapTable ref="activeTable" condensed hover
                       options={ activeOptions }
                       bordered={ false }
                       data={ this.state.activeOrders }
                       selectRow={ selectActiveRow }
+                      expandableRow={ this.isExpandableRow }
+                      expandComponent={ this.expandComponent }
                       bodyContainerClass='table-body-container'
                       pagination
                       insertRow
@@ -503,39 +593,49 @@ class EmployeeProfile extends React.Component {
                       <TableHeaderColumn
                         dataField='id'
                         isKey
-                        width='50px'
+                        width='60px'
+                        filter={ { type: 'TextFilter', delay: 1000 } }
+                        expandable={ false }
                       >#</TableHeaderColumn>
                       <TableHeaderColumn
                         dataField='created_at'
                         dataFormat={ this.startDateFormatter }
-                        width='100px'
+                        width='120px'
+                        expandable={ false }
                       >Date</TableHeaderColumn>
                       <TableHeaderColumn
                         dataField='address'
+                        expandable={ false }
                       >Address</TableHeaderColumn>
                       <TableHeaderColumn
-                        dataField='status'
-                        width='60px'
-                      >Status</TableHeaderColumn>
-                      <TableHeaderColumn
                         dataField='step'
-                        width='60px'
+                        width='70px'
+                        expandable={ false }
                       >Step</TableHeaderColumn>
                       <TableHeaderColumn
                         dataField='clean'
-                        width='60px'
-                      >Clean</TableHeaderColumn>
+                        width='90px'
+                        expandable={ false }
+                        dataAlign='center'
+                        dataFormat={this.cleanFormatter}
+                      >Wash/Dry</TableHeaderColumn>
                       <TableHeaderColumn
                         dataField='fold'
-                        width='60px'
+                        width='50px'
+                        expandable={ false }
+                        dataAlign='center'
+                        dataFormat={this.foldFormatter}
                       >Fold</TableHeaderColumn>
                       <TableHeaderColumn
                         dataField='amount'
                         width='60px'
+                        expandable={ false }
+                        dataAlign='center'
                       >Loads</TableHeaderColumn>
                       <TableHeaderColumn
-                        dataField='instructions'
-                      >Instructions</TableHeaderColumn>
+                        width='80px'
+                        dataFormat={this.buttonFormatter}
+                      ></TableHeaderColumn>
                     </BootstrapTable>
                   </Tab>
                   <Tab eventKey={2} title="Complete">

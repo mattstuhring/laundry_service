@@ -320,7 +320,7 @@ class CustomerProfile extends React.Component {
             let q = Object.assign([], this.state.queueOrders);
             q.unshift(data);
 
-            this.setState({ queueOrders: q, showModal: false, customerAddress: '', orderServices: [], orderLoads: 1, customerPhoneNumber: '', orderInstructions: '', orderPickupDate: undefined, orderTotalCost: 0, orderPickupTime: '',key: 2, formKey: 1, alertVisible: true });
+            this.setState({ queueOrders: q, showModal: false, customerAddress: '', orderServices: [], orderLoads: 1, customerPhoneNumber: '', orderInstructions: '', orderPickupDate: undefined, orderTotalCost: 0, orderPickupTime: '',key: 2, formKey: 1, alertVisible: true, selectedServiceClean: false, selectedServiceFold: false });
 
             return axios.post('/api/notify', { newOrder, orderId: data.id })
               .then((r) => {
@@ -378,11 +378,6 @@ class CustomerProfile extends React.Component {
 
   // ***************************  RENDER  ***************************
   render() {
-
-    console.log(this.state.orderTotalCost, '************** total cost');
-    console.log(this.state.orderServiceCost, '*********** service cost');
-    console.log(this.state.orderLoads, '********** load number');
-
     const completeOptions = {
       clearSearch: true,
       searchField: this.customSearch
@@ -422,32 +417,6 @@ class CustomerProfile extends React.Component {
                 </Checkbox>
               </Col>
             </FormGroup>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
             {/* NUMBER OF LOADS */}
             <FormGroup>
@@ -489,34 +458,6 @@ class CustomerProfile extends React.Component {
                 </Radio>
               </Col>
             </FormGroup>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
             {/* SPECIAL INSTRUCTIONS */}
             <FormGroup>
@@ -645,7 +586,7 @@ class CustomerProfile extends React.Component {
             <div className="col-sm-12">
               <div className="row">
                 <div className="col-sm-12 text-center">
-                  <h2>Total: $15.00</h2>
+                  <h2>Total: {'$' + this.state.orderTotalCost}</h2>
                 </div>
               </div>
               <div className="row">
