@@ -361,7 +361,10 @@ class EmployeeProfile extends React.Component {
     return (
       <BootstrapTable data={ [row] }>
         <TableHeaderColumn dataField='id' isKey={ true }>#</TableHeaderColumn>
-        <TableHeaderColumn dataField='instructions'>Instructions</TableHeaderColumn>
+        <TableHeaderColumn
+          dataField='instructions'
+          tdStyle={ { whiteSpace: 'normal' } }
+        >Instructions</TableHeaderColumn>
       </BootstrapTable>
     );
   }
@@ -518,19 +521,22 @@ class EmployeeProfile extends React.Component {
                     <TableHeaderColumn
                       dataField='id'
                       isKey
-                      width='60px'
+                      width='70px'
+                      dataAlign='center'
                       filter={ { type: 'TextFilter', delay: 1000 } }
                       expandable={ false }
-                    >#</TableHeaderColumn>
+                    >Order#</TableHeaderColumn>
                     <TableHeaderColumn
                       dataField='created_at'
                       dataFormat={ this.startDateFormatter }
-                      width='120px'
+                      width='100px'
+                      dataAlign='center'
                       expandable={ false }
                     >Date</TableHeaderColumn>
                     <TableHeaderColumn
                       dataField='address'
                       expandable={ false }
+                      tdStyle={ { whiteSpace: 'normal' } }
                     >Address</TableHeaderColumn>
                     <TableHeaderColumn
                       dataField='step'
@@ -593,19 +599,22 @@ class EmployeeProfile extends React.Component {
                       <TableHeaderColumn
                         dataField='id'
                         isKey
-                        width='60px'
+                        width='70px'
+                        dataAlign='center'
                         filter={ { type: 'TextFilter', delay: 1000 } }
                         expandable={ false }
-                      >#</TableHeaderColumn>
+                      >Order#</TableHeaderColumn>
                       <TableHeaderColumn
                         dataField='created_at'
                         dataFormat={ this.startDateFormatter }
-                        width='120px'
+                        width='100px'
+                        dataAlign='center'
                         expandable={ false }
                       >Date</TableHeaderColumn>
                       <TableHeaderColumn
                         dataField='address'
                         expandable={ false }
+                        tdStyle={ { whiteSpace: 'normal' } }
                       >Address</TableHeaderColumn>
                       <TableHeaderColumn
                         dataField='step'
@@ -640,10 +649,12 @@ class EmployeeProfile extends React.Component {
                   </Tab>
                   <Tab eventKey={2} title="Complete">
                     {/* COMPLETE TABLE */}
-                    <BootstrapTable ref="completeTable" striped condensed
+                    <BootstrapTable ref="completeTable" hover condensed
                       options={ completeOptions }
                       bordered={ false }
                       data={ this.state.completeOrders }
+                      expandableRow={ this.isExpandableRow }
+                      expandComponent={ this.expandComponent }
                       bodyContainerClass='table-body-container'
                       pagination
                       search
@@ -651,43 +662,56 @@ class EmployeeProfile extends React.Component {
                       <TableHeaderColumn
                         dataField='id'
                         isKey
-                        width='50px'
-                      >#</TableHeaderColumn>
+                        wwidth='70px'
+                        dataAlign='center'
+                        filter={ { type: 'TextFilter', delay: 1000 } }
+                        expandable={ false }
+                      >Order#</TableHeaderColumn>
                       <TableHeaderColumn
                         dataField='created_at'
                         dataFormat={ this.startDateFormatter }
                         width='100px'
+                        dataAlign='center'
+                        expandable={ false }
                       >Date</TableHeaderColumn>
                       <TableHeaderColumn
                         dataField='address'
+                        expandable={ false }
+                        tdStyle={ { whiteSpace: 'normal' } }
                       >Address</TableHeaderColumn>
                       <TableHeaderColumn
                         dataField='status'
                         width='60px'
-                      >Status</TableHeaderColumn>
-                      <TableHeaderColumn
-                        dataField='step'
-                        width='60px'
+                        expandable={ false }
                       >Step</TableHeaderColumn>
                       <TableHeaderColumn
                         dataField='clean'
-                        width='60px'
-                      >Clean</TableHeaderColumn>
+                        width='90px'
+                        expandable={ false }
+                        dataAlign='center'
+                        dataFormat={this.cleanFormatter}
+                      >Wash/Dry</TableHeaderColumn>
                       <TableHeaderColumn
                         dataField='fold'
-                        width='60px'
+                        width='50px'
+                        expandable={ false }
+                        dataAlign='center'
+                        dataFormat={this.foldFormatter}
                       >Fold</TableHeaderColumn>
                       <TableHeaderColumn
                         dataField='amount'
                         width='60px'
+                        expandable={ false }
+                        dataAlign='center'
                       >Loads</TableHeaderColumn>
-                      <TableHeaderColumn
-                        dataField='instructions'
-                      >Instructions</TableHeaderColumn>
                       <TableHeaderColumn
                         dataField='updated_at'
                         dataFormat={ this.endDateFormatter }
                       >Complete</TableHeaderColumn>
+                      <TableHeaderColumn
+                        width='80px'
+                        dataFormat={this.buttonFormatter}
+                      ></TableHeaderColumn>
                     </BootstrapTable>
                   </Tab>
                 </Tabs>

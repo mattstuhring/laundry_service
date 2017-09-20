@@ -6,7 +6,7 @@ exports.seed = function(knex) {
       {
         id: 1,
         first_name: 'Admin',
-        last_name: '',
+        last_name: 'test',
         address: 'test address',
         email: 'admin@test.com',
         phone_number: '1234567890',
@@ -19,7 +19,7 @@ exports.seed = function(knex) {
       {
         id: 2,
         first_name: 'Employee',
-        last_name: '',
+        last_name: 'test',
         address: 'test address',
         email: 'employee@test.com',
         phone_number: '1234567890',
@@ -32,7 +32,7 @@ exports.seed = function(knex) {
       {
         id: 3,
         first_name: 'Customer',
-        last_name: '',
+        last_name: 'test',
         address: 'test address',
         email: 'customer@test.com',
         phone_number: '1234567890',
@@ -45,7 +45,7 @@ exports.seed = function(knex) {
       {
         id: 4,
         first_name: 'Matt',
-        last_name: '',
+        last_name: 'test',
         address: 'test address',
         email: 'test@test.com',
         phone_number: '1234567890',

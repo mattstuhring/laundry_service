@@ -3,4 +3,11 @@
   .table-body-container {
     max-height: 311px !important;
   }
+
+  .queue, .active {
+
+    .btn.btn-link {
+      padding: 0px 12px;
+    }
+  }
 }

@@ -68,6 +68,11 @@ class AdminProfile extends React.Component {
     this.startDateFormatter = this.startDateFormatter.bind(this);
     this.endDateFormatter = this.endDateFormatter.bind(this);
     this.customSearch = this.customSearch.bind(this);
+    this.isExpandableRow = this.isExpandableRow.bind(this);
+    this.expandComponent = this.expandComponent.bind(this);
+    this.buttonFormatter = this.buttonFormatter.bind(this);
+    this.cleanFormatter = this.cleanFormatter.bind(this);
+    this.foldFormatter = this.foldFormatter.bind(this);
   }
 
 
@@ -774,6 +779,58 @@ class AdminProfile extends React.Component {
 
 
 
+  isExpandableRow(row) {
+    if (row.id) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+
+  expandComponent(row) {
+    return (
+      <BootstrapTable data={ [row] }>
+        <TableHeaderColumn dataField='id' isKey={ true }>#</TableHeaderColumn>
+        <TableHeaderColumn
+          dataField='instructions'
+          tdStyle={ { whiteSpace: 'normal' } }
+        >Instructions</TableHeaderColumn>
+      </BootstrapTable>
+    );
+  }
+
+
+  buttonFormatter(cell, row){
+    return (
+      <Button
+        bsStyle="link"
+        onClick={ ()=> this.expandComponent(row)}
+      >
+        Details
+      </Button>
+    );
+  }
+
+
+  cleanFormatter(cell, row) {
+    if (row.clean) {
+      return ( <span className="glyphicon glyphicon-ok" aria-hidden="true"></span> );
+    } else {
+      return ( <span className="glyphicon glyphicon-remove" aria-hidden="true"></span> );
+    }
+  }
+
+
+  foldFormatter(cell, row) {
+    if (row.fold) {
+      return ( <span className="glyphicon glyphicon-ok" aria-hidden="true"></span> );
+    } else {
+      return ( <span className="glyphicon glyphicon-remove" aria-hidden="true"></span> );
+    }
+  }
+
+
 
 
 
@@ -793,13 +850,17 @@ class AdminProfile extends React.Component {
     const queueOptions = {
       insertBtn: this.queueButtons,
       clearSearch: true,
-      searchField: this.customSearch
+      searchField: this.customSearch,
+      expandBy: 'column',
+      expandRowBgColor: '#337ab7'
     };
 
     const activeOptions = {
       insertBtn: this.activeButtons,
       clearSearch: true,
-      searchField: this.customSearch
+      searchField: this.customSearch,
+      expandBy: 'column',
+      expandRowBgColor: '#337ab7'
     };
 
     const completeOptions = {
@@ -823,6 +884,7 @@ class AdminProfile extends React.Component {
     const selectQueueRow = {
       mode: 'checkbox',
       clickToSelect: true,
+      clickToExpand: true,
       onSelect: this.onQueueRowSelect,
       onSelectAll: this.onQueueSelectAll
       // bgColor: function(row, isSelect) {
@@ -845,6 +907,7 @@ class AdminProfile extends React.Component {
     const selectActiveRow = {
       mode: 'checkbox',
       clickToSelect: true,
+      clickToExpand: true,
       onSelect: this.onActiveRowSelect,
       onSelectAll: this.onActiveSelectAll
     };
@@ -889,8 +952,8 @@ class AdminProfile extends React.Component {
             <div className="col-sm-6 col-sm-offset-3">
 
               {/* WELCOME HEADER */}
-              <div className="page-header">
-                <h2>Welcome, <small>Admin</small>!</h2>
+              <div className="page-header text-center">
+                <h2>Dashboard</h2>
               </div>
             </div>
           </div>
@@ -900,62 +963,78 @@ class AdminProfile extends React.Component {
             <div className="col-sm-10 col-sm-offset-1">
 
               {/* ALL TABLE */}
-              <div className="page-header text-center">
-                <h1>Dashboard</h1>
+              <div className="page-header">
+                <h3>Welcome, <small>Admin</small>!</h3>
               </div>
 
               {/* QUEUE TABLE */}
-              <Panel header="Laundry Queue" bsStyle="primary">
-                <BootstrapTable ref='queueTable' striped condensed
-                  options={ queueOptions }
-                  bordered={ false }
-                  data={ this.state.queueOrders }
-                  // data={ data }
-                  selectRow={ selectQueueRow }
-                  bodyContainerClass='table-body-container'
-                  pagination
-                  insertRow
-                  search
-                  cleanSelected
-                >
-                  <TableHeaderColumn
-                    dataField='id'
-                    isKey
-                    width='50px'
-                  >#</TableHeaderColumn>
-                  <TableHeaderColumn
-                    dataField='created_at'
-                    dataFormat={ this.startDateFormatter }
-                    width='100px'
-                  >Date</TableHeaderColumn>
-                  <TableHeaderColumn
-                    dataField='address'
-                  >Address</TableHeaderColumn>
-                  <TableHeaderColumn
-                    dataField='status'
-                    width='60px'
-                  >Status</TableHeaderColumn>
-                  <TableHeaderColumn
-                    dataField='step'
-                    width='60px'
-                  >Step</TableHeaderColumn>
-                  <TableHeaderColumn
-                    dataField='clean'
-                    width='60px'
-                  >Clean</TableHeaderColumn>
-                  <TableHeaderColumn
-                    dataField='fold'
-                    width='60px'
-                  >Fold</TableHeaderColumn>
-                  <TableHeaderColumn
-                    dataField='amount'
-                    width='60px'
-                  >Loads</TableHeaderColumn>
-                  <TableHeaderColumn
-                    dataField='instructions'
-                  >Instructions</TableHeaderColumn>
-                </BootstrapTable>
-              </Panel>
+              <div className="queue">
+                <Panel header="Laundry Queue" bsStyle="primary">
+                  <BootstrapTable ref='queueTable' hover condensed
+                    options={ queueOptions }
+                    bordered={ false }
+                    data={ this.state.queueOrders }
+                    selectRow={ selectQueueRow }
+                    expandableRow={ this.isExpandableRow }
+                    expandComponent={ this.expandComponent }
+                    bodyContainerClass='table-body-container'
+                    pagination
+                    insertRow
+                    search
+                    cleanSelected
+                    >
+                      <TableHeaderColumn
+                        dataField='id'
+                        isKey
+                        width='70px'
+                        dataAlign='center'
+                        filter={ { type: 'TextFilter', delay: 1000 } }
+                        expandable={ false }
+                      >Order#</TableHeaderColumn>
+                      <TableHeaderColumn
+                        dataField='created_at'
+                        dataFormat={ this.startDateFormatter }
+                        width='100px'
+                        dataAlign='center'
+                        expandable={ false }
+                      >Date</TableHeaderColumn>
+                      <TableHeaderColumn
+                        dataField='address'
+                        expandable={ false }
+                        tdStyle={ { whiteSpace: 'normal' } }
+                      >Address</TableHeaderColumn>
+                      <TableHeaderColumn
+                        dataField='step'
+                        width='70px'
+                        expandable={ false }
+                      >Step</TableHeaderColumn>
+                      <TableHeaderColumn
+                        dataField='clean'
+                        width='90px'
+                        expandable={ false }
+                        dataAlign='center'
+                        dataFormat={this.cleanFormatter}
+                      >Wash/Dry</TableHeaderColumn>
+                      <TableHeaderColumn
+                        dataField='fold'
+                        width='50px'
+                        expandable={ false }
+                        dataAlign='center'
+                        dataFormat={this.foldFormatter}
+                      >Fold</TableHeaderColumn>
+                      <TableHeaderColumn
+                        dataField='amount'
+                        width='60px'
+                        expandable={ false }
+                        dataAlign='center'
+                      >Loads</TableHeaderColumn>
+                      <TableHeaderColumn
+                        width='80px'
+                        dataFormat={this.buttonFormatter}
+                      ></TableHeaderColumn>
+                  </BootstrapTable>
+                </Panel>
+              </div>
 
 
               {/* ORDERS */}
@@ -963,64 +1042,81 @@ class AdminProfile extends React.Component {
                 <Tabs activeKey={this.state.key} onSelect={this.handleSelect} id="controlled-tab-example">
                   <Tab eventKey={1} title="Active">
                     {/* ACTIVE ORDERS */}
-                    <BootstrapTable ref="activeTable" striped condensed
-                      options={ activeOptions }
-                      bordered={ false }
-                      data={ this.state.activeOrders }
-                      // data={ data }
-                      selectRow={ selectActiveRow }
-                      bodyContainerClass='table-body-container'
-                      pagination
-                      insertRow
-                      search
-                      cleanSelected
-                    >
-                      <TableHeaderColumn
-                        dataField='id'
-                        isKey
-                        width='50px'
-                      >#</TableHeaderColumn>
-                      <TableHeaderColumn
-                        dataField='created_at'
-                        dataFormat={ this.startDateFormatter }
-                        width='100px'
-                      >Date</TableHeaderColumn>
-                      <TableHeaderColumn
-                        dataField='address'
-                      >Address</TableHeaderColumn>
-                      <TableHeaderColumn
-                        dataField='status'
-                        width='60px'
-                      >Status</TableHeaderColumn>
-                      <TableHeaderColumn
-                        dataField='step'
-                        width='60px'
-                      >Step</TableHeaderColumn>
-                      <TableHeaderColumn
-                        dataField='clean'
-                        width='60px'
-                      >Clean</TableHeaderColumn>
-                      <TableHeaderColumn
-                        dataField='fold'
-                        width='60px'
-                      >Fold</TableHeaderColumn>
-                      <TableHeaderColumn
-                        dataField='amount'
-                        width='60px'
-                      >Loads</TableHeaderColumn>
-                      <TableHeaderColumn
-                        dataField='instructions'
-                      >Instructions</TableHeaderColumn>
-                    </BootstrapTable>
+                    <div className="active">
+                      <BootstrapTable ref="activeTable" hover condensed
+                        options={ activeOptions }
+                        bordered={ false }
+                        data={ this.state.activeOrders }
+                        selectRow={ selectActiveRow }
+                        expandableRow={ this.isExpandableRow }
+                        expandComponent={ this.expandComponent }
+                        bodyContainerClass='table-body-container'
+                        pagination
+                        insertRow
+                        search
+                        cleanSelected
+                        >
+                          <TableHeaderColumn
+                            dataField='id'
+                            isKey
+                            width='70px'
+                            dataAlign='center'
+                            filter={ { type: 'TextFilter', delay: 1000 } }
+                            expandable={ false }
+                            >Order#</TableHeaderColumn>
+                            <TableHeaderColumn
+                              dataField='created_at'
+                              dataFormat={ this.startDateFormatter }
+                              width='100px'
+                              dataAlign='center'
+                              expandable={ false }
+                              >Date</TableHeaderColumn>
+                              <TableHeaderColumn
+                                dataField='address'
+                                expandable={ false }
+                                tdStyle={ { whiteSpace: 'normal' } }
+                                >Address</TableHeaderColumn>
+                                <TableHeaderColumn
+                                  dataField='step'
+                                  width='70px'
+                                  expandable={ false }
+                                  >Step</TableHeaderColumn>
+                                  <TableHeaderColumn
+                                    dataField='clean'
+                                    width='90px'
+                                    expandable={ false }
+                                    dataAlign='center'
+                                    dataFormat={this.cleanFormatter}
+                                    >Wash/Dry</TableHeaderColumn>
+                                    <TableHeaderColumn
+                                      dataField='fold'
+                                      width='50px'
+                                      expandable={ false }
+                                      dataAlign='center'
+                                      dataFormat={this.foldFormatter}
+                                      >Fold</TableHeaderColumn>
+                                      <TableHeaderColumn
+                                        dataField='amount'
+                                        width='60px'
+                                        expandable={ false }
+                                        dataAlign='center'
+                                        >Loads</TableHeaderColumn>
+                                        <TableHeaderColumn
+                                          width='80px'
+                                          dataFormat={this.buttonFormatter}
+                                          ></TableHeaderColumn>
+                                        </BootstrapTable>
+                    </div>
                   </Tab>
                   <Tab eventKey={2} title="Complete">
                     {/* COMPLETE TABLE */}
-                    <BootstrapTable ref="completeTable" striped condensed
+                    <BootstrapTable ref="completeTable" hover condensed
                       options={ completeOptions }
                       bordered={ false }
                       data={ this.state.completeOrders }
-                      // data={ data }
                       selectRow={ selectCompleteRow }
+                      expandableRow={ this.isExpandableRow }
+                      expandComponent={ this.expandComponent }
                       bodyContainerClass='table-body-container'
                       pagination
                       insertRow
@@ -1030,52 +1126,60 @@ class AdminProfile extends React.Component {
                       <TableHeaderColumn
                         dataField='id'
                         isKey
-                        width='50px'
-                      >#</TableHeaderColumn>
+                        wwidth='70px'
+                        dataAlign='center'
+                        filter={ { type: 'TextFilter', delay: 1000 } }
+                        expandable={ false }
+                      >Order#</TableHeaderColumn>
                       <TableHeaderColumn
                         dataField='created_at'
                         dataFormat={ this.startDateFormatter }
                         width='100px'
+                        dataAlign='center'
+                        expandable={ false }
                       >Date</TableHeaderColumn>
                       <TableHeaderColumn
                         dataField='address'
+                        expandable={ false }
+                        tdStyle={ { whiteSpace: 'normal' } }
                       >Address</TableHeaderColumn>
                       <TableHeaderColumn
                         dataField='status'
                         width='60px'
-                      >Status</TableHeaderColumn>
-                      <TableHeaderColumn
-                        dataField='step'
-                        width='60px'
+                        expandable={ false }
                       >Step</TableHeaderColumn>
                       <TableHeaderColumn
                         dataField='clean'
-                        width='60px'
-                      >Clean</TableHeaderColumn>
+                        width='90px'
+                        expandable={ false }
+                        dataAlign='center'
+                        dataFormat={this.cleanFormatter}
+                      >Wash/Dry</TableHeaderColumn>
                       <TableHeaderColumn
                         dataField='fold'
-                        width='60px'
+                        width='50px'
+                        expandable={ false }
+                        dataAlign='center'
+                        dataFormat={this.foldFormatter}
                       >Fold</TableHeaderColumn>
                       <TableHeaderColumn
                         dataField='amount'
                         width='60px'
+                        expandable={ false }
+                        dataAlign='center'
                       >Loads</TableHeaderColumn>
-                      <TableHeaderColumn
-                        dataField='instructions'
-                      >Instructions</TableHeaderColumn>
                       <TableHeaderColumn
                         dataField='updated_at'
                         dataFormat={ this.endDateFormatter }
                       >Complete</TableHeaderColumn>
+                      <TableHeaderColumn
+                        width='80px'
+                        dataFormat={this.buttonFormatter}
+                      ></TableHeaderColumn>
                     </BootstrapTable>
                   </Tab>
                 </Tabs>
               </Panel>
-
-
-
-
-
 
 
 
@@ -1093,11 +1197,10 @@ class AdminProfile extends React.Component {
                   <Tab eventKey={1} title="Employees">
 
                     {/* EMPLOYEES TABLE */}
-                    <BootstrapTable ref="employeeTable" striped condensed
+                    <BootstrapTable ref="employeeTable" striped hover condensed
                       options={ employeeOptions }
                       bordered={ false }
                       data={ this.state.employees }
-                      // data={ data }
                       selectRow={ selectEmployeeRow }
                       bodyContainerClass='table-body-container'
                       pagination
@@ -1108,8 +1211,10 @@ class AdminProfile extends React.Component {
                       <TableHeaderColumn
                         dataField='id'
                         isKey
-                        width='50px'
-                      >#</TableHeaderColumn>
+                        width='70px'
+                        dataAlign='center'
+                        filter={ { type: 'TextFilter', delay: 1000 } }
+                      >User#</TableHeaderColumn>
                       <TableHeaderColumn
                         dataField='first_name'
                         // width='100px'
@@ -1136,11 +1241,10 @@ class AdminProfile extends React.Component {
 
 
                     {/* CUSTOMERS TABLE */}
-                    <BootstrapTable ref="customerTable" striped condensed
+                    <BootstrapTable ref="customerTable" striped hover condensed
                       options={ customerOptions }
                       bordered={ false }
                       data={ this.state.customers }
-                      // data={ data }
                       selectRow={ selectCustomerRow }
                       bodyContainerClass='table-body-container'
                       pagination
@@ -1151,8 +1255,10 @@ class AdminProfile extends React.Component {
                       <TableHeaderColumn
                         dataField='id'
                         isKey
-                        width='50px'
-                      >#</TableHeaderColumn>
+                        width='70px'
+                        dataAlign='center'
+                        filter={ { type: 'TextFilter', delay: 1000 } }
+                      >User#</TableHeaderColumn>
                       <TableHeaderColumn
                         dataField='first_name'
                         // width='100px'
