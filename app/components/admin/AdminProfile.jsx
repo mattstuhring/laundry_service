@@ -5,6 +5,7 @@ import { Button, FormGroup, FormControl, InputGroup, Panel, ControlLabel, Table,
 import {BootstrapTable, TableHeaderColumn, InsertButton, DeleteButton} from 'react-bootstrap-table';
 import moment from 'moment';
 import Popup from 'Popup';
+import Countdown from 'react-countdown-now';
 
 
 
@@ -73,6 +74,8 @@ class AdminProfile extends React.Component {
     this.buttonFormatter = this.buttonFormatter.bind(this);
     this.cleanFormatter = this.cleanFormatter.bind(this);
     this.foldFormatter = this.foldFormatter.bind(this);
+    this.countdownFormatter = this.countdownFormatter.bind(this);
+    this.hourFormatter = this.hourFormatter.bind(this);
   }
 
 
@@ -773,7 +776,7 @@ class AdminProfile extends React.Component {
 
 
   endDateFormatter(cell, row) {
-    const endDate = moment(row.created_at).format('L');
+    const endDate = moment(row.updated_at).format('L');
     return endDate;
   }
 
@@ -791,9 +794,42 @@ class AdminProfile extends React.Component {
   expandComponent(row) {
     return (
       <BootstrapTable data={ [row] }>
-        <TableHeaderColumn dataField='id' isKey={ true }>#</TableHeaderColumn>
+        <TableHeaderColumn
+          isKey={ true }
+          dataField='amount'
+          width='60px'
+          dataAlign='center'
+        >Loads</TableHeaderColumn>
+        <TableHeaderColumn
+          dataField='clean'
+          width='90px'
+          dataAlign='center'
+          dataFormat={this.cleanFormatter}
+        >Wash/Dry</TableHeaderColumn>
+        <TableHeaderColumn
+          dataField='fold'
+          width='50px'
+          dataAlign='center'
+          dataFormat={this.foldFormatter}
+        >Fold</TableHeaderColumn>
+        <TableHeaderColumn
+          dataField='pick-up'
+          width='70px'
+          dataAlign='center'
+        >Pick-up</TableHeaderColumn>
+        <TableHeaderColumn
+          dataField='wash_dry'
+          width='80px'
+          dataAlign='center'
+        >Clean</TableHeaderColumn>
+        <TableHeaderColumn
+          dataField='dropoff'
+          width='80px'
+          dataAlign='center'
+        >Drop-off</TableHeaderColumn>
         <TableHeaderColumn
           dataField='instructions'
+          dataAlign='center'
           tdStyle={ { whiteSpace: 'normal' } }
         >Instructions</TableHeaderColumn>
       </BootstrapTable>
@@ -827,6 +863,36 @@ class AdminProfile extends React.Component {
       return ( <span className="glyphicon glyphicon-ok" aria-hidden="true"></span> );
     } else {
       return ( <span className="glyphicon glyphicon-remove" aria-hidden="true"></span> );
+    }
+  }
+
+
+  hourFormatter(cell, row) {
+    if (row.step === 'Queue' || row.step === 'Pick-up') {
+      return row.time;
+    } else {
+      return (
+        '---'
+      );
+    }
+  }
+
+
+  countdownFormatter(cell, row) {
+    if (row.step === 'Queue' || row.step === 'Pick-up') {
+      const Completionist = () => <span>Overdue!</span>;
+      const date = moment(row.created_at).format('MM-DD-YYYY');
+      let now = date + ' ' + row.time;
+
+      return (
+        <Countdown date={now}>
+          <Completionist />
+        </Countdown>
+      );
+    } else {
+      return (
+        '---'
+      );
     }
   }
 
@@ -994,42 +1060,39 @@ class AdminProfile extends React.Component {
                       <TableHeaderColumn
                         dataField='created_at'
                         dataFormat={ this.startDateFormatter }
-                        width='100px'
+                        width='90px'
                         dataAlign='center'
                         expandable={ false }
                       >Date</TableHeaderColumn>
                       <TableHeaderColumn
+                        dataField='time'
+                        width='90px'
+                        dataAlign='center'
+                        expandable={ false }
+                        dataFormat={ this.hourFormatter }
+                      >Hour</TableHeaderColumn>
+                      <TableHeaderColumn
+                        dataField='time'
+                        width='90px'
+                        dataAlign='center'
+                        expandable={ false }
+                        dataFormat={ this.countdownFormatter }
+                      >Time</TableHeaderColumn>
+                      <TableHeaderColumn
                         dataField='address'
                         expandable={ false }
+                        dataAlign='center'
                         tdStyle={ { whiteSpace: 'normal' } }
                       >Address</TableHeaderColumn>
                       <TableHeaderColumn
                         dataField='step'
-                        width='70px'
+                        width='90px'
+                        dataAlign='center'
                         expandable={ false }
                       >Step</TableHeaderColumn>
                       <TableHeaderColumn
-                        dataField='clean'
-                        width='90px'
-                        expandable={ false }
-                        dataAlign='center'
-                        dataFormat={this.cleanFormatter}
-                      >Wash/Dry</TableHeaderColumn>
-                      <TableHeaderColumn
-                        dataField='fold'
-                        width='50px'
-                        expandable={ false }
-                        dataAlign='center'
-                        dataFormat={this.foldFormatter}
-                      >Fold</TableHeaderColumn>
-                      <TableHeaderColumn
-                        dataField='amount'
-                        width='60px'
-                        expandable={ false }
-                        dataAlign='center'
-                      >Loads</TableHeaderColumn>
-                      <TableHeaderColumn
                         width='80px'
+                        dataAlign='center'
                         dataFormat={this.buttonFormatter}
                       ></TableHeaderColumn>
                   </BootstrapTable>
@@ -1055,57 +1118,54 @@ class AdminProfile extends React.Component {
                         insertRow
                         search
                         cleanSelected
-                        >
-                          <TableHeaderColumn
-                            dataField='id'
-                            isKey
-                            width='70px'
-                            dataAlign='center'
-                            filter={ { type: 'TextFilter', delay: 1000 } }
-                            expandable={ false }
-                            >Order#</TableHeaderColumn>
-                            <TableHeaderColumn
-                              dataField='created_at'
-                              dataFormat={ this.startDateFormatter }
-                              width='100px'
-                              dataAlign='center'
-                              expandable={ false }
-                              >Date</TableHeaderColumn>
-                              <TableHeaderColumn
-                                dataField='address'
-                                expandable={ false }
-                                tdStyle={ { whiteSpace: 'normal' } }
-                                >Address</TableHeaderColumn>
-                                <TableHeaderColumn
-                                  dataField='step'
-                                  width='70px'
-                                  expandable={ false }
-                                  >Step</TableHeaderColumn>
-                                  <TableHeaderColumn
-                                    dataField='clean'
-                                    width='90px'
-                                    expandable={ false }
-                                    dataAlign='center'
-                                    dataFormat={this.cleanFormatter}
-                                    >Wash/Dry</TableHeaderColumn>
-                                    <TableHeaderColumn
-                                      dataField='fold'
-                                      width='50px'
-                                      expandable={ false }
-                                      dataAlign='center'
-                                      dataFormat={this.foldFormatter}
-                                      >Fold</TableHeaderColumn>
-                                      <TableHeaderColumn
-                                        dataField='amount'
-                                        width='60px'
-                                        expandable={ false }
-                                        dataAlign='center'
-                                        >Loads</TableHeaderColumn>
-                                        <TableHeaderColumn
-                                          width='80px'
-                                          dataFormat={this.buttonFormatter}
-                                          ></TableHeaderColumn>
-                                        </BootstrapTable>
+                      >
+                        <TableHeaderColumn
+                          dataField='id'
+                          isKey
+                          width='70px'
+                          dataAlign='center'
+                          filter={ { type: 'TextFilter', delay: 1000 } }
+                          expandable={ false }
+                        >Order#</TableHeaderColumn>
+                        <TableHeaderColumn
+                          dataField='created_at'
+                          dataFormat={ this.startDateFormatter }
+                          width='90px'
+                          dataAlign='center'
+                          expandable={ false }
+                        >Date</TableHeaderColumn>
+                        <TableHeaderColumn
+                          dataField='time'
+                          width='90px'
+                          dataAlign='center'
+                          expandable={ false }
+                          dataFormat={ this.hourFormatter }
+                        >Hour</TableHeaderColumn>
+                        <TableHeaderColumn
+                          dataField='time'
+                          width='90px'
+                          dataAlign='center'
+                          expandable={ false }
+                          dataFormat={ this.countdownFormatter }
+                        >Time</TableHeaderColumn>
+                        <TableHeaderColumn
+                          dataField='address'
+                          expandable={ false }
+                          dataAlign='center'
+                          tdStyle={ { whiteSpace: 'normal' } }
+                        >Address</TableHeaderColumn>
+                        <TableHeaderColumn
+                          dataField='step'
+                          width='90px'
+                          dataAlign='center'
+                          expandable={ false }
+                        >Step</TableHeaderColumn>
+                        <TableHeaderColumn
+                          width='80px'
+                          dataAlign='center'
+                          dataFormat={this.buttonFormatter}
+                        ></TableHeaderColumn>
+                      </BootstrapTable>
                     </div>
                   </Tab>
                   <Tab eventKey={2} title="Complete">
@@ -1126,54 +1186,47 @@ class AdminProfile extends React.Component {
                       <TableHeaderColumn
                         dataField='id'
                         isKey
-                        wwidth='70px'
+                        width='70px'
                         dataAlign='center'
                         filter={ { type: 'TextFilter', delay: 1000 } }
                         expandable={ false }
                       >Order#</TableHeaderColumn>
                       <TableHeaderColumn
-                        dataField='created_at'
-                        dataFormat={ this.startDateFormatter }
+                        dataField='updated_at'
+                        dataFormat={ this.endDateFormatter }
                         width='100px'
                         dataAlign='center'
                         expandable={ false }
-                      >Date</TableHeaderColumn>
+                      >Completed</TableHeaderColumn>
+                      <TableHeaderColumn
+                        dataField='time'
+                        width='90px'
+                        dataAlign='center'
+                        expandable={ false }
+                        dataFormat={ this.hourFormatter }
+                      >Time</TableHeaderColumn>
+                      {/* <TableHeaderColumn
+                        dataField='time'
+                        width='90px'
+                        dataAlign='center'
+                        expandable={ false }
+                        dataFormat={ this.countdownFormatter }
+                      >Time</TableHeaderColumn> */}
                       <TableHeaderColumn
                         dataField='address'
                         expandable={ false }
+                        dataAlign='center'
                         tdStyle={ { whiteSpace: 'normal' } }
                       >Address</TableHeaderColumn>
-                      <TableHeaderColumn
-                        dataField='status'
-                        width='60px'
-                        expandable={ false }
-                      >Step</TableHeaderColumn>
-                      <TableHeaderColumn
-                        dataField='clean'
+                      {/* <TableHeaderColumn
+                        dataField='step'
                         width='90px'
-                        expandable={ false }
                         dataAlign='center'
-                        dataFormat={this.cleanFormatter}
-                      >Wash/Dry</TableHeaderColumn>
-                      <TableHeaderColumn
-                        dataField='fold'
-                        width='50px'
                         expandable={ false }
-                        dataAlign='center'
-                        dataFormat={this.foldFormatter}
-                      >Fold</TableHeaderColumn>
-                      <TableHeaderColumn
-                        dataField='amount'
-                        width='60px'
-                        expandable={ false }
-                        dataAlign='center'
-                      >Loads</TableHeaderColumn>
-                      <TableHeaderColumn
-                        dataField='updated_at'
-                        dataFormat={ this.endDateFormatter }
-                      >Complete</TableHeaderColumn>
+                      >Step</TableHeaderColumn> */}
                       <TableHeaderColumn
                         width='80px'
+                        dataAlign='center'
                         dataFormat={this.buttonFormatter}
                       ></TableHeaderColumn>
                     </BootstrapTable>

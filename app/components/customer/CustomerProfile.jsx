@@ -1,10 +1,9 @@
 import React from 'react';
 import axios from 'axios';
 import { browserHistory, withRouter } from 'react-router';
-import { Button, FormGroup, FormControl, InputGroup, Panel, ControlLabel, Table, Tabs, Tab, ProgressBar, Checkbox, Radio, Breadcrumb, Alert, Pager, Form, Col } from 'react-bootstrap';
+import { Button, FormGroup, FormControl, InputGroup, Panel, ControlLabel, Table, Tabs, Tab, ProgressBar, Checkbox, Radio, Breadcrumb, Alert, Pager, Form, Col, Row } from 'react-bootstrap';
 import {BootstrapTable, TableHeaderColumn, InsertButton} from 'react-bootstrap-table';
 import moment from 'moment';
-import DatePicker from 'react-datepicker';
 import Popup from 'Popup';
 import StripeCheckout from 'react-stripe-checkout';
 import STRIPE_PUBLISHABLE from '../constants/stripe';
@@ -38,9 +37,8 @@ class CustomerProfile extends React.Component {
       selectedLoadsOption: null,
       selectedServiceClean: false,
       selectedServiceFold: false,
-      orderContact: '',
       orderInstructions: '',
-      orderPickupDate: undefined,
+      orderPickupDate: moment().format('MM-DD-YYYY'),
       orderPickupTime: '',
       orderTotalCost: 0,
       orderServiceCost: 0,
@@ -123,41 +121,11 @@ class CustomerProfile extends React.Component {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
   handleRadioChange(changeEvent) {
     let num = parseInt(changeEvent.target.value);
     console.log(num, '************ load number');
     this.setState({ orderLoads: num, selectedLoadsOption: num });
   }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -191,40 +159,7 @@ class CustomerProfile extends React.Component {
       }
       console.log(false);
     }
-
-
-
-
-    // Remove uncheck box value
-    // if (orderServices.length > 0) {
-    //   for (let i = 0; i < orderServices.length; i++) {
-    //     if (orderServices[i] === servName) {
-    //       arr.splice(i, 1);
-    //       this.setState({
-    //         orderServices: arr,
-    //         orderServiceCost: this.state.orderServiceCost - servAmount
-    //       });
-    //
-    //       return;
-    //     }
-    //   }
-    // }
-    //
-    // arr.push(servName);
-    // this.setState({orderServices: arr});
   }
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -304,7 +239,7 @@ class CustomerProfile extends React.Component {
         description: 'Pick-up, clean, & drop-off!',
         source: token.id,
         currency: 'USD',
-        amount: 1500
+        amount: this.state.orderTotalCost * 100
       })
       .then((res) => {
         const { customerAddress, orderServices, orderLoads, customerPhoneNumber, orderInstructions, orderTotalCost, orderPickupTime } = this.state;
@@ -320,7 +255,26 @@ class CustomerProfile extends React.Component {
             let q = Object.assign([], this.state.queueOrders);
             q.unshift(data);
 
-            this.setState({ queueOrders: q, showModal: false, customerAddress: '', orderServices: [], orderLoads: 1, customerPhoneNumber: '', orderInstructions: '', orderPickupDate: undefined, orderTotalCost: 0, orderPickupTime: '',key: 2, formKey: 1, alertVisible: true, selectedServiceClean: false, selectedServiceFold: false });
+            this.setState({
+              queueOrders: q,
+              showModal: false,
+              customerAddress: '',
+              orderServices: [],
+              orderLoads: 1,
+              customerPhoneNumber: '',
+              orderInstructions: '',
+              orderPickupDate: moment().format('MM-DD-YYYY'),
+              orderTotalCost: 0,
+              orderServiceCost: 0,
+              orderPickupTime: '',
+              key: 2,
+              formKey: 1,
+              alertVisible: true,
+              selectedServiceClean: false,
+              selectedServiceFold: false
+            });
+
+
 
             return axios.post('/api/notify', { newOrder, orderId: data.id })
               .then((r) => {
@@ -373,6 +327,14 @@ class CustomerProfile extends React.Component {
     const endDate = moment(row.created_at).format('L');
     return endDate;
   }
+
+
+
+
+
+
+
+
 
 
 
@@ -524,37 +486,45 @@ class CustomerProfile extends React.Component {
             {/* DATE & TIME */}
             <FormGroup>
               <Col componentClass={ControlLabel} sm={3}>
-                <span className="date-time-label">Date/Time for Pick-up:</span>
+                Laundry pick-up:
               </Col>
-              <Col sm={5}>
-                <DatePicker
-                  selected={this.state.orderPickupDate}
-                  onChange={this.handleDateChange}
-                  withPortal
-                  placeholderText="Click to select date"
-                />
-              </Col>
-              <Col sm={3}>
-                <FormGroup controlId="formControlsSelect">
-                  <FormControl
-                    placeholder="Select time"
-                    componentClass="select"
-                    onChange={this.handleTimeChange}
-                    value={this.state.orderPickupTime}
-                  >
-                    <option>Select time</option>
-                    <option value="08:00 AM">08:00 AM</option>
-                    <option value="08:30 AM">08:30 AM</option>
-                    <option value="09:00 AM">09:00 AM</option>
-                    <option value="09:30 AM">09:30 AM</option>
-                    <option value="10:00 AM">10:00 AM</option>
-                    <option value="12:00 PM">12:00 PM</option>
-                    <option value="04:00 PM">04:00 PM</option>
-                    <option value="04:30 PM">04:30 PM</option>
-                    <option value="05:00 PM">05:00 PM</option>
-                  </FormControl>
-                </FormGroup>
-              </Col>
+
+
+
+
+
+
+
+              <div className="pick-up">
+                <Col sm={9}>
+                  <Col sm={6}>
+                    <FormControl
+                      type="text"
+                      value={this.state.orderPickupDate}
+                      disabled
+                    />
+                  </Col>
+                  <Col sm={6}>
+                    <FormControl
+                      placeholder="Select time"
+                      componentClass="select"
+                      onChange={this.handleTimeChange}
+                      value={this.state.orderPickupTime}
+                      >
+                        <option>Select time</option>
+                        <option value="08:00 AM">08:00 AM</option>
+                        <option value="08:30 AM">08:30 AM</option>
+                        <option value="09:00 AM">09:00 AM</option>
+                        <option value="09:30 AM">09:30 AM</option>
+                        <option value="10:00 AM">10:00 AM</option>
+                        <option value="12:00 PM">12:00 PM</option>
+                        <option value="04:00 PM">04:00 PM</option>
+                        <option value="04:30 PM">04:30 PM</option>
+                        <option value="05:00 PM">05:00 PM</option>
+                      </FormControl>
+                    </Col>
+                  </Col>
+              </div>
             </FormGroup>
 
             {/* SPAM PROTECTION */}
@@ -614,7 +584,7 @@ class CustomerProfile extends React.Component {
                   <StripeCheckout
                     name="Laundry Service"
                     description="Pick-up, clean, & drop-off!"
-                    amount={1500}
+                    amount={this.state.orderTotalCost * 100}
                     token={this.onToken}
                     currency="USD"
                     stripeKey={STRIPE_PUBLISHABLE}

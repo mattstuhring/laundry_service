@@ -4,7 +4,7 @@ exports.up = function(knex) {
   return knex.schema.createTable('payments', (table) => {
     table.increments('id');
     table.string('type').defaultTo('');
-    table.decimal('amount').defaultTo(null);
+    table.decimal('total').defaultTo(null);
     table.timestamps(true, true);
   })
 };

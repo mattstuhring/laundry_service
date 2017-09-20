@@ -6,6 +6,7 @@ exports.up = function(knex) {
     table.string('address').defaultTo('');
     table.string('status').defaultTo('');
     table.string('step').defaultTo('');
+    table.string('time').defaultTo('');
     table.string('instructions').defaultTo('');
     table.integer('customer_id')
       .unsigned()
@@ -29,10 +30,6 @@ exports.up = function(knex) {
       .unsigned()
       .references('id')
       .inTable('tasks');
-    table.integer('pickup_id')
-      .unsigned()
-      .references('id')
-      .inTable('pickups');
     table.timestamps(true, true);
   })
 };

@@ -9,12 +9,12 @@ exports.seed = function(knex) {
         status: 'Queue',
         step: 'Queue',
         instructions: 'Thanks!',
+        time: '08:00 AM',
         customer_id: 3,
         employee_id: 2,
         payment_id: 1,
         setting_id: 1,
         task_id: 1,
-        pickup_id: 1,
         created_at: new Date('2017-08-15 12:12:16 UTC'),
         updated_at: new Date('2017-08-15 12:12:16 UTC')
       },
@@ -24,12 +24,12 @@ exports.seed = function(knex) {
         status: 'Queue',
         step: 'Queue',
         instructions: 'Text me when you get here.',
+        time: '04:00 PM',
         customer_id: 3,
         employee_id: 2,
         payment_id: 2,
         setting_id: 2,
         task_id: 2,
-        pickup_id: 2,
         created_at: new Date('2017-08-16 12:12:16 UTC'),
         updated_at: new Date('2017-08-16 12:12:16 UTC')
       }])

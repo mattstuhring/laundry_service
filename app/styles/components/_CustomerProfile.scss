@@ -10,13 +10,18 @@
   }
 
   h3.panel-title {
-    font-size: 4vw;
-    text-align: center;
+    font-size: 3vw;
   }
 
-  .date-time-label {
-    position: relative;
-    bottom: 10px;
+  .pick-up {
+    .col-sm-6:nth-child(1) {
+      padding-left: 0px;
+      padding-right: 0px;
+    }
+
+    .col-sm-6:nth-child(2) {
+      padding-right: 0px;
+    }
   }
 
   .panel-body {

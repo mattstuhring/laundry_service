@@ -6,14 +6,14 @@ exports.seed = function(knex) {
       {
         id: 1,
         type: 'Credit',
-        amount: 10.00,
+        total: 10.00,
         created_at: new Date('2017-08-15 12:12:16 UTC'),
         updated_at: new Date('2017-08-15 12:12:16 UTC')
       },
       {
         id: 2,
-        type: '',
-        amount: null,
+        type: 'Credit',
+        total: 10.00,
         created_at: new Date('2017-08-17 12:12:16 UTC'),
         updated_at: new Date('2017-08-17 12:12:16 UTC')
       }])

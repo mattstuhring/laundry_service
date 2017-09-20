@@ -2,6 +2,12 @@
   position: absolute;
   z-index: 1 !important;
 
+  background-image: url('/images/background.jpg');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 765px;
+
   .panel-title {
     font-size: 4vw;
     text-align: center;
