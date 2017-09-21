@@ -56,6 +56,7 @@ class EmployeeProfile extends React.Component {
     this.foldFormatter = this.foldFormatter.bind(this);
     this.countdownFormatter = this.countdownFormatter.bind(this);
     this.hourFormatter = this.hourFormatter.bind(this);
+    this.trClassFormat = this.trClassFormat.bind(this);
   }
 
 
@@ -133,7 +134,8 @@ class EmployeeProfile extends React.Component {
               queueOrders: res.data[0],
               completeOrders: res.data[1],
               activeOrders: res.data[2],
-              selectedActiveOrders: []
+              selectedActiveOrders: [],
+              selectedQueueOrders: []
             });
           })
           .catch((err) => {
@@ -155,6 +157,10 @@ class EmployeeProfile extends React.Component {
         this.refs.activeTable.setState({
           selectedRowKeys: []
         });
+        this.refs.activeTable.cleanSelected();
+        this.refs.activeTable.setState({
+          selectedRowKeys: []
+        });
 
         return axios.get(`/api/employeeOrders`)
           .then((res) => {
@@ -163,7 +169,8 @@ class EmployeeProfile extends React.Component {
               queueOrders: res.data[0],
               completeOrders: res.data[1],
               activeOrders: res.data[2],
-              selectedActiveOrders: []
+              selectedActiveOrders: [],
+              selectedQueueOrders: []
             });
           })
           .catch((err) => {
@@ -364,8 +371,10 @@ class EmployeeProfile extends React.Component {
 
   expandComponent(row) {
     return (
-      <div>
-        <BootstrapTable data={ [row] }>
+      <div className="expand-row">
+        <BootstrapTable data={ [row] }
+          condensed
+        >
           <TableHeaderColumn
             isKey={ true }
             dataField='amount'
@@ -410,7 +419,9 @@ class EmployeeProfile extends React.Component {
             tdStyle={ { whiteSpace: 'normal' } }
           >Instructions</TableHeaderColumn>
         </BootstrapTable>
-        <BootstrapTable data={ [row] }>
+        <BootstrapTable data={ [row] }
+          condensed
+        >
           <TableHeaderColumn
             isKey={ true }
             dataField='customer_id'
@@ -487,7 +498,6 @@ class EmployeeProfile extends React.Component {
   }
 
 
-
   countdownFormatter(cell, row) {
     if (row.step === 'Queue' || row.step === 'Pick-up') {
       const Completionist = () => <span>Overdue!</span>;
@@ -507,8 +517,10 @@ class EmployeeProfile extends React.Component {
   }
 
 
-
-
+  trClassFormat(row, rowIndex) {
+    // row is the current row data
+    return rowIndex % 2 === 0 ? "tr-odd" : "tr-even"; // return class name.
+  }
 
 
 
@@ -524,7 +536,6 @@ class EmployeeProfile extends React.Component {
   render() {
     const { firstName } = this.state;
 
-    console.log(this.state.queueOrders, '********* queue orders');
 
     const queueOptions = {
       insertBtn: this.queueButtons,
@@ -654,7 +665,7 @@ class EmployeeProfile extends React.Component {
                     selectRow={ selectQueueRow }
                     expandableRow={ this.isExpandableRow }
                     expandComponent={ this.expandComponent }
-                    bodyContainerClass='table-body-container'
+                    trClassName={this.trClassFormat}
                     pagination
                     insertRow
                     search={true}
@@ -750,7 +761,7 @@ class EmployeeProfile extends React.Component {
                         selectRow={ selectActiveRow }
                         expandableRow={ this.isExpandableRow }
                         expandComponent={ this.expandComponent }
-                        bodyContainerClass='table-body-container'
+                        trClassName={this.trClassFormat}
                         pagination
                         insertRow
                         search
@@ -812,7 +823,7 @@ class EmployeeProfile extends React.Component {
                         data={ this.state.completeOrders }
                         expandableRow={ this.isExpandableRow }
                         expandComponent={ this.expandComponent }
-                        bodyContainerClass='table-body-container'
+                        trClassName={this.trClassFormat}
                         pagination
                         search
                       >

@@ -10,6 +10,14 @@ body {
 
 .main {
 
+  .expand-row thead {
+    background-color: #e5e5ea;
+  }
+
+  .tr-odd {
+    background-color: #f4f4f6 !important;
+  }
+
   .main-header {
 
     h1 {

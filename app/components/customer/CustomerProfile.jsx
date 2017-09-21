@@ -1,7 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import { browserHistory, withRouter } from 'react-router';
-import { Button, FormGroup, FormControl, InputGroup, Panel, ControlLabel, Table, Tabs, Tab, ProgressBar, Checkbox, Radio, Breadcrumb, Alert, Pager, Form, Col, Row } from 'react-bootstrap';
+import { Button, FormGroup, FormControl, InputGroup, Panel, ControlLabel, Table, Tabs, Tab, ProgressBar, Checkbox, Radio, Breadcrumb, Alert, Pager, Form, Col, Row, HelpBlock } from 'react-bootstrap';
 import {BootstrapTable, TableHeaderColumn, InsertButton} from 'react-bootstrap-table';
 import moment from 'moment';
 import Popup from 'Popup';
@@ -33,7 +33,7 @@ class CustomerProfile extends React.Component {
       },
       orderAddress: '',
       orderServices: [],
-      orderLoads: 1,
+      orderLoads: 0,
       selectedLoadsOption: null,
       selectedServiceClean: false,
       selectedServiceFold: false,
@@ -64,6 +64,7 @@ class CustomerProfile extends React.Component {
     this.endDateFormatter = this.endDateFormatter.bind(this);
     this.customSearch = this.customSearch.bind(this);
     this.handleTotalCost = this.handleTotalCost.bind(this);
+    this.textareaValidationState = this.textareaValidationState.bind(this);
   }
 
 
@@ -123,14 +124,12 @@ class CustomerProfile extends React.Component {
 
   handleRadioChange(changeEvent) {
     let num = parseInt(changeEvent.target.value);
-    console.log(num, '************ load number');
     this.setState({ orderLoads: num, selectedLoadsOption: num });
   }
 
 
 
   handleBoxChange(event) {
-    console.log(event);
     let servs = event.target.value.split(',');
     let servName = servs[0];
     let servAmount = parseInt(servs[1]);
@@ -146,7 +145,6 @@ class CustomerProfile extends React.Component {
         this.setState({ selectedServiceFold: true, orderServices: arr, orderServiceCost: this.state.orderServiceCost + servAmount });
       }
 
-      console.log(true);
     }
     else {
       const index = arr.indexOf(servName, 1);
@@ -157,7 +155,6 @@ class CustomerProfile extends React.Component {
       } else if (servName === 'fold') {
         this.setState({ selectedServiceFold: false, orderServices: arr, orderServiceCost: this.state.orderServiceCost - servAmount });
       }
-      console.log(false);
     }
   }
 
@@ -165,9 +162,24 @@ class CustomerProfile extends React.Component {
 
   handleTotalCost(key) {
     const { activeServices, activeInfo, activePayment, orderServiceCost, orderLoads } = this.state;
+    console.log(orderLoads, '************* loads');
+
+    if (this.state.orderServices.length <= 0 || this.state.orderLoads === 0 || this.state.orderInstructions.length > 90) {
+      this.props.setToast('Please check the form & try agian.', {type: 'error'});
+
+      return;
+    }
+
+
 
     if (key === 1) {
-      this.setState({formKey: key, activeServices: true, activeInfo: false, activePayment: false, orderTotalCost: orderServiceCost * orderLoads});
+      this.setState({
+        formKey: key,
+        activeServices: true,
+        activeInfo: false,
+        activePayment: false,
+        orderTotalCost: orderServiceCost * orderLoads
+      });
     } else if (key === 2) {
       this.setState({formKey: key, activeServices: false, activeInfo: true, activePayment: false, orderTotalCost: orderServiceCost * orderLoads});
     } else {
@@ -179,16 +191,22 @@ class CustomerProfile extends React.Component {
 
 
   handleSelectKey(key) {
-    const { activeServices, activeInfo, activePayment } = this.state;
+    const { activeServices, activeInfo, activePayment, customerAddress, customerPhoneNumber, orderPickupTime } = this.state;
 
     if (key === 1) {
       this.setState({formKey: key, activeServices: true, activeInfo: false, activePayment: false});
     } else if (key === 2) {
       this.setState({formKey: key, activeServices: false, activeInfo: true, activePayment: false});
-    } else {
+    } else if (key === 3) {
+      if (customerAddress === '' || customerPhoneNumber === '' || orderPickupTime === '') {
+        this.props.setToast('Please check the form & try agian.', {type: 'error'});
+        return;
+      }
+
       this.setState({formKey: key, activeServices: false, activeInfo: false, activePayment: true});
     }
   }
+
 
 
 
@@ -260,7 +278,7 @@ class CustomerProfile extends React.Component {
               showModal: false,
               customerAddress: '',
               orderServices: [],
-              orderLoads: 1,
+              orderLoads: 0,
               customerPhoneNumber: '',
               orderInstructions: '',
               orderPickupDate: moment().format('MM-DD-YYYY'),
@@ -327,6 +345,20 @@ class CustomerProfile extends React.Component {
     const endDate = moment(row.created_at).format('L');
     return endDate;
   }
+
+
+  textareaValidationState() {
+    const length = this.state.orderInstructions.length;
+
+    if (length === 0) {
+      return;
+    } else if (length <= 90) {
+      return 'success';
+    } else if (length > 90) {
+      return 'error';
+    }
+  }
+
 
 
 
@@ -421,10 +453,10 @@ class CustomerProfile extends React.Component {
               </Col>
             </FormGroup>
 
-            {/* SPECIAL INSTRUCTIONS */}
-            <FormGroup>
+            {/* INSTRUCTIONS */}
+            <FormGroup validationState={this.textareaValidationState()}>
               <Col componentClass={ControlLabel} sm={3}>
-                Instructions:
+                Optional:
               </Col>
               <Col sm={9}>
                 <FormControl
@@ -435,6 +467,7 @@ class CustomerProfile extends React.Component {
                   value={this.state.orderInstructions}
                   onChange={this.handleChange.bind(this)}
                 />
+                <HelpBlock>90 character max.</HelpBlock>
               </Col>
             </FormGroup>
 
@@ -488,44 +521,36 @@ class CustomerProfile extends React.Component {
               <Col componentClass={ControlLabel} sm={3}>
                 Laundry pick-up:
               </Col>
-
-
-
-
-
-
-
-              <div className="pick-up">
-                <Col sm={9}>
-                  <Col sm={6}>
-                    <FormControl
-                      type="text"
-                      value={this.state.orderPickupDate}
-                      disabled
-                    />
-                  </Col>
-                  <Col sm={6}>
-                    <FormControl
-                      placeholder="Select time"
-                      componentClass="select"
-                      onChange={this.handleTimeChange}
-                      value={this.state.orderPickupTime}
-                      >
-                        <option>Select time</option>
-                        <option value="08:00 AM">08:00 AM</option>
-                        <option value="08:30 AM">08:30 AM</option>
-                        <option value="09:00 AM">09:00 AM</option>
-                        <option value="09:30 AM">09:30 AM</option>
-                        <option value="10:00 AM">10:00 AM</option>
-                        <option value="12:00 PM">12:00 PM</option>
-                        <option value="04:00 PM">04:00 PM</option>
-                        <option value="04:30 PM">04:30 PM</option>
-                        <option value="05:00 PM">05:00 PM</option>
-                      </FormControl>
-                    </Col>
-                  </Col>
-              </div>
+              <Col sm={4} className="text-center">
+                <FormControl
+                  type="text"
+                  value={this.state.orderPickupDate}
+                  disabled
+                  className="text-center"
+                />
+                <HelpBlock>Today's date.</HelpBlock>
+              </Col>
+              <Col sm={5}>
+                <FormControl
+                  placeholder="Select time"
+                  componentClass="select"
+                  onChange={this.handleTimeChange}
+                  value={this.state.orderPickupTime}
+                >
+                  <option>Select time</option>
+                  <option value="08:00 AM">08:00 AM</option>
+                  <option value="08:30 AM">08:30 AM</option>
+                  <option value="09:00 AM">09:00 AM</option>
+                  <option value="09:30 AM">09:30 AM</option>
+                  <option value="10:00 AM">10:00 AM</option>
+                  <option value="12:00 PM">12:00 PM</option>
+                  <option value="04:00 PM">04:00 PM</option>
+                  <option value="04:30 PM">04:30 PM</option>
+                  <option value="05:00 PM">05:00 PM</option>
+                </FormControl>
+              </Col>
             </FormGroup>
+
 
             {/* SPAM PROTECTION */}
             <div className="form-group hidden">
@@ -538,6 +563,33 @@ class CustomerProfile extends React.Component {
               />
             </div>
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
             {/* ACTION BTNS */}
             <div className="row">
               <Pager>
@@ -546,6 +598,29 @@ class CustomerProfile extends React.Component {
                 <Pager.Item href="#" next onClick={() => this.handleSelectKey(3)}>Next &rarr;</Pager.Item>
               </Pager>
             </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
           </Form>
         </div>;
       } else if (formKey === 3) {
@@ -579,7 +654,7 @@ class CustomerProfile extends React.Component {
               <Pager>
                 <Pager.Item href="#" previous onClick={() => this.handleSelectKey(2)}>&larr; Back</Pager.Item>
                 {' '}
-                <Pager.Item href="#" next onClick={() => this.handleSelectKey(3)}>
+                <Pager.Item href="#" next>
                   {/* STRIPE PAYMENT BTN */}
                   <StripeCheckout
                     name="Laundry Service"

@@ -6,6 +6,8 @@ const bcrypt = require('bcrypt-as-promised');
 const boom = require('boom');
 const { camelizeKeys, decamelizeKeys } = require('humps');
 const { checkAuth } = require('./auth-middleware');
+const nodemailer = require('nodemailer');
+const smtpTransport = require('nodemailer-smtp-transport');
 
 const router = express.Router();
 
@@ -68,6 +70,7 @@ router.get('/employeeOrders', checkAuth, (req, res, next) => {
 
 
 
+// ACCEPTING A NEW ORDER -> Update orders status from QUEUE to ACTIVE
 router.put('/employeeOrders', checkAuth, (req, res, next) => {
   const { userId, access } = req.token;
   const { selectedQueueOrders, check } = req.body;
@@ -79,7 +82,6 @@ router.put('/employeeOrders', checkAuth, (req, res, next) => {
 
     for (let i = 0; i < selectedQueueOrders.length; i++) {
 
-      console.log(selectedQueueOrders[i], '*********** q orders');
       if (check === 'active') {
         orderStatus = 'Active';
       } else if (check === 'complete') {
@@ -123,8 +125,6 @@ router.put('/employeeOrders', checkAuth, (req, res, next) => {
             .catch((err) => {
               next(err);
             });
-
-          console.log('WE MADE IT HERE');
         })
         .catch((err) => {
           next(err);
@@ -142,7 +142,7 @@ router.put('/employeeOrders', checkAuth, (req, res, next) => {
 
 
 
-// EMPLOYEE COMPLETED TASK -> MOVE TO NEXT TASK
+// COMPLETING AN ORDER TASK -> Update orders status from ACTIVE to QUEUE
 router.post('/employeeOrders', checkAuth, (req, res, next) => {
   const { userId, access } = req.token;
   const { selectedActiveOrders } = req.body;
@@ -167,7 +167,30 @@ router.post('/employeeOrders', checkAuth, (req, res, next) => {
             status: 'Complete'
           })
           .then((result) => {
-            console.log(result);
+            var transporter = nodemailer.createTransport(smtpTransport({
+              service: 'Gmail',
+              auth: {
+                user: process.env.GMAIL_USER,
+                pass: process.env.GMAIL_PASSWORD
+              }
+            }));
+
+            let mailOptions = {
+               from: process.env.GMAIL_USER,
+               to: process.env.GMAIL_USER,
+               subject: 'Laundry Service - Completed Order',
+               text: `Completed order #: ${selectedActiveOrders[i].id}`
+            };
+
+            transporter.sendMail(mailOptions, (error, info) => {
+              if (error) {
+                console.log(error);
+                return;
+              }
+
+              console.log('Message %s sent: %s', info.messageId, info.response);
+              transporter.close();
+            });
           })
           .catch((err) => {
             next(err);

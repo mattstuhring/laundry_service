@@ -76,6 +76,10 @@ class AdminProfile extends React.Component {
     this.foldFormatter = this.foldFormatter.bind(this);
     this.countdownFormatter = this.countdownFormatter.bind(this);
     this.hourFormatter = this.hourFormatter.bind(this);
+    this.pickupFormatter = this.pickupFormatter.bind(this);
+    this.washFormatter = this.washFormatter.bind(this);
+    this.dropoffFormatter = this.dropoffFormatter.bind(this);
+    this.trClassFormat = this.trClassFormat.bind(this);
   }
 
 
@@ -793,46 +797,84 @@ class AdminProfile extends React.Component {
 
   expandComponent(row) {
     return (
-      <BootstrapTable data={ [row] }>
-        <TableHeaderColumn
-          isKey={ true }
-          dataField='amount'
-          width='60px'
-          dataAlign='center'
-        >Loads</TableHeaderColumn>
-        <TableHeaderColumn
-          dataField='clean'
-          width='90px'
-          dataAlign='center'
-          dataFormat={this.cleanFormatter}
-        >Wash/Dry</TableHeaderColumn>
-        <TableHeaderColumn
-          dataField='fold'
-          width='50px'
-          dataAlign='center'
-          dataFormat={this.foldFormatter}
-        >Fold</TableHeaderColumn>
-        <TableHeaderColumn
-          dataField='pick-up'
-          width='70px'
-          dataAlign='center'
-        >Pick-up</TableHeaderColumn>
-        <TableHeaderColumn
-          dataField='wash_dry'
-          width='80px'
-          dataAlign='center'
-        >Clean</TableHeaderColumn>
-        <TableHeaderColumn
-          dataField='dropoff'
-          width='80px'
-          dataAlign='center'
-        >Drop-off</TableHeaderColumn>
-        <TableHeaderColumn
-          dataField='instructions'
-          dataAlign='center'
-          tdStyle={ { whiteSpace: 'normal' } }
-        >Instructions</TableHeaderColumn>
-      </BootstrapTable>
+      <div className="expand-row">
+        <BootstrapTable data={ [row] }>
+          <TableHeaderColumn
+            isKey={ true }
+            dataField='amount'
+            width='60px'
+            dataAlign='center'
+          >Loads</TableHeaderColumn>
+          <TableHeaderColumn
+            dataField='clean'
+            width='90px'
+            dataAlign='center'
+            dataFormat={this.cleanFormatter}
+          >Wash/Dry</TableHeaderColumn>
+          <TableHeaderColumn
+            dataField='fold'
+            width='50px'
+            dataAlign='center'
+            dataFormat={this.foldFormatter}
+          >Fold</TableHeaderColumn>
+          <TableHeaderColumn
+            dataField='pickup'
+            width='70px'
+            dataAlign='center'
+            dataFormat={this.pickupFormatter}
+          >Pick-up</TableHeaderColumn>
+          <TableHeaderColumn
+            dataField='wash_dry'
+            width='80px'
+            dataAlign='center'
+            dataFormat={this.washFormatter}
+          >Clean</TableHeaderColumn>
+          <TableHeaderColumn
+            dataField='dropoff'
+            width='80px'
+            dataAlign='center'
+            dataFormat={this.dropoffFormatter}
+          >Drop-off</TableHeaderColumn>
+          <TableHeaderColumn
+            dataField='total'
+            width='80px'
+            dataAlign='center'
+          >Total</TableHeaderColumn>
+          <TableHeaderColumn
+            dataField='instructions'
+            dataAlign='center'
+            tdStyle={ { whiteSpace: 'normal' } }
+          >Instructions</TableHeaderColumn>
+        </BootstrapTable>
+        <BootstrapTable data={ [row] }>
+          <TableHeaderColumn
+            isKey={ true }
+            dataField='customer_id'
+            width='60px'
+            dataAlign='center'
+          >ID#</TableHeaderColumn>
+          <TableHeaderColumn
+            dataField='first_name'
+            width='120px'
+            dataAlign='center'
+          >First</TableHeaderColumn>
+          <TableHeaderColumn
+            dataField='last_name'
+            width='120px'
+            dataAlign='center'
+          >Last</TableHeaderColumn>
+          <TableHeaderColumn
+            dataField='phone_number'
+            width='120px'
+            dataAlign='center'
+          >Phone#</TableHeaderColumn>
+          <TableHeaderColumn
+            dataField='email'
+            dataAlign='center'
+            tdStyle={ { whiteSpace: 'normal' } }
+          >Email</TableHeaderColumn>
+        </BootstrapTable>
+      </div>
     );
   }
 
@@ -897,6 +939,34 @@ class AdminProfile extends React.Component {
   }
 
 
+  pickupFormatter(cell, row) {
+    if (row.pickup === null) {
+      return '---';
+    } else {
+      return row.pickup;
+    }
+  }
+
+  washFormatter(cell, row) {
+    if (row.wash_dry === null) {
+      return '---';
+    } else {
+      return row.wash_dry;
+    }
+  }
+
+  dropoffFormatter(cell, row) {
+    if (row.dropoff === null) {
+      return '---'
+    } else {
+      return row.dropoff;
+    }
+  }
+
+  trClassFormat(row, rowIndex) {
+    // row is the current row data
+    return rowIndex % 2 === 0 ? "tr-odd" : "tr-even"; // return class name.
+  }
 
 
 
@@ -913,6 +983,8 @@ class AdminProfile extends React.Component {
 
   // ***************************  RENDER  ******************************
   render() {
+    console.log(this.state.activeOrders, '************ active o');
+
     const queueOptions = {
       insertBtn: this.queueButtons,
       clearSearch: true,
@@ -1043,7 +1115,7 @@ class AdminProfile extends React.Component {
                     selectRow={ selectQueueRow }
                     expandableRow={ this.isExpandableRow }
                     expandComponent={ this.expandComponent }
-                    bodyContainerClass='table-body-container'
+                    trClassName={this.trClassFormat}
                     pagination
                     insertRow
                     search
@@ -1113,7 +1185,7 @@ class AdminProfile extends React.Component {
                         selectRow={ selectActiveRow }
                         expandableRow={ this.isExpandableRow }
                         expandComponent={ this.expandComponent }
-                        bodyContainerClass='table-body-container'
+                        trClassName={this.trClassFormat}
                         pagination
                         insertRow
                         search
@@ -1177,7 +1249,7 @@ class AdminProfile extends React.Component {
                       selectRow={ selectCompleteRow }
                       expandableRow={ this.isExpandableRow }
                       expandComponent={ this.expandComponent }
-                      bodyContainerClass='table-body-container'
+                      trClassName={this.trClassFormat}
                       pagination
                       insertRow
                       search

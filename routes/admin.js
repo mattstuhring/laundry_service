@@ -11,6 +11,7 @@ const smtpTransport = require('nodemailer-smtp-transport');
 const router = express.Router();
 
 
+
 // GET ALL ORDERS -> queue, active, complete
 router.get('/admin', checkAuth, (req, res, next) => {
   const { userId, access } = req.token;
@@ -108,13 +109,13 @@ router.put('/admin', checkAuth, (req, res, next) => {
         })
         .then(() => {
           if (stepName === 'Pick-up') {
-            column = {pickup: selectedQueueOrders[i].id};
+            column = {pickup: parseInt(userId)};
           } else if (stepName === 'Cleaning') {
-            column = {wash_dry: selectedQueueOrders[i].id};
+            column = {wash_dry: parseInt(userId)};
           } else if (stepName === 'Drop-off') {
-            column = {dropoff: selectedQueueOrders[i].id};
+            column = {dropoff: parseInt(userId)};
           } else {
-            column = {dropoff: selectedQueueOrders[i].id};
+            column = {dropoff: parseInt(userId)};
           }
 
           return knex('tasks')
@@ -144,7 +145,7 @@ router.put('/admin', checkAuth, (req, res, next) => {
 
 
 
-// COMPLETING AN ORDER -> Update orders status from ACTIVE to QUEUE
+// COMPLETING AN ORDER TASK -> Update orders status from ACTIVE to QUEUE
 router.post('/admin', checkAuth, (req, res, next) => {
   const { userId, access } = req.token;
   const { selectedActiveOrders } = req.body;

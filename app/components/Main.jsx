@@ -22,7 +22,7 @@ export class Main extends React.Component {
         <ToastContainer
           toastClassName="toast"
           position="top-center"
-          autoClose={2000}
+          autoClose={3000}
           hideProgressBar={false}
           newestOnTop={false}
           closeOnClick
