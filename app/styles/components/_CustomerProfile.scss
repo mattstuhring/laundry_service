@@ -36,9 +36,7 @@
       margin-bottom: 15px;
     }
 
-    p strong {
-      color: #337ab7;
-    }
+
 
     .payment {
 
@@ -61,7 +59,7 @@
     }
   }
 
-  .page-header.order-status {
+  .page-header.order-status-header {
     padding-bottom: 0px;
     margin: 0px;
   }
@@ -69,6 +67,11 @@
   .panel.panel-default {
     margin-top: 25px;
     margin-bottom: 40px;
+  }
+
+  .order-status {
+    overflow: scroll;
+    max-height: 856px;
   }
 
 
@@ -86,6 +89,22 @@
       margin-bottom: 0px;
     }
 
+
+    .queue-font-color p strong {
+      color: #337ab7;
+    }
+
+    .pickup-font-color p strong {
+      color: #5cb85c;
+    }
+
+    .cleaning-font-color p strong {
+      color: #f0ad4e;
+    }
+
+    .dropoff-font-color p strong {
+      color: #c34a47;
+    }
   }
 
   .arrow-up-lightblue {
