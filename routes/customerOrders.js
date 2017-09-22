@@ -78,7 +78,7 @@ router.post('/customerOrders', checkAuth, (req, res, next) => {
     knex('payments')
       .insert({
         type: 'Credit',
-        amount: orderTotalCost
+        total: orderTotalCost
       })
       .returning('id')
       .then((paymentId) => {

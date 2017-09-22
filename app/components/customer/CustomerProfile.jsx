@@ -1,7 +1,8 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import axios from 'axios';
 import { browserHistory, withRouter } from 'react-router';
-import { Button, FormGroup, FormControl, InputGroup, Panel, ControlLabel, Table, Tabs, Tab, ProgressBar, Checkbox, Radio, Breadcrumb, Alert, Pager, Form, Col, Row, HelpBlock } from 'react-bootstrap';
+import { Button, FormGroup, FormControl, InputGroup, Panel, ControlLabel, Table, Tabs, Tab, ProgressBar, Checkbox, Radio, Breadcrumb, Alert, Pager, Form, Col, Row, HelpBlock, Popover, Overlay, OverlayTrigger, ButtonToolbar } from 'react-bootstrap';
 import {BootstrapTable, TableHeaderColumn, InsertButton} from 'react-bootstrap-table';
 import moment from 'moment';
 import Popup from 'Popup';
@@ -47,7 +48,8 @@ class CustomerProfile extends React.Component {
       activeServices: false,
       activeInfo: false,
       activePayment: false,
-      alertVisible: false
+      alertVisible: false,
+      show: true
     }
 
     this.handleRemove = this.handleRemove.bind(this);
@@ -65,6 +67,8 @@ class CustomerProfile extends React.Component {
     this.customSearch = this.customSearch.bind(this);
     this.handleTotalCost = this.handleTotalCost.bind(this);
     this.textareaValidationState = this.textareaValidationState.bind(this);
+
+
   }
 
 
@@ -170,8 +174,6 @@ class CustomerProfile extends React.Component {
       return;
     }
 
-
-
     if (key === 1) {
       this.setState({
         formKey: key,
@@ -195,9 +197,17 @@ class CustomerProfile extends React.Component {
 
     if (key === 1) {
       this.setState({formKey: key, activeServices: true, activeInfo: false, activePayment: false});
-    } else if (key === 2) {
+    }
+    else if (key === 2) {
+      if (this.state.orderServices.length <= 0 || this.state.orderLoads === 0 || this.state.orderInstructions.length > 90) {
+        this.props.setToast('Please check the form & try agian.', {type: 'error'});
+
+        return;
+      }
+
       this.setState({formKey: key, activeServices: false, activeInfo: true, activePayment: false});
-    } else if (key === 3) {
+    }
+    else if (key === 3) {
       if (customerAddress === '' || customerPhoneNumber === '' || orderPickupTime === '') {
         this.props.setToast('Please check the form & try agian.', {type: 'error'});
         return;
@@ -364,14 +374,14 @@ class CustomerProfile extends React.Component {
 
 
 
-
-
-
-
-
-
   // ***************************  RENDER  ***************************
   render() {
+    const popoverBottom = (
+      <Popover id="popover-positioned-scrolling-bottom" title="Popover bottom">
+        <strong>Holy guacamole!</strong> Check this info.
+      </Popover>
+    );
+
     const completeOptions = {
       clearSearch: true,
       searchField: this.customSearch
@@ -563,33 +573,6 @@ class CustomerProfile extends React.Component {
               />
             </div>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
             {/* ACTION BTNS */}
             <div className="row">
               <Pager>
@@ -598,29 +581,6 @@ class CustomerProfile extends React.Component {
                 <Pager.Item href="#" next onClick={() => this.handleSelectKey(3)}>Next &rarr;</Pager.Item>
               </Pager>
             </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
           </Form>
         </div>;
       } else if (formKey === 3) {
@@ -740,46 +700,125 @@ class CustomerProfile extends React.Component {
                         {alert()}
 
                         {this.state.queueOrders.map((q) => {
+
+
                           const startDate = moment(q.created_at).format('L');
                           let step;
 
+                          console.log(q.step, '********* step');
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                           if (q.step === 'Queue') {
-                            step = <ProgressBar striped active active bsStyle="info" now={10} key={1} label={'Queue'} />;
+                            step = (
+                              <div>
+                                <ProgressBar ref="queue" striped active bsStyle="info" now={10} key={1} label={'Queue'} onClick={this.handleClick} />
+                                <div className="popover-info">
+                                  <div className="arrow-up-lightblue"></div>
+                                  <Panel header="Order submitted!" bsStyle="info" style={{ width: '300px'}}>
+                                    We are in the process of scheduling one of our employees to pick up your laundry.
+                                  </Panel>
+                                </div>
+                              </div>);
                           } else if (q.step === 'Pick-up') {
-                            step = <ProgressBar><ProgressBar striped active  active bsStyle="info" now={10} key={1} label={'Queue'} /><ProgressBar striped active bsStyle="success" now={30} key={2} label={'Pick-up'}/></ProgressBar>;
+                            step = <div>
+                              <ProgressBar>
+                                <ProgressBar striped active bsStyle="info" now={10} key={1} label={'Queue'} />
+                                <ProgressBar striped active bsStyle="success" now={30} key={2} label={'Pick-up'}/>
+                              </ProgressBar>
+                              <div className="row popover-info">
+                                <div className="col-sm-offset-2">
+                                  <div className="arrow-up-green"></div>
+                                  <Panel header="Pick-up" bsStyle="success" style={{ width: '200px'}}>
+                                    <p>Employee: Test</p>
+                                    <p>Contact: 123-456-7890</p>
+                                  </Panel>
+                                </div>
+                              </div>
+                            </div>;
                           } else if (q.step === 'Cleaning') {
-                            step = <ProgressBar><ProgressBar striped active  active bsStyle="info" now={10} key={1} label={'Queue'} />
-                            <ProgressBar striped active bsStyle="success" now={30} key={2} label={'Pick-up'}/>
-                            <ProgressBar striped active  bsStyle="warning" now={30} key={3} label={'Cleaning'}/></ProgressBar>;
+                            step = <div>
+                              <ProgressBar>
+                                <ProgressBar striped active bsStyle="info" now={10} key={1} label={'Queue'} />
+                                <ProgressBar striped active bsStyle="success" now={30} key={2} label={'Pick-up'}/>
+                                <ProgressBar striped active bsStyle="warning" now={30} key={3} label={'Cleaning'}/>
+                              </ProgressBar>
+                              <div className="row popover-info">
+                                <div className="col-sm-offset-5">
+                                  <div className="arrow-up-yellow"></div>
+                                  <Panel header="Wash / Dry" bsStyle="warning" style={{ width: '200px'}}>
+                                  <p>Employee: Test</p>
+                                  <p>Contact: 123-456-7890</p>
+                                </Panel>
+                                </div>
+                              </div>
+                            </div>;
                           } else if (q.step === 'Drop-off') {
-                            step = <ProgressBar><ProgressBar striped active  active bsStyle="info" now={10} key={1} label={'Queue'} />
-                            <ProgressBar striped active bsStyle="success" now={30} key={2} label={'Pick-up'}/>
-                            <ProgressBar striped active  bsStyle="warning" now={30} key={3} label={'Cleaning'}/>
-                            <ProgressBar striped active  active bsStyle="danger" now={30} key={4} label={'Drop-off'} /></ProgressBar>;
+                            step = <div>
+                              <ProgressBar>
+                                <ProgressBar striped active bsStyle="info" now={10} key={1} label={'Queue'} />
+                                <ProgressBar striped active bsStyle="success" now={30} key={2} label={'Pick-up'}/>
+                                <ProgressBar striped active  bsStyle="warning" now={30} key={3} label={'Cleaning'}/>
+                                <ProgressBar striped active bsStyle="danger" now={30} key={4} label={'Drop-off'} />
+                              </ProgressBar>
+                              <div className="row popover-info">
+                                <div className="col-sm-offset-7">
+                                  <div className="arrow-up-red"></div>
+                                  <Panel header="Drop-off" bsStyle="danger" style={{ width: '200px'}}>
+                                    <p>Employee: Test</p>
+                                    <p>Contact: 123-456-7890</p>
+                                  </Panel>
+                                </div>
+                              </div>
+                            </div>;
                           }
 
                           return <div key={q.id}>
-                            <div className="page-header">
-                              <p>{'#' + q.id + ' ' + startDate}</p>
-                            </div>
-
-                            {/* PROGRESS BAR */}
-                            <div>
+                            <Panel header={startDate}>
                               { step }
-                            </div>
-
-                            {/* <Button
-                              bsStyle="link"
-                              onClick={() => this.openRemove(q.id)}
-                            >
-                              Cancel
-                            </Button> */}
-
+                            </Panel>
                           </div>
                         })}
                       </div>
                     </div>
                   </Tab>
+
+
+
+
+
+
+
+
+
+
+
 
                   <Tab eventKey={3} title="Completed Orders">
                     <div className="row">

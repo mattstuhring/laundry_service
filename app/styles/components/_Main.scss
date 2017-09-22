@@ -1,14 +1,18 @@
-html {
-  height: 100%;
+html, body, #app, #app>div {
+  height: 100% !important;
 }
 
 body {
-  min-height: 100%;
   font-family: 'Open Sans', sans-serif;
-  padding-top: 60px;
+  padding-top: 50px;
 }
 
 .main {
+
+  .container-fluid.children {
+    padding: 0px !important;
+    margin: 0px !important;
+  }
 
   .expand-row thead {
     background-color: #e5e5ea;
@@ -16,13 +20,6 @@ body {
 
   .tr-odd {
     background-color: #f4f4f6 !important;
-  }
-
-  .main-header {
-
-    h1 {
-      font-size: 5vw;
-    }
   }
 
   .toast {

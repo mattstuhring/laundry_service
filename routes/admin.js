@@ -170,30 +170,32 @@ router.post('/admin', checkAuth, (req, res, next) => {
             status: 'Complete'
           })
           .then((result) => {
-            var transporter = nodemailer.createTransport(smtpTransport({
-              service: 'Gmail',
-              auth: {
-                user: process.env.GMAIL_USER,
-                pass: process.env.GMAIL_PASSWORD
-              }
-            }));
-
-            let mailOptions = {
-               from: process.env.GMAIL_USER,
-               to: process.env.GMAIL_USER,
-               subject: 'Laundry Service - Completed Order',
-               text: `Completed order #: ${selectedActiveOrders[i].id}`
-            };
-
-            transporter.sendMail(mailOptions, (error, info) => {
-              if (error) {
-                console.log(error);
-                return;
-              }
-
-              console.log('Message %s sent: %s', info.messageId, info.response);
-              transporter.close();
-            });
+            console.log('Uncomment Nodemailer in ROUTE files');
+            
+            // var transporter = nodemailer.createTransport(smtpTransport({
+            //   service: 'Gmail',
+            //   auth: {
+            //     user: process.env.GMAIL_USER,
+            //     pass: process.env.GMAIL_PASSWORD
+            //   }
+            // }));
+            //
+            // let mailOptions = {
+            //    from: process.env.GMAIL_USER,
+            //    to: process.env.GMAIL_USER,
+            //    subject: 'Laundry Service - Completed Order',
+            //    text: `Completed order #: ${selectedActiveOrders[i].id}`
+            // };
+            //
+            // transporter.sendMail(mailOptions, (error, info) => {
+            //   if (error) {
+            //     console.log(error);
+            //     return;
+            //   }
+            //
+            //   console.log('Message %s sent: %s', info.messageId, info.response);
+            //   transporter.close();
+            // });
           })
           .catch((err) => {
             next(err);

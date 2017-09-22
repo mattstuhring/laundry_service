@@ -33,34 +33,17 @@ export class Main extends React.Component {
         {/* TOP NAVBAR */}
         <Navigation setToast={this.setToast}/>
 
-        <div className="container">
-          <div className="row main-header">
-            {/* HEADER */}
-            <div className="col-sm-12">
-              <div className="page-header main-header text-center">
-                <h1>Laundry Service</h1>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div className="container-fluid">
-          <div className="row">
+        <div className="container-fluid children">
             {/* React router child components */}
-            <div className="col-sm-12">
 
               {React.cloneElement(this.props.children, {
                 setToast: this.setToast
               })}
 
-            </div>
-          </div>
         </div>
 
         {/* <nav className="navbar navbar-default navbar-fixed-bottom">
-          <div className="container">
-            ...
-          </div>
+          &copy; Copyright 2017 | Laundry Service | Created by: Matt Stuhring
         </nav> */}
       </div>
     );
