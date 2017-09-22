@@ -168,7 +168,7 @@ router.post('/employeeOrders', checkAuth, (req, res, next) => {
           })
           .then((result) => {
 
-            console.log('Uncomment Nodemailer in ROUTE files');
+            console.log('Uncomment Nodemailer in ROUTE employeeOrders.js');
             // var transporter = nodemailer.createTransport(smtpTransport({
             //   service: 'Gmail',
             //   auth: {

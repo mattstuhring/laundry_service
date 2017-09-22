@@ -15,13 +15,14 @@ router.get('/customerOrders', checkAuth, (req, res, next) => {
 
   if (access === 'customer') {
     knex('orders')
-      .select('*')
-      .innerJoin('payments', 'orders.payment_id', 'payments.id')
+      .select(['orders.id', 'orders.address', 'orders.status', 'orders.step', 'orders.time', 'orders.instructions', 'orders.created_at', 'orders.updated_at','users.first_name', 'users.phone_number', 'settings.amount', 'settings.clean', 'settings.fold', 'tasks.pickup', 'tasks.wash_dry', 'tasks.dropoff', ])
+      // .innerJoin('payments', 'orders.payment_id', 'payments.id')
       .where('customer_id', userId)
       .where('status', 'Queue')
       .orWhere('status', 'Active')
       .innerJoin('settings', 'orders.setting_id', 'settings.id')
       .innerJoin('tasks', 'orders.task_id', 'tasks.id')
+      .leftJoin('users', 'orders.employee_id', 'users.id')
       .orderBy('orders.id', 'desc')
       .then((queue) => {
         let orders = [queue];

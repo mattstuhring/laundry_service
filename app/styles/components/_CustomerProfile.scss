@@ -3,68 +3,15 @@
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
-  height: 765px;
+  min-height: 765px;
 
-  .panel-primary {
-    margin-top: 55px;
+  .welcome-customer {
+    margin-top: 100px;
   }
+
 
   h3.panel-title {
     font-size: 3vw;
-  }
-
-  .popover-info {
-    .panel {
-      margin-bottom: 0px;
-    }
-
-    .panel .panel-heading {
-      padding: 3px 14px !important;
-    }
-
-    .panel .panel-body {
-      padding: 5px 13px !important;
-    }
-  }
-
-  .arrow-up-lightblue {
-    width: 0;
-    height: 0;
-    border-left: 10px solid transparent;
-    border-right: 10px solid transparent;
-    position: relative;
-    border-bottom: 12px solid #d9edf7;
-    left: 18px;
-  }
-
-  .arrow-up-green {
-    width: 0;
-    height: 0;
-    border-left: 10px solid transparent;
-    border-right: 10px solid transparent;
-    position: relative;
-    border-bottom: 12px solid #dff0d8;
-    left: 40px;
-  }
-
-  .arrow-up-yellow {
-    width: 0;
-    height: 0;
-    border-left: 10px solid transparent;
-    border-right: 10px solid transparent;
-    position: relative;
-    border-bottom: 12px solid #fcf8e3;
-    left: 57px;
-  }
-
-  .arrow-up-red {
-    width: 0;
-    height: 0;
-    border-left: 10px solid transparent;
-    border-right: 10px solid transparent;
-    position: relative;
-    border-bottom: 12px solid #f2dede;
-    left: 115px;
   }
 
   .panel-body {
@@ -89,6 +36,10 @@
       margin-bottom: 15px;
     }
 
+    p strong {
+      color: #337ab7;
+    }
+
     .payment {
 
       li {
@@ -110,11 +61,88 @@
     }
   }
 
+  .page-header.order-status {
+    padding-bottom: 0px;
+    margin: 0px;
+  }
+
+  .panel.panel-default {
+    margin-top: 25px;
+    margin-bottom: 40px;
+  }
+
+
+  .popover-info {
+    .panel-primary {
+      border-color: #99bcdb;
+    }
+
+    .panel-primary>.panel-heading {
+      background-color: #adc9e2;
+      border-color: #adc9e2;
+    }
+
+    .panel {
+      margin-bottom: 0px;
+    }
+
+  }
+
+  .arrow-up-lightblue {
+    width: 0;
+    height: 0;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    position: relative;
+    border-bottom: 12px solid #d9edf7;
+    left: 18px;
+  }
+
+  .arrow-up-green {
+    width: 0;
+    height: 0;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    position: relative;
+    border-bottom: 12px solid #dff0d8;
+    left: 104px;
+  }
+
+  .arrow-up-yellow {
+    width: 0;
+    height: 0;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    position: relative;
+    border-bottom: 12px solid #fcf8e3;
+    left: 249px;
+  }
+
+  .arrow-up-red {
+    width: 0;
+    height: 0;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    position: relative;
+    border-bottom: 12px solid #f2dede;
+    left: 394px;
+  }
+
+
+
+
   .react-bs-table-container {
     margin-top: 20px;
   }
 
+
+
+  .progress-bar-info {
+    background-color: #ccc;
+  }
+
   .progress {
+    margin-top: 30px;
     height: 30px;
     margin-bottom: 8px;
     text-align: center;

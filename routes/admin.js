@@ -170,8 +170,8 @@ router.post('/admin', checkAuth, (req, res, next) => {
             status: 'Complete'
           })
           .then((result) => {
-            console.log('Uncomment Nodemailer in ROUTE files');
-            
+            console.log('Uncomment Nodemailer in ROUTE admin.js');
+
             // var transporter = nodemailer.createTransport(smtpTransport({
             //   service: 'Gmail',
             //   auth: {

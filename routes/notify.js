@@ -27,32 +27,34 @@ router.post('/notify', checkAuth, (req, res, next) => {
       .orWhere('access', 'employee')
       .then((users) => {
 
-        for (let i = 0; i < users.length; i++) {
-          var transporter = nodemailer.createTransport(smtpTransport({
-            service: 'Gmail',
-            auth: {
-              user: process.env.GMAIL_USER,
-              pass: process.env.GMAIL_PASSWORD
-            }
-          }));
+        console.log('Uncomment nodemailer in ROUTE notify.js');
 
-          let mailOptions = {
-             from: process.env.GMAIL_USER,
-             to: process.env.GMAIL_USER,
-             subject: 'Laundry Service - New Order',
-             text: `A new order has been submitted. Order #: ${orderId}`
-          };
-
-          transporter.sendMail(mailOptions, (error, info) => {
-            if (error) {
-              console.log(error);
-              return;
-            }
-
-            console.log('Message %s sent: %s', info.messageId, info.response);
-            transporter.close();
-          });
-        }
+        // for (let i = 0; i < users.length; i++) {
+        //   var transporter = nodemailer.createTransport(smtpTransport({
+        //     service: 'Gmail',
+        //     auth: {
+        //       user: process.env.GMAIL_USER,
+        //       pass: process.env.GMAIL_PASSWORD
+        //     }
+        //   }));
+        //
+        //   let mailOptions = {
+        //      from: process.env.GMAIL_USER,
+        //      to: process.env.GMAIL_USER,
+        //      subject: 'Laundry Service - New Order',
+        //      text: `A new order has been submitted. Order #: ${orderId}`
+        //   };
+        //
+        //   transporter.sendMail(mailOptions, (error, info) => {
+        //     if (error) {
+        //       console.log(error);
+        //       return;
+        //     }
+        //
+        //     console.log('Message %s sent: %s', info.messageId, info.response);
+        //     transporter.close();
+        //   });
+        // }
 
         res.sendStatus(200);
       })
