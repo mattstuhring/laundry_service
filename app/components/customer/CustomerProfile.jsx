@@ -66,9 +66,13 @@ class CustomerProfile extends React.Component {
     this.endDateFormatter = this.endDateFormatter.bind(this);
     this.customSearch = this.customSearch.bind(this);
     this.handleTotalCost = this.handleTotalCost.bind(this);
+    this.isExpandableRow = this.isExpandableRow.bind(this);
+    this.expandCompleteComponent = this.expandCompleteComponent.bind(this);
     this.textareaValidationState = this.textareaValidationState.bind(this);
-
-
+    this.buttonCompleteFormatter = this.buttonCompleteFormatter.bind(this);
+    this.cleanFormatter = this.cleanFormatter.bind(this);
+    this.foldFormatter = this.foldFormatter.bind(this);
+    this.trClassFormat = this.trClassFormat.bind(this);
   }
 
 
@@ -326,6 +330,19 @@ class CustomerProfile extends React.Component {
 
 
 
+  buttonCompleteFormatter(cell, row){
+    return (
+      <Button
+        bsStyle="link"
+        onClick={ ()=> this.expandCompleteComponent(row)}
+      >
+        Details
+      </Button>
+    );
+  }
+
+
+
   handleAlertDismiss() {
     this.setState({ alertVisible: false });
   }
@@ -336,6 +353,24 @@ class CustomerProfile extends React.Component {
   }
 
 
+  cleanFormatter(cell, row) {
+    if (row.clean) {
+      return ( <span className="glyphicon glyphicon-ok" aria-hidden="true"></span> );
+    } else {
+      return ( <span className="glyphicon glyphicon-remove" aria-hidden="true"></span> );
+    }
+  }
+
+
+  foldFormatter(cell, row) {
+    if (row.fold) {
+      return ( <span className="glyphicon glyphicon-ok" aria-hidden="true"></span> );
+    } else {
+      return ( <span className="glyphicon glyphicon-remove" aria-hidden="true"></span> );
+    }
+  }
+
+
   customSearch = (props) => {
     return (
       <SearchField
@@ -343,6 +378,11 @@ class CustomerProfile extends React.Component {
         defaultValue={ props.defaultSearch }
         placeholder={ props.searchPlaceholder }/>
     );
+  }
+
+  trClassFormat(row, rowIndex) {
+    // row is the current row data
+    return rowIndex % 2 === 0 ? "tr-odd" : "tr-even"; // return class name.
   }
 
 
@@ -371,6 +411,51 @@ class CustomerProfile extends React.Component {
     }
   }
 
+  isExpandableRow(row) {
+    if (row.id) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+
+  expandCompleteComponent(row) {
+    return (
+      <div className="expand-row">
+        <BootstrapTable data={ [row] }
+          condensed
+        >
+          <TableHeaderColumn
+            isKey={ true }
+            dataField='amount'
+            width='60px'
+            dataAlign='center'
+          >Loads</TableHeaderColumn>
+          <TableHeaderColumn
+            dataField='clean'
+            width='90px'
+            dataAlign='center'
+            dataFormat={this.cleanFormatter}
+          >Wash/Dry</TableHeaderColumn>
+          <TableHeaderColumn
+            dataField='fold'
+            width='50px'
+            dataAlign='center'
+            dataFormat={this.foldFormatter}
+          >Fold</TableHeaderColumn>
+          <TableHeaderColumn
+            dataField='instructions'
+            dataAlign='center'
+            tdStyle={ { whiteSpace: 'normal' } }
+          >Instructions</TableHeaderColumn>
+        </BootstrapTable>
+      </div>
+    );
+  }
+
+
+
 
 
 
@@ -378,6 +463,8 @@ class CustomerProfile extends React.Component {
 
   // ***************************  RENDER  ***************************
   render() {
+    const { customerFirstName } = this.state;
+
     const popoverBottom = (
       <Popover id="popover-positioned-scrolling-bottom" title="Popover bottom">
         <strong>Holy guacamole!</strong> Check this info.
@@ -385,11 +472,21 @@ class CustomerProfile extends React.Component {
     );
 
     const completeOptions = {
+      insertBtn: this.completeButtons,
       clearSearch: true,
-      searchField: this.customSearch
+      searchField: this.customSearch,
+      expandBy: 'column',
+      expandRowBgColor: '#337ab7'
     };
 
-    const { customerFirstName } = this.state;
+    const selectCompleteRow = {
+      mode: 'checkbox',
+      clickToSelect: true,
+      clickToExpand: true,
+      onSelect: this.onCompleteRowSelect,
+      onSelectAll: this.onCompleteSelectAll
+    };
+
 
     const form = () => {
       let {formKey} = this.state;
@@ -866,54 +963,45 @@ class CustomerProfile extends React.Component {
                       <div className="col-sm-12">
 
                         {/* COMPLETE TABLE */}
-                        <BootstrapTable ref="completeTable" striped condensed
+                        <BootstrapTable ref="completeTable" hover condensed
                           options={ completeOptions }
                           bordered={ false }
                           data={ this.state.completeOrders }
-                          bodyContainerClass='table-body-container'
+                          selectRow={ selectCompleteRow }
+                          expandableRow={ this.isExpandableRow }
+                          expandComponent={ this.expandCompleteComponent }
+                          trClassName={this.trClassFormat}
                           pagination
                           search
+                          cleanSelected
                         >
+
                           <TableHeaderColumn
                             dataField='id'
                             isKey
-                            width='50px'
-                          >#</TableHeaderColumn>
-                          <TableHeaderColumn
-                            dataField='created_at'
-                            dataFormat={ this.startDateFormatter }
-                            width='100px'
-                          >Date</TableHeaderColumn>
-                          <TableHeaderColumn
-                            dataField='address'
-                          >Address</TableHeaderColumn>
-                          <TableHeaderColumn
-                            dataField='status'
-                            width='60px'
-                          >Status</TableHeaderColumn>
-                          <TableHeaderColumn
-                            dataField='step'
-                            width='60px'
-                          >Step</TableHeaderColumn>
-                          <TableHeaderColumn
-                            dataField='clean'
-                            width='60px'
-                          >Clean</TableHeaderColumn>
-                          <TableHeaderColumn
-                            dataField='fold'
-                            width='60px'
-                          >Fold</TableHeaderColumn>
-                          <TableHeaderColumn
-                            dataField='amount'
-                            width='60px'
-                          >Loads</TableHeaderColumn>
-                          <TableHeaderColumn
-                            dataField='instructions'
-                          >Instructions</TableHeaderColumn>
+                            width='70px'
+                            dataAlign='center'
+                            filter={ { type: 'TextFilter', delay: 1000 } }
+                            expandable={ false }
+                          >Order#</TableHeaderColumn>
                           <TableHeaderColumn
                             dataField='updated_at'
                             dataFormat={ this.endDateFormatter }
-                          >Complete</TableHeaderColumn>
+                            width='100px'
+                            dataAlign='center'
+                            expandable={ false }
+                          >Completed</TableHeaderColumn>
+                          <TableHeaderColumn
+                            dataField='total'
+                            width='60px'
+                            dataAlign='center'
+                          >Total</TableHeaderColumn>
+
+                          <TableHeaderColumn
+                            width='80px'
+                            dataAlign='center'
+                            dataFormat={this.buttonCompleteFormatter}
+                          ></TableHeaderColumn>
                         </BootstrapTable>
                       </div>
                     </div>

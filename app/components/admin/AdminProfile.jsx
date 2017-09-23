@@ -983,7 +983,6 @@ class AdminProfile extends React.Component {
 
   // ***************************  RENDER  ******************************
   render() {
-    console.log(this.state.activeOrders, '************ active o');
 
     const queueOptions = {
       insertBtn: this.queueButtons,
@@ -1004,7 +1003,9 @@ class AdminProfile extends React.Component {
     const completeOptions = {
       insertBtn: this.completeButtons,
       clearSearch: true,
-      searchField: this.customSearch
+      searchField: this.customSearch,
+      expandBy: 'column',
+      expandRowBgColor: '#337ab7'
     };
 
     const employeeOptions = {
@@ -1053,6 +1054,7 @@ class AdminProfile extends React.Component {
     const selectCompleteRow = {
       mode: 'checkbox',
       clickToSelect: true,
+      clickToExpand: true,
       onSelect: this.onCompleteRowSelect,
       onSelectAll: this.onCompleteSelectAll
     };
@@ -1241,7 +1243,7 @@ class AdminProfile extends React.Component {
                     </div>
                   </Tab>
                   <Tab eventKey={2} title="Complete">
-                    {/* COMPLETE TABLE */}
+
                     <BootstrapTable ref="completeTable" hover condensed
                       options={ completeOptions }
                       bordered={ false }
@@ -1251,10 +1253,10 @@ class AdminProfile extends React.Component {
                       expandComponent={ this.expandComponent }
                       trClassName={this.trClassFormat}
                       pagination
-                      insertRow
                       search
                       cleanSelected
                     >
+
                       <TableHeaderColumn
                         dataField='id'
                         isKey
@@ -1266,36 +1268,31 @@ class AdminProfile extends React.Component {
                       <TableHeaderColumn
                         dataField='updated_at'
                         dataFormat={ this.endDateFormatter }
-                        width='100px'
+                        width='140px'
                         dataAlign='center'
                         expandable={ false }
                       >Completed</TableHeaderColumn>
                       <TableHeaderColumn
-                        dataField='time'
-                        width='90px'
+                        dataField='customer_id'
+                        width='60px'
                         dataAlign='center'
-                        expandable={ false }
-                        dataFormat={ this.hourFormatter }
-                      >Time</TableHeaderColumn>
-                      {/* <TableHeaderColumn
-                        dataField='time'
-                        width='90px'
+                      >User#</TableHeaderColumn>
+                      <TableHeaderColumn
+                        dataField='first_name'
+                        width='120px'
                         dataAlign='center'
-                        expandable={ false }
-                        dataFormat={ this.countdownFormatter }
-                      >Time</TableHeaderColumn> */}
+                      >First</TableHeaderColumn>
+                      <TableHeaderColumn
+                        dataField='last_name'
+                        width='120px'
+                        dataAlign='center'
+                      >Last</TableHeaderColumn>
                       <TableHeaderColumn
                         dataField='address'
                         expandable={ false }
                         dataAlign='center'
                         tdStyle={ { whiteSpace: 'normal' } }
                       >Address</TableHeaderColumn>
-                      {/* <TableHeaderColumn
-                        dataField='step'
-                        width='90px'
-                        dataAlign='center'
-                        expandable={ false }
-                      >Step</TableHeaderColumn> */}
                       <TableHeaderColumn
                         width='80px'
                         dataAlign='center'
