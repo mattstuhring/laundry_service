@@ -423,9 +423,7 @@ class CustomerProfile extends React.Component {
   expandCompleteComponent(row) {
     return (
       <div className="expand-row">
-        <BootstrapTable data={ [row] }
-          condensed
-        >
+        <BootstrapTable data={ [row] }>
           <TableHeaderColumn
             isKey={ true }
             dataField='amount'
@@ -480,11 +478,7 @@ class CustomerProfile extends React.Component {
     };
 
     const selectCompleteRow = {
-      mode: 'checkbox',
-      clickToSelect: true,
-      clickToExpand: true,
-      onSelect: this.onCompleteRowSelect,
-      onSelectAll: this.onCompleteSelectAll
+      clickToExpand: true
     };
 
 
@@ -963,46 +957,45 @@ class CustomerProfile extends React.Component {
                       <div className="col-sm-12">
 
                         {/* COMPLETE TABLE */}
-                        <BootstrapTable ref="completeTable" hover condensed
-                          options={ completeOptions }
-                          bordered={ false }
-                          data={ this.state.completeOrders }
-                          selectRow={ selectCompleteRow }
-                          expandableRow={ this.isExpandableRow }
-                          expandComponent={ this.expandCompleteComponent }
-                          trClassName={this.trClassFormat}
-                          pagination
-                          search
-                          cleanSelected
-                        >
+                        <div className="complete-table">
+                          <BootstrapTable ref="completeTable" hover
+                            options={ completeOptions }
+                            bordered={ false }
+                            data={ this.state.completeOrders }
+                            expandableRow={ this.isExpandableRow }
+                            expandComponent={ this.expandCompleteComponent }
+                            trClassName={this.trClassFormat}
+                            pagination
+                            search
+                          >
 
-                          <TableHeaderColumn
-                            dataField='id'
-                            isKey
-                            width='70px'
-                            dataAlign='center'
-                            filter={ { type: 'TextFilter', delay: 1000 } }
-                            expandable={ false }
-                          >Order#</TableHeaderColumn>
-                          <TableHeaderColumn
-                            dataField='updated_at'
-                            dataFormat={ this.endDateFormatter }
-                            width='100px'
-                            dataAlign='center'
-                            expandable={ false }
-                          >Completed</TableHeaderColumn>
-                          <TableHeaderColumn
-                            dataField='total'
-                            width='60px'
-                            dataAlign='center'
-                          >Total</TableHeaderColumn>
+                            <TableHeaderColumn
+                              dataField='id'
+                              isKey
+                              width='70px'
+                              dataAlign='center'
+                              expandable={ false }
+                            >Order#</TableHeaderColumn>
+                            <TableHeaderColumn
+                              dataField='updated_at'
+                              dataFormat={ this.endDateFormatter }
+                              width='100px'
+                              dataAlign='center'
+                              expandable={ false }
+                            >Completed</TableHeaderColumn>
+                            <TableHeaderColumn
+                              dataField='total'
+                              width='60px'
+                              dataAlign='center'
+                            >Total</TableHeaderColumn>
 
-                          <TableHeaderColumn
-                            width='80px'
-                            dataAlign='center'
-                            dataFormat={this.buttonCompleteFormatter}
-                          ></TableHeaderColumn>
-                        </BootstrapTable>
+                            <TableHeaderColumn
+                              width='80px'
+                              dataAlign='center'
+                              dataFormat={this.buttonCompleteFormatter}
+                            ></TableHeaderColumn>
+                          </BootstrapTable>
+                        </div>
                       </div>
                     </div>
                   </Tab>

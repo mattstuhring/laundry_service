@@ -148,15 +148,6 @@
     left: 394px;
   }
 
-
-
-
-  .react-bs-table-container {
-    margin-top: 20px;
-  }
-
-
-
   .progress-bar-info {
     background-color: #ccc;
   }
@@ -169,6 +160,12 @@
 
     .progress-bar {
       padding: 5px;
+    }
+  }
+
+  .complete-table {
+    .btn.btn-link {
+      padding: 0px 12px;
     }
   }
 }
