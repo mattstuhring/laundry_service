@@ -463,12 +463,6 @@ class CustomerProfile extends React.Component {
   render() {
     const { customerFirstName } = this.state;
 
-    const popoverBottom = (
-      <Popover id="popover-positioned-scrolling-bottom" title="Popover bottom">
-        <strong>Holy guacamole!</strong> Check this info.
-      </Popover>
-    );
-
     const completeOptions = {
       insertBtn: this.completeButtons,
       clearSearch: true,
@@ -561,7 +555,7 @@ class CustomerProfile extends React.Component {
               <Col componentClass={ControlLabel} sm={3}>
                 Optional:
               </Col>
-              <Col sm={9}>
+              <Col sm={8}>
                 <FormControl
                   componentClass="textarea"
                   type="text"
@@ -576,7 +570,7 @@ class CustomerProfile extends React.Component {
 
             {/* ACTION BTNS */}
             <div className="row">
-              <div className="col-sm-12">
+              <div className="col-sm-10 col-sm-offset-2">
                 <Pager>
                   <Pager.Item href="#" next onClick={() => this.handleTotalCost(2)}>Next &rarr;</Pager.Item>
                 </Pager>
@@ -763,23 +757,25 @@ class CustomerProfile extends React.Component {
                 <Tabs activeKey={this.state.key} onSelect={this.handleSelect} id="controlled-tab-example">
 
 
-                  {/* NEW LAUNDRY ORDER FORM */}
+                  {/* TAB 1 -> ORDER FORM */}
                   <Tab eventKey={1} title="Schedule Pick-up">
                     <div className="row">
                       <div className="col-sm-10 col-sm-offset-1">
-                        <Breadcrumb>
-                          <Breadcrumb.Item href="#" onClick={() => {this.handleSelectKey(1)}} active={this.state.activeServices}>
-                            Services
-                          </Breadcrumb.Item>
-                          <Breadcrumb.Item href="#" onClick={() => {this.handleSelectKey(2)}} active={this.state.activeInfo}>
-                            Personal Info
-                          </Breadcrumb.Item>
-                          <Breadcrumb.Item href="#" onClick={() => {this.handleSelectKey(3)}} active={this.state.activePayment}>
-                            Payment
-                          </Breadcrumb.Item>
-                        </Breadcrumb>
+                        <Panel>
+                          <Breadcrumb>
+                            <Breadcrumb.Item href="#" onClick={() => {this.handleSelectKey(1)}} active={this.state.activeServices}>
+                              Services
+                            </Breadcrumb.Item>
+                            <Breadcrumb.Item href="#" onClick={() => {this.handleSelectKey(2)}} active={this.state.activeInfo}>
+                              Info
+                            </Breadcrumb.Item>
+                            <Breadcrumb.Item href="#" onClick={() => {this.handleSelectKey(3)}} active={this.state.activePayment}>
+                              Payment
+                            </Breadcrumb.Item>
+                          </Breadcrumb>
 
-                        {form()}
+                          {form()}
+                        </Panel>
                       </div>
                     </div>
                   </Tab>

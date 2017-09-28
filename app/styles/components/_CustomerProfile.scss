@@ -14,11 +14,37 @@
     font-size: 3vw;
   }
 
-  .panel-body {
+  ul.nav.nav-tabs {
+    margin-bottom: 0px;
+  }
 
-    .breadcrumb {
-      margin-top: 20px;
-    }
+
+
+
+
+  li.active #controlled-tab-example-tab-1 {
+    border: 1px solid #337ab7;
+    background-color: #337ab7;
+    color: white;
+  }
+
+  li.active #controlled-tab-example-tab-2 {
+    border: 1px solid #337ab7;
+    background-color: #337ab7;
+    color: white;
+  }
+
+  li.active #controlled-tab-example-tab-3 {
+    border: 1px solid #337ab7;
+    background-color: #337ab7;
+    color: white;
+  }
+
+  .nav>li>a {
+    padding: 10px 7px;
+  }
+
+  .panel-body {
 
     .click-input {
       margin-right: 15px;
@@ -35,7 +61,6 @@
     .nav-tabs {
       margin-bottom: 15px;
     }
-
 
 
     .payment {

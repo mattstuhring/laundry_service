@@ -1,4 +1,4 @@
-html, body, #app, #app>div {
+html, body, #app {
   height: 100% !important;
 }
 
@@ -8,11 +8,6 @@ body {
 }
 
 .main {
-
-  .container-fluid.children {
-    padding: 0px !important;
-    margin: 0px !important;
-  }
 
   .expand-row thead {
     background-color: #e5e5ea;
@@ -24,5 +19,44 @@ body {
 
   .toast {
     z-index: 3 !important;
+  }
+
+
+
+
+
+
+  #myFooter {
+      background-color: #337ab7;
+      color: white;
+      padding-top: 10px;
+      padding-bottom: 8px;
+  }
+
+  #myFooter p {
+    margin-top: 10px;
+  }
+
+  #myFooter a {
+      color: #d2d1d1;
+      text-decoration: none;
+  }
+
+  #myFooter a:hover,
+  #myFooter a:focus {
+      text-decoration: none;
+      color: white;
+  }
+
+
+  #myFooter .btn {
+      color: white;
+      background-color: #d84b6b;
+      border-radius: 20px;
+      border: none;
+      width: 150px;
+      display: block;
+      margin: 0 auto;
+      line-height: 25px;
   }
 }

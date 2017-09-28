@@ -11,8 +11,6 @@ const router = express.Router();
 
 
 
-
-
 // EMAIL NOTIFICATION TO ADMIN & EMPLOYEES FOR NEW ORDERS
 router.post('/notify', checkAuth, (req, res, next) => {
   const { userId, access } = req.token;
