@@ -1,7 +1,7 @@
 import React from 'react';
 import { browserHistory, withRouter, Link } from 'react-router';
 import axios from 'axios';
-import {Tabs, Tab, Button, FormGroup, FormControl, InputGroup, Panel, PageHeader, HelpBlock} from 'react-bootstrap';
+import {Tabs, Tab, Button, FormGroup, FormControl, InputGroup, Panel, PageHeader, HelpBlock, Alert} from 'react-bootstrap';
 import { ToastContainer, toast } from 'react-toastify';
 
 export class Login extends React.Component {
@@ -59,10 +59,33 @@ export class Login extends React.Component {
   // SIGN UP
   handleSubmit(event) {
     event.preventDefault();
-    const { password, passwordCheck } = this.state;
+    const { firstName, lastName, address, email, password, passwordCheck, honeypot } = this.state;
+    let { phoneNumber } = this.state;
 
-    if (this.state.honeypot === '' && password === passwordCheck) {
-      const { firstName, lastName, address, email, phoneNumber, password } = this.state;
+    let regexNum = phoneNumber.replace(/\D/g,'');
+    let formatPhoneNum = '';
+
+    if (regexNum.length === 10) {
+      for (var i = 0; i < regexNum.length; i++) {
+        if (i < 3) {
+          formatPhoneNum += regexNum[i];
+        } else if (i === 3) {
+          formatPhoneNum += '-';
+          formatPhoneNum += regexNum[i];
+        } else if (i > 3 && i < 6) {
+          formatPhoneNum += regexNum[i];
+        } else if (i === 6) {
+          formatPhoneNum += '-';
+          formatPhoneNum += regexNum[i];
+        } else if (i > 6) {
+          formatPhoneNum += regexNum[i];
+        }
+      }
+    }
+
+    if (honeypot === '' && password === passwordCheck && firstName !== '' && lastName !== '' && address !== '' && email !== '' && phoneNumber !== '') {
+      const { firstName, lastName, address, email, password } = this.state;
+      phoneNumber = formatPhoneNum;
       const newUser = { firstName, lastName, address, email, phoneNumber, password };
 
       axios.post('/api/users', newUser)
@@ -81,9 +104,11 @@ export class Login extends React.Component {
         })
         .catch((err) => {
           console.log(err);
+          this.props.setToast('The email has already been taken.', {type: 'error'});
         });
     } else {
-      console.log('SPAM!!!');
+      console.log('ERROR!!!');
+      this.props.setToast('All form fields are required!', {type: 'error'});
     }
   }
 
@@ -165,7 +190,9 @@ export class Login extends React.Component {
                               onChange={this.handleChange.bind(this)}
                             />
                           </InputGroup>
-                          <Link to="/forgotPassword">Forgot password?</Link>
+                          <div className="text-right">
+                            <Link to="/forgotPassword">Forgot password?</Link>
+                          </div>
                         </FormGroup>
                         <div className="row btn-actions">
                           <div className="col-sm-6">
@@ -213,7 +240,7 @@ export class Login extends React.Component {
                                 <FormControl
                                   type="text"
                                   bsSize="large"
-                                  placeholder="First name"
+                                  placeholder="Enter first name"
                                   name="firstName"
                                   value={this.state.firstName}
                                   onChange={this.handleChange.bind(this)}
@@ -226,7 +253,7 @@ export class Login extends React.Component {
                               <FormControl
                                 type="text"
                                 bsSize="large"
-                                placeholder="Last name"
+                                placeholder="Enter last name"
                                 name="lastName"
                                 value={this.state.lastName}
                                 onChange={this.handleChange.bind(this)}
@@ -242,7 +269,7 @@ export class Login extends React.Component {
                             <FormControl
                               type="text"
                               bsSize="large"
-                              placeholder="Address"
+                              placeholder="Enter address"
                               name="address"
                               value={this.state.address}
                               onChange={this.handleChange.bind(this)}
@@ -255,9 +282,9 @@ export class Login extends React.Component {
                               <span className="glyphicon glyphicon-envelope" aria-hidden="true"></span>
                             </InputGroup.Addon>
                             <FormControl
-                              type="text"
+                              type="email"
                               bsSize="large"
-                              placeholder="Email"
+                              placeholder="Enter email"
                               name="email"
                               value={this.state.email}
                               onChange={this.handleChange.bind(this)}
@@ -272,50 +299,52 @@ export class Login extends React.Component {
                             <FormControl
                               type="text"
                               bsSize="large"
-                              placeholder="(123) 456-7890"
+                              placeholder="Enter phone number"
                               name="phoneNumber"
                               value={this.state.phoneNumber}
                               onChange={this.handleChange.bind(this)}
                             />
                           </InputGroup>
+                          <HelpBlock>Ex. 123-456-7890</HelpBlock>
                         </FormGroup>
 
 
+                        <div className="row">
+                          <div className="col-sm-6">
+                            <FormGroup controlId="user" validationState={this.getPasswordValidationState()}>
+                              <InputGroup>
+                                <InputGroup.Addon>
+                                  <span className="glyphicon glyphicon-lock" aria-hidden="true"></span>
+                                </InputGroup.Addon>
+                                <FormControl
+                                  type="password"
+                                  bsSize="large"
+                                  placeholder="Enter password"
+                                  name="password"
+                                  value={this.state.password}
+                                  onChange={this.handleChange.bind(this)}
+                                />
+                              </InputGroup>
+                            </FormGroup>
+                          </div>
+                          <div className="col-sm-6">
+                            <FormGroup controlId="user" validationState={this.getValidationState()}>
+                              <FormControl
+                                type="password"
+                                bsSize="large"
+                                placeholder="Re-type password"
+                                name="passwordCheck"
+                                value={this.state.passwordCheck}
+                                onChange={this.handleChange.bind(this)}
+                              />
+                              <FormControl.Feedback />
+                              <div className="text-center">
+                                <HelpBlock>* Passwords must match</HelpBlock>
+                              </div>
+                            </FormGroup>
+                          </div>
+                        </div>
 
-                        <FormGroup controlId="user" validationState={this.getPasswordValidationState()}>
-                          <InputGroup>
-                            <InputGroup.Addon>
-                              <span className="glyphicon glyphicon-lock" aria-hidden="true"></span>
-                            </InputGroup.Addon>
-                            <FormControl
-                              type="password"
-                              bsSize="large"
-                              placeholder="Password"
-                              name="password"
-                              value={this.state.password}
-                              onChange={this.handleChange.bind(this)}
-                            />
-                          </InputGroup>
-                        </FormGroup>
-
-
-                        <FormGroup controlId="user" validationState={this.getValidationState()}>
-                          <InputGroup>
-                            <InputGroup.Addon>
-                              <span className="glyphicon glyphicon-lock" aria-hidden="true"></span>
-                            </InputGroup.Addon>
-                            <FormControl
-                              type="password"
-                              bsSize="large"
-                              placeholder="Retype password"
-                              name="passwordCheck"
-                              value={this.state.passwordCheck}
-                              onChange={this.handleChange.bind(this)}
-                            />
-                            <FormControl.Feedback />
-                          </InputGroup>
-                          <HelpBlock>Passwords must match</HelpBlock>
-                        </FormGroup>
 
 
                         {/* SPAM PROTECTION */}

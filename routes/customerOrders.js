@@ -15,17 +15,26 @@ router.get('/customerOrders', checkAuth, (req, res, next) => {
 
   if (access === 'customer') {
     knex('orders')
-      .select(['orders.id', 'orders.address', 'orders.status', 'orders.step', 'orders.time', 'orders.instructions', 'orders.created_at', 'orders.updated_at','users.first_name', 'users.phone_number', 'settings.amount', 'settings.clean', 'settings.fold', 'tasks.pickup', 'tasks.wash_dry', 'tasks.dropoff', ])
+      .select(['orders.id', 'orders.customer_id', 'orders.employee_id', 'orders.address', 'orders.status', 'orders.step', 'orders.time', 'orders.instructions', 'orders.created_at', 'orders.updated_at','users.first_name', 'users.phone_number', 'settings.amount', 'settings.clean', 'settings.fold', 'tasks.pickup', 'tasks.wash_dry', 'tasks.dropoff', ])
       // .innerJoin('payments', 'orders.payment_id', 'payments.id')
-      .where('customer_id', userId)
-      .where('status', 'Queue')
-      .orWhere('status', 'Active')
+      // .where('orders.customer_id', userId)
+      // .where('status', 'Queue')
+      // .orWhere('status', 'Active')
+      .where({
+        customer_id: userId,
+        status: 'Queue'
+      })
+      .orWhere({
+        customer_id: userId,
+        status: 'Active'
+      })
       .innerJoin('settings', 'orders.setting_id', 'settings.id')
       .innerJoin('tasks', 'orders.task_id', 'tasks.id')
       .leftJoin('users', 'orders.employee_id', 'users.id')
       .orderBy('orders.id', 'desc')
       .then((queue) => {
         let orders = [queue];
+        console.log(queue, '********** orders');
 
         return knex('orders')
           .select('*')
