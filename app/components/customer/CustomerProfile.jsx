@@ -212,31 +212,119 @@ class CustomerProfile extends React.Component {
       this.setState({formKey: key, activeServices: false, activeInfo: true, activePayment: false});
     }
     else if (key === 3) {
-      // if (orderPickupTime !== '') {
-      //   // get current time
-      //   let future = moment(this.state.orderPickupTime, 'hh:mm A');
-      //   var now = moment().format('hh:mm A');
-      //
-      //   // parse time using 24-hour clock and use UTC to prevent DST issues
-      //   var end = moment(future, "hh:mm A");
-      //   var start = moment(now, "hh:mm A");
-      //
-      //   // calculate the duration
-      //   var d = moment.duration(end.diff(start)).asMilliseconds();
-      //
-      //   // convert milliseconds to minutes
-      //   var min = d / 60000;
-      //
-      //   if (min < 30) {
-      //     this.props.setToast('Please choose a later pick-up time.', {type: 'error'});
-      //     return;
-      //   }
-      // }
-      //
-      // if (customerAddress === '' || customerPhoneNumber === '') {
-      //   this.props.setToast('Please check the form & try agian.', {type: 'error'});
-      //   return;
-      // }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      if (orderPickupTime !== '') {
+        // get moments
+        let scheduleTime = moment(this.state.orderPickupTime, 'hh:mm A');
+        let now = moment().format('hh:mm A');
+        scheduleTime = moment(scheduleTime, "hh:mm A");
+        now = moment(now, "hh:mm A");
+        let lastCall = moment('05:01 PM', 'hh:mm A');
+
+
+        // // if passed 05:01 PM
+        // let diffLastNow = lastCall.diff(now);
+        // console.log(diffLastNow, '************** diff last');
+        //
+        // if (diffLastNow < 0) {
+        //   const today = moment();
+        //   let tomorrow = today.add('days', 1);
+        //   tomorrow = moment(tomorrow).format('MM-DD-YYYY');
+        //   console.log(tomorrow, '************** to');
+        //
+        //   this.setState({ orderPickupDate: tomorrow, orderPickupTime: scheduleTime});
+        // } else {
+        //   // calculate the duration
+        //   const d = moment.duration(scheduleTime.diff(now)).asMilliseconds();
+        //
+        //   // convert milliseconds to minutes
+        //   const min = d / 60000;
+        //
+        //   if (min < 30) {
+        //     this.props.setToast('Please choose a later pick-up time.', {type: 'error'});
+        //     return;
+        //   }
+        // }
+
+        let diffLastNow = lastCall.diff(now);
+        console.log(diffLastNow, '************** diff last');
+
+        // if passed 05:01 PM
+        if (diffLastNow < 0) {
+          // today
+          const today = moment();
+
+          // tomorrow
+          let tomorrow = today.add('days', 1);
+
+          // tomorrow formatted
+          tomorrow = moment(tomorrow).format('MM-DD-YYYY');
+
+          this.setState({ orderPickupDate: tomorrow, orderPickupTime: scheduleTime});
+        } else {
+          // calculate the duration
+          const d = moment.duration(scheduleTime.diff(now)).asMilliseconds();
+
+          // convert milliseconds to minutes
+          const min = d / 60000;
+
+          if (min < 30) {
+            this.props.setToast('Please choose a later pick-up time.', {type: 'error'});
+            return;
+          }
+        }
+      }
+
+      if (customerAddress === '' || customerPhoneNumber === '' || orderPickupTime === '') {
+        this.props.setToast('Please check the form & try agian.', {type: 'error'});
+        return;
+      }
 
       this.setState({formKey: key, activeServices: false, activeInfo: false, activePayment: true});
     }
@@ -480,7 +568,6 @@ class CustomerProfile extends React.Component {
 
   // ***************************  RENDER  ***************************
   render() {
-    console.log(this.state.orderServices, '************ serv');
     const { customerFirstName } = this.state;
 
     const completeOptions = {
@@ -512,6 +599,51 @@ class CustomerProfile extends React.Component {
 
       return serv;
     }
+
+
+    const checkDate = () => {
+      // get moments
+      let future = moment(this.state.orderPickupTime, 'hh:mm A');
+      const now = moment().format('hh:mm A');
+      const end = moment(future, "hh:mm A");
+      const start = moment(now, "hh:mm A");
+      let lastCall = moment('05:01 PM', 'hh:mm A');
+
+      // if "now" time is a 30min passed 05:01 PM
+      // set order pick-up date to tomorrows date
+      let time = lastCall.diff(start);
+
+      if (time < 0) {
+        const today = moment();
+        let tomorrow = today.add('days', 1);
+        tomorrow = moment(tomorrow).format('MM-DD-YYYY');
+
+        return <span>
+          <FormControl
+            type="text"
+            value={tomorrow}
+            disabled
+            className="text-center"
+          />
+          <div className="text-center">
+            <HelpBlock>* Tomorrow's date</HelpBlock>
+          </div>
+        </span>;
+      } else {
+        return <span>
+          <FormControl
+            type="text"
+            value={this.state.orderPickupDate}
+            disabled
+            className="text-center"
+          />
+          <div className="text-center">
+            <HelpBlock>* Today's date</HelpBlock>
+          </div>
+        </span>;
+      }
+    }
+
 
 
     const form = () => {
@@ -654,21 +786,48 @@ class CustomerProfile extends React.Component {
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
             {/* DATE & TIME */}
             <div className="row">
               <div className="col-sm-10 col-sm-offset-1 order-date-time">
                 <ControlLabel>Pick-up date & time:</ControlLabel>
                 <FormGroup>
                   <div className="col-sm-6 order-date">
-                    <FormControl
-                      type="text"
-                      value={this.state.orderPickupDate}
-                      disabled
-                      className="text-center"
-                    />
-                    <div className="text-center">
-                      <HelpBlock>Today's date.</HelpBlock>
-                    </div>
+
+                    {checkDate()}
+
                   </div>
                   <div className="col-sm-6 order-time">
                     <FormControl
