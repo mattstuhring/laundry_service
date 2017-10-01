@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import axios from 'axios';
 import { browserHistory, withRouter } from 'react-router';
-import { Button, FormGroup, FormControl, InputGroup, Panel, ControlLabel, Table, Tabs, Tab, ProgressBar, Checkbox, Radio, Breadcrumb, Alert, Pager, Form, Col, Row, HelpBlock, Popover, Overlay, OverlayTrigger, ButtonToolbar, ListGroup, ListGroupItem } from 'react-bootstrap';
+import { Button, FormGroup, FormControl, InputGroup, Panel, ControlLabel, Table, Tabs, Tab, ProgressBar, Checkbox, Radio, Breadcrumb, Alert, Pager, Form, Col, Row, HelpBlock, Popover, Overlay, OverlayTrigger, ButtonToolbar, ListGroup, ListGroupItem, Modal } from 'react-bootstrap';
 import { BootstrapTable, TableHeaderColumn, InsertButton } from 'react-bootstrap-table';
 import moment from 'moment';
 import Popup from 'Popup';
@@ -27,6 +27,7 @@ class CustomerProfile extends React.Component {
       queueOrders: [],
       completeOrders: [],
       showModal: false,
+      showInstructionsModal: false,
       modal: {
         title: '',
         message: '',
@@ -56,6 +57,8 @@ class CustomerProfile extends React.Component {
     this.handleSelect = this.handleSelect.bind(this);
     this.handleSelectKey = this.handleSelectKey.bind(this);
     this.close = this.close.bind(this);
+    this.closeInstructions = this.closeInstructions.bind(this);
+    this.openInstructions = this.openInstructions.bind(this);
     this.openRemove = this.openRemove.bind(this);
     this.handleBoxChange = this.handleBoxChange.bind(this);
     this.handleDateChange = this.handleDateChange.bind(this);
@@ -458,6 +461,14 @@ class CustomerProfile extends React.Component {
     this.setState({ showModal: false });
   }
 
+  closeInstructions() {
+    this.setState({ showInstructionsModal: false });
+  }
+
+  openInstructions() {
+    this.setState({ showInstructionsModal: true });
+  }
+
 
   cleanFormatter(cell, row) {
     if (row.clean) {
@@ -645,6 +656,27 @@ class CustomerProfile extends React.Component {
 
 
 
+    const getOrderInstructions = () => {
+      if (this.state.orderInstructions !== '') {
+        return <div>
+          <div className="row">
+            <div className="col-sm-10 col-sm-offset-1 order-divider">
+            </div>
+          </div>
+          <div className="row">
+            <div className="col-sm-4 text-center">
+              <i className="fa fa-envelope-o" aria-hidden="true"></i>
+            </div>
+            <div className="col-sm-8 text-center">
+              <strong>
+                <p><em><Button onClick={() => {this.openInstructions()}} bsStyle="link">Instructions</Button></em></p>
+              </strong>
+            </div>
+          </div>
+        </div>;
+      }
+    }
+
 
 
 
@@ -786,41 +818,6 @@ class CustomerProfile extends React.Component {
               </div>
             </div>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
             {/* DATE & TIME */}
             <div className="row">
               <div className="col-sm-10 col-sm-offset-1 order-date-time">
@@ -858,8 +855,6 @@ class CustomerProfile extends React.Component {
             </div>
 
 
-
-
             {/* SPAM PROTECTION */}
             <div className="form-group hidden">
               <label>Keep this field blank</label>
@@ -870,6 +865,7 @@ class CustomerProfile extends React.Component {
                 value={this.state.honeypot} onChange={this.handleChange.bind(this)}
               />
             </div>
+
 
             {/* ACTION BTNS */}
             <div className="row">
@@ -893,34 +889,40 @@ class CustomerProfile extends React.Component {
               <div className="row">
                 <div className="col-sm-6 col-sm-offset-3 text-center">
                   <div className="page-header">
-                    <h2><strong>Summary</strong></h2>
+                    <h1><strong>Summary</strong></h1>
                   </div>
                 </div>
               </div>
               <div className="row">
-                <div className="col-sm-8 col-sm-offset-2">
-
-
-
-
-
-
-
-
-
-
-
-
+                <div className="col-sm-10 col-sm-offset-1">
                   <div className="order-summary">
                     <Panel>
                       <div className="row">
                         <div className="col-sm-4 text-center">
-                          <i className="fa fa-clock-o" aria-hidden="true"></i>
+                          <span>
+                            <i className="fa fa-calendar" aria-hidden="true"></i>
+                          </span>
                         </div>
                         <div className="col-sm-8 text-center">
-                          <p>
-                            {this.state.orderPickupDate}, at  {this.state.orderPickupTime}
-                          </p>
+                          <p><strong>{this.state.orderPickupDate}</strong></p>
+                        </div>
+                      </div>
+                      <div className="row">
+                        <div className="col-sm-10 col-sm-offset-1 order-divider">
+                        </div>
+                      </div>
+                      <div className="row">
+                        <div className="col-sm-4 text-center">
+                          <span>
+                            <i className="fa fa-clock-o" aria-hidden="true"></i>
+                          </span>
+                        </div>
+                        <div className="col-sm-8 text-center">
+                          <p><strong>{this.state.orderPickupTime}</strong></p>
+                        </div>
+                      </div>
+                      <div className="row">
+                        <div className="col-sm-10 col-sm-offset-1 order-divider">
                         </div>
                       </div>
                       <div className="row">
@@ -928,7 +930,13 @@ class CustomerProfile extends React.Component {
                           <i className="fa fa-check-square-o" aria-hidden="true"></i>
                         </div>
                         <div className="col-sm-8 text-center">
-                          <p>{services()}</p>
+                          <strong>
+                            <p>{services()}</p>
+                          </strong>
+                        </div>
+                      </div>
+                      <div className="row">
+                        <div className="col-sm-10 col-sm-offset-1 order-divider">
                         </div>
                       </div>
                       <div className="row">
@@ -936,18 +944,19 @@ class CustomerProfile extends React.Component {
                           <img className="order-load-img" src="images/load.svg" />
                         </div>
                         <div className="col-sm-8 text-center">
-                          <p>{this.state.orderLoads}</p>
+                          <strong>
+                            <p>{this.state.orderLoads}</p>
+                          </strong>
                         </div>
                       </div>
-                      <div className="row">
-                        <div className="col-sm-10 col-sm-offset-1 order-divider">
-                        </div>
-                      </div>
+
+                      {getOrderInstructions()}
+
                       <div className="total-stripe-box">
                         <div className="row order-total">
                           <div className="col-sm-12 text-center">
                             <strong>
-                              <h3>Total: ${this.state.orderTotalCost}</h3>
+                              <h4>Total: ${this.state.orderTotalCost}</h4>
                             </strong>
                           </div>
                         </div>
@@ -972,20 +981,6 @@ class CustomerProfile extends React.Component {
                       </div>
                     </Panel>
                   </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
                 </div>
               </div>
             </div>
@@ -1020,6 +1015,23 @@ class CustomerProfile extends React.Component {
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     return (
       <div className="row customer-profile">
         <div className="col-sm-12">
@@ -1032,6 +1044,18 @@ class CustomerProfile extends React.Component {
             close={this.close}
             action={this.state.modal.action}
           />
+
+          <Modal show={this.state.showInstructionsModal} onHide={this.closeInstructions}>
+            <Modal.Header closeButton>
+              <Modal.Title>Instructions</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              <p>{this.state.orderInstructions}</p>
+            </Modal.Body>
+            <Modal.Footer>
+              <Button onClick={this.closeInstructions}>Close</Button>
+            </Modal.Footer>
+          </Modal>
 
           <div className="row welcome-customer">
             <div className="col-sm-8 col-sm-offset-2">
