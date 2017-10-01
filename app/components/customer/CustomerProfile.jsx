@@ -302,7 +302,6 @@ class CustomerProfile extends React.Component {
 
           // tomorrow
           let tomorrow = today.add('days', 1);
-
           // tomorrow formatted
           tomorrow = moment(tomorrow).format('MM-DD-YYYY');
 
@@ -646,6 +645,9 @@ class CustomerProfile extends React.Component {
 
 
 
+
+
+
     const form = () => {
       let {formKey} = this.state;
 
@@ -891,7 +893,7 @@ class CustomerProfile extends React.Component {
               <div className="row">
                 <div className="col-sm-6 col-sm-offset-3 text-center">
                   <div className="page-header">
-                    <h4><strong>Summary</strong></h4>
+                    <h2><strong>Summary</strong></h2>
                   </div>
                 </div>
               </div>
@@ -945,7 +947,7 @@ class CustomerProfile extends React.Component {
                         <div className="row order-total">
                           <div className="col-sm-12 text-center">
                             <strong>
-                              <h4>Total: ${this.state.orderTotalCost}</h4>
+                              <h3>Total: ${this.state.orderTotalCost}</h3>
                             </strong>
                           </div>
                         </div>
