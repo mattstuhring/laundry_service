@@ -12,7 +12,7 @@ require('style!css!react-dropzone-component/styles/filepicker.css'); require('st
 require('style!css!bootstrap/dist/css/bootstrap.min.css');
 
 // Font Awesome
-require('style!css!font-awesome/css/font-awesome.css');
+require('style!css!font-awesome/css/font-awesome.min.css');
 
 // React-Toast
 require('style!css!react-toastify/dist/ReactToastify.min.css');

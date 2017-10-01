@@ -2,8 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import axios from 'axios';
 import { browserHistory, withRouter } from 'react-router';
-import { Button, FormGroup, FormControl, InputGroup, Panel, ControlLabel, Table, Tabs, Tab, ProgressBar, Checkbox, Radio, Breadcrumb, Alert, Pager, Form, Col, Row, HelpBlock, Popover, Overlay, OverlayTrigger, ButtonToolbar } from 'react-bootstrap';
-import {BootstrapTable, TableHeaderColumn, InsertButton} from 'react-bootstrap-table';
+import { Button, FormGroup, FormControl, InputGroup, Panel, ControlLabel, Table, Tabs, Tab, ProgressBar, Checkbox, Radio, Breadcrumb, Alert, Pager, Form, Col, Row, HelpBlock, Popover, Overlay, OverlayTrigger, ButtonToolbar, ListGroup, ListGroupItem } from 'react-bootstrap';
+import { BootstrapTable, TableHeaderColumn, InsertButton } from 'react-bootstrap-table';
 import moment from 'moment';
 import Popup from 'Popup';
 import StripeCheckout from 'react-stripe-checkout';
@@ -118,16 +118,17 @@ class CustomerProfile extends React.Component {
     this.setState({ orderPickupDate: date });
   }
 
+
   handleTimeChange(event) {
     let time = event.target.value
+
     this.setState({ orderPickupTime: time });
   }
+
 
   handleSelect(key) {
     this.setState({ key });
   }
-
-
 
 
   handleRadioChange(changeEvent) {
@@ -155,7 +156,7 @@ class CustomerProfile extends React.Component {
 
     }
     else {
-      const index = arr.indexOf(servName, 1);
+      const index = arr.indexOf(servName);
       arr.splice(index, 1);
 
       if (servName === 'clean') {
@@ -170,7 +171,6 @@ class CustomerProfile extends React.Component {
 
   handleTotalCost(key) {
     const { activeServices, activeInfo, activePayment, orderServiceCost, orderLoads } = this.state;
-    console.log(orderLoads, '************* loads');
 
     if (this.state.orderServices.length <= 0 || this.state.orderLoads === 0 || this.state.orderInstructions.length > 90) {
       this.props.setToast('Please check the form & try agian.', {type: 'error'});
@@ -197,13 +197,13 @@ class CustomerProfile extends React.Component {
 
 
   handleSelectKey(key) {
-    const { activeServices, activeInfo, activePayment, customerAddress, customerPhoneNumber, orderPickupTime } = this.state;
+    const { activeServices, activeInfo, activePayment, customerAddress, customerPhoneNumber, orderPickupTime, orderServices, orderLoads, orderInstructions } = this.state;
 
     if (key === 1) {
       this.setState({formKey: key, activeServices: true, activeInfo: false, activePayment: false});
     }
     else if (key === 2) {
-      if (this.state.orderServices.length <= 0 || this.state.orderLoads === 0 || this.state.orderInstructions.length > 90) {
+      if (orderServices.length <= 0 || orderLoads === 0 || orderInstructions.length > 90) {
         this.props.setToast('Please check the form & try agian.', {type: 'error'});
 
         return;
@@ -212,10 +212,31 @@ class CustomerProfile extends React.Component {
       this.setState({formKey: key, activeServices: false, activeInfo: true, activePayment: false});
     }
     else if (key === 3) {
-      if (customerAddress === '' || customerPhoneNumber === '' || orderPickupTime === '') {
-        this.props.setToast('Please check the form & try agian.', {type: 'error'});
-        return;
-      }
+      // if (orderPickupTime !== '') {
+      //   // get current time
+      //   let future = moment(this.state.orderPickupTime, 'hh:mm A');
+      //   var now = moment().format('hh:mm A');
+      //
+      //   // parse time using 24-hour clock and use UTC to prevent DST issues
+      //   var end = moment(future, "hh:mm A");
+      //   var start = moment(now, "hh:mm A");
+      //
+      //   // calculate the duration
+      //   var d = moment.duration(end.diff(start)).asMilliseconds();
+      //
+      //   // convert milliseconds to minutes
+      //   var min = d / 60000;
+      //
+      //   if (min < 30) {
+      //     this.props.setToast('Please choose a later pick-up time.', {type: 'error'});
+      //     return;
+      //   }
+      // }
+      //
+      // if (customerAddress === '' || customerPhoneNumber === '') {
+      //   this.props.setToast('Please check the form & try agian.', {type: 'error'});
+      //   return;
+      // }
 
       this.setState({formKey: key, activeServices: false, activeInfo: false, activePayment: true});
     }
@@ -275,12 +296,12 @@ class CustomerProfile extends React.Component {
         amount: this.state.orderTotalCost * 100
       })
       .then((res) => {
-        const { customerAddress, orderServices, orderLoads, customerPhoneNumber, orderInstructions, orderTotalCost, orderPickupTime } = this.state;
+        const { customerEmail, customerAddress, orderServices, orderLoads, customerPhoneNumber, orderInstructions, orderTotalCost, orderPickupTime } = this.state;
 
         let orderPickupDate = this.state;
         orderPickupDate = moment(orderPickupDate).format('L');
 
-        const newOrder = { customerAddress, orderServices, orderLoads, customerPhoneNumber, orderInstructions, orderPickupDate, orderTotalCost, orderPickupTime };
+        const newOrder = { customerEmail, customerAddress, orderServices, orderLoads, customerPhoneNumber, orderInstructions, orderPickupDate, orderTotalCost, orderPickupTime };
 
         axios.post('/api/customerOrders', { newOrder })
           .then((res) => {
@@ -307,8 +328,6 @@ class CustomerProfile extends React.Component {
               selectedServiceFold: false,
               selectedLoadsOption: false
             });
-
-
 
             return axios.post('/api/notify', { newOrder, orderId: data.id })
               .then((r) => {
@@ -461,6 +480,7 @@ class CustomerProfile extends React.Component {
 
   // ***************************  RENDER  ***************************
   render() {
+    console.log(this.state.orderServices, '************ serv');
     const { customerFirstName } = this.state;
 
     const completeOptions = {
@@ -475,12 +495,30 @@ class CustomerProfile extends React.Component {
       clickToExpand: true
     };
 
+    const services = () => {
+      let { orderServices } = this.state;
+      orderServices = orderServices.sort();
+      let serv = '';
+
+      if (orderServices.includes('clean') && orderServices.includes('fold')) {
+        serv = 'WASH / DRY / FOLD';
+      } else if (orderServices.includes('clean')) {
+        serv = 'WASH / DRY';
+      } else if (orderServices.includes('fold')) {
+        serv = 'FOLD';
+      } else {
+        serv = 'No laundry services have been selected!';
+      }
+
+      return serv;
+    }
+
 
     const form = () => {
       let {formKey} = this.state;
 
       if (formKey === 1) {
-        return <div>
+        return <div className="order-services">
           <Form horizontal>
 
             {/* SERVICES */}
@@ -495,7 +533,7 @@ class CustomerProfile extends React.Component {
                   onChange={this.handleBoxChange.bind(this)}
                   checked={this.state.selectedServiceClean}
                 >
-                  Wash/Dry
+                  Wash/Dry ($5)
                 </Checkbox>
                 {' '}
                 <Checkbox
@@ -504,7 +542,7 @@ class CustomerProfile extends React.Component {
                   onChange={this.handleBoxChange.bind(this)}
                   checked={this.state.selectedServiceFold}
                 >
-                  Fold
+                  Fold ($5)
                 </Checkbox>
               </Col>
             </FormGroup>
@@ -570,7 +608,7 @@ class CustomerProfile extends React.Component {
 
             {/* ACTION BTNS */}
             <div className="row">
-              <div className="col-sm-10 col-sm-offset-2">
+              <div className="col-sm-11">
                 <Pager>
                   <Pager.Item href="#" next onClick={() => this.handleTotalCost(2)}>Next &rarr;</Pager.Item>
                 </Pager>
@@ -580,73 +618,85 @@ class CustomerProfile extends React.Component {
         </div>;
       } else if (formKey === 2) {
         return <div>
-          <Form horizontal>
+          <Form>
             {/* ADDRESS */}
-            <FormGroup>
-              <Col componentClass={ControlLabel} sm={3}>
-                Address:
-              </Col>
-              <Col sm={9}>
-                <FormControl
-                  type="text"
-                  placeholder={this.state.customerAddress}
-                  name="customerAddress"
-                  value={this.state.customerAddress}
-                  onChange={this.handleChange.bind(this)}
-                />
-              </Col>
-            </FormGroup>
+            <div className="row">
+              <div className="col-sm-10 col-sm-offset-1">
+                <FormGroup>
+                  <ControlLabel>Address:</ControlLabel>
+                  <FormControl
+                    type="text"
+                    placeholder={this.state.customerAddress}
+                    name="customerAddress"
+                    value={this.state.customerAddress}
+                    onChange={this.handleChange.bind(this)}
+                  />
+                </FormGroup>
+              </div>
+            </div>
+
 
             {/* CONTACT */}
-            <FormGroup>
-              <Col componentClass={ControlLabel} sm={3}>
-                Contact:
-              </Col>
-              <Col sm={9}>
-                <FormControl
-                  type="text"
-                  placeholder={this.state.customerPhoneNumber}
-                  name="customerPhoneNumber"
-                  value={this.state.customerPhoneNumber}
-                  onChange={this.handleChange.bind(this)}
-                />
-              </Col>
-            </FormGroup>
+            <div className="row">
+              <div className="col-sm-10 col-sm-offset-1">
+                <FormGroup>
+                  <ControlLabel>Contact:</ControlLabel>
+                  <FormControl
+                    type="text"
+                    placeholder={this.state.customerPhoneNumber}
+                    name="customerPhoneNumber"
+                    value={this.state.customerPhoneNumber}
+                    onChange={this.handleChange.bind(this)}
+                  />
+                </FormGroup>
+              </div>
+            </div>
+
+
 
             {/* DATE & TIME */}
-            <FormGroup>
-              <Col componentClass={ControlLabel} sm={3}>
-                Laundry pick-up:
-              </Col>
-              <Col sm={4} className="text-center">
-                <FormControl
-                  type="text"
-                  value={this.state.orderPickupDate}
-                  disabled
-                  className="text-center"
-                />
-                <HelpBlock>Today's date.</HelpBlock>
-              </Col>
-              <Col sm={5}>
-                <FormControl
-                  placeholder="Select time"
-                  componentClass="select"
-                  onChange={this.handleTimeChange}
-                  value={this.state.orderPickupTime}
-                >
-                  <option>Select time</option>
-                  <option value="08:00 AM">08:00 AM</option>
-                  <option value="08:30 AM">08:30 AM</option>
-                  <option value="09:00 AM">09:00 AM</option>
-                  <option value="09:30 AM">09:30 AM</option>
-                  <option value="10:00 AM">10:00 AM</option>
-                  <option value="12:00 PM">12:00 PM</option>
-                  <option value="04:00 PM">04:00 PM</option>
-                  <option value="04:30 PM">04:30 PM</option>
-                  <option value="05:00 PM">05:00 PM</option>
-                </FormControl>
-              </Col>
-            </FormGroup>
+            <div className="row">
+              <div className="col-sm-10 col-sm-offset-1 order-date-time">
+                <ControlLabel>Pick-up date & time:</ControlLabel>
+                <FormGroup>
+                  <div className="col-sm-6 order-date">
+                    <FormControl
+                      type="text"
+                      value={this.state.orderPickupDate}
+                      disabled
+                      className="text-center"
+                    />
+                    <div className="text-center">
+                      <HelpBlock>Today's date.</HelpBlock>
+                    </div>
+                  </div>
+                  <div className="col-sm-6 order-time">
+                    <FormControl
+                      placeholder="Select time"
+                      componentClass="select"
+                      onChange={this.handleTimeChange}
+                      value={this.state.orderPickupTime}
+                    >
+                      <option>Select time</option>
+                      <option value="08:00 AM">08:00 AM</option>
+                      <option value="08:30 AM">08:30 AM</option>
+                      <option value="09:00 AM">09:00 AM</option>
+                      <option value="09:30 AM">09:30 AM</option>
+                      <option value="10:00 AM">10:00 AM</option>
+                      <option value="12:00 PM">12:00 PM</option>
+                      <option value="04:00 PM">04:00 PM</option>
+                      <option value="04:30 PM">04:30 PM</option>
+                      <option value="05:00 PM">05:00 PM</option>
+                    </FormControl>
+                    <div className="text-center">
+                      <HelpBlock>* Allow at least 30min</HelpBlock>
+                    </div>
+                  </div>
+                </FormGroup>
+              </div>
+            </div>
+
+
 
 
             {/* SPAM PROTECTION */}
@@ -663,55 +713,127 @@ class CustomerProfile extends React.Component {
             {/* ACTION BTNS */}
             <div className="row">
               <Pager>
-                <Pager.Item href="#" previous onClick={() => this.handleSelectKey(1)}>&larr; Back</Pager.Item>
-                {' '}
-                <Pager.Item href="#" next onClick={() => this.handleSelectKey(3)}>Next &rarr;</Pager.Item>
+                <div className="col-sm-5 col-sm-offset-1">
+                  <Pager.Item href="#" previous onClick={() => this.handleSelectKey(1)}>&larr; Back</Pager.Item>
+                </div>
+                <div className="col-sm-5">
+                  <Pager.Item href="#" next onClick={() => this.handleSelectKey(3)}>Next &rarr;</Pager.Item>
+                </div>
               </Pager>
             </div>
           </Form>
         </div>;
       } else if (formKey === 3) {
-        return <div>
+        return <div className="order-payment">
 
           {/* PAYMENT */}
           <div className="row">
             <div className="col-sm-12">
               <div className="row">
-                <div className="col-sm-12 text-center">
-                  <h2>Total: {'$' + this.state.orderTotalCost}</h2>
+                <div className="col-sm-6 col-sm-offset-3 text-center">
+                  <div className="page-header">
+                    <h4><strong>Summary</strong></h4>
+                  </div>
                 </div>
               </div>
               <div className="row">
                 <div className="col-sm-8 col-sm-offset-2">
-                  <ul className="payment">
-                    <li>
-                      We offer free pick up and delivery for UW students Monday through Friday, 9am-5pm.
-                    </li>
-                    <li>
-                      We'll pick up your laundry and bring it back within 48 hours.
-                    </li>
-                  </ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                  <div className="order-summary">
+                    <Panel>
+                      <div className="row">
+                        <div className="col-sm-4 text-center">
+                          <i className="fa fa-clock-o" aria-hidden="true"></i>
+                        </div>
+                        <div className="col-sm-8 text-center">
+                          <p>
+                            {this.state.orderPickupDate}, at  {this.state.orderPickupTime}
+                          </p>
+                        </div>
+                      </div>
+                      <div className="row">
+                        <div className="col-sm-4 text-center">
+                          <i className="fa fa-check-square-o" aria-hidden="true"></i>
+                        </div>
+                        <div className="col-sm-8 text-center">
+                          <p>{services()}</p>
+                        </div>
+                      </div>
+                      <div className="row">
+                        <div className="col-sm-4 text-center">
+                          <img className="order-load-img" src="images/load.svg" />
+                        </div>
+                        <div className="col-sm-8 text-center">
+                          <p>{this.state.orderLoads}</p>
+                        </div>
+                      </div>
+                      <div className="row">
+                        <div className="col-sm-10 col-sm-offset-1 order-divider">
+                        </div>
+                      </div>
+                      <div className="total-stripe-box">
+                        <div className="row order-total">
+                          <div className="col-sm-12 text-center">
+                            <strong>
+                              <h4>Total: ${this.state.orderTotalCost}</h4>
+                            </strong>
+                          </div>
+                        </div>
+                        <div className="row">
+                          <div className="col-sm-12 text-center">
+                            {/* STRIPE PAYMENT BTN */}
+                            <StripeCheckout
+                              name="Laundry Service"
+                              description="Pick-up, clean, & drop-off!"
+                              amount={this.state.orderTotalCost * 100}
+                              token={this.onToken}
+                              currency="USD"
+                              stripeKey={STRIPE_PUBLISHABLE}
+                            />
+                          </div>
+                        </div>
+                        <div className="row">
+                          <div className="col-sm-12 text-center">
+                            <img src="images/powered_by_stripe.svg"/>
+                          </div>
+                        </div>
+                      </div>
+                    </Panel>
+                  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                 </div>
               </div>
             </div>
           </div>
           <div className="row">
-            <div className="col-sm-12">
+            <div className="col-sm-10 col-sm-offset-1">
               {/* ACTION BTNS */}
               <Pager>
                 <Pager.Item href="#" previous onClick={() => this.handleSelectKey(2)}>&larr; Back</Pager.Item>
-                {' '}
-                <Pager.Item href="#" next>
-                  {/* STRIPE PAYMENT BTN */}
-                  <StripeCheckout
-                    name="Laundry Service"
-                    description="Pick-up, clean, & drop-off!"
-                    amount={this.state.orderTotalCost * 100}
-                    token={this.onToken}
-                    currency="USD"
-                    stripeKey={STRIPE_PUBLISHABLE}
-                  />
-                </Pager.Item>
               </Pager>
             </div>
           </div>
@@ -754,248 +876,247 @@ class CustomerProfile extends React.Component {
             <div className="col-sm-8 col-sm-offset-2">
 
               <Panel header={dashboard} bsStyle="primary">
-                <Tabs activeKey={this.state.key} onSelect={this.handleSelect} id="controlled-tab-example">
+
+                <div className="row">
+                  <div className="col-sm-10 col-sm-offset-1">
+                    <Tabs activeKey={this.state.key} onSelect={this.handleSelect} id="controlled-tab-example">
 
 
-                  {/* TAB 1 -> ORDER FORM */}
-                  <Tab eventKey={1} title="Schedule Pick-up">
-                    <div className="row">
-                      <div className="col-sm-10 col-sm-offset-1">
-                        <Panel>
-                          <Breadcrumb>
-                            <Breadcrumb.Item href="#" onClick={() => {this.handleSelectKey(1)}} active={this.state.activeServices}>
-                              Services
-                            </Breadcrumb.Item>
-                            <Breadcrumb.Item href="#" onClick={() => {this.handleSelectKey(2)}} active={this.state.activeInfo}>
-                              Info
-                            </Breadcrumb.Item>
-                            <Breadcrumb.Item href="#" onClick={() => {this.handleSelectKey(3)}} active={this.state.activePayment}>
-                              Payment
-                            </Breadcrumb.Item>
-                          </Breadcrumb>
+                      {/* TAB 1 -> ORDER FORM */}
+                      <Tab eventKey={1} title="Schedule Pick-up">
+                        <div className="row">
+                          <div className="col-sm-12 order-form-panel">
+                            <Panel>
 
-                          {form()}
-                        </Panel>
-                      </div>
-                    </div>
-                  </Tab>
+                              <Breadcrumb>
+                                <Breadcrumb.Item href="#" onClick={() => {this.handleSelectKey(1)}} active={this.state.activeServices}>
+                                  Services
+                                </Breadcrumb.Item>
+                                <Breadcrumb.Item href="#" onClick={() => {this.handleTotalCost(2)}} active={this.state.activeInfo}>
+                                  Info
+                                </Breadcrumb.Item>
+                                <Breadcrumb.Item href="#" onClick={() => {this.handleSelectKey(3)}} active={this.state.activePayment}>
+                                  Payment
+                                </Breadcrumb.Item>
+                              </Breadcrumb>
 
 
-                  {/* TAB 2 -> ORDER STATUS */}
-                  <Tab eventKey={2} title="Order Status">
-                    <div className="order-status">
-                      <div className="row">
-                        <div className="col-sm-10 col-sm-offset-1">
-                          {/* SUCCESS PAYMENT ALERT */}
-                          {alert()}
+                              {/* NEW ORDER FORM */}
+                              {form()}
+                            </Panel>
+                          </div>
+                        </div>
+                      </Tab>
 
-                          {this.state.queueOrders.map((q) => {
 
-                            const startDate = moment(q.created_at).format('L');
-                            let step;
-                            let employee = {};
+                      {/* TAB 2 -> ORDER STATUS */}
+                      <Tab eventKey={2} title="Order Status">
+                        <div className="order-status">
+                          <div className="row">
+                            <div className="col-sm-12">
+                              {/* SUCCESS PAYMENT ALERT */}
+                              {alert()}
 
-                            if (q.step === 'Queue') {
-                              step = (
-                                <div>
-                                  <ProgressBar>
-                                    <ProgressBar striped active now={10} key={1} label={'Queue'} onClick={this.handleClick} />
-                                    <ProgressBar bsStyle="info" striped active now={30} key={2} label={'Pick-up'}/>
-                                    <ProgressBar bsStyle="info" striped active now={30} key={3} label={'Cleaning'}/>
-                                    <ProgressBar bsStyle="info" striped active now={30} key={4} label={'Drop-off'} />
-                                  </ProgressBar>
-                                  <div className="row popover-info">
-                                    <div className="col-sm-12">
-                                      <div className="arrow-up-lightblue"></div>
-                                      <Panel header="Received order!" bsStyle="info">
-                                        <div className="queue-font-color">
-                                          <p>Laundry pick-up scheduled today, <strong>{startDate}</strong>, at <strong>{q.time}</strong>.</p>
-                                          <p>Pick-up location: <strong>{q.address}</strong></p>
+                              {this.state.queueOrders.map((q) => {
+
+                                const startDate = moment(q.created_at).format('L');
+                                let step;
+                                let employee = {};
+
+                                if (q.step === 'Queue') {
+                                  step = (
+                                    <div>
+                                      <ProgressBar>
+                                        <ProgressBar striped active now={10} key={1} label={'Queue'} onClick={this.handleClick} />
+                                        <ProgressBar bsStyle="info" striped active now={30} key={2} label={'Pick-up'}/>
+                                        <ProgressBar bsStyle="info" striped active now={30} key={3} label={'Cleaning'}/>
+                                        <ProgressBar bsStyle="info" striped active now={30} key={4} label={'Drop-off'} />
+                                      </ProgressBar>
+                                      <div className="row popover-info">
+                                        <div className="col-sm-12">
+                                          <div className="arrow-up-lightblue"></div>
+                                          <Panel header="Received order!" bsStyle="info">
+                                            <div className="queue-font-color">
+                                              <p>Laundry pick-up scheduled today, <strong>{startDate}</strong>, at <strong>{q.time}</strong>.</p>
+                                              <p>Pick-up location: <strong>{q.address}</strong></p>
+                                            </div>
+                                          </Panel>
                                         </div>
-                                      </Panel>
-                                    </div>
-                                  </div>
-                                </div>);
-                            } else if (q.step === 'Pick-up') {
-                              step = <div>
-                                <ProgressBar>
-                                  <ProgressBar striped active now={10} key={1} label={'Queue'} />
-                                  <ProgressBar striped active bsStyle="success" now={30} key={2} label={'Pick-up'}/>
-                                  <ProgressBar bsStyle="info" striped active now={30} key={3} label={'Cleaning'}/>
-                                  <ProgressBar bsStyle="info" striped active now={30} key={4} label={'Drop-off'} />
-                                </ProgressBar>
-                                <div className="row popover-info">
-                                  <div className="col-sm-12">
-                                    <div className="arrow-up-green"></div>
-                                    <Panel header="Pick-up in route!" bsStyle="success">
-                                      <div className="pickup-font-color">
-                                        <p>Driver: <strong>{q.first_name}</strong></p>
-                                        <p>Contact: <strong>{q.phone_number}</strong></p>
                                       </div>
-                                    </Panel>
-                                  </div>
-                                </div>
-                              </div>;
-
-                            } else if (q.step === 'Cleaning') {
-
-                              if (q.wash_dry === null) {
-                                step = <div>
-                                  <ProgressBar>
-                                    <ProgressBar striped active now={10} key={1} label={'Queue'} />
-                                    <ProgressBar striped active bsStyle="success" now={30} key={2} label={'Pick-up'}/>
-                                    <ProgressBar striped active bsStyle="warning" now={30} key={3} label={'Cleaning'}/>
-                                    <ProgressBar bsStyle="info" striped active now={30} key={4} label={'Drop-off'} />
-                                  </ProgressBar>
-                                  <div className="row popover-info">
-                                    <div className="col-sm-12">
-                                      <div className="arrow-up-yellow"></div>
-                                      <Panel header="Cleaning" bsStyle="warning">
-                                        <p className="text-center">. . . Locating cleaning tech</p>
-                                      </Panel>
+                                    </div>);
+                                } else if (q.step === 'Pick-up') {
+                                  step = <div>
+                                    <ProgressBar>
+                                      <ProgressBar striped active now={10} key={1} label={'Queue'} />
+                                      <ProgressBar striped active bsStyle="success" now={30} key={2} label={'Pick-up'}/>
+                                      <ProgressBar bsStyle="info" striped active now={30} key={3} label={'Cleaning'}/>
+                                      <ProgressBar bsStyle="info" striped active now={30} key={4} label={'Drop-off'} />
+                                    </ProgressBar>
+                                    <div className="row popover-info">
+                                      <div className="col-sm-12">
+                                        <div className="arrow-up-green"></div>
+                                        <Panel header="Pick-up in route!" bsStyle="success">
+                                          <div className="pickup-font-color">
+                                            <p>Driver: <strong>{q.first_name}</strong></p>
+                                            <p>Contact: <strong>{q.phone_number}</strong></p>
+                                          </div>
+                                        </Panel>
+                                      </div>
                                     </div>
-                                  </div>
-                                </div>;
-                              } else {
-                                step = <div>
-                                  <ProgressBar>
-                                    <ProgressBar striped active now={10} key={1} label={'Queue'} />
-                                    <ProgressBar striped active bsStyle="success" now={30} key={2} label={'Pick-up'}/>
-                                    <ProgressBar striped active bsStyle="warning" now={30} key={3} label={'Cleaning'}/>
-                                    <ProgressBar bsStyle="info" striped active now={30} key={4} label={'Drop-off'} />
-                                  </ProgressBar>
-                                  <div className="row popover-info">
-                                    <div className="col-sm-12">
-                                      <div className="arrow-up-yellow"></div>
-                                      <Panel header="Cleaning in process!" bsStyle="warning">
-                                        <div className="cleaning-font-color">
-                                          <p>Cleaning Tech: <strong>{q.first_name}</strong></p>
-                                          <p>Contact: <strong>{q.phone_number}</strong></p>
+                                  </div>;
+
+                                } else if (q.step === 'Cleaning') {
+
+                                  if (q.wash_dry === null) {
+                                    step = <div>
+                                      <ProgressBar>
+                                        <ProgressBar striped active now={10} key={1} label={'Queue'} />
+                                        <ProgressBar striped active bsStyle="success" now={30} key={2} label={'Pick-up'}/>
+                                        <ProgressBar striped active bsStyle="warning" now={30} key={3} label={'Cleaning'}/>
+                                        <ProgressBar bsStyle="info" striped active now={30} key={4} label={'Drop-off'} />
+                                      </ProgressBar>
+                                      <div className="row popover-info">
+                                        <div className="col-sm-12">
+                                          <div className="arrow-up-yellow"></div>
+                                          <Panel header="Cleaning" bsStyle="warning">
+                                            <p className="text-center">. . . Locating cleaning tech</p>
+                                          </Panel>
                                         </div>
-                                      </Panel>
-                                    </div>
-                                  </div>
-                                </div>;
-                              }
-                            } else if (q.step === 'Drop-off') {
-                              if (q.dropoff === null) {
-                                step = <div>
-                                  <ProgressBar>
-                                    <ProgressBar striped active now={10} key={1} label={'Queue'} />
-                                    <ProgressBar striped active bsStyle="success" now={30} key={2} label={'Pick-up'}/>
-                                    <ProgressBar striped active bsStyle="warning" now={30} key={3} label={'Cleaning'}/>
-                                    <ProgressBar striped active bsStyle="danger" now={30} key={4} label={'Drop-off'} />
-                                  </ProgressBar>
-                                  <div className="row popover-info">
-                                    <div className="col-sm-12">
-                                      <div className="arrow-up-red"></div>
-                                      <Panel header="Drop-off" bsStyle="danger">
-                                        <p  className="text-center">. . . Locating driver</p>
-                                      </Panel>
-                                    </div>
-                                  </div>
-                                </div>;
-                              } else {
-                                step = <div>
-                                  <ProgressBar>
-                                    <ProgressBar striped active now={10} key={1} label={'Queue'} />
-                                    <ProgressBar striped active bsStyle="success" now={30} key={2} label={'Pick-up'}/>
-                                    <ProgressBar striped active bsStyle="warning" now={30} key={3} label={'Cleaning'}/>
-                                    <ProgressBar striped active bsStyle="danger" now={30} key={4} label={'Drop-off'} />
-                                  </ProgressBar>
-                                  <div className="row popover-info">
-                                    <div className="col-sm-12">
-                                      <div className="arrow-up-red"></div>
-                                      <Panel header="Drop-off in route" bsStyle="danger">
-                                        <div className="dropoff-font-color">
-                                          <p>Driver: <strong>{q.first_name}</strong></p>
-                                          <p>Contact: <strong>{q.phone_number}</strong></p>
+                                      </div>
+                                    </div>;
+                                  } else {
+                                    step = <div>
+                                      <ProgressBar>
+                                        <ProgressBar striped active now={10} key={1} label={'Queue'} />
+                                        <ProgressBar striped active bsStyle="success" now={30} key={2} label={'Pick-up'}/>
+                                        <ProgressBar striped active bsStyle="warning" now={30} key={3} label={'Cleaning'}/>
+                                        <ProgressBar bsStyle="info" striped active now={30} key={4} label={'Drop-off'} />
+                                      </ProgressBar>
+                                      <div className="row popover-info">
+                                        <div className="col-sm-12">
+                                          <div className="arrow-up-yellow"></div>
+                                          <Panel header="Cleaning in process!" bsStyle="warning">
+                                            <div className="cleaning-font-color">
+                                              <p>Cleaning Tech: <strong>{q.first_name}</strong></p>
+                                              <p>Contact: <strong>{q.phone_number}</strong></p>
+                                            </div>
+                                          </Panel>
                                         </div>
-                                      </Panel>
-                                    </div>
-                                  </div>
-                                </div>;
-                              }
-                            }
+                                      </div>
+                                    </div>;
+                                  }
+                                } else if (q.step === 'Drop-off') {
+                                  if (q.dropoff === null) {
+                                    step = <div>
+                                      <ProgressBar>
+                                        <ProgressBar striped active now={10} key={1} label={'Queue'} />
+                                        <ProgressBar striped active bsStyle="success" now={30} key={2} label={'Pick-up'}/>
+                                        <ProgressBar striped active bsStyle="warning" now={30} key={3} label={'Cleaning'}/>
+                                        <ProgressBar striped active bsStyle="danger" now={30} key={4} label={'Drop-off'} />
+                                      </ProgressBar>
+                                      <div className="row popover-info">
+                                        <div className="col-sm-12">
+                                          <div className="arrow-up-red"></div>
+                                          <Panel header="Drop-off" bsStyle="danger">
+                                            <p  className="text-center">. . . Locating driver</p>
+                                          </Panel>
+                                        </div>
+                                      </div>
+                                    </div>;
+                                  } else {
+                                    step = <div>
+                                      <ProgressBar>
+                                        <ProgressBar striped active now={10} key={1} label={'Queue'} />
+                                        <ProgressBar striped active bsStyle="success" now={30} key={2} label={'Pick-up'}/>
+                                        <ProgressBar striped active bsStyle="warning" now={30} key={3} label={'Cleaning'}/>
+                                        <ProgressBar striped active bsStyle="danger" now={30} key={4} label={'Drop-off'} />
+                                      </ProgressBar>
+                                      <div className="row popover-info">
+                                        <div className="col-sm-12">
+                                          <div className="arrow-up-red"></div>
+                                          <Panel header="Drop-off in route" bsStyle="danger">
+                                            <div className="dropoff-font-color">
+                                              <p>Driver: <strong>{q.first_name}</strong></p>
+                                              <p>Contact: <strong>{q.phone_number}</strong></p>
+                                            </div>
+                                          </Panel>
+                                        </div>
+                                      </div>
+                                    </div>;
+                                  }
+                                }
 
-                            return <div key={q.id}>
-                              <Panel header={`Order: #${q.id}`}>
-                                <div className="row">
-                                  <div className="col-sm-12">
-                                    <div className="page-header order-status-header">
-                                      <h5>{startDate}</h5>
+                                return <div key={q.id}>
+                                  <Panel header={`Order: #${q.id}`}>
+                                    <div className="row">
+                                      <div className="col-sm-12">
+                                        <div className="page-header order-status-header">
+                                          <h5>{startDate}</h5>
+                                        </div>
+                                      </div>
                                     </div>
-                                  </div>
+
+                                    { step }
+                                  </Panel>
                                 </div>
-
-                                { step }
-                              </Panel>
+                              })}
                             </div>
-                          })}
+                          </div>
                         </div>
-                      </div>
-                    </div>
-                  </Tab>
+                      </Tab>
 
 
+                      {/* TAB 3 -> COMPLETED ORDERS */}
+                      <Tab eventKey={3} title="Completed Orders">
+                        <div className="row">
+                          <div className="col-sm-12">
 
+                            {/* COMPLETE TABLE */}
+                            <div className="complete-table">
+                              <BootstrapTable ref="completeTable" hover
+                                options={ completeOptions }
+                                bordered={ false }
+                                data={ this.state.completeOrders }
+                                expandableRow={ this.isExpandableRow }
+                                expandComponent={ this.expandCompleteComponent }
+                                trClassName={this.trClassFormat}
+                                pagination
+                                search
+                              >
 
+                                <TableHeaderColumn
+                                  dataField='id'
+                                  isKey
+                                  width='70px'
+                                  dataAlign='center'
+                                  expandable={ false }
+                                >Order#</TableHeaderColumn>
+                                <TableHeaderColumn
+                                  dataField='updated_at'
+                                  dataFormat={ this.endDateFormatter }
+                                  width='100px'
+                                  dataAlign='center'
+                                  expandable={ false }
+                                >Completed</TableHeaderColumn>
+                                <TableHeaderColumn
+                                  dataField='total'
+                                  width='60px'
+                                  dataAlign='center'
+                                >Total</TableHeaderColumn>
 
-
-
-
-
-
-
-
-                  <Tab eventKey={3} title="Completed Orders">
-                    <div className="row">
-                      <div className="col-sm-12">
-
-                        {/* COMPLETE TABLE */}
-                        <div className="complete-table">
-                          <BootstrapTable ref="completeTable" hover
-                            options={ completeOptions }
-                            bordered={ false }
-                            data={ this.state.completeOrders }
-                            expandableRow={ this.isExpandableRow }
-                            expandComponent={ this.expandCompleteComponent }
-                            trClassName={this.trClassFormat}
-                            pagination
-                            search
-                          >
-
-                            <TableHeaderColumn
-                              dataField='id'
-                              isKey
-                              width='70px'
-                              dataAlign='center'
-                              expandable={ false }
-                            >Order#</TableHeaderColumn>
-                            <TableHeaderColumn
-                              dataField='updated_at'
-                              dataFormat={ this.endDateFormatter }
-                              width='100px'
-                              dataAlign='center'
-                              expandable={ false }
-                            >Completed</TableHeaderColumn>
-                            <TableHeaderColumn
-                              dataField='total'
-                              width='60px'
-                              dataAlign='center'
-                            >Total</TableHeaderColumn>
-
-                            <TableHeaderColumn
-                              width='80px'
-                              dataAlign='center'
-                              dataFormat={this.buttonCompleteFormatter}
-                            ></TableHeaderColumn>
-                          </BootstrapTable>
+                                <TableHeaderColumn
+                                  width='80px'
+                                  dataAlign='center'
+                                  dataFormat={this.buttonCompleteFormatter}
+                                ></TableHeaderColumn>
+                              </BootstrapTable>
+                            </div>
+                          </div>
                         </div>
-                      </div>
-                    </div>
-                  </Tab>
-                </Tabs>
+                      </Tab>
+                    </Tabs>
+                  </div>
+                </div>
               </Panel>
             </div>
           </div>

@@ -165,19 +165,21 @@ export class Main extends React.Component {
           </form>
         </Modal>
 
+
         {/* TOP NAVBAR */}
         <Navigation setToast={this.setToast}/>
 
+
+        {/* React router child components */}
         <div className="container-fluid children">
-            {/* React router child components */}
-
-              {React.cloneElement(this.props.children, {
-                setToast: this.setToast
-              })}
-
+          {React.cloneElement(this.props.children, {
+            setToast: this.setToast
+          })}
         </div>
 
-        <footer id="myFooter">
+
+        {/* FOOTER */}
+        <footer id="myFooter" className="navbar-fixed-bottom">
           <div className="container">
             <div className="footer-copyright">
               <div className="row">

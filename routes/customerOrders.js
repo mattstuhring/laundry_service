@@ -6,8 +6,11 @@ const bcrypt = require('bcrypt-as-promised');
 const boom = require('boom');
 const { camelizeKeys, decamelizeKeys } = require('humps');
 const { checkAuth } = require('./auth-middleware');
-
+const nodemailer = require('nodemailer');
+const smtpTransport = require('nodemailer-smtp-transport');
 const router = express.Router();
+
+
 
 // GET ALL ORDERS
 router.get('/customerOrders', checkAuth, (req, res, next) => {
@@ -16,10 +19,6 @@ router.get('/customerOrders', checkAuth, (req, res, next) => {
   if (access === 'customer') {
     knex('orders')
       .select(['orders.id', 'orders.customer_id', 'orders.employee_id', 'orders.address', 'orders.status', 'orders.step', 'orders.time', 'orders.instructions', 'orders.created_at', 'orders.updated_at','users.first_name', 'users.phone_number', 'settings.amount', 'settings.clean', 'settings.fold', 'tasks.pickup', 'tasks.wash_dry', 'tasks.dropoff', ])
-      // .innerJoin('payments', 'orders.payment_id', 'payments.id')
-      // .where('orders.customer_id', userId)
-      // .where('status', 'Queue')
-      // .orWhere('status', 'Active')
       .where({
         customer_id: userId,
         status: 'Queue'
@@ -34,7 +33,6 @@ router.get('/customerOrders', checkAuth, (req, res, next) => {
       .orderBy('orders.id', 'desc')
       .then((queue) => {
         let orders = [queue];
-        console.log(queue, '********** orders');
 
         return knex('orders')
           .select('*')
@@ -66,7 +64,7 @@ router.get('/customerOrders', checkAuth, (req, res, next) => {
 // CREATE NEW ORDER
 router.post('/customerOrders', checkAuth, (req, res, next) => {
   const { userId, access } = req.token;
-  const { customerAddress, customerPhoneNumber, orderInstructions, orderPickupDate, orderPickupTime } = req.body.newOrder;
+  const { customerEmail, customerAddress, customerPhoneNumber, orderInstructions, orderPickupDate, orderPickupTime } = req.body.newOrder;
 
 
   let orderLoads = parseInt(req.body.newOrder.orderLoads);
@@ -119,12 +117,13 @@ router.post('/customerOrders', checkAuth, (req, res, next) => {
                     customer_id: parseInt(userId),
                     payment_id: parseInt(arr[0][0]),
                     setting_id: parseInt(arr[1][0]),
+                    task_id: parseInt(arr[2][0]),
                     address: customerAddress,
                     instructions: orderInstructions,
                     time: orderPickupTime,
                     status: 'Queue',
                     step: 'Queue',
-                    task_id: parseInt(arr[2][0]),
+                    employee_id: null
                   })
                   .returning('id')
                   .then((orderId) => {
@@ -132,6 +131,33 @@ router.post('/customerOrders', checkAuth, (req, res, next) => {
                       .select('*')
                       .where('id', parseInt(orderId[0]))
                       .then((r) => {
+                        console.log('Uncomment nodemailer in ROUTE customerOrders.js');
+
+                        var transporter = nodemailer.createTransport(smtpTransport({
+                          service: 'Gmail',
+                          auth: {
+                            user: process.env.GMAIL_USER,
+                            pass: process.env.GMAIL_PASSWORD
+                          }
+                        }));
+                        
+                        let mailOptions = {
+                           from: process.env.GMAIL_USER,
+                           to: process.env.GMAIL_USER,
+                           subject: 'Laundry Service - New Order',
+                           text: `Thank you for submitting a new order.`
+                        };
+
+                        transporter.sendMail(mailOptions, (error, info) => {
+                          if (error) {
+                            console.log(error);
+                            return;
+                          }
+
+                          console.log('Message %s sent: %s', info.messageId, info.response);
+                          transporter.close();
+                        });
+
                         res.send(r[0]);
                       })
                       .catch((err) => {
@@ -141,17 +167,14 @@ router.post('/customerOrders', checkAuth, (req, res, next) => {
                   .catch((err) => {
                     next(err);
                   });
-
               })
               .catch((err) => {
                 next(err);
               });
-
           })
           .catch((err) => {
             next(err);
           });
-
       })
       .catch((err) => {
         next(err);

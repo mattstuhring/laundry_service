@@ -240,7 +240,7 @@ export class Login extends React.Component {
                                 <FormControl
                                   type="text"
                                   bsSize="large"
-                                  placeholder="Enter first name"
+                                  placeholder="First name"
                                   name="firstName"
                                   value={this.state.firstName}
                                   onChange={this.handleChange.bind(this)}
@@ -253,7 +253,7 @@ export class Login extends React.Component {
                               <FormControl
                                 type="text"
                                 bsSize="large"
-                                placeholder="Enter last name"
+                                placeholder="Last name"
                                 name="lastName"
                                 value={this.state.lastName}
                                 onChange={this.handleChange.bind(this)}
@@ -269,7 +269,7 @@ export class Login extends React.Component {
                             <FormControl
                               type="text"
                               bsSize="large"
-                              placeholder="Enter address"
+                              placeholder="Address"
                               name="address"
                               value={this.state.address}
                               onChange={this.handleChange.bind(this)}
@@ -284,7 +284,7 @@ export class Login extends React.Component {
                             <FormControl
                               type="email"
                               bsSize="large"
-                              placeholder="Enter email"
+                              placeholder="Email"
                               name="email"
                               value={this.state.email}
                               onChange={this.handleChange.bind(this)}
@@ -299,13 +299,12 @@ export class Login extends React.Component {
                             <FormControl
                               type="text"
                               bsSize="large"
-                              placeholder="Enter phone number"
+                              placeholder="Phone number"
                               name="phoneNumber"
                               value={this.state.phoneNumber}
                               onChange={this.handleChange.bind(this)}
                             />
                           </InputGroup>
-                          <HelpBlock>Ex. 123-456-7890</HelpBlock>
                         </FormGroup>
 
 
@@ -319,7 +318,7 @@ export class Login extends React.Component {
                                 <FormControl
                                   type="password"
                                   bsSize="large"
-                                  placeholder="Enter password"
+                                  placeholder="Password"
                                   name="password"
                                   value={this.state.password}
                                   onChange={this.handleChange.bind(this)}
