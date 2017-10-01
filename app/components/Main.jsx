@@ -180,8 +180,8 @@ export class Main extends React.Component {
 
         {/* FOOTER */}
         <footer id="myFooter" className="navbar-fixed-bottom">
-          <div className="container">
-            <div className="footer-copyright">
+          <div className="fluid-container">
+            <div className="footer-copyright text-center">
               <div className="row">
                 <div className="col-xs-4">
                   <p>&copy; 2017 Laundry Service</p>
@@ -189,8 +189,8 @@ export class Main extends React.Component {
                 <div className="col-xs-4 text-center">
                   <button type="button" className="btn btn-default" onClick={() => {this.open()}}>Contact us</button>
                 </div>
-                <div className="col-xs-4 text-right">
-                  <p>Web Developer: <a href="/">Matt Stuhring</a></p>
+                <div className="col-xs-4">
+                  <p><em>Web Developer: </em><a href="https://github.com/mattstuhring" target="_blank">Matt Stuhring</a></p>
                 </div>
               </div>
             </div>
