@@ -12,33 +12,41 @@
     padding-top: 3%;
     max-width: 943px;
     margin: 0 auto;
+    width: 100%;
 
-    .btn-img img {
-      position: absolute;
-      z-index: 2;
-      left: 36%;
-      top: 31%;
-      width: 27%;
-      max-width: 30%;
+    .btn-img {
+      height: 100%;
+
+      img {
+        position: absolute;
+        z-index: 2;
+        left: 36%;
+        top: 36%;
+        width: 27%;
+        max-width: 30%;
+        border-radius: 50%;
+        @include transition(background-color 0.75s ease);
+        @include transition(border 0.75s ease);
+
+        &:hover, &:focus {
+          background-color: rgba(252,168,11, 0.8);
+          border-radius: 50%;
+          border: 5px solid rgba(253,187,49, 0.6);
+        }
+      }
     }
 
-    .machine-img img {
-      position: relative;
-      z-index: 1;
-  		top: 0;
-  		left: 0;
-      width: 80%;
-      max-width: 90%;
+    .machine-img {
+      height: 100%;
+
+      img {
+        position: relative;
+        z-index: 1;
+    		top: 0;
+    		left: 0;
+        width: 80%;
+        max-width: 90%;
+      }
     }
-
-
-
-    // img {
-    //   height: 765px;
-    // }
-
-    // button.btn.btn-lg.btn-link {
-    //   @include transition(color 0.75s ease);
-    // }
   }
 }

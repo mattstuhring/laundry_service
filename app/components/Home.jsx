@@ -4,21 +4,26 @@ import {Jumbotron, Button, Image} from 'react-bootstrap';
 import { Link } from 'react-router'
 
 export class Home extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {};
+
+    this.handleLink = this.handleLink.bind(this);
+  }
+
+  handleLink() {
+    browserHistory.push('/login');
+  }
 
   render() {
     return (
       <div className="home">
         <div className="row">
           <div className="welcome">
-            <div className="btn-img">
+            <div className="btn-img" onClick={() => {this.handleLink()}}>
               <Image src="images/home-btn.svg"/>
-              {/* <Link to="/login">
-                <Button bsStyle="link" bsSize="large">
-
-                </Button>
-              </Link> */}
             </div>
-
             <div className="machine-img">
               <Image src="images/home.svg"/>
             </div>

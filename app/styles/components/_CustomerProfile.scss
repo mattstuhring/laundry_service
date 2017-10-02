@@ -1,12 +1,16 @@
 .customer-profile {
-  background-image: url('/images/bubbles.jpg');
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
-  min-height: 765px;
+  // background-image: url('/images/bubbles.jpg');
+  // background-position: center;
+  // background-repeat: no-repeat;
+  // background-size: cover;
+  // min-height: 765px;
 
   .welcome-customer {
     margin-top: 100px;
+  }
+
+  .welcome-order-form {
+    margin-top: 20px;
   }
 
 
@@ -136,11 +140,6 @@
     margin-bottom: 40px;
   }
 
-  .order-status {
-    overflow-y: scroll;
-    overflow-x: hidden;
-    max-height: 856px;
-  }
 
 
   .popover-info {

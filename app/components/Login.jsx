@@ -147,17 +147,17 @@ export class Login extends React.Component {
   // ****************************  RENDER  *********************************
   render() {
     const dashboard = (
-      <h3>Member Login</h3>
+      <p>Member Login</p>
     );
 
     return (
         <div className="row user-login">
-          <div className="col-sm-6 col-sm-offset-3">
+          <div className="col-sm-8 col-sm-offset-2">
 
             <Panel header={dashboard} bsStyle="primary">
               {/* LOGIN */}
               <Tabs defaultActiveKey={1} activeKey={this.state.key} onSelect={this.handleSelect} id="loginTabs">
-                <Tab eventKey={1} title="Log In">
+                <Tab eventKey={1} title="LOG IN">
                   <div className="row">
                     <div className="col-sm-10 col-sm-offset-1">
                       <form onSubmit={this.handleLogin.bind(this)}>
@@ -195,16 +195,16 @@ export class Login extends React.Component {
                           </div>
                         </FormGroup>
                         <div className="row btn-actions">
-                          <div className="col-sm-6">
+                          <div className="col-sm-12 text-center">
                             <Button
                               bsStyle="primary"
                               type="submit"
                               block
                             >
-                              Submit
+                              SUBMIT
                             </Button>
                           </div>
-                          <div className="col-sm-6">
+                          {/* <div className="col-sm-6">
                             <Button
                               bsStyle="primary"
                               type="button"
@@ -213,7 +213,7 @@ export class Login extends React.Component {
                             >
                               Cancel
                             </Button>
-                          </div>
+                          </div> */}
                         </div>
                       </form>
                     </div>
@@ -226,7 +226,7 @@ export class Login extends React.Component {
 
 
                 {/* SIGN UP */}
-                <Tab eventKey={2} title="Sign Up">
+                <Tab eventKey={2} title="SIGN UP">
                   <div className="row">
                     <div className="col-sm-10 col-sm-offset-1">
                       <form onSubmit={this.handleSubmit.bind(this)}>
@@ -359,16 +359,16 @@ export class Login extends React.Component {
 
 
                         <div className="row btn-actions">
-                          <div className="col-sm-6">
+                          <div className="col-sm-12 text-center">
                             <Button
                               bsStyle="primary"
                               type="submit"
                               block
                             >
-                              Submit
+                              SIGN UP
                             </Button>
                           </div>
-                          <div className="col-sm-6">
+                          {/* <div className="col-sm-6">
                             <Button
                               bsStyle="primary"
                               type="button"
@@ -377,7 +377,7 @@ export class Login extends React.Component {
                             >
                               Cancel
                             </Button>
-                          </div>
+                          </div> */}
                         </div>
                       </form>
                     </div>

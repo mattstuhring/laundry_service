@@ -1,5 +1,6 @@
 html, body, #app {
   height: 100% !important;
+  background-color: #e6e6e6;
 }
 
 body {
@@ -9,7 +10,7 @@ body {
 
 .main {
   height: 100%;
-  
+
   .children {
     height: 100%;
   }
@@ -28,7 +29,7 @@ body {
 
 
   #myFooter {
-      background-color: #337ab7;
+      background-color: $darkBlue;
       color: white;
       padding-top: 10px;
       padding-bottom: 8px;
@@ -52,7 +53,7 @@ body {
 
   #myFooter .btn {
       color: white;
-      background-color: lightgrey;
+      background-color: $amber;
       border-radius: 20px;
       border: none;
       width: 150px;

@@ -270,33 +270,7 @@ class CustomerProfile extends React.Component {
         now = moment(now, "hh:mm A");
         let lastCall = moment('05:01 PM', 'hh:mm A');
 
-
-        // // if passed 05:01 PM
-        // let diffLastNow = lastCall.diff(now);
-        // console.log(diffLastNow, '************** diff last');
-        //
-        // if (diffLastNow < 0) {
-        //   const today = moment();
-        //   let tomorrow = today.add('days', 1);
-        //   tomorrow = moment(tomorrow).format('MM-DD-YYYY');
-        //   console.log(tomorrow, '************** to');
-        //
-        //   this.setState({ orderPickupDate: tomorrow, orderPickupTime: scheduleTime});
-        // } else {
-        //   // calculate the duration
-        //   const d = moment.duration(scheduleTime.diff(now)).asMilliseconds();
-        //
-        //   // convert milliseconds to minutes
-        //   const min = d / 60000;
-        //
-        //   if (min < 30) {
-        //     this.props.setToast('Please choose a later pick-up time.', {type: 'error'});
-        //     return;
-        //   }
-        // }
-
         let diffLastNow = lastCall.diff(now);
-        console.log(diffLastNow, '************** diff last');
 
         // if passed 05:01 PM
         if (diffLastNow < 0) {
@@ -376,7 +350,7 @@ class CustomerProfile extends React.Component {
 
 
 
-  // STRIPE PAYMENT
+  // STRIPE PAYMENT $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
   onToken = (token) => {
     axios.post('/api/charge',
       {
@@ -1058,11 +1032,11 @@ class CustomerProfile extends React.Component {
           </Modal>
 
           <div className="row welcome-customer">
-            <div className="col-sm-8 col-sm-offset-2">
+            <div className="col-sm-10 col-sm-offset-1">
 
               <Panel header={dashboard} bsStyle="primary">
 
-                <div className="row">
+                <div className="row welcome-order-form">
                   <div className="col-sm-10 col-sm-offset-1">
                     <Tabs activeKey={this.state.key} onSelect={this.handleSelect} id="controlled-tab-example">
 
@@ -1072,7 +1046,6 @@ class CustomerProfile extends React.Component {
                         <div className="row">
                           <div className="col-sm-12 order-form-panel">
                             <Panel>
-
                               <Breadcrumb>
                                 <Breadcrumb.Item href="#" onClick={() => {this.handleSelectKey(1)}} active={this.state.activeServices}>
                                   Services
@@ -1096,52 +1069,130 @@ class CustomerProfile extends React.Component {
 
                       {/* TAB 2 -> ORDER STATUS */}
                       <Tab eventKey={2} title="Order Status">
-                        <div className="order-status">
-                          <div className="row">
-                            <div className="col-sm-12">
-                              {/* SUCCESS PAYMENT ALERT */}
-                              {alert()}
+                        <div className="row">
+                          <div className="col-sm-12">
+                            {/* SUCCESS PAYMENT ALERT */}
+                            {alert()}
 
-                              {this.state.queueOrders.map((q) => {
+                            {this.state.queueOrders.map((q) => {
 
-                                const startDate = moment(q.created_at).format('L');
-                                let step;
-                                let employee = {};
+                              const startDate = moment(q.created_at).format('L');
+                              let step;
+                              let employee = {};
 
-                                if (q.step === 'Queue') {
-                                  step = (
-                                    <div>
-                                      <ProgressBar>
-                                        <ProgressBar striped active now={10} key={1} label={'Queue'} onClick={this.handleClick} />
-                                        <ProgressBar bsStyle="info" striped active now={30} key={2} label={'Pick-up'}/>
-                                        <ProgressBar bsStyle="info" striped active now={30} key={3} label={'Cleaning'}/>
-                                        <ProgressBar bsStyle="info" striped active now={30} key={4} label={'Drop-off'} />
-                                      </ProgressBar>
-                                      <div className="row popover-info">
-                                        <div className="col-sm-12">
-                                          <div className="arrow-up-lightblue"></div>
-                                          <Panel header="Received order!" bsStyle="info">
-                                            <div className="queue-font-color">
-                                              <p>Laundry pick-up scheduled today, <strong>{startDate}</strong>, at <strong>{q.time}</strong>.</p>
-                                              <p>Pick-up location: <strong>{q.address}</strong></p>
-                                            </div>
-                                          </Panel>
-                                        </div>
-                                      </div>
-                                    </div>);
-                                } else if (q.step === 'Pick-up') {
-                                  step = <div>
+                              if (q.step === 'Queue') {
+                                step = (
+                                  <div>
                                     <ProgressBar>
-                                      <ProgressBar striped active now={10} key={1} label={'Queue'} />
-                                      <ProgressBar striped active bsStyle="success" now={30} key={2} label={'Pick-up'}/>
+                                      <ProgressBar striped active now={10} key={1} label={'Queue'} onClick={this.handleClick} />
+                                      <ProgressBar bsStyle="info" striped active now={30} key={2} label={'Pick-up'}/>
                                       <ProgressBar bsStyle="info" striped active now={30} key={3} label={'Cleaning'}/>
                                       <ProgressBar bsStyle="info" striped active now={30} key={4} label={'Drop-off'} />
                                     </ProgressBar>
                                     <div className="row popover-info">
                                       <div className="col-sm-12">
-                                        <div className="arrow-up-green"></div>
-                                        <Panel header="Pick-up in route!" bsStyle="success">
-                                          <div className="pickup-font-color">
+                                        <div className="arrow-up-lightblue"></div>
+                                        <Panel header="Received order!" bsStyle="info">
+                                          <div className="queue-font-color">
+                                            <p>Laundry pick-up scheduled today, <strong>{startDate}</strong>, at <strong>{q.time}</strong>.</p>
+                                            <p>Pick-up location: <strong>{q.address}</strong></p>
+                                          </div>
+                                        </Panel>
+                                      </div>
+                                    </div>
+                                  </div>);
+                              } else if (q.step === 'Pick-up') {
+                                step = <div>
+                                  <ProgressBar>
+                                    <ProgressBar striped active now={10} key={1} label={'Queue'} />
+                                    <ProgressBar striped active bsStyle="success" now={30} key={2} label={'Pick-up'}/>
+                                    <ProgressBar bsStyle="info" striped active now={30} key={3} label={'Cleaning'}/>
+                                    <ProgressBar bsStyle="info" striped active now={30} key={4} label={'Drop-off'} />
+                                  </ProgressBar>
+                                  <div className="row popover-info">
+                                    <div className="col-sm-12">
+                                      <div className="arrow-up-green"></div>
+                                      <Panel header="Pick-up in route!" bsStyle="success">
+                                        <div className="pickup-font-color">
+                                          <p>Driver: <strong>{q.first_name}</strong></p>
+                                          <p>Contact: <strong>{q.phone_number}</strong></p>
+                                        </div>
+                                      </Panel>
+                                    </div>
+                                  </div>
+                                </div>;
+
+                              } else if (q.step === 'Cleaning') {
+
+                                if (q.wash_dry === null) {
+                                  step = <div>
+                                    <ProgressBar>
+                                      <ProgressBar striped active now={10} key={1} label={'Queue'} />
+                                      <ProgressBar striped active bsStyle="success" now={30} key={2} label={'Pick-up'}/>
+                                      <ProgressBar striped active bsStyle="warning" now={30} key={3} label={'Cleaning'}/>
+                                      <ProgressBar bsStyle="info" striped active now={30} key={4} label={'Drop-off'} />
+                                    </ProgressBar>
+                                    <div className="row popover-info">
+                                      <div className="col-sm-12">
+                                        <div className="arrow-up-yellow"></div>
+                                        <Panel header="Cleaning" bsStyle="warning">
+                                          <p className="text-center">. . . Locating cleaning tech</p>
+                                        </Panel>
+                                      </div>
+                                    </div>
+                                  </div>;
+                                } else {
+                                  step = <div>
+                                    <ProgressBar>
+                                      <ProgressBar striped active now={10} key={1} label={'Queue'} />
+                                      <ProgressBar striped active bsStyle="success" now={30} key={2} label={'Pick-up'}/>
+                                      <ProgressBar striped active bsStyle="warning" now={30} key={3} label={'Cleaning'}/>
+                                      <ProgressBar bsStyle="info" striped active now={30} key={4} label={'Drop-off'} />
+                                    </ProgressBar>
+                                    <div className="row popover-info">
+                                      <div className="col-sm-12">
+                                        <div className="arrow-up-yellow"></div>
+                                        <Panel header="Cleaning in process!" bsStyle="warning">
+                                          <div className="cleaning-font-color">
+                                            <p>Cleaning Tech: <strong>{q.first_name}</strong></p>
+                                            <p>Contact: <strong>{q.phone_number}</strong></p>
+                                          </div>
+                                        </Panel>
+                                      </div>
+                                    </div>
+                                  </div>;
+                                }
+                              } else if (q.step === 'Drop-off') {
+                                if (q.dropoff === null) {
+                                  step = <div>
+                                    <ProgressBar>
+                                      <ProgressBar striped active now={10} key={1} label={'Queue'} />
+                                      <ProgressBar striped active bsStyle="success" now={30} key={2} label={'Pick-up'}/>
+                                      <ProgressBar striped active bsStyle="warning" now={30} key={3} label={'Cleaning'}/>
+                                      <ProgressBar striped active bsStyle="danger" now={30} key={4} label={'Drop-off'} />
+                                    </ProgressBar>
+                                    <div className="row popover-info">
+                                      <div className="col-sm-12">
+                                        <div className="arrow-up-red"></div>
+                                        <Panel header="Drop-off" bsStyle="danger">
+                                          <p  className="text-center">. . . Locating driver</p>
+                                        </Panel>
+                                      </div>
+                                    </div>
+                                  </div>;
+                                } else {
+                                  step = <div>
+                                    <ProgressBar>
+                                      <ProgressBar striped active now={10} key={1} label={'Queue'} />
+                                      <ProgressBar striped active bsStyle="success" now={30} key={2} label={'Pick-up'}/>
+                                      <ProgressBar striped active bsStyle="warning" now={30} key={3} label={'Cleaning'}/>
+                                      <ProgressBar striped active bsStyle="danger" now={30} key={4} label={'Drop-off'} />
+                                    </ProgressBar>
+                                    <div className="row popover-info">
+                                      <div className="col-sm-12">
+                                        <div className="arrow-up-red"></div>
+                                        <Panel header="Drop-off in route" bsStyle="danger">
+                                          <div className="dropoff-font-color">
                                             <p>Driver: <strong>{q.first_name}</strong></p>
                                             <p>Contact: <strong>{q.phone_number}</strong></p>
                                           </div>
@@ -1149,103 +1200,23 @@ class CustomerProfile extends React.Component {
                                       </div>
                                     </div>
                                   </div>;
-
-                                } else if (q.step === 'Cleaning') {
-
-                                  if (q.wash_dry === null) {
-                                    step = <div>
-                                      <ProgressBar>
-                                        <ProgressBar striped active now={10} key={1} label={'Queue'} />
-                                        <ProgressBar striped active bsStyle="success" now={30} key={2} label={'Pick-up'}/>
-                                        <ProgressBar striped active bsStyle="warning" now={30} key={3} label={'Cleaning'}/>
-                                        <ProgressBar bsStyle="info" striped active now={30} key={4} label={'Drop-off'} />
-                                      </ProgressBar>
-                                      <div className="row popover-info">
-                                        <div className="col-sm-12">
-                                          <div className="arrow-up-yellow"></div>
-                                          <Panel header="Cleaning" bsStyle="warning">
-                                            <p className="text-center">. . . Locating cleaning tech</p>
-                                          </Panel>
-                                        </div>
-                                      </div>
-                                    </div>;
-                                  } else {
-                                    step = <div>
-                                      <ProgressBar>
-                                        <ProgressBar striped active now={10} key={1} label={'Queue'} />
-                                        <ProgressBar striped active bsStyle="success" now={30} key={2} label={'Pick-up'}/>
-                                        <ProgressBar striped active bsStyle="warning" now={30} key={3} label={'Cleaning'}/>
-                                        <ProgressBar bsStyle="info" striped active now={30} key={4} label={'Drop-off'} />
-                                      </ProgressBar>
-                                      <div className="row popover-info">
-                                        <div className="col-sm-12">
-                                          <div className="arrow-up-yellow"></div>
-                                          <Panel header="Cleaning in process!" bsStyle="warning">
-                                            <div className="cleaning-font-color">
-                                              <p>Cleaning Tech: <strong>{q.first_name}</strong></p>
-                                              <p>Contact: <strong>{q.phone_number}</strong></p>
-                                            </div>
-                                          </Panel>
-                                        </div>
-                                      </div>
-                                    </div>;
-                                  }
-                                } else if (q.step === 'Drop-off') {
-                                  if (q.dropoff === null) {
-                                    step = <div>
-                                      <ProgressBar>
-                                        <ProgressBar striped active now={10} key={1} label={'Queue'} />
-                                        <ProgressBar striped active bsStyle="success" now={30} key={2} label={'Pick-up'}/>
-                                        <ProgressBar striped active bsStyle="warning" now={30} key={3} label={'Cleaning'}/>
-                                        <ProgressBar striped active bsStyle="danger" now={30} key={4} label={'Drop-off'} />
-                                      </ProgressBar>
-                                      <div className="row popover-info">
-                                        <div className="col-sm-12">
-                                          <div className="arrow-up-red"></div>
-                                          <Panel header="Drop-off" bsStyle="danger">
-                                            <p  className="text-center">. . . Locating driver</p>
-                                          </Panel>
-                                        </div>
-                                      </div>
-                                    </div>;
-                                  } else {
-                                    step = <div>
-                                      <ProgressBar>
-                                        <ProgressBar striped active now={10} key={1} label={'Queue'} />
-                                        <ProgressBar striped active bsStyle="success" now={30} key={2} label={'Pick-up'}/>
-                                        <ProgressBar striped active bsStyle="warning" now={30} key={3} label={'Cleaning'}/>
-                                        <ProgressBar striped active bsStyle="danger" now={30} key={4} label={'Drop-off'} />
-                                      </ProgressBar>
-                                      <div className="row popover-info">
-                                        <div className="col-sm-12">
-                                          <div className="arrow-up-red"></div>
-                                          <Panel header="Drop-off in route" bsStyle="danger">
-                                            <div className="dropoff-font-color">
-                                              <p>Driver: <strong>{q.first_name}</strong></p>
-                                              <p>Contact: <strong>{q.phone_number}</strong></p>
-                                            </div>
-                                          </Panel>
-                                        </div>
-                                      </div>
-                                    </div>;
-                                  }
                                 }
+                              }
 
-                                return <div key={q.id}>
-                                  <Panel header={`Order: #${q.id}`}>
-                                    <div className="row">
-                                      <div className="col-sm-12">
-                                        <div className="page-header order-status-header">
-                                          <h5>{startDate}</h5>
-                                        </div>
+                              return <div key={q.id}>
+                                <Panel header={`Order: #${q.id}`}>
+                                  <div className="row">
+                                    <div className="col-sm-12">
+                                      <div className="page-header order-status-header">
+                                        <h5>{startDate}</h5>
                                       </div>
                                     </div>
+                                  </div>
 
-                                    { step }
-                                  </Panel>
-                                </div>
-                              })}
-                            </div>
+                                  { step }
+                                </Panel>
+                              </div>
+                            })}
                           </div>
                         </div>
                       </Tab>

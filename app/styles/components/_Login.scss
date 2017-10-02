@@ -2,11 +2,6 @@
   position: absolute;
   z-index: 1 !important;
 
-  background-image: url('/images/background.jpg');
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
-  height: 765px;
 
   .panel-title {
     font-size: 4vw;
@@ -15,10 +10,63 @@
 
   .panel-primary {
     margin-top: 100px;
-  }
+    border-color: #ccc;
 
-  .nav-tabs, .form-group {
-    margin-bottom: 25px;
+    .panel-body {
+      padding: 50px;
+    }
+
+    .panel-heading {
+      background-color: $darkBlue;
+      border-color: $darkBlue;
+    }
+
+    .btn-primary {
+      background-color: $amber;
+      border-color: $amber;
+    }
+
+
+    #loginTabs {
+      .tab-content {
+        background-color: white;
+        padding: 30px;
+        border-left: 1px solid $lightBlue;
+        border-right: 1px solid $lightBlue;
+        border-bottom: 1px solid $lightBlue;
+      }
+    }
+
+    .nav-tabs>li.active>a {
+      background-color: $lightBlue;
+      color: white;
+      // border-left: 1px solid $darkBlue;
+      // border-right: 1px solid $darkBlue;
+      // border-top: 1px solid $darkBlue;
+    }
+
+    .nav-tabs>li>a {
+      background-color: #e5e5e5;
+      color: $darkBlue;
+      text-align: center;
+    }
+
+    .nav-tabs>li {
+      width: 50%;
+    }
+
+    .nav-tabs {
+      border-bottom: 1px solid $darkBlue;
+    }
+
+    .input-group-addon {
+      background-color: $lightBlue;
+    }
+
+    .glyphicon {
+      color: white;
+      font-size: 20px;
+    }
   }
 
   .input-lg {

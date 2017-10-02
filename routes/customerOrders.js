@@ -131,33 +131,6 @@ router.post('/customerOrders', checkAuth, (req, res, next) => {
                       .select('*')
                       .where('id', parseInt(orderId[0]))
                       .then((r) => {
-                        console.log('Uncomment nodemailer in ROUTE customerOrders.js');
-
-                        var transporter = nodemailer.createTransport(smtpTransport({
-                          service: 'Gmail',
-                          auth: {
-                            user: process.env.GMAIL_USER,
-                            pass: process.env.GMAIL_PASSWORD
-                          }
-                        }));
-                        
-                        let mailOptions = {
-                           from: process.env.GMAIL_USER,
-                           to: process.env.GMAIL_USER,
-                           subject: 'Laundry Service - New Order',
-                           text: `Thank you for submitting a new order.`
-                        };
-
-                        transporter.sendMail(mailOptions, (error, info) => {
-                          if (error) {
-                            console.log(error);
-                            return;
-                          }
-
-                          console.log('Message %s sent: %s', info.messageId, info.response);
-                          transporter.close();
-                        });
-
                         res.send(r[0]);
                       })
                       .catch((err) => {
