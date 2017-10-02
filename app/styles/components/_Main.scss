@@ -8,6 +8,11 @@ body {
 }
 
 .main {
+  height: 100%;
+  
+  .children {
+    height: 100%;
+  }
 
   .expand-row thead {
     background-color: #e5e5ea;

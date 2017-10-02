@@ -8,23 +8,19 @@ export class Home extends React.Component {
   render() {
     return (
       <div className="home">
-
-        {/* HEADER */}
         <div className="row">
-          <div className="col-sm-10 col-sm-offset-1">
-            <div className="page-header home-header text-center">
-              <h1>Laundry Service</h1>
-            </div>
-          </div>
-        </div>
+          <div className="welcome">
+            <div className="btn-img">
+              <Image src="images/home-btn.svg"/>
+              {/* <Link to="/login">
+                <Button bsStyle="link" bsSize="large">
 
-        <div className="row home-img">
-          <div className="col-sm-12">
-            <div className="welcome">
-              <h1>NEVER DO YOUR LAUNDRY AGAIN!</h1>
-              <Link to="/login">
-                <Button bsStyle="primary" bsSize="large">Get Started</Button>
-              </Link>
+                </Button>
+              </Link> */}
+            </div>
+
+            <div className="machine-img">
+              <Image src="images/home.svg"/>
             </div>
           </div>
         </div>
