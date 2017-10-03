@@ -32,15 +32,18 @@
         .tab-content {
           background-color: rgba(79,213,248,0.2);
           padding: 30px 50px 30px;
-          border-left: 1px solid #ddd;
-          border-right: 1px solid #ddd;
-          border-bottom: 1px solid #ddd;
+          border-left: 1px solid $lightBlue;
+          border-right: 1px solid $lightBlue;
+          border-bottom: 1px solid $lightBlue;
           border-radius: 0px 4px 4px 4px;
         }
 
         .nav-tabs>li.active>a {
           background-color: $lightBlue;
           color: white;
+          border-left: 1px solid $lightBlue;
+          border-right: 1px solid $lightBlue;
+          border-bottom: 1px solid $lightBlue;
         }
 
         .nav-tabs>li>a {
@@ -48,7 +51,7 @@
           color: $darkBlue;
           text-align: center;
           text-decoration: none;
-          border-bottom: 1px solid rgba(79,213,248,0.3);
+          border-bottom: 1px solid $lightBlue;
         }
 
         .nav>li {
