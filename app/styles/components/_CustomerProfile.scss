@@ -274,6 +274,15 @@
 
 
   .order-payment {
+    .pager li>a {
+      border: 1px solid #ddd;
+      border-radius: 15px;
+      color: $darkBlue;
+      color: white;
+      width: 120px;
+      background-color: $amber;
+    }
+    
     .page-header {
       margin-top: 0px;
       color: $darkBlue;
@@ -290,14 +299,14 @@
 
       i.fa {
         font-size: 45px;
-        color: #337ab7;
+        color: $amber;
       }
 
       .order-divider {
         margin-top: 1rem;
         margin-bottom: 1rem;
         border: 0;
-        border-top: 1px dotted #ccc;
+        border-top: 2px dotted $lightBlue;
       }
 
       .order-load-img {

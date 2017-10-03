@@ -41,6 +41,7 @@ class CustomerProfile extends React.Component {
       selectedServiceFold: false,
       orderInstructions: '',
       orderPickupDate: moment().format('MM-DD-YYYY'),
+      formattedDate: '',
       orderPickupTime: '',
       orderTotalCost: 0,
       orderServiceCost: 0,
@@ -215,53 +216,6 @@ class CustomerProfile extends React.Component {
       this.setState({formKey: key, activeServices: false, activeInfo: true, activePayment: false});
     }
     else if (key === 3) {
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
       if (orderPickupTime !== '') {
         // get moments
         let scheduleTime = moment(this.state.orderPickupTime, 'hh:mm A');
@@ -334,8 +288,6 @@ class CustomerProfile extends React.Component {
 
 
 
-
-
   openRemove(id) {
     this.setState({
       showModal: true,
@@ -347,6 +299,10 @@ class CustomerProfile extends React.Component {
       }
     });
   }
+
+
+
+
 
 
 
@@ -382,6 +338,7 @@ class CustomerProfile extends React.Component {
               customerPhoneNumber: this.state.customerPhoneNumber,
               orderInstructions: '',
               orderPickupDate: moment().format('MM-DD-YYYY'),
+              formattedDate: '',
               orderTotalCost: 0,
               orderServiceCost: 0,
               orderPickupTime: '',
@@ -677,6 +634,15 @@ class CustomerProfile extends React.Component {
           </div>
         </div>;
       }
+    }
+
+    const formatSummaryDate = () => {
+      let date = moment(this.state.orderPickupDate, 'dddd, MMMM Do YYYY');
+      let formatDate = moment(date).format('dddd, MMMM Do YYYY');
+
+      return <div className="col-sm-8 text-center">
+        <p><strong>{formatDate}</strong></p>
+      </div>
     }
 
 
@@ -1006,9 +972,9 @@ class CustomerProfile extends React.Component {
                             <i className="fa fa-calendar" aria-hidden="true"></i>
                           </span>
                         </div>
-                        <div className="col-sm-8 text-center">
-                          <p><strong>{this.state.orderPickupDate}</strong></p>
-                        </div>
+
+                        {formatSummaryDate()}
+
                       </div>
                       <div className="row">
                         <div className="col-sm-10 col-sm-offset-1 order-divider">
