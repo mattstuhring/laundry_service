@@ -2,12 +2,6 @@
   position: absolute;
   z-index: 1 !important;
 
-
-  .panel-title {
-    font-size: 4vw;
-    text-align: center;
-  }
-
   .panel-primary {
     margin-top: 100px;
     border-color: #ccc;
@@ -29,24 +23,30 @@
 
     #loginTabs {
       .tab-content {
-        background-color: white;
+        background-color: rgba(79,213,248,0.2);
         padding: 30px;
-        border-left: 1px solid $lightBlue;
-        border-right: 1px solid $lightBlue;
-        border-bottom: 1px solid $lightBlue;
+        border: 1px solid $lightBlue;
+        border-radius: 0px 4px 4px 4px;
+      }
+
+      .tab-content>.active {
+        display: block;
+        background-color: white;
+        padding: 30px 0px 15px;
+        border-radius: 4px;
       }
     }
 
     .nav-tabs>li.active>a {
       background-color: $lightBlue;
       color: white;
-      // border-left: 1px solid $darkBlue;
-      // border-right: 1px solid $darkBlue;
-      // border-top: 1px solid $darkBlue;
+      border-top: 1px solid #4fd5f8;
+      border-left: 1px solid #4fd5f8;
+      border-right: 1px solid #4fd5f8;
     }
 
     .nav-tabs>li>a {
-      background-color: #e5e5e5;
+      background-color: #ededed;
       color: $darkBlue;
       text-align: center;
     }
@@ -56,7 +56,7 @@
     }
 
     .nav-tabs {
-      border-bottom: 1px solid $darkBlue;
+      border-bottom: 1px solid $lightBlue;
     }
 
     .input-group-addon {
@@ -64,7 +64,6 @@
     }
 
     .glyphicon {
-      color: white;
       font-size: 20px;
     }
   }

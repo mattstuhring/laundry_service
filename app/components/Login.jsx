@@ -169,7 +169,7 @@ export class Login extends React.Component {
                             <FormControl
                               type="text"
                               bsSize="large"
-                              placeholder="example@address.com"
+                              placeholder="Email"
                               name="email"
                               value={this.state.email}
                               onChange={this.handleChange.bind(this)}
@@ -201,7 +201,7 @@ export class Login extends React.Component {
                               type="submit"
                               block
                             >
-                              SUBMIT
+                              LOG IN
                             </Button>
                           </div>
                           {/* <div className="col-sm-6">

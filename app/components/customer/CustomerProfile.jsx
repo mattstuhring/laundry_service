@@ -658,104 +658,186 @@ class CustomerProfile extends React.Component {
       let {formKey} = this.state;
 
       if (formKey === 1) {
-        return <div className="order-services">
-          <Form horizontal>
+        return <div className="row order-services">
+          <div className="col-sm-10 col-sm-offset-1">
+            <Form horizontal>
 
-            {/* SERVICES */}
-            <FormGroup>
-              <Col componentClass={ControlLabel} sm={3}>
-                Services:
-              </Col>
-              <Col sm={9}>
-                <Checkbox
-                  inline
-                  value={['clean', 5]}
-                  onChange={this.handleBoxChange.bind(this)}
-                  checked={this.state.selectedServiceClean}
-                >
-                  Wash/Dry ($5)
-                </Checkbox>
-                {' '}
-                <Checkbox
-                  inline
-                  value={['fold', 5]}
-                  onChange={this.handleBoxChange.bind(this)}
-                  checked={this.state.selectedServiceFold}
-                >
-                  Fold ($5)
-                </Checkbox>
-              </Col>
-            </FormGroup>
-
-            {/* NUMBER OF LOADS */}
-            <FormGroup>
-              <Col componentClass={ControlLabel} sm={3}>
-                Loads:
-              </Col>
-              <Col sm={9}>
-                <Radio
-                  name="radioGroup"
-                  inline
-                  name="orderLoads"
-                  value={1}
-                  onChange={this.handleRadioChange.bind(this)}
-                  checked={this.state.selectedLoadsOption === 1}
-                >
-                  1
-                </Radio>
-                {' '}
-                <Radio
-                  name="radioGroup"
-                  inline
-                  name="orderLoads"
-                  value={2}
-                  onChange={this.handleRadioChange.bind(this)}
-                  checked={this.state.selectedLoadsOption === 2}
-                >
-                  2
-                </Radio>
-                {' '}
-                <Radio
-                  name="radioGroup"
-                  inline
-                  name="orderLoads"
-                  value={3}
-                  onChange={this.handleRadioChange.bind(this)}
-                  checked={this.state.selectedLoadsOption === 3}
-                >
-                  3
-                </Radio>
-              </Col>
-            </FormGroup>
-
-            {/* INSTRUCTIONS */}
-            <FormGroup validationState={this.textareaValidationState()}>
-              <Col componentClass={ControlLabel} sm={3}>
-                Optional:
-              </Col>
-              <Col sm={8}>
-                <FormControl
-                  componentClass="textarea"
-                  type="text"
-                  placeholder="Any special instructions?"
-                  name="orderInstructions"
-                  value={this.state.orderInstructions}
-                  onChange={this.handleChange.bind(this)}
-                />
-                <HelpBlock>90 character max.</HelpBlock>
-              </Col>
-            </FormGroup>
-
-            {/* ACTION BTNS */}
-            <div className="row">
-              <div className="col-sm-11">
-                <Pager>
-                  <Pager.Item href="#" next onClick={() => this.handleTotalCost(2)}>Next &rarr;</Pager.Item>
-                </Pager>
+              {/* SERVICES */}
+              <div className="row">
+                <div className="col-sm-10 col-sm-offset-1 services-input-header">
+                  <div className="col-sm-4">
+                    <p>Step 1</p>
+                  </div>
+                  <div className="col-sm-8 text-center question">
+                    <p>Select your service(s).</p>
+                  </div>
+                </div>
               </div>
-            </div>
-          </Form>
+
+              <FormGroup>
+                <div className="text-center">
+                  <Col componentClass={ControlLabel} sm={3} smOffset={1}>
+                    <i className="fa fa-check-square-o" aria-hidden="true"></i>
+                  </Col>
+                </div>
+                <div className="order-checkbox text-center">
+                  <Col sm={8}>
+                    <Checkbox
+                      inline
+                      value={['clean', 10]}
+                      onChange={this.handleBoxChange.bind(this)}
+                      checked={this.state.selectedServiceClean}
+                    >
+                      <strong>Wash / Dry <small><em>- $10</em></small></strong>
+                    </Checkbox>
+                    {' '}
+                    <Checkbox
+                      inline
+                      value={['fold', 2.50]}
+                      onChange={this.handleBoxChange.bind(this)}
+                      checked={this.state.selectedServiceFold}
+                    >
+                      <strong>Fold <small><em>- $2.50</em></small></strong>
+                    </Checkbox>
+                  </Col>
+                </div>
+              </FormGroup>
+
+              <div className="row">
+                <div className="col-sm-10 col-sm-offset-1 tab-1-divider">
+                </div>
+              </div>
+
+
+
+
+
+              {/* NUMBER OF LOADS */}
+              <div className="row">
+                <div className="col-sm-10 col-sm-offset-1 services-input-header">
+                  <div className="col-sm-4">
+                    <p>Step 2</p>
+                  </div>
+                  <div className="col-sm-8 text-center question">
+                    <p>How many loads?</p>
+                  </div>
+                </div>
+              </div>
+
+              <FormGroup>
+                <div className="text-center">
+                  <Col componentClass={ControlLabel} sm={3} smOffset={1}>
+                    <img className="services-load-img" src="images/load.svg" />
+                  </Col>
+                </div>
+                <div className="order-radio text-center">
+                  <Col sm={8}>
+                    <Radio
+                      name="radioGroup"
+                      inline
+                      name="orderLoads"
+                      value={1}
+                      onChange={this.handleRadioChange.bind(this)}
+                      checked={this.state.selectedLoadsOption === 1}
+                    >
+                      <strong>1</strong>
+                    </Radio>
+                    {' '}
+                    <Radio
+                      name="radioGroup"
+                      inline
+                      name="orderLoads"
+                      value={2}
+                      onChange={this.handleRadioChange.bind(this)}
+                      checked={this.state.selectedLoadsOption === 2}
+                    >
+                      <strong>2</strong>
+                    </Radio>
+                    {' '}
+                    <Radio
+                      name="radioGroup"
+                      inline
+                      name="orderLoads"
+                      value={3}
+                      onChange={this.handleRadioChange.bind(this)}
+                      checked={this.state.selectedLoadsOption === 3}
+                    >
+                      <strong>3</strong>
+                    </Radio>
+                  </Col>
+                </div>
+              </FormGroup>
+
+              <div className="row">
+                <div className="col-sm-10 col-sm-offset-1 tab-1-divider">
+                </div>
+              </div>
+
+
+
+
+              {/* INSTRUCTIONS */}
+              <div className="row">
+                <div className="col-sm-10 col-sm-offset-1 services-input-header">
+                  <div className="col-sm-4">
+                    <p>Step 3</p>
+                  </div>
+                  <div className="col-sm-8 text-center question">
+                    <p>Any special instructions?</p>
+                  </div>
+                </div>
+              </div>
+
+              <FormGroup validationState={this.textareaValidationState()}>
+                <div className="text-center">
+                  <Col componentClass={ControlLabel} sm={3} smOffset={1}>
+                    <i className="fa fa-envelope-o" aria-hidden="true"></i>
+                  </Col>
+                </div>
+                <div className="order-instructions text-center">
+                  <Col sm={7}>
+                    <FormControl
+                      componentClass="textarea"
+                      type="text"
+                      placeholder="Your message."
+                      name="orderInstructions"
+                      value={this.state.orderInstructions}
+                      onChange={this.handleChange.bind(this)}
+                    />
+                    <HelpBlock><small><em>90 character max.</em></small></HelpBlock>
+                  </Col>
+                </div>
+              </FormGroup>
+
+              <div className="row">
+                <div className="col-sm-10 col-sm-offset-1 tab-1-divider">
+                </div>
+              </div>
+
+
+
+
+
+              {/* ACTION BTNS */}
+              <div className="row">
+                <div className="col-sm-11">
+                  <Pager>
+                    <Pager.Item href="#" next onClick={() => this.handleTotalCost(2)}>Next &rarr;</Pager.Item>
+                  </Pager>
+                </div>
+              </div>
+            </Form>
+          </div>
         </div>;
+
+
+
+
+
+
+
+
+
       } else if (formKey === 2) {
         return <div>
           <Form>
@@ -960,7 +1042,7 @@ class CustomerProfile extends React.Component {
             </div>
           </div>
           <div className="row">
-            <div className="col-sm-10 col-sm-offset-1">
+            <div className="col-sm-12">
               {/* ACTION BTNS */}
               <Pager>
                 <Pager.Item href="#" previous onClick={() => this.handleSelectKey(2)}>&larr; Back</Pager.Item>
@@ -1038,37 +1120,35 @@ class CustomerProfile extends React.Component {
 
                 <div className="row welcome-order-form">
                   <div className="col-sm-10 col-sm-offset-1">
-                    <Tabs activeKey={this.state.key} onSelect={this.handleSelect} id="controlled-tab-example">
+                    <Tabs activeKey={this.state.key} onSelect={this.handleSelect} id="welcome-order-form">
 
 
                       {/* TAB 1 -> ORDER FORM */}
-                      <Tab eventKey={1} title="Schedule Pick-up">
+                      <Tab eventKey={1} title="SCHEDULE PICK-UP">
                         <div className="row">
                           <div className="col-sm-12 order-form-panel">
-                            <Panel>
-                              <Breadcrumb>
-                                <Breadcrumb.Item href="#" onClick={() => {this.handleSelectKey(1)}} active={this.state.activeServices}>
-                                  Services
-                                </Breadcrumb.Item>
-                                <Breadcrumb.Item href="#" onClick={() => {this.handleTotalCost(2)}} active={this.state.activeInfo}>
-                                  Info
-                                </Breadcrumb.Item>
-                                <Breadcrumb.Item href="#" onClick={() => {this.handleSelectKey(3)}} active={this.state.activePayment}>
-                                  Payment
-                                </Breadcrumb.Item>
-                              </Breadcrumb>
+                            <Breadcrumb>
+                              <Breadcrumb.Item href="#" onClick={() => {this.handleSelectKey(1)}} active={this.state.activeServices}>
+                                SERVICES
+                              </Breadcrumb.Item>
+                              <Breadcrumb.Item href="#" onClick={() => {this.handleTotalCost(2)}} active={this.state.activeInfo}>
+                                INFO
+                              </Breadcrumb.Item>
+                              <Breadcrumb.Item href="#" onClick={() => {this.handleSelectKey(3)}} active={this.state.activePayment}>
+                                PAYMENT
+                              </Breadcrumb.Item>
+                            </Breadcrumb>
 
 
-                              {/* NEW ORDER FORM */}
-                              {form()}
-                            </Panel>
+                            {/* NEW ORDER FORM */}
+                            {form()}
                           </div>
                         </div>
                       </Tab>
 
 
                       {/* TAB 2 -> ORDER STATUS */}
-                      <Tab eventKey={2} title="Order Status">
+                      <Tab eventKey={2} title="ORDER STATUS">
                         <div className="row">
                           <div className="col-sm-12">
                             {/* SUCCESS PAYMENT ALERT */}
@@ -1223,7 +1303,7 @@ class CustomerProfile extends React.Component {
 
 
                       {/* TAB 3 -> COMPLETED ORDERS */}
-                      <Tab eventKey={3} title="Completed Orders">
+                      <Tab eventKey={3} title="COMPLETED ORDERS">
                         <div className="row">
                           <div className="col-sm-12">
 

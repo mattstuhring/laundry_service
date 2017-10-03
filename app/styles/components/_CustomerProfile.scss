@@ -6,64 +6,193 @@
   // min-height: 765px;
 
   .welcome-customer {
-    margin-top: 100px;
+    margin-top: 15px;
+
+    .panel-heading {
+      background-color: $darkBlue;
+    }
+
+    .panel-primary {
+      border: 1px solid #ccc;
+    }
+
+    .panel-body {
+      padding: 24px 0px 42px;
+    }
+
+
+
+
+
+
+    .welcome-order-form {
+      margin-top: 20px;
+
+      #welcome-order-form {
+        .tab-content {
+          background-color: rgba(79,213,248,0.2);
+          padding: 30px 50px 30px;
+          border-left: 1px solid #ddd;
+          border-right: 1px solid #ddd;
+          border-bottom: 1px solid #ddd;
+          border-radius: 0px 4px 4px 4px;
+        }
+
+        .nav-tabs>li.active>a {
+          background-color: $lightBlue;
+          color: white;
+        }
+
+        .nav-tabs>li>a {
+          background-color: #ededed;
+          color: $darkBlue;
+          text-align: center;
+          text-decoration: none;
+          border-bottom: 1px solid rgba(79,213,248,0.3);
+        }
+
+        .nav>li {
+          width: 33.3%;
+        }
+
+        .nav-tabs {
+          border-bottom: 1px solid $lightBlue;
+        }
+      }
+    }
   }
 
-  .welcome-order-form {
-    margin-top: 20px;
-  }
 
 
-  h3.panel-title {
-    font-size: 3vw;
-  }
-
-  ul.nav.nav-tabs {
-    margin-bottom: 0px;
-  }
 
 
-  li.active #controlled-tab-example-tab-1 {
-    border: 1px solid #337ab7;
-    background-color: #337ab7;
-    color: white;
-  }
-
-  li.active #controlled-tab-example-tab-2 {
-    border: 1px solid #337ab7;
-    background-color: #337ab7;
-    color: white;
-  }
-
-  li.active #controlled-tab-example-tab-3 {
-    border: 1px solid #337ab7;
-    background-color: #337ab7;
-    color: white;
-  }
-
-  .nav>li>a {
-    padding: 10px 7px;
-  }
-
-
-  .order-form-panel .panel-body {
+  .order-form-panel {
+    background-color: white;
     padding: 0px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
 
-    .order-services .pager {
-      margin-top: 0px;
-      margin-bottom: 20px;
+    .breadcrumb {
+      background-color: rgba(252,168,11,0.9);
+      color: $darkBlue;
+      padding: 10px 20px;
     }
 
-    .order-date-time {
-      .order-date {
-        padding-left: 0px;
+    .breadcrumb>.active {
+      color: white;
+    }
+
+    .panel-body {
+      padding: 0px;
+
+      .order-services .pager {
+        margin-top: 0px;
+        margin-bottom: 20px;
       }
 
-      .order-time {
-        padding-right: 0px;
+      .order-date-time {
+        .order-date {
+          padding-left: 0px;
+        }
+
+        .order-time {
+          padding-right: 0px;
+        }
       }
     }
   }
+
+
+
+
+
+  .order-services {
+    .tab-1-divider {
+      margin-bottom: 2rem;
+      margin-top: 1rem;
+      border: 0;
+      border-top: 1px dotted $lightBlue;
+    }
+
+    .control-label {
+      text-align: center;
+    }
+
+    .form-group {
+      margin: 0;
+    }
+
+    .pager {
+      margin-bottom: 20px;
+
+      li>a {
+        border: 1px solid #ddd;
+        border-radius: 15px;
+        color: $darkBlue;
+        color: white;
+        width: 120px;
+        background-color: $amber;
+      }
+    }
+
+    i.fa.fa-envelope-o {
+      font-size: 68px;
+      color: $lightBlue;
+    }
+
+    i.fa.fa-check-square-o {
+      font-size: 74px;
+      color: $lightBlue;
+    }
+
+    .order-radio {
+      position: relative;
+      top: 25px;
+    }
+
+    .order-checkbox .col-sm-8 {
+      position: relative;
+      top: 25px;
+
+      .strong {
+        color: $darkBlue;
+      }
+    }
+
+    .services-load-img {
+      padding-bottom: 10px;
+    }
+
+    .services-input-header {
+      color: $darkBlue;
+      background-color: #ededed;
+      padding: 5px;
+      border-radius: 3px;
+      margin-bottom: 5px;
+
+      .col-sm-4 p {
+        margin: 0px 0px 0px 25%;
+      }
+
+      .col-sm-8 p {
+        margin: 0;
+      }
+    }
+
+    .order-instructions .col-sm-7 {
+      position: relative;
+      top: 16px;
+    }
+  }
+
+
+
+
+
+
+
+
+
 
   .order-payment .page-header {
     margin-top: 0px;
@@ -72,7 +201,6 @@
   .order-summary .panel.panel-default {
     margin-top: 0px;
     margin-bottom: 20px;
-
 
     .panel-body {
       padding: 20px;
