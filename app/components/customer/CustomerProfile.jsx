@@ -554,6 +554,20 @@ class CustomerProfile extends React.Component {
   render() {
     const { customerFirstName } = this.state;
 
+    // SUCCESS PAYMENT ALERT
+    const alert = () => {
+      if (this.state.alertVisible) {
+        return <Alert bsStyle="success" onDismiss={this.handleAlertDismiss}>
+          <h4>Your Payment was a success!</h4>
+          <p>Check the progress bar below to track your order.</p>
+        </Alert>;
+      }
+    };
+
+    const dashboard = (
+      <h3>Welcome, <small>{customerFirstName}</small></h3>
+    );
+
     const completeOptions = {
       insertBtn: this.completeButtons,
       clearSearch: true,
@@ -599,32 +613,46 @@ class CustomerProfile extends React.Component {
 
       if (time < 0) {
         const today = moment();
+        let day = moment();
         let tomorrow = today.add('days', 1);
-        tomorrow = moment(tomorrow).format('MM-DD-YYYY');
+        tomorrow = moment(tomorrow).format('dddd, MMMM Do YYYY');
+        day = moment(tomorrow).format('dddd');
 
-        return <span>
-          <FormControl
-            type="text"
-            value={tomorrow}
-            disabled
-            className="text-center"
-          />
-          <div className="text-center">
-            <HelpBlock>* Tomorrow's date</HelpBlock>
+        return <div className="col-sm-6 order-date">
+          <ControlLabel><em>Tomorrow's date:</em></ControlLabel>
+          <div className="row">
+            <div className="col-sm-3 text-center">
+
+              <span className="glyphicon glyphicon-calendar" aria-hidden="true"></span>
+            </div>
+            <div className="col-sm-9 text-center">
+              <p><strong>{day + ','}</strong></p>
+              <p>{tomorrow}</p>
+            </div>
           </div>
-        </span>;
+        </div>;
       } else {
-        return <span>
-          <FormControl
-            type="text"
-            value={this.state.orderPickupDate}
-            disabled
-            className="text-center"
-          />
-          <div className="text-center">
-            <HelpBlock>* Today's date</HelpBlock>
+        let today = moment();
+        let day = moment();
+        today = moment(today).format('MMMM Do YYYY');
+        day = moment(day).format('dddd');
+
+        return <div className="col-sm-6 order-date">
+          <div className="row">
+            <div className="col-sm-12">
+              <ControlLabel><em>Today's date:</em></ControlLabel>
+            </div>
           </div>
-        </span>;
+          <div className="row order-date-row">
+            <div className="col-sm-3 text-center">
+              <span className="glyphicon glyphicon-calendar" aria-hidden="true"></span>
+            </div>
+            <div className="col-sm-9 text-center">
+              <p><strong>{day + ','}</strong></p>
+              <p>{today}</p>
+            </div>
+          </div>
+        </div>;
       }
     }
 
@@ -669,7 +697,7 @@ class CustomerProfile extends React.Component {
                     <p>Step 1</p>
                   </div>
                   <div className="col-sm-8 text-center question">
-                    <p>Select your service(s).</p>
+                    <p><em>Select your service(s).</em></p>
                   </div>
                 </div>
               </div>
@@ -708,10 +736,6 @@ class CustomerProfile extends React.Component {
                 </div>
               </div>
 
-
-
-
-
               {/* NUMBER OF LOADS */}
               <div className="row">
                 <div className="col-sm-10 col-sm-offset-1 services-input-header">
@@ -719,7 +743,7 @@ class CustomerProfile extends React.Component {
                     <p>Step 2</p>
                   </div>
                   <div className="col-sm-8 text-center question">
-                    <p>How many loads?</p>
+                    <p><em>How many loads?</em></p>
                   </div>
                 </div>
               </div>
@@ -773,9 +797,6 @@ class CustomerProfile extends React.Component {
                 </div>
               </div>
 
-
-
-
               {/* INSTRUCTIONS */}
               <div className="row">
                 <div className="col-sm-10 col-sm-offset-1 services-input-header">
@@ -783,7 +804,7 @@ class CustomerProfile extends React.Component {
                     <p>Step 3</p>
                   </div>
                   <div className="col-sm-8 text-center question">
-                    <p>Any special instructions?</p>
+                    <p><em>Any special instructions?</em></p>
                   </div>
                 </div>
               </div>
@@ -814,13 +835,9 @@ class CustomerProfile extends React.Component {
                 </div>
               </div>
 
-
-
-
-
               {/* ACTION BTNS */}
               <div className="row">
-                <div className="col-sm-11">
+                <div className="col-sm-12">
                   <Pager>
                     <Pager.Item href="#" next onClick={() => this.handleTotalCost(2)}>Next &rarr;</Pager.Item>
                   </Pager>
@@ -829,112 +846,142 @@ class CustomerProfile extends React.Component {
             </Form>
           </div>
         </div>;
-
-
-
-
-
-
-
-
-
       } else if (formKey === 2) {
-        return <div>
-          <Form>
-            {/* ADDRESS */}
-            <div className="row">
-              <div className="col-sm-10 col-sm-offset-1">
-                <FormGroup>
-                  <ControlLabel>Address:</ControlLabel>
-                  <FormControl
-                    type="text"
-                    placeholder={this.state.customerAddress}
-                    name="customerAddress"
-                    value={this.state.customerAddress}
-                    onChange={this.handleChange.bind(this)}
-                  />
-                </FormGroup>
+        return <div className="row order-info">
+          <div className="col-sm-10 col-sm-offset-1">
+            <Form>
+
+              {/* ADDRESS */}
+              <div className="row">
+                <div className="col-sm-10 col-sm-offset-1">
+                  <FormGroup bsSize="large">
+                    <ControlLabel><em>Laundry pick-up location:</em></ControlLabel>
+                    <InputGroup>
+                      <InputGroup.Addon>
+                        <span className="glyphicon glyphicon-home" aria-hidden="true"></span>
+                      </InputGroup.Addon>
+                      <FormControl
+                        type="text"
+                        placeholder={this.state.customerAddress}
+                        name="customerAddress"
+                        value={this.state.customerAddress}
+                        onChange={this.handleChange.bind(this)}
+                      />
+                    </InputGroup>
+                  </FormGroup>
+                </div>
               </div>
-            </div>
 
-
-            {/* CONTACT */}
-            <div className="row">
-              <div className="col-sm-10 col-sm-offset-1">
-                <FormGroup>
-                  <ControlLabel>Contact:</ControlLabel>
-                  <FormControl
-                    type="text"
-                    placeholder={this.state.customerPhoneNumber}
-                    name="customerPhoneNumber"
-                    value={this.state.customerPhoneNumber}
-                    onChange={this.handleChange.bind(this)}
-                  />
-                </FormGroup>
+              <div className="row">
+                <div className="col-sm-10 col-sm-offset-1 tab-2-divider">
+                </div>
               </div>
-            </div>
 
-            {/* DATE & TIME */}
-            <div className="row">
-              <div className="col-sm-10 col-sm-offset-1 order-date-time">
-                <ControlLabel>Pick-up date & time:</ControlLabel>
-                <FormGroup>
-                  <div className="col-sm-6 order-date">
+
+              {/* CONTACT */}
+              <div className="row">
+                <div className="col-sm-10 col-sm-offset-1">
+                  <FormGroup bsSize="large">
+                    <ControlLabel><em>Contact:</em></ControlLabel>
+                    <InputGroup>
+                      <InputGroup.Addon>
+                        <span className="glyphicon glyphicon-phone" aria-hidden="true"></span>
+                      </InputGroup.Addon>
+                      <FormControl
+                        type="text"
+                        placeholder={this.state.customerPhoneNumber}
+                        name="customerPhoneNumber"
+                        value={this.state.customerPhoneNumber}
+                        onChange={this.handleChange.bind(this)}
+                      />
+                    </InputGroup>
+                  </FormGroup>
+                </div>
+              </div>
+
+              <div className="row">
+                <div className="col-sm-10 col-sm-offset-1 tab-2-divider">
+                </div>
+              </div>
+
+
+
+
+
+              {/* DATE & TIME */}
+              <div className="row">
+                <div className="col-sm-10 col-sm-offset-1 order-date-time">
+
+
 
                     {checkDate()}
 
-                  </div>
+
                   <div className="col-sm-6 order-time">
-                    <FormControl
-                      placeholder="Select time"
-                      componentClass="select"
-                      onChange={this.handleTimeChange}
-                      value={this.state.orderPickupTime}
-                    >
-                      <option>Select time</option>
-                      <option value="08:00 AM">08:00 AM</option>
-                      <option value="08:30 AM">08:30 AM</option>
-                      <option value="09:00 AM">09:00 AM</option>
-                      <option value="09:30 AM">09:30 AM</option>
-                      <option value="10:00 AM">10:00 AM</option>
-                      <option value="12:00 PM">12:00 PM</option>
-                      <option value="04:00 PM">04:00 PM</option>
-                      <option value="04:30 PM">04:30 PM</option>
-                      <option value="05:00 PM">05:00 PM</option>
-                    </FormControl>
-                    <div className="text-center">
-                      <HelpBlock>* Allow at least 30min</HelpBlock>
-                    </div>
+                    <ControlLabel><em>Choose a pick-up time:</em></ControlLabel>
+                    <FormGroup bsSize="large">
+                      <InputGroup>
+                        <InputGroup.Addon>
+                          <span className="glyphicon glyphicon-time" aria-hidden="true"></span>
+                        </InputGroup.Addon>
+                        <FormControl
+                          placeholder="Select time"
+                          componentClass="select"
+                          onChange={this.handleTimeChange}
+                          value={this.state.orderPickupTime}
+                        >
+                          <option>Select time</option>
+                          <option value="08:00 AM">08:00 AM</option>
+                          <option value="08:30 AM">08:30 AM</option>
+                          <option value="09:00 AM">09:00 AM</option>
+                          <option value="09:30 AM">09:30 AM</option>
+                          <option value="10:00 AM">10:00 AM</option>
+                          <option value="12:00 PM">12:00 PM</option>
+                          <option value="04:00 PM">04:00 PM</option>
+                          <option value="04:30 PM">04:30 PM</option>
+                          <option value="05:00 PM">05:00 PM</option>
+                        </FormControl>
+                      </InputGroup>
+
+                      <div className="text-center">
+                        <HelpBlock><small>* Schedule at least 30min from current time.</small></HelpBlock>
+                      </div>
+                    </FormGroup>
                   </div>
-                </FormGroup>
+                </div>
               </div>
-            </div>
 
-
-            {/* SPAM PROTECTION */}
-            <div className="form-group hidden">
-              <label>Keep this field blank</label>
-              <input
-                type="text"
-                className="form-control"
-                name="honeypot"
-                value={this.state.honeypot} onChange={this.handleChange.bind(this)}
-              />
-            </div>
-
-
-            {/* ACTION BTNS */}
-            <div className="row">
-              <Pager>
-                <div className="col-sm-5 col-sm-offset-1">
-                  <Pager.Item href="#" previous onClick={() => this.handleSelectKey(1)}>&larr; Back</Pager.Item>
+              <div className="row">
+                <div className="col-sm-10 col-sm-offset-1 tab-2-divider">
                 </div>
-                <div className="col-sm-5">
-                  <Pager.Item href="#" next onClick={() => this.handleSelectKey(3)}>Next &rarr;</Pager.Item>
-                </div>
-              </Pager>
-            </div>
-          </Form>
+              </div>
+
+
+              {/* SPAM PROTECTION */}
+              <div className="form-group hidden">
+                <label>Keep this field blank</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  name="honeypot"
+                  value={this.state.honeypot} onChange={this.handleChange.bind(this)}
+                />
+              </div>
+
+
+              {/* ACTION BTNS */}
+              <div className="row">
+                <Pager>
+                  <div className="col-sm-6">
+                    <Pager.Item href="#" previous onClick={() => this.handleSelectKey(1)}>&larr; Back</Pager.Item>
+                  </div>
+                  <div className="col-sm-6">
+                    <Pager.Item href="#" next onClick={() => this.handleSelectKey(3)}>Next &rarr;</Pager.Item>
+                  </div>
+                </Pager>
+              </div>
+            </Form>
+          </div>
         </div>;
       } else if (formKey === 3) {
         return <div className="order-payment">
@@ -945,7 +992,7 @@ class CustomerProfile extends React.Component {
               <div className="row">
                 <div className="col-sm-6 col-sm-offset-3 text-center">
                   <div className="page-header">
-                    <h1><strong>Summary</strong></h1>
+                    <h2><strong>Order Summary</strong></h2>
                   </div>
                 </div>
               </div>
@@ -1042,7 +1089,7 @@ class CustomerProfile extends React.Component {
             </div>
           </div>
           <div className="row">
-            <div className="col-sm-12">
+            <div className="col-sm-11 col-sm-offset-1">
               {/* ACTION BTNS */}
               <Pager>
                 <Pager.Item href="#" previous onClick={() => this.handleSelectKey(2)}>&larr; Back</Pager.Item>
@@ -1053,19 +1100,7 @@ class CustomerProfile extends React.Component {
       }
     }
 
-    // SUCCESS PAYMENT ALERT
-    const alert = () => {
-      if (this.state.alertVisible) {
-        return <Alert bsStyle="success" onDismiss={this.handleAlertDismiss}>
-          <h4>Your Payment was a success!</h4>
-          <p>Check the progress bar below to track your order.</p>
-        </Alert>;
-      }
-    };
 
-    const dashboard = (
-      <h3>Welcome, <small>{customerFirstName}</small></h3>
-    );
 
 
 

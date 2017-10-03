@@ -69,6 +69,8 @@
 
 
 
+
+
   .order-form-panel {
     background-color: white;
     padding: 0px;
@@ -79,6 +81,7 @@
       background-color: rgba(252,168,11,0.9);
       color: $darkBlue;
       padding: 10px 20px;
+      text-decoration: none;
     }
 
     .breadcrumb>.active {
@@ -92,18 +95,10 @@
         margin-top: 0px;
         margin-bottom: 20px;
       }
-
-      .order-date-time {
-        .order-date {
-          padding-left: 0px;
-        }
-
-        .order-time {
-          padding-right: 0px;
-        }
-      }
     }
   }
+
+
 
 
 
@@ -114,7 +109,7 @@
       margin-bottom: 2rem;
       margin-top: 1rem;
       border: 0;
-      border-top: 1px dotted $lightBlue;
+      border-top: 2px dotted $lightBlue;
     }
 
     .control-label {
@@ -140,12 +135,12 @@
 
     i.fa.fa-envelope-o {
       font-size: 68px;
-      color: $lightBlue;
+      color: $amber;
     }
 
     i.fa.fa-check-square-o {
       font-size: 74px;
-      color: $lightBlue;
+      color: $amber;
     }
 
     .order-radio {
@@ -157,8 +152,8 @@
       position: relative;
       top: 25px;
 
-      .strong {
-        color: $darkBlue;
+      em {
+        color: #a5a5a5;
       }
     }
 
@@ -167,11 +162,11 @@
     }
 
     .services-input-header {
-      color: $darkBlue;
       background-color: #ededed;
       padding: 5px;
       border-radius: 3px;
       margin-bottom: 5px;
+      font-weight: bold;
 
       .col-sm-4 p {
         margin: 0px 0px 0px 25%;
@@ -196,54 +191,138 @@
 
 
 
-
-  .order-payment .page-header {
-    margin-top: 0px;
-  }
-
-  .order-summary .panel.panel-default {
-    margin-top: 0px;
-    margin-bottom: 20px;
-
-    .panel-body {
-      padding: 20px;
-      background-color: #f5f5f5;
+  .order-info {
+    .col-sm-10 {
+      padding: 0px;
     }
 
-    i.fa {
-      font-size: 45px;
-      color: #337ab7;
-    }
-
-    .order-divider {
+    .tab-2-divider {
+      margin-bottom: 2rem;
       margin-top: 1rem;
-      margin-bottom: 1rem;
       border: 0;
-      border-top: 1px solid #ccc;
+      border-top: 2px dotted $lightBlue;
     }
 
-    .order-load-img {
-      width: 55px;
-    }
+    .input-group-addon {
+      background-color: #daf5fd;
+      color: $amber;
 
-    .col-sm-8 p {
-      position: relative;
-      top: 13px;
-    }
-
-    .order-total {
-      p {
-        padding-top: 10px;
-        margin-bottom: 20px;
+      .glyphicon {
+        font-size: 28px;
       }
     }
 
-    .total-stripe-box {
-      background-color: white;
-      padding: 5px 5px 12px;
+    .glyphicon-calendar {
+      color: $amber;
+      font-size: 52px;
+      color: #fca80b;
+    }
+
+    .pager li>a {
       border: 1px solid #ddd;
-      border-radius: 5px;
-      margin-top: 20px;
+      border-radius: 15px;
+      color: $darkBlue;
+      color: white;
+      width: 120px;
+      background-color: $amber;
+    }
+
+    .order-date-time {
+      .order-date {
+        padding-left: 15px;
+
+        .col-sm-12 {
+          padding-left: 0px;
+        }
+
+        .order-date-row {
+          background-color: #ededed;
+          padding: 43px 0px 38px 26px;
+          border-radius: 4px;
+        }
+
+        p {
+          margin-bottom: 0px;
+          margin-top: 3px;
+        }
+
+        .col-sm-3 {
+          padding: 0px;
+        }
+
+        .col-sm-9 {
+          padding: 0px;
+        }
+      }
+
+      .order-time {
+        padding-right: 0px;
+
+        .form-group {
+          background-color: rgba(252,168,11,0.2);
+          padding: 18px;
+          border-radius: 4px;
+        }
+      }
+    }
+  }
+
+
+
+
+
+
+
+  .order-payment {
+    .page-header {
+      margin-top: 0px;
+      color: $darkBlue;
+    }
+
+    .order-summary {
+      margin-top: 0px;
+      margin-bottom: 20px;
+
+      .panel-body {
+        padding: 20px;
+        background-color: #f5f5f5;
+      }
+
+      i.fa {
+        font-size: 45px;
+        color: #337ab7;
+      }
+
+      .order-divider {
+        margin-top: 1rem;
+        margin-bottom: 1rem;
+        border: 0;
+        border-top: 1px dotted #ccc;
+      }
+
+      .order-load-img {
+        width: 55px;
+      }
+
+      .col-sm-8 p {
+        position: relative;
+        top: 13px;
+      }
+
+      .order-total {
+        p {
+          padding-top: 10px;
+          margin-bottom: 20px;
+        }
+      }
+
+      .total-stripe-box {
+        background-color: white;
+        padding: 5px 5px 12px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        margin-top: 20px;
+      }
     }
   }
 
@@ -266,10 +345,6 @@
     margin: 0px;
   }
 
-  .panel.panel-default {
-    margin-top: 25px;
-    margin-bottom: 40px;
-  }
 
 
 
@@ -286,7 +361,6 @@
     .panel {
       margin-bottom: 0px;
     }
-
 
     .queue-font-color p strong {
       color: #337ab7;
