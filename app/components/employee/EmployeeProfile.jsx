@@ -715,17 +715,6 @@ class EmployeeProfile extends React.Component {
           />
 
 
-          <div className="row">
-            <div className="col-sm-6 col-sm-offset-3">
-
-              {/* WELCOME HEADER */}
-              <div className="page-header text-center">
-                <h2>Dashboard</h2>
-              </div>
-            </div>
-          </div>
-
-
 
 
           {/* JOBS TABLE */}

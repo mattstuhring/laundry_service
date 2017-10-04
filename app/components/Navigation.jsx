@@ -102,9 +102,16 @@ export default class Navigation extends React.Component {
           <div>
             <div className="navbar-header">
               <div className="navbar-brand" href="#">
-                <Link to={profile}>
-                  <img alt="Laundry" src="images/machine.svg"/>
-                </Link>
+                <span className="logo-img">
+                  <Link to={profile}>
+                    <img alt="Laundry" src="images/logo.svg"/>
+                  </Link>
+                </span>
+                <span className="company-img">
+                  <Link to={profile}>
+                    <img alt="Laundry" src="images/company.svg"/>
+                  </Link>
+                </span>
               </div>
               <button type="button" className="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse-1" aria-expanded="false">
                 <span className="sr-only">Toggle navigation</span>
@@ -139,7 +146,7 @@ export default class Navigation extends React.Component {
             <div className="navbar-header">
               <div className="navbar-brand" href="#">
                 <Link to="/">
-                  <img alt="Laundry" src="images/machine.svg"/>
+                  <img alt="Laundry" src="images/logo.svg"/>
                 </Link>
               </div>
               <button type="button" className="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse-1" aria-expanded="false">

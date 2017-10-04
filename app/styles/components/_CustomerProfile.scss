@@ -51,7 +51,14 @@
           color: $darkBlue;
           text-align: center;
           text-decoration: none;
+          font-weight: bold;
           border-bottom: 1px solid $lightBlue;
+          @include transition(color 0.75s ease);
+
+          &:hover, &:focus {
+            text-decoration: none;
+            color: $lightBlue;
+          }
         }
 
         .nav>li {
@@ -78,10 +85,20 @@
     border: 1px solid #ccc;
 
     .breadcrumb {
-      background-color: rgba(252,168,11,0.9);
-      color: $darkBlue;
       padding: 10px 20px;
+      background-color: rgba(252,168,11,0.9);
+    }
+
+    .breadcrumb a {
+      color: $darkBlue;
       text-decoration: none;
+      font-weight: bold;
+      @include transition(color 0.75s ease);
+
+      &:hover, &:focus {
+        text-decoration: none;
+        color: $lightBlue;
+      }
     }
 
     .breadcrumb>.active {
@@ -355,8 +372,9 @@
     .page-header {
       padding-bottom: 0px;
       margin: 0px;
+      border-bottom: 2px dotted $lightBlue;
     }
-    
+
     .panel-heading {
       background-color: $amber;
       color: white;
@@ -384,8 +402,9 @@
       }
     }
 
-    .popover-info {
-
+    .popover-info img {
+      width: 65%;
+      margin-top: 15px;
     }
   }
 

@@ -28,14 +28,21 @@
     margin-right: 30px;
   }
 
-  .navbar-brand img {
-    width: 43px;
-    position: relative;
-    top: -11px;
-    @include transition(color 0.75s ease);
-    &:hover, &:focus {
-      text-decoration: none;
-      border-color: #286192;
+  .navbar-brand {
+    .logo-img img {
+      width: 56px;
+      position: relative;
+      top: -11px;
+      border-radius: 4px;
+      padding: 5px;
+    }
+
+    .company-img img {
+      width: 187px;
+      position: relative;
+      top: -11px;
+      border-radius: 4px;
+      padding: 5px;
     }
   }
 }

@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import axios from 'axios';
 import { browserHistory, withRouter } from 'react-router';
-import { Button, FormGroup, FormControl, InputGroup, Panel, ControlLabel, Table, Tabs, Tab, ProgressBar, Checkbox, Radio, Breadcrumb, Alert, Pager, Form, Col, Row, HelpBlock, Popover, Overlay, OverlayTrigger, ButtonToolbar, ListGroup, ListGroupItem, Modal } from 'react-bootstrap';
+import { Button, FormGroup, FormControl, InputGroup, Panel, ControlLabel, Table, Tabs, Tab, ProgressBar, Checkbox, Radio, Breadcrumb, Alert, Pager, Form, Col, Row, HelpBlock, Popover, Overlay, OverlayTrigger, ButtonToolbar, ListGroup, ListGroupItem, Modal, Image } from 'react-bootstrap';
 import { BootstrapTable, TableHeaderColumn, InsertButton } from 'react-bootstrap-table';
 import moment from 'moment';
 import Popup from 'Popup';
@@ -1204,8 +1204,16 @@ class CustomerProfile extends React.Component {
                                         <ProgressBar bsStyle="info" striped active now={30} key={4} label={'Drop-off'} />
                                       </ProgressBar>
 
-                                      <div className="row popover-info">
-                                        <div className="col-sm-12">
+                                      <div className="row">
+                                        <div className="col-sm-12 popover-info text-center">
+                                          <i className="fa fa-spinner fa-spin fa-3x fa-fw"></i>
+                                          <span className="sr-only">IN PROGRESS...</span>
+                                          <h4>IN PROGRESS...</h4>
+                                          <p>Please kindly wait, we are processing your order.</p>
+                                          <p>
+                                            <i className="fa fa-clock-o" aria-hidden="true"></i>
+                                            <small><em>Your laundry will be ready for you within 48 hours</em></small>
+                                          </p>
                                           {/* Received order! */}
                                           {/* startDate, q.time, q.address */}
                                         </div>
@@ -1224,8 +1232,12 @@ class CustomerProfile extends React.Component {
 
 
 
-                                    <div className="row popover-info">
-                                      <div className="col-sm-12">
+                                    <div className="row">
+                                      <div className="col-sm-12 popover-info text-center">
+                                        <Image src="images/driver.svg"/>
+                                        <h4>PICK-UP IN ROUTE!</h4>
+                                        <p>Our driver is in route to your pick-up location.</p>
+
                                         {/* Pick-up in route! */}
                                         {/* q.first_name, q.phone_number */}
                                       </div>
@@ -1244,8 +1256,13 @@ class CustomerProfile extends React.Component {
                                         <ProgressBar striped active bsStyle="info" now={30} key={3} label={'Cleaning'}/>
                                         <ProgressBar bsStyle="info" striped active now={30} key={4} label={'Drop-off'} />
                                       </ProgressBar>
-                                      <div className="row popover-info">
-                                        <div className="col-sm-12">
+                                      <div className="row">
+                                        <div className="col-sm-12 popover-info text-center">
+                                          <i className="fa fa-spinner fa-spin fa-3x fa-fw"></i>
+                                          <span className="sr-only">IN PROGRESS...</span>
+                                          <h4>LOCATING CLEANING TECH...</h4>
+                                          <p>Please kindly wait, we are assigning a cleaning technician.</p>
+
                                           {/* Locating cleaning tech */}
                                         </div>
                                       </div>
@@ -1260,8 +1277,10 @@ class CustomerProfile extends React.Component {
                                         <ProgressBar striped active bsStyle="info" now={30} key={3} label={'Cleaning'}/>
                                         <ProgressBar bsStyle="info" striped active now={30} key={4} label={'Drop-off'} />
                                       </ProgressBar>
-                                      <div className="row popover-info">
-                                        <div className="col-sm-12">
+                                      <div className="row">
+                                        <div className="col-sm-12 popover-info text-center">
+                                          <Image src="images/wash-clothes.svg"/>
+                                          <h4>CLEANING IN PROGRESS!</h4>
                                           {/* Cleaning in process! */}
                                           {/* q.first_name, q.phone_number */}
                                         </div>
@@ -1279,8 +1298,11 @@ class CustomerProfile extends React.Component {
                                         <ProgressBar striped active bsStyle="info" now={30} key={3} label={'Cleaning'}/>
                                         <ProgressBar striped active bsStyle="info" now={30} key={4} label={'Drop-off'} />
                                       </ProgressBar>
-                                      <div className="row popover-info">
-                                        <div className="col-sm-12">
+                                      <div className="row">
+                                        <div className="col-sm-12 popover-info text-center">
+                                          <i className="fa fa-spinner fa-spin fa-3x fa-fw"></i>
+                                          <span className="sr-only">IN PROGRESS...</span>
+                                          <h4>LOCATING DRIVER...</h4>
                                           {/* . . . Locating driver */}
                                         </div>
                                       </div>
@@ -1295,8 +1317,10 @@ class CustomerProfile extends React.Component {
                                         <ProgressBar striped active bsStyle="info" now={30} key={3} label={'Cleaning'}/>
                                         <ProgressBar striped active bsStyle="info" now={30} key={4} label={'Drop-off'} />
                                       </ProgressBar>
-                                      <div className="row popover-info">
-                                        <div className="col-sm-12">
+                                      <div className="row">
+                                        <div className="col-sm-12 popover-info text-center">
+                                          <Image src="images/bag.svg"/>
+                                          <h4>DROP-OFF IN ROUTE!</h4>
                                           {/* Drop-off in route */}
                                           {/* q.first_name, q.phon */}
                                         </div>

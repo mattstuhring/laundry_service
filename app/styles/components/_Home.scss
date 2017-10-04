@@ -21,7 +21,7 @@
         position: absolute;
         z-index: 2;
         left: 36%;
-        top: 36%;
+        top: 34%;
         width: 27%;
         max-width: 30%;
         border-radius: 50%;
@@ -31,7 +31,7 @@
         &:hover, &:focus {
           background-color: rgba(252,168,11, 0.8);
           border-radius: 50%;
-          border: 5px solid rgba(253,187,49, 0.6);
+          border: 8px solid rgba(253,187,49, 0.6);
         }
       }
     }
