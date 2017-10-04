@@ -171,13 +171,11 @@ export class Main extends React.Component {
 
 
         {/* React router child components */}
-        <div className="container-fluid">
-          <div className="row">
-            <div className="col-sm-10 col-sm-offset-1 children">
-              {React.cloneElement(this.props.children, {
-                setToast: this.setToast
-              })}
-            </div>
+        <div className="row children-row">
+          <div className="col-sm-10 col-sm-offset-1 children">
+            {React.cloneElement(this.props.children, {
+              setToast: this.setToast
+            })}
           </div>
         </div>
 

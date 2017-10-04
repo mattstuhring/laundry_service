@@ -2,79 +2,108 @@
   position: absolute;
   z-index: 1 !important;
 
-  .panel-primary {
-    margin-top: 100px;
-    border-color: #ccc;
 
-    .panel-body {
-      padding: 50px;
-    }
+  .login-header {
+    .page-header {
+      padding-bottom: 9px;
+      margin: 50px 0 40px;
+      border-bottom: 1px dotted $darkBlue;
+      color: #2b5580;
 
-    .panel-heading {
-      background-color: $darkBlue;
-      border-color: $darkBlue;
-    }
-
-    .btn-primary {
-      background-color: $amber;
-      border-color: $amber;
-    }
-
-
-    #loginTabs {
-      .tab-content {
-        background-color: rgba(79,213,248,0.2);
-        padding: 30px;
-        border: 1px solid $lightBlue;
-        border-radius: 0px 4px 4px 4px;
-      }
-
-      .tab-content>.active {
-        display: block;
-        background-color: white;
-        padding: 35px 0px 23px;
-        border-radius: 4px;
-        border: 1px solid #ccc;
+      h1 {
+        font-weight: bold;
       }
     }
+  }
 
-    .nav-tabs>li.active>a {
-      background-color: $lightBlue;
-      color: white;
-      border-top: 1px solid #4fd5f8;
-      border-left: 1px solid #4fd5f8;
-      border-right: 1px solid #4fd5f8;
-    }
 
-    .nav-tabs>li>a {
-      background-color: #ededed;
-      color: $darkBlue;
-      text-align: center;
-    }
 
+
+
+
+
+
+  #loginTabs {
     .nav-tabs>li {
       width: 50%;
-    }
-
-    .nav-tabs {
-      border-bottom: 1px solid $lightBlue;
-    }
-
-    .input-group-addon {
-      background-color: $lightBlue;
     }
 
     .glyphicon {
       font-size: 20px;
     }
-  }
 
-  .input-lg {
-    font-size: 14px;
-  }
+    .input-lg {
+      font-size: 14px;
+    }
 
-  .btn-actions {
-    margin-bottom: 10px;
-  }
+    .btn-actions {
+      margin-bottom: 10px;
+    }
 
+    #loginTabs-tab-1 {
+      color: white;
+      background-color: $amber;
+      border: 1px solid $amber;
+      border-bottom-color: transparent;
+      font-weight: bold;
+    }
+
+    #loginTabs-tab-2 {
+      color: white;
+      background-color: $lightBlue;
+      border: 1px solid $lightBlue;
+      border-bottom-color: transparent;
+      font-weight: bold;
+    }
+
+
+
+
+
+    .tab-content {
+      border-radius: 0px 4px 4px 4px;
+
+      #loginTabs-pane-1 {
+        padding: 40px;
+        background-color: rgba(252, 168, 11, 0.2);
+        border: 1px solid $amber;
+        .btn-primary {
+          background-color: $amber;
+          border-color: $amber;
+          -moz-box-shadow: 0px 0px 3px #888;
+          -webkit-box-shadow: 0px 0px 3px #888;
+          box-shadow: 0px 0px 3px #888;
+        }
+
+        .input-group-addon {
+          color: $amber;
+          font-size: 20px;
+        }
+      }
+
+      #loginTabs-pane-2 {
+        padding: 40px;
+        background-color: rgba(79,213,248,0.2);
+        border: 1px solid $lightBlue;
+
+        .btn-primary {
+          background-color: $lightBlue;
+          border-color: $lightBlue;
+          -moz-box-shadow: 0px 0px 3px #888;
+          -webkit-box-shadow: 0px 0px 3px #888;
+          box-shadow: 0px 0px 3px #888;
+        }
+
+        .input-group-addon {
+          color: $lightBlue;
+          font-size: 20px;
+        }
+      }
+    }
+
+
+
+
+
+  }
 }
