@@ -282,7 +282,7 @@
       width: 120px;
       background-color: $amber;
     }
-    
+
     .page-header {
       margin-top: 0px;
       color: $darkBlue;
@@ -349,99 +349,52 @@
   //   }
   // }
 
-  .page-header.order-status-header {
-    padding-bottom: 0px;
-    margin: 0px;
-  }
 
 
-
-
-  .popover-info {
-    .panel-primary {
-      border-color: #99bcdb;
+  .order-status {
+    .page-header {
+      padding-bottom: 0px;
+      margin: 0px;
     }
-
-    .panel-primary>.panel-heading {
-      background-color: #adc9e2;
-      border-color: #adc9e2;
-    }
-
-    .panel {
-      margin-bottom: 0px;
-    }
-
-    .queue-font-color p strong {
-      color: #337ab7;
-    }
-
-    .pickup-font-color p strong {
-      color: #5cb85c;
-    }
-
-    .cleaning-font-color p strong {
-      color: #f0ad4e;
-    }
-
-    .dropoff-font-color p strong {
-      color: #c34a47;
+    
+    .panel-heading {
+      background-color: $amber;
+      color: white;
     }
   }
 
-  .arrow-up-lightblue {
-    width: 0;
-    height: 0;
-    border-left: 10px solid transparent;
-    border-right: 10px solid transparent;
-    position: relative;
-    border-bottom: 12px solid #d9edf7;
-    left: 4%;
-  }
 
-  .arrow-up-green {
-    width: 0;
-    height: 0;
-    border-left: 10px solid transparent;
-    border-right: 10px solid transparent;
-    position: relative;
-    border-bottom: 12px solid #dff0d8;
-    left: 23%;
-  }
 
-  .arrow-up-yellow {
-    width: 0;
-    height: 0;
-    border-left: 10px solid transparent;
-    border-right: 10px solid transparent;
-    position: relative;
-    border-bottom: 12px solid #fcf8e3;
-    left: 53%;
-  }
 
-  .arrow-up-red {
-    width: 0;
-    height: 0;
-    border-left: 10px solid transparent;
-    border-right: 10px solid transparent;
-    position: relative;
-    border-bottom: 12px solid #f2dede;
-    left: 81%;
-  }
 
-  .progress-bar-info {
-    background-color: #ccc;
-  }
 
-  .progress {
-    margin-top: 30px;
-    height: 30px;
-    margin-bottom: 8px;
-    text-align: center;
+  .order-progress {
+    .progress-bar-info {
+      background-color: #ccc;
+    }
 
-    .progress-bar {
-      padding: 5px;
+    .progress {
+      margin-top: 30px;
+      height: 30px;
+      margin-bottom: 8px;
+      text-align: center;
+
+      .progress-bar {
+        padding: 5px;
+      }
+    }
+
+    .popover-info {
+
     }
   }
+
+
+
+
+
+
+
 
   .complete-table {
     .btn.btn-link {
