@@ -385,7 +385,7 @@ class AdminUsers extends React.Component {
               </div>
               <div className="row">
                 <div className="col-sm-12 text-center">
-                  <i className="fa fa-id-card-o" aria-hidden="true"></i>
+                  <i className="fa fa-users" aria-hidden="true"></i>
                 </div>
               </div>
             </div>

@@ -22,10 +22,16 @@
     i.fa {
       font-size: 15rem;
       color: $darkBlue;
+      padding: 28px 28px;
+      display: inline-block;
+      -moz-border-radius: 50%;
+      -webkit-border-radius: 100px;
+      border-radius: 100px;
+      -moz-box-shadow: 0px 0px 3px #888;
+      -webkit-box-shadow: 0px 0px 3px #888;
+      box-shadow: 0px 0px 3px #888;
       background-color: rgba(79,213,248,0.2);
       border: 1px solid $lightBlue;
-      border-radius: 20px;
-      padding: 5px 15px;
     }
   }
 
