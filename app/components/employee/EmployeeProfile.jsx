@@ -700,12 +700,12 @@ class EmployeeProfile extends React.Component {
     };
 
     const laundryQueue = (<div>
-      <small><em>Work to be done!</em></small>
+      <h5><em>Work to be done!</em></h5>
     </div>);
 
 
     const myJobs = (<div>
-      <small><em>These jobs are assigned to you.</em></small>
+      <h5><em>Jobs you are currently working.</em></h5>
     </div>);
 
 
@@ -746,7 +746,7 @@ class EmployeeProfile extends React.Component {
               <div className="row">
                 <div className="col-sm-12 text-center">
                   <div className="page-header">
-                    <h1>PROFILE</h1>
+                    <h1>DASHBOARD</h1>
                   </div>
                 </div>
               </div>
@@ -761,10 +761,10 @@ class EmployeeProfile extends React.Component {
 
 
           {/* JOBS TABLE */}
-          <div className="row">
+          <div className="row queue-wrapper">
             <div className="col-sm-12">
               <div className="page-header">
-                <h1>Welcome, <strong><em>team member!</em></strong></h1>
+                <h2>Welcome, <small><em>team member!</em></small></h2>
               </div>
 
               {/* QUEUE TABLE */}
@@ -838,7 +838,7 @@ class EmployeeProfile extends React.Component {
               <div className="my-jobs">
                 <Panel header={myJobs} bsStyle="primary">
                   <Tabs activeKey={this.state.key} onSelect={this.handleSelect} id="my-jobs-tab">
-                    <Tab eventKey={1} title="My Active Job(s)">
+                    <Tab eventKey={1} title="MY JOB(S)">
                       {/* TAB 1 -> ACTIVE */}
                       <BootstrapTable ref="activeTable" condensed hover
                         options={ activeOptions }
@@ -904,7 +904,7 @@ class EmployeeProfile extends React.Component {
 
 
 
-                    <Tab eventKey={2} title="Completed Orders">
+                    <Tab eventKey={2} title="COMPLETED ORDERS">
                       {/* TAB 2 -> COMPLETE TABLE */}
                       <BootstrapTable ref="completeTable" hover condensed
                         options={ completeOptions }

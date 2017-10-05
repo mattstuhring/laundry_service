@@ -11,7 +11,7 @@
   .profile-header {
     .page-header {
       padding-bottom: 9px;
-      margin: 40px 0 20px;
+      margin: 20px 0 20px;
       border-bottom: 2px dotted #fca80b;
       color: #2b5580;
 
@@ -45,7 +45,11 @@
 
 
 
-
+  .queue-wrapper {
+    .page-header {
+      margin: 20px 0px 20px;
+    }
+  }
 
 
 
@@ -206,11 +210,11 @@
         border: 1px solid $amber;
         font-weight: bold;
         text-align: center;
-        // @include transition(color 0.5s ease);
-        //
-        // &:hover, &:focus {
-        //   color: $lightBlue;
-        // }
+        @include transition(background-color 0.75s ease);
+
+        &:hover, &:focus {
+          background-color: rgb(201,134,8);
+        }
       }
 
       #my-jobs-tab-tab-2 {
@@ -220,6 +224,12 @@
         border-bottom: 1px solid #ededed;
         font-weight: bold;
         text-align: center;
+
+        @include transition(background-color 0.75s ease);
+
+        &:hover, &:focus {
+          background-color: #bdbdbd;
+        }
       }
 
       #my-jobs-tab-pane-1 {
@@ -285,45 +295,9 @@
 
       }
 
-      // .tab-content {
-      //   padding: 30px 30px 30px;
-      //   border-left: 1px solid $lightBlue;
-      //   border-right: 1px solid $lightBlue;
-      //   border-bottom: 1px solid $lightBlue;
-      //   border-radius: 0px 4px 4px 4px;
-      //
-      //   #my-jobs-tab-pane-1 {
-      //     .nav-tabs>li>a {
-      //       background-color: $amber;
-      //       color: white;
-      //       border-left: 1px solid $amber;
-      //       border-right: 1px solid $amber;
-      //       border-bottom: 1px solid $amber;
-      //       @include transition(color 0.75s ease);
-      //
-      //       &:hover, &:focus {
-      //         text-decoration: none;
-      //         color: $lightBlue;
-      //       }
-      //     }
-      //   }
-      //
-      //   #my-jobs-tab-pane-2 {
-      //     .nav-tabs>li>a {
-      //       background-color: #ededed;
-      //       color: $darkBlue;
-      //       border-left: 1px solid #ccc;
-      //       border-right: 1px solid #ccc;
-      //       border-bottom: 1px solid #ccc;
-      //       @include transition(color 0.75s ease);
-      //
-      //       &:hover, &:focus {
-      //         text-decoration: none;
-      //         color: $lightBlue;
-      //       }
-      //     }
-      //   }
-      // }
+
+
+
     }
   }
 }
