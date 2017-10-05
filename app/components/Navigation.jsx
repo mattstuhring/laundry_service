@@ -92,19 +92,21 @@ export default class Navigation extends React.Component {
             <div className="collapse navbar-collapse" id="navbar-collapse-1">
               <ul className="nav navbar-nav navbar-right">
                 <li>
-                  <Link to="/adminOrders" activeClassName="active-link">ORDERS</Link>
+                  <Link to="/adminOrders" activeClassName="active-link"><i className="fa fa-id-card-o fa-2x" aria-hidden="true"></i></Link>
                 </li>
                 <li>
-                  <Link to="/adminUsers" activeClassName="active-link">USERS</Link>
+                  <Link to="/adminUsers" activeClassName="active-link"><i className="fa fa-users fa-2x" aria-hidden="true"></i></Link>
                 </li>
-                <li>
-                  <a href="#" onClick={() => {this.handleLogOut()}}>LOG OUT</a>
-                </li>
-                <li>
-                  <IndexLink to="/faq" activeClassName="active-link">FAQ</IndexLink>
-                </li>
-                <li>
-                  <Link to="/settings" activeClassName="active-link"><span className="glyphicon glyphicon-cog" aria-hidden="true"></span></Link>
+                <li className="dropdown">
+                  <a href="#" className="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i className="fa fa-cog fa-2x" aria-hidden="true"></i></a>
+                  <ul className="dropdown-menu">
+                    <li>
+                      <a href="#" onClick={() => {this.handleLogOut()}}>LOG OUT</a>
+                    </li>
+                    <li>
+                      <IndexLink to="/faq" activeClassName="active-link">FAQ</IndexLink>
+                    </li>
+                  </ul>
                 </li>
               </ul>
             </div>
@@ -115,16 +117,18 @@ export default class Navigation extends React.Component {
             <div className="collapse navbar-collapse" id="navbar-collapse-1">
               <ul className="nav navbar-nav navbar-right">
                 <li>
-                  <Link to="/employeeProfile" activeClassName="active-link">DASHBOARD</Link>
+                  <Link to="/employeeProfile" activeClassName="active-link"><i className="fa fa-user-circle-o fa-2x" aria-hidden="true"></i></Link>
                 </li>
-                <li>
-                  <a href="#" onClick={() => {this.handleLogOut()}}>LOG OUT</a>
-                </li>
-                <li>
-                  <IndexLink to="/faq" activeClassName="active-link">FAQ</IndexLink>
-                </li>
-                <li>
-                  <Link to="/settings" activeClassName="active-link"><span className="glyphicon glyphicon-cog" aria-hidden="true"></span></Link>
+                <li className="dropdown">
+                  <a href="#" className="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i className="fa fa-cog fa-2x" aria-hidden="true"></i></a>
+                  <ul className="dropdown-menu">
+                    <li>
+                      <a href="#" onClick={() => {this.handleLogOut()}}>LOG OUT</a>
+                    </li>
+                    <li>
+                      <IndexLink to="/faq" activeClassName="active-link">FAQ</IndexLink>
+                    </li>
+                  </ul>
                 </li>
               </ul>
             </div>
@@ -135,16 +139,18 @@ export default class Navigation extends React.Component {
             <div className="collapse navbar-collapse" id="navbar-collapse-1">
               <ul className="nav navbar-nav navbar-right">
                 <li>
-                  <Link to="/customerProfile" activeClassName="active-link">PROFILE</Link>
+                  <Link to="/customerProfile" activeClassName="active-link"><i className="fa fa-user-o fa-2x" aria-hidden="true"></i></Link>
                 </li>
-                <li>
-                  <a href="#" onClick={() => {this.handleLogOut()}}>LOG OUT</a>
-                </li>
-                <li>
-                  <IndexLink to="/faq" activeClassName="active-link">FAQ</IndexLink>
-                </li>
-                <li>
-                  <Link to="/settings" activeClassName="active-link"><span className="glyphicon glyphicon-cog" aria-hidden="true"></span></Link>
+                <li className="dropdown">
+                  <a href="#" className="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i className="fa fa-cog fa-2x" aria-hidden="true"></i></a>
+                  <ul className="dropdown-menu">
+                    <li>
+                      <a href="#" onClick={() => {this.handleLogOut()}}>LOG OUT</a>
+                    </li>
+                    <li>
+                      <IndexLink to="/faq" activeClassName="active-link">FAQ</IndexLink>
+                    </li>
+                  </ul>
                 </li>
               </ul>
             </div>
@@ -155,13 +161,7 @@ export default class Navigation extends React.Component {
             <div className="collapse navbar-collapse" id="navbar-collapse-1">
               <ul className="nav navbar-nav navbar-right">
                 <li>
-                  <a href="#" onClick={() => {this.handleLogOut()}}>LOG OUT</a>
-                </li>
-                <li>
                   <IndexLink to="/faq" activeClassName="active-link">FAQ</IndexLink>
-                </li>
-                <li>
-                  <Link to="/settings" activeClassName="active-link"><span className="glyphicon glyphicon-cog" aria-hidden="true"></span></Link>
                 </li>
               </ul>
             </div>

@@ -836,30 +836,24 @@ class AdminOrders extends React.Component {
             <div className="col-sm-8 col-sm-offset-2">
               <div className="row">
                 <div className="col-sm-12 text-center">
-                  <div className="page-header">
-                    <h1>ORDERS</h1>
-                  </div>
+                  <i className="fa fa-id-card-o" aria-hidden="true"></i>
                 </div>
               </div>
               <div className="row">
                 <div className="col-sm-12 text-center">
-                  <i className="fa fa-id-card-o" aria-hidden="true"></i>
+                  <div className="page-header">
+                    <h1>ADMIN<small><em> - Manage All Orders</em></small></h1>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
 
 
-          <div className="row table-header">
-            <div className="col-sm-12">
-              <div className="row">
-                <div className="col-sm-12">
-                  <div className="page-header">
-                    <h3>Manage All Orders</h3>
-                  </div>
-                </div>
-              </div>
 
+
+          <div className="row">
+            <div className="col-sm-12">
 
               {/* QUEUE TABLE */}
               <div className="queue">
@@ -930,7 +924,7 @@ class AdminOrders extends React.Component {
 
               {/* TABS -> ACTIVE, COMPLETE */}
               <div className="my-jobs">
-                <Panel header="All Active Jobs" bsStyle="primary">
+                <Panel header="ALL ACTIVE JOBS" bsStyle="primary">
                   <Tabs activeKey={this.state.key} onSelect={this.handleSelect} id="my-jobs-tab">
                     <Tab eventKey={1} title="ACTIVE">
                       {/* TAB 1 -> ACTIVE */}

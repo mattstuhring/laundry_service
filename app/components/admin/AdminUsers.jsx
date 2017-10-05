@@ -378,14 +378,14 @@ class AdminUsers extends React.Component {
             <div className="col-sm-8 col-sm-offset-2">
               <div className="row">
                 <div className="col-sm-12 text-center">
-                  <div className="page-header">
-                    <h1>USERS</h1>
-                  </div>
+                  <i className="fa fa-users" aria-hidden="true"></i>
                 </div>
               </div>
               <div className="row">
                 <div className="col-sm-12 text-center">
-                  <i className="fa fa-users" aria-hidden="true"></i>
+                  <div className="page-header">
+                    <h1>Admin<small><em> - Manage All Users</em></small></h1>
+                  </div>
                 </div>
               </div>
             </div>
@@ -393,16 +393,8 @@ class AdminUsers extends React.Component {
 
 
           {/* EMPLOYEES */}
-          <div className="row table-header">
+          <div className="row">
             <div className="col-sm-12">
-              <div className="row">
-                <div className="col-sm-12">
-                  <div className="page-header">
-                    <h3>Manage All Users</h3>
-                  </div>
-                </div>
-              </div>
-
 
               {/* EMPLOYEES TABLE */}
               <div className="employee">

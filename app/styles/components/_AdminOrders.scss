@@ -4,6 +4,7 @@
   padding-bottom: 150px;
   padding-left: 15px;
   padding-right: 15px;
+  padding-top: 40px;
 
 
 
@@ -11,8 +12,8 @@
   .profile-header {
     .page-header {
       padding-bottom: 9px;
-      margin: 20px 0 20px;
-      border-bottom: 2px dotted #fca80b;
+      margin: 20px 0 30px;
+      border-bottom: 2px dotted $darkBlue;
       color: #2b5580;
 
       h1 {
@@ -28,20 +29,13 @@
       border: 1px solid $lightBlue;
       border-radius: 20px;
       padding: 5px 15px;
-      -moz-box-shadow: 0px 0px 3px #888;
-      -webkit-box-shadow: 0px 0px 3px #888;
-      box-shadow: 0px 0px 3px #888;
+      -moz-box-shadow: 0px 0px 3px $lightBlue;
+      -webkit-box-shadow: 0px 0px 3px $lightBlue;
+      box-shadow: 0px 0px 3px $lightBlue;
     }
   }
 
 
-
-
-  .table-header {
-    .page-header {
-      padding: 0px;
-    }
-  }
 
 
 
