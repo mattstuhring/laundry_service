@@ -572,14 +572,17 @@ class CustomerProfile extends React.Component {
         const today = moment();
         let day = moment();
         let tomorrow = today.add('days', 1);
-        tomorrow = moment(tomorrow).format('dddd, MMMM Do YYYY');
-        day = moment(tomorrow).format('dddd');
+        tomorrow = moment(tomorrow).format('MMMM Do YYYY');
+        day = moment(day).format('dddd');
 
         return <div className="col-sm-6 order-date">
-          <ControlLabel><em>Tomorrow's date:</em></ControlLabel>
           <div className="row">
+            <div className="col-sm-12">
+              <ControlLabel><em>Tomorrow's date:</em></ControlLabel>
+            </div>
+          </div>
+          <div className="row order-date-row">
             <div className="col-sm-3 text-center">
-
               <span className="glyphicon glyphicon-calendar" aria-hidden="true"></span>
             </div>
             <div className="col-sm-9 text-center">
