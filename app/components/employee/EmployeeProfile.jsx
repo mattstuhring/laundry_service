@@ -97,6 +97,7 @@ class EmployeeProfile extends React.Component {
     axios.put(`/api/employeeOrders`, {selectedQueueOrders, check})
       .then((r) => {
         this.refs.queueTable.cleanSelected();
+        this.refs.queueTable.reset();
         this.refs.queueTable.setState({
           selectedRowKeys: []
         });
@@ -128,6 +129,7 @@ class EmployeeProfile extends React.Component {
     axios.post('/api/employeeOrders/', {selectedActiveOrders})
       .then((r) => {
         this.refs.activeTable.cleanSelected();
+        this.refs.activeTable.reset();
         this.refs.activeTable.setState({
           selectedRowKeys: []
         });
@@ -159,10 +161,7 @@ class EmployeeProfile extends React.Component {
     axios.put('/api/employeeRemoveOrder', { selectedActiveOrders })
       .then((r) => {
         this.refs.activeTable.cleanSelected();
-        this.refs.activeTable.setState({
-          selectedRowKeys: []
-        });
-        this.refs.activeTable.cleanSelected();
+        this.refs.activeTable.reset();
         this.refs.activeTable.setState({
           selectedRowKeys: []
         });
@@ -234,11 +233,11 @@ class EmployeeProfile extends React.Component {
       <div>
         <Button
           bsStyle="success"
-          bsSize="xsmall"
+          bsSize="small"
           onClick={() => this.openActive()}
         >
           <span className="glyphicon glyphicon-ok" aria-hidden="true"></span>
-          Accept
+          {' '}Accept Job(s)
         </Button>
       </div>
     );
@@ -251,19 +250,20 @@ class EmployeeProfile extends React.Component {
       <div>
         <Button
           bsStyle="success"
-          bsSize="xsmall"
+          bsSize="small"
           onClick={() => this.openComplete()}
         >
           <span className="glyphicon glyphicon-check" aria-hidden="true"></span>
-          Complete
+          {' '}Complete Job(s)
         </Button>
+        {' '}
         <Button
           bsStyle="warning"
-          bsSize="xsmall"
+          bsSize="small"
           onClick={() => this.openStepBack()}
         >
           <span className="glyphicon glyphicon-backward" aria-hidden="true"></span>
-          Go Back
+          {' '}Back to Queue
         </Button>
       </div>
     );
@@ -697,6 +697,31 @@ class EmployeeProfile extends React.Component {
       onSelectAll: this.onCompleteSelectAll
     };
 
+    const laundryQueue = (<div>
+      <small><em>Work to be done!</em></small>
+    </div>);
+
+
+    const myJobs = (<div>
+      <small><em>These jobs are assigned to you.</em></small>
+    </div>);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -714,21 +739,36 @@ class EmployeeProfile extends React.Component {
             action={this.state.modal.action}
           />
 
-
+          <div className="row profile-header">
+            <div className="col-sm-8 col-sm-offset-2">
+              <div className="row">
+                <div className="col-sm-12 text-center">
+                  <div className="page-header">
+                    <h1>PROFILE</h1>
+                  </div>
+                </div>
+              </div>
+              <div className="row">
+                <div className="col-sm-12 text-center">
+                  <i className="fa fa-user-circle-o" aria-hidden="true"></i>
+                  <p>{firstName}</p>
+                </div>
+              </div>
+            </div>
+          </div>
 
 
           {/* JOBS TABLE */}
           <div className="row">
-            <div className="col-sm-10 col-sm-offset-1">
+            <div className="col-sm-12">
               <div className="page-header">
-
-                <h3>Welcome, <small>{firstName}</small>!</h3>
+                <h3><em>Job Queue</em></h3>
               </div>
 
               {/* QUEUE TABLE */}
               <div className="queue">
-                <Panel header="Laundry Queue" bsStyle="primary">
-                  <BootstrapTable ref='queueTable' hover condensed
+                <Panel header={laundryQueue} bsStyle="primary">
+                  <BootstrapTable ref='queueTable' condensed
                     options={ queueOptions }
                     bordered={ false }
                     data={ this.state.queueOrders }
@@ -791,12 +831,17 @@ class EmployeeProfile extends React.Component {
                 </Panel>
               </div>
 
-              {/* ORDERS */}
+
+              <div className="page-header">
+                <h3><em>My Active Jobs</em></h3>
+              </div>
+
+              {/* TABS -> ACTIVE, COMPLETE */}
               <div className="my-jobs">
-                <Panel header="My Jobs" bsStyle="primary">
-                  <Tabs activeKey={this.state.key} onSelect={this.handleSelect} id="controlled-tab-example">
-                    <Tab eventKey={1} title="Active">
-                      {/* ACTIVE ORDERS */}
+                <Panel header={myJobs} bsStyle="primary">
+                  <Tabs activeKey={this.state.key} onSelect={this.handleSelect} id="my-jobs-tab">
+                    <Tab eventKey={1} title="ACTIVE">
+                      {/* TAB 1 -> ACTIVE */}
                       <BootstrapTable ref="activeTable" condensed hover
                         options={ activeOptions }
                         bordered={ false }
@@ -858,15 +903,11 @@ class EmployeeProfile extends React.Component {
                         ></TableHeaderColumn>
                       </BootstrapTable>
                     </Tab>
-                    <Tab eventKey={2} title="Complete">
-                      {/* COMPLETE TABLE */}
 
 
 
-
-
-
-
+                    <Tab eventKey={2} title="COMPLETE">
+                      {/* TAB 2 -> COMPLETE TABLE */}
                       <BootstrapTable ref="completeTable" hover condensed
                         options={ completeOptions }
                         bordered={ false }
@@ -879,7 +920,6 @@ class EmployeeProfile extends React.Component {
                         search
                         cleanSelected
                       >
-
                         <TableHeaderColumn
                           dataField='id'
                           isKey
