@@ -12,7 +12,17 @@ body {
   padding-top: 50px;
 }
 
+
+
+
+
+
+
 .main {
+  .btn:focus {
+    outline: none;
+  }
+
   input:-webkit-autofill {
     -webkit-box-shadow: 0 0 0 1000px white inset !important;
   }

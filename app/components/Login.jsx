@@ -346,7 +346,7 @@ export class Login extends React.Component {
                                 />
                                 <FormControl.Feedback />
                                 <div className="text-center">
-                                  <HelpBlock>* Passwords must match</HelpBlock>
+                                  <HelpBlock><small><em>* Passwords must match</em></small></HelpBlock>
                                 </div>
                               </FormGroup>
                             </div>

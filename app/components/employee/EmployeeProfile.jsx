@@ -258,7 +258,7 @@ class EmployeeProfile extends React.Component {
         </Button>
         {' '}
         <Button
-          bsStyle="warning"
+          bsStyle="danger"
           bsSize="small"
           onClick={() => this.openStepBack()}
         >
@@ -536,7 +536,9 @@ class EmployeeProfile extends React.Component {
             tdStyle={ { whiteSpace: 'normal' } }
           >Instructions</TableHeaderColumn>
         </BootstrapTable>
-        <BootstrapTable data={ [row] }>
+        <BootstrapTable data={ [row] }
+          condensed
+        >
           <TableHeaderColumn
             isKey={ true }
             dataField='customer_id'
@@ -639,7 +641,7 @@ class EmployeeProfile extends React.Component {
       clearSearch: true,
       searchField: this.customSearch,
       expandBy: 'column',
-      expandRowBgColor: '#337ab7'
+      expandRowBgColor: '#daf5fd'
     };
 
     const activeOptions = {
@@ -647,7 +649,7 @@ class EmployeeProfile extends React.Component {
       clearSearch: true,
       searchField: this.customSearch,
       expandBy: 'column',
-      expandRowBgColor: '#337ab7'
+      expandRowBgColor: '#daf5fd'
     };
 
     const completeOptions = {
@@ -655,7 +657,7 @@ class EmployeeProfile extends React.Component {
       clearSearch: true,
       searchField: this.customSearch,
       expandBy: 'column',
-      expandRowBgColor: '#337ab7'
+      expandRowBgColor: '#daf5fd'
     };
 
     const selectQueueRow = {
@@ -762,13 +764,13 @@ class EmployeeProfile extends React.Component {
           <div className="row">
             <div className="col-sm-12">
               <div className="page-header">
-                <h3><em>Job Queue</em></h3>
+                <h1>Welcome, <strong><em>team member!</em></strong></h1>
               </div>
 
               {/* QUEUE TABLE */}
               <div className="queue">
                 <Panel header={laundryQueue} bsStyle="primary">
-                  <BootstrapTable ref='queueTable' condensed
+                  <BootstrapTable ref='queueTable' hover condensed
                     options={ queueOptions }
                     bordered={ false }
                     data={ this.state.queueOrders }
@@ -832,15 +834,11 @@ class EmployeeProfile extends React.Component {
               </div>
 
 
-              <div className="page-header">
-                <h3><em>My Active Jobs</em></h3>
-              </div>
-
               {/* TABS -> ACTIVE, COMPLETE */}
               <div className="my-jobs">
                 <Panel header={myJobs} bsStyle="primary">
                   <Tabs activeKey={this.state.key} onSelect={this.handleSelect} id="my-jobs-tab">
-                    <Tab eventKey={1} title="ACTIVE">
+                    <Tab eventKey={1} title="My Active Job(s)">
                       {/* TAB 1 -> ACTIVE */}
                       <BootstrapTable ref="activeTable" condensed hover
                         options={ activeOptions }
@@ -906,7 +904,7 @@ class EmployeeProfile extends React.Component {
 
 
 
-                    <Tab eventKey={2} title="COMPLETE">
+                    <Tab eventKey={2} title="Completed Orders">
                       {/* TAB 2 -> COMPLETE TABLE */}
                       <BootstrapTable ref="completeTable" hover condensed
                         options={ completeOptions }
