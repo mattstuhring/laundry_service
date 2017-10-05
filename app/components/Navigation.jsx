@@ -78,6 +78,7 @@ export default class Navigation extends React.Component {
   render() {
 
     const loggedIn = () => {
+      let navLinks;
       let profile;
 
       if (document.cookie) {
@@ -86,13 +87,85 @@ export default class Navigation extends React.Component {
         const access = cookie[1].trim();
 
         if (access === 'access=admin') {
-          profile = '/adminProfile';
+          profile = '/adminContainer';
+          navLinks = (
+            <div className="collapse navbar-collapse" id="navbar-collapse-1">
+              <ul className="nav navbar-nav navbar-right">
+                <li>
+                  <Link to="/adminOrders" activeClassName="active-link">ORDERS</Link>
+                </li>
+                <li>
+                  <Link to="/adminUsers" activeClassName="active-link">USERS</Link>
+                </li>
+                <li>
+                  <a href="#" onClick={() => {this.handleLogOut()}}>LOG OUT</a>
+                </li>
+                <li>
+                  <IndexLink to="/faq" activeClassName="active-link">FAQ</IndexLink>
+                </li>
+                <li>
+                  <Link to="/settings" activeClassName="active-link"><span className="glyphicon glyphicon-cog" aria-hidden="true"></span></Link>
+                </li>
+              </ul>
+            </div>
+          );
         } else if (access === 'access=employee') {
           profile = '/employeeProfile';
+          navLinks = (
+            <div className="collapse navbar-collapse" id="navbar-collapse-1">
+              <ul className="nav navbar-nav navbar-right">
+                <li>
+                  <Link to="/employeeProfile" activeClassName="active-link">DASHBOARD</Link>
+                </li>
+                <li>
+                  <a href="#" onClick={() => {this.handleLogOut()}}>LOG OUT</a>
+                </li>
+                <li>
+                  <IndexLink to="/faq" activeClassName="active-link">FAQ</IndexLink>
+                </li>
+                <li>
+                  <Link to="/settings" activeClassName="active-link"><span className="glyphicon glyphicon-cog" aria-hidden="true"></span></Link>
+                </li>
+              </ul>
+            </div>
+          );
         } else if (access === 'access=customer') {
           profile = '/customerProfile';
+          navLinks = (
+            <div className="collapse navbar-collapse" id="navbar-collapse-1">
+              <ul className="nav navbar-nav navbar-right">
+                <li>
+                  <Link to="/customerProfile" activeClassName="active-link">PROFILE</Link>
+                </li>
+                <li>
+                  <a href="#" onClick={() => {this.handleLogOut()}}>LOG OUT</a>
+                </li>
+                <li>
+                  <IndexLink to="/faq" activeClassName="active-link">FAQ</IndexLink>
+                </li>
+                <li>
+                  <Link to="/settings" activeClassName="active-link"><span className="glyphicon glyphicon-cog" aria-hidden="true"></span></Link>
+                </li>
+              </ul>
+            </div>
+          );
         } else {
           profile = '/';
+          navLinks = (
+            <div className="collapse navbar-collapse" id="navbar-collapse-1">
+              <ul className="nav navbar-nav navbar-right">
+                <li>
+                  <a href="#" onClick={() => {this.handleLogOut()}}>LOG OUT</a>
+                </li>
+                <li>
+                  <IndexLink to="/faq" activeClassName="active-link">FAQ</IndexLink>
+                </li>
+                <li>
+                  <Link to="/settings" activeClassName="active-link"><span className="glyphicon glyphicon-cog" aria-hidden="true"></span></Link>
+                </li>
+              </ul>
+            </div>
+          );
         }
 
         return (
@@ -118,22 +191,7 @@ export default class Navigation extends React.Component {
               </button>
             </div>
 
-            <div className="collapse navbar-collapse" id="navbar-collapse-1">
-              <ul className="nav navbar-nav navbar-right">
-                <li>
-                  <Link to={profile} activeClassName="active-link">PROFILE</Link>
-                </li>
-                <li>
-                  <a href="#" onClick={() => {this.handleLogOut()}}>LOG OUT</a>
-                </li>
-                <li>
-                  <IndexLink to="/faq" activeClassName="active-link">FAQ</IndexLink>
-                </li>
-                <li>
-                  <Link to="/settings" activeClassName="active-link"><span className="glyphicon glyphicon-cog" aria-hidden="true"></span></Link>
-                </li>
-              </ul>
-            </div>
+            {navLinks}
           </div>
         );
       }

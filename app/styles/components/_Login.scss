@@ -41,28 +41,30 @@
     }
 
     #loginTabs-tab-1 {
-      color: white;
+      color: $darkBlue;
       background-color: $amber;
       border: 1px solid $amber;
       border-bottom-color: transparent;
       font-weight: bold;
-      @include transition(color 0.75s ease);
+      @include transition(background-color 0.75s ease, color 0.75s ease);
 
       &:hover {
-        color: $lightBlue;
+        background-color: #e29709;
+        color: white;
       }
     }
 
     #loginTabs-tab-2 {
-      color: white;
+      color: $darkBlue;
       background-color: $lightBlue;
       border: 1px solid $lightBlue;
       border-bottom-color: transparent;
       font-weight: bold;
-      @include transition(color 0.75s ease);
+      @include transition(background-color 0.75s ease, color 0.75s ease);
 
       &:hover {
-        color: $amber;
+        background-color: #47bfdf;
+        color: white;
       }
     }
 
@@ -80,18 +82,22 @@
         .btn-primary {
           background-color: $amber;
           border-color: $amber;
+          color: $darkBlue;
+          font-weight: bold;
           -moz-box-shadow: 0px 0px 3px #888;
           -webkit-box-shadow: 0px 0px 3px #888;
           box-shadow: 0px 0px 3px #888;
-          @include transition(border 0.75s ease);
+          @include transition(background-color 0.75s ease, color 0.75s ease);
+
 
           &:hover, &:focus {
-            border: 3px solid $lightBlue;
+            color: white;
+            background-color: #e29709;;
           }
         }
 
         .input-group-addon {
-          color: $amber;
+          color: $darkBlue;
           font-size: 20px;
         }
       }
@@ -104,18 +110,22 @@
         .btn-primary {
           background-color: $lightBlue;
           border-color: $lightBlue;
+          color: $darkBlue;
+          font-weight: bold;
           -moz-box-shadow: 0px 0px 3px #888;
           -webkit-box-shadow: 0px 0px 3px #888;
           box-shadow: 0px 0px 3px #888;
-          @include transition(border 0.75s ease);
+          @include transition(background-color 0.75s ease, color 0.75s ease);
+
 
           &:hover, &:focus {
-            border: 3px solid $amber;
+            color: white;
+            background-color: #47bfdf;
           }
         }
 
         .input-group-addon {
-          color: $lightBlue;
+          color: $darkBlue;
           font-size: 20px;
         }
       }

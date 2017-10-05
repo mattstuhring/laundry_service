@@ -37,7 +37,7 @@ export class Login extends React.Component {
           const access = cookie[1].trim();
 
           if (access === 'access=admin') {
-            profile = '/adminProfile';
+            profile = '/adminContainer';
           } else if (access === 'access=employee') {
             profile = '/employeeProfile';
           } else if (access === 'access=customer') {

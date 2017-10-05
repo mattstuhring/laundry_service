@@ -3,7 +3,9 @@ import { IndexRoute, Route, Router, browserHistory } from 'react-router';
 import Home from 'Home';
 import Main from 'Main';
 import Login from 'Login';
-import AdminProfile from 'AdminProfile';
+import AdminContainer from 'AdminContainer';
+import AdminOrders from 'AdminOrders';
+import AdminUsers from 'AdminUsers';
 import CustomerProfile from 'CustomerProfile';
 import EmployeeProfile from 'EmployeeProfile';
 import ForgotPassword from 'ForgotPassword';
@@ -20,7 +22,9 @@ export default class Routes extends React.Component {
       <Route path="/" component={Main}>
         <IndexRoute component={Home}/>
         <Route path="login" component={Login}/>
-        <Route path="adminProfile" component={AdminProfile}/>
+        <Route path="adminContainer" component={AdminContainer}/>
+        <Route path="adminOrders" component={AdminOrders}/>
+        <Route path="adminUsers" component={AdminUsers}/>
         <Route path="customerProfile" component={CustomerProfile}/>
         <Route path="employeeProfile" component={EmployeeProfile}/>
         <Route path="forgotPassword" component={ForgotPassword}/>

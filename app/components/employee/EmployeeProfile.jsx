@@ -237,7 +237,7 @@ class EmployeeProfile extends React.Component {
           onClick={() => this.openActive()}
         >
           <span className="glyphicon glyphicon-ok" aria-hidden="true"></span>
-          {' '}Accept Job(s)
+          {' '}Accept Job
         </Button>
       </div>
     );
@@ -254,7 +254,7 @@ class EmployeeProfile extends React.Component {
           onClick={() => this.openComplete()}
         >
           <span className="glyphicon glyphicon-check" aria-hidden="true"></span>
-          {' '}Complete Job(s)
+          {' '}Complete Job
         </Button>
         {' '}
         <Button

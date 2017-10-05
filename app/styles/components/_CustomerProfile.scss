@@ -79,10 +79,10 @@
           border-left: 1px solid $lightBlue;
           border-right: 1px solid $lightBlue;
           border-bottom: 1px solid $lightBlue;
+          @include transition(background-color 0.75s ease);
 
-          &:hover, &:focus {
-            text-decoration: none;
-            color: white;
+          &:hover {
+            background-color: rgb(201,134,8);
           }
         }
 

@@ -24,7 +24,9 @@ module.exports = {
     alias: {
       applicationStyles: 'app/styles/app.scss',
       About: 'app/components/About.jsx',
-      AdminProfile: 'app/components/admin/AdminProfile.jsx',
+      AdminContainer: 'app/components/admin/AdminContainer.jsx',
+      AdminOrders: 'app/components/admin/AdminOrders.jsx',
+      AdminUsers: 'app/components/admin/AdminUsers.jsx',
       Checkout: 'app/components/Checkout.jsx',
       CustomerLogin: 'app/components/customer/CustomerLogin.jsx',
       CustomerProfile: 'app/components/customer/CustomerProfile.jsx',

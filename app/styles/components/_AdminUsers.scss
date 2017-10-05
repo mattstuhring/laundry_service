@@ -1,0 +1,220 @@
+.admin-users {
+  background-color: white;
+  border: 1px solid #ccc;
+  padding-bottom: 150px;
+  padding-left: 15px;
+  padding-right: 15px;
+
+
+  .profile-header {
+    .page-header {
+      padding-bottom: 9px;
+      margin: 20px 0 20px;
+      border-bottom: 2px dotted #fca80b;
+      color: #2b5580;
+
+      h1 {
+        font-weight: bold;
+        font-size: 50px;
+      }
+    }
+
+    i.fa {
+      font-size: 15rem;
+      color: $darkBlue;
+      background-color: rgba(79,213,248,0.2);
+      border: 1px solid $lightBlue;
+      border-radius: 20px;
+      padding: 5px 15px;
+    }
+  }
+
+
+
+
+
+  .table-header {
+    .page-header {
+      padding: 0px;
+    }
+  }
+
+
+
+
+
+
+
+
+
+
+
+  .employee {
+    .expand-row {
+      padding: 10px;
+
+      th {
+        background-color: $lightBlue;
+        text-transform: capitalize;
+      }
+    }
+
+    input.form-control.my-custom-class {
+      width: 50%;
+      margin-left: 50%;
+    }
+
+    a.page-link {
+      background-color: $lightBlue;
+      border-color: $lightBlue;
+    }
+
+    button.btn.btn-link {
+      text-decoration: none;
+      @include transition(color 0.5s ease);
+
+      &:hover, &:focus {
+        color: $darkBlue;
+        font-weight: bold;
+      }
+    }
+
+    .panel-primary {
+      border: 1px solid $lightBlue;
+      -moz-box-shadow: 0px 0px 3px $lightBlue;
+      -webkit-box-shadow: 0px 0px 3px $lightBlue;
+      box-shadow: 0px 0px 3px $lightBlue;
+      margin-bottom: 40px;
+    }
+
+    .panel-heading {
+      background-color: $lightBlue;
+      border-color: $lightBlue;
+    }
+
+    .panel-body {
+      background-color: $lightBlueTint;
+      padding: 30px;
+    }
+
+    .btn.btn-link {
+      padding: 0px 12px;
+    }
+
+    .react-bs-table-tool-bar {
+      padding: 14px;
+      background-color: $lightGrey;
+
+
+      .react-bs-table-search-clear-btn {
+        background-color: $lightBlue;
+        color: white;
+        z-index: 0;
+      }
+    }
+
+    .react-bs-table-container {
+      background-color: white;
+      border-radius: 4px;
+      border: 1px solid $darkGrey;
+
+      .react-bs-table-pagination {
+        margin-left: 15px;
+        margin-right: 15px;
+      }
+    }
+  }
+
+
+
+
+
+
+
+
+
+  .customer {
+    .expand-row {
+      padding: 10px;
+
+      th {
+        background-color: $lightBlue;
+        text-transform: capitalize;
+      }
+    }
+
+    input.form-control.my-custom-class {
+      width: 50%;
+      margin-left: 50%;
+    }
+
+    a.page-link {
+      background-color: $amber;
+      border-color: $amber;
+    }
+
+    button.btn.btn-link {
+      text-decoration: none;
+      @include transition(color 0.5s ease);
+
+      &:hover, &:focus {
+        color: $darkBlue;
+        font-weight: bold;
+      }
+    }
+
+    .panel-primary {
+      border: 1px solid $amber;
+      -moz-box-shadow: 0px 0px 3px $amber;
+      -webkit-box-shadow: 0px 0px 3px $amber;
+      box-shadow: 0px 0px 3px $amber;
+      margin-bottom: 40px;
+    }
+
+    .panel-heading {
+      background-color: $amber;
+      border-color: $amber
+    }
+
+    .panel-body {
+      background-color: $amberTint;
+      padding: 30px;
+    }
+
+    .btn.btn-link {
+      padding: 0px 12px;
+    }
+
+    .react-bs-table-tool-bar {
+      padding: 14px;
+      background-color: $lightGrey;
+
+
+      .react-bs-table-search-clear-btn {
+        background-color: $amber;
+        color: white;
+        z-index: 0;
+      }
+    }
+
+    .react-bs-table-container {
+      background-color: white;
+      border-radius: 4px;
+      border: 1px solid $darkGrey;
+
+      .react-bs-table-pagination {
+        margin-left: 15px;
+        margin-right: 15px;
+      }
+    }
+  }
+
+
+
+
+
+
+
+
+
+}
