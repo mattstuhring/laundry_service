@@ -76,26 +76,23 @@ export default class Navigation extends React.Component {
 
 
   render() {
-    let profile;
+
     const loggedIn = () => {
+      let profile;
+
       if (document.cookie) {
+        const cookie = document.cookie.split(';');
+        const status = cookie[0];
+        const access = cookie[1].trim();
 
-
-        if (document.cookie) {
-          const cookie = document.cookie.split(';');
-          const status = cookie[0];
-          const access = cookie[1].trim();
-
-          if (access === 'access=admin') {
-            profile = '/adminProfile';
-          } else if (access === 'access=employee') {
-            profile = '/employeeProfile';
-          } else if (access === 'access=customer') {
-            profile = '/customerProfile';
-          } else {
-            profile = '/';
-          }
-
+        if (access === 'access=admin') {
+          profile = '/adminProfile';
+        } else if (access === 'access=employee') {
+          profile = '/employeeProfile';
+        } else if (access === 'access=customer') {
+          profile = '/customerProfile';
+        } else {
+          profile = '/';
         }
 
         return (
@@ -141,6 +138,8 @@ export default class Navigation extends React.Component {
         );
       }
       else {
+        profile = '/';
+
         return (
           <div>
             <div className="navbar-header">

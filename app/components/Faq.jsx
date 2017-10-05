@@ -52,9 +52,9 @@ export class Faq extends React.Component {
   render() {
 
     return (
-      <div className="container faq">
-        <div className="row">
-          <div className="col-sm-12">
+      <div className="faq">
+        <div className="row faq-row">
+          <div className="col-sm-10 col-sm-offset-1">
             <Panel header="Frequently Asked Questions" bsStyle="primary">
               <div className="row">
                 <div className="col-sm-10 col-sm-offset-1">

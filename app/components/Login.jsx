@@ -146,10 +146,6 @@ export class Login extends React.Component {
 
   // ****************************  RENDER  *********************************
   render() {
-    const dashboard = (
-      <p>Member Login</p>
-    );
-
     return (
         <div className="row user-login">
           <div className="col-sm-12">

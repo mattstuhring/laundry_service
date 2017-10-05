@@ -216,15 +216,45 @@ class CustomerProfile extends React.Component {
       this.setState({formKey: key, activeServices: false, activeInfo: true, activePayment: false});
     }
     else if (key === 3) {
+
+
+
+
+
+
+
+
+
+
+
+
       if (orderPickupTime !== '') {
+        // // get moments
+        // let scheduleTime = moment(this.state.orderPickupTime, 'hh:mm A');
+        // let now = moment();
+        // scheduleTime = moment(scheduleTime).format('hh:mm A');
+        // now = moment(now).format('hh:mm A');
+        // let lastCall = moment('05:01 PM', 'hh:mm A');
+        // lastCall = moment(lastCall).format('hh:mm A');
+
+
         // get moments
-        let scheduleTime = moment(this.state.orderPickupTime, 'hh:mm A');
-        let now = moment().format('hh:mm A');
-        scheduleTime = moment(scheduleTime, "hh:mm A");
-        now = moment(now, "hh:mm A");
+        let future = moment(this.state.orderPickupTime, 'hh:mm A');
+        const now = moment().format('hh:mm A');
+        const end = moment(future, "hh:mm A");
+        const scheduleTime = moment(end).format('hh:mm A');
+        const start = moment(now, "hh:mm A");
         let lastCall = moment('05:01 PM', 'hh:mm A');
 
-        let diffLastNow = lastCall.diff(now);
+        // if "now" time is a 30min passed 05:01 PM
+        // set order pick-up date to tomorrows date
+        let diffLastNow = lastCall.diff(start);
+
+
+        console.log(now, '****************** now');
+        console.log(diffLastNow, '******************** dif last call');
+        console.log(scheduleTime, '************** scheduleTime')
+
 
         // if passed 05:01 PM
         if (diffLastNow < 0) {
@@ -233,13 +263,15 @@ class CustomerProfile extends React.Component {
 
           // tomorrow
           let tomorrow = today.add('days', 1);
+
           // tomorrow formatted
           tomorrow = moment(tomorrow).format('MM-DD-YYYY');
+          console.log(tomorrow, '************* tomorrow');
 
           this.setState({ orderPickupDate: tomorrow, orderPickupTime: scheduleTime});
         } else {
           // calculate the duration
-          const d = moment.duration(scheduleTime.diff(now)).asMilliseconds();
+          const d = moment.duration(future.diff(now)).asMilliseconds();
 
           // convert milliseconds to minutes
           const min = d / 60000;
@@ -570,10 +602,11 @@ class CustomerProfile extends React.Component {
 
       if (time < 0) {
         const today = moment();
-        let day = moment();
+        const day = moment();
+        let d = day.add('days', 1);
         let tomorrow = today.add('days', 1);
         tomorrow = moment(tomorrow).format('MMMM Do YYYY');
-        day = moment(day).format('dddd');
+        d = moment(day).format('dddd');
 
         return <div className="col-sm-6 order-date">
           <div className="row">
@@ -586,7 +619,7 @@ class CustomerProfile extends React.Component {
               <span className="glyphicon glyphicon-calendar" aria-hidden="true"></span>
             </div>
             <div className="col-sm-9 text-center">
-              <p><strong>{day + ','}</strong></p>
+              <p><strong>{d + ','}</strong></p>
               <p>{tomorrow}</p>
             </div>
           </div>
@@ -640,12 +673,36 @@ class CustomerProfile extends React.Component {
     }
 
     const formatSummaryDate = () => {
-      let date = moment(this.state.orderPickupDate, 'dddd, MMMM Do YYYY');
-      let formatDate = moment(date).format('dddd, MMMM Do YYYY');
+      // get moments
+      let future = moment(this.state.orderPickupTime, 'hh:mm A');
+      const now = moment().format('hh:mm A');
+      const end = moment(future, "hh:mm A");
+      const start = moment(now, "hh:mm A");
+      let lastCall = moment('05:01 PM', 'hh:mm A');
 
-      return <div className="col-sm-8 text-center">
-        <p><strong>{formatDate}</strong></p>
-      </div>
+      // if "now" time is a 30min passed 05:01 PM
+      // set order pick-up date to tomorrows date
+      let time = lastCall.diff(start);
+
+      if (time < 0) {
+        const today = moment();
+        const day = moment();
+        let d = day.add('days', 1);
+        let tomorrow = today.add('days', 1);
+        tomorrow = moment(tomorrow).format('dddd, MMMM Do YYYY');
+
+        return <div className="col-sm-8 text-center">
+          <p><strong>{tomorrow}</strong></p>
+        </div>;
+      } else {
+        let today = moment();
+        let day = moment();
+        today = moment(today).format('dddd, MMMM Do YYYY');
+
+        return <div className="col-sm-8 text-center">
+          <p><strong>{today}</strong></p>
+        </div>;
+      }
     }
 
 

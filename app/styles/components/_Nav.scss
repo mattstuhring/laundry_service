@@ -10,7 +10,7 @@
   }
 
   .navbar-nav > li > a.active-link {
-    color: $amber;
+    color: $lightBlue;
     font-weight: bold;
   }
 
@@ -18,7 +18,7 @@
     color: white;
     @include transition(color 0.75s ease);
     &:hover, &:focus {
-      color: $amber;
+      color: $lightBlue;
       text-decoration: none;
       background-color: transparent;
     }
