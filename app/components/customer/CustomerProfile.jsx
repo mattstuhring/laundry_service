@@ -1273,7 +1273,7 @@ class CustomerProfile extends React.Component {
                                 <div className="col-sm-10 col-sm-offset-1">
                                   <ProgressBar>
                                     <ProgressBar striped active now={10} key={1} label={'Queue'} />
-                                    <ProgressBar striped active bsStyle="info" now={30} key={2} label={'Pick-up'}/>
+                                    <ProgressBar striped active now={30} key={2} label={'Pick-up'}/>
                                     <ProgressBar bsStyle="info" striped active now={30} key={3} label={'Cleaning'}/>
                                     <ProgressBar bsStyle="info" striped active now={30} key={4} label={'Drop-off'} />
                                   </ProgressBar>
@@ -1300,8 +1300,8 @@ class CustomerProfile extends React.Component {
                                   <div className="col-sm-10 col-sm-offset-1">
                                     <ProgressBar>
                                       <ProgressBar striped active now={10} key={1} label={'Queue'} />
-                                      <ProgressBar striped active bsStyle="info" now={30} key={2} label={'Pick-up'}/>
-                                      <ProgressBar striped active bsStyle="info" now={30} key={3} label={'Cleaning'}/>
+                                      <ProgressBar striped active now={30} key={2} label={'Pick-up'}/>
+                                      <ProgressBar striped active now={30} key={3} label={'Cleaning'}/>
                                       <ProgressBar bsStyle="info" striped active now={30} key={4} label={'Drop-off'} />
                                     </ProgressBar>
                                     <div className="row">
@@ -1321,8 +1321,8 @@ class CustomerProfile extends React.Component {
                                   <div className="col-sm-10 col-sm-offset-1">
                                     <ProgressBar>
                                       <ProgressBar striped active now={10} key={1} label={'Queue'} />
-                                      <ProgressBar striped active bsStyle="info" now={30} key={2} label={'Pick-up'}/>
-                                      <ProgressBar striped active bsStyle="info" now={30} key={3} label={'Cleaning'}/>
+                                      <ProgressBar striped active now={30} key={2} label={'Pick-up'}/>
+                                      <ProgressBar striped active now={30} key={3} label={'Cleaning'}/>
                                       <ProgressBar bsStyle="info" striped active now={30} key={4} label={'Drop-off'} />
                                     </ProgressBar>
                                     <div className="row">
@@ -1342,9 +1342,9 @@ class CustomerProfile extends React.Component {
                                   <div className="col-sm-10 col-sm-offset-1">
                                     <ProgressBar>
                                       <ProgressBar striped active now={10} key={1} label={'Queue'} />
-                                      <ProgressBar striped active bsStyle="info" now={30} key={2} label={'Pick-up'}/>
-                                      <ProgressBar striped active bsStyle="info" now={30} key={3} label={'Cleaning'}/>
-                                      <ProgressBar striped active bsStyle="info" now={30} key={4} label={'Drop-off'} />
+                                      <ProgressBar striped active now={30} key={2} label={'Pick-up'}/>
+                                      <ProgressBar striped active now={30} key={3} label={'Cleaning'}/>
+                                      <ProgressBar striped active now={30} key={4} label={'Drop-off'} />
                                     </ProgressBar>
                                     <div className="row">
                                       <div className="col-sm-12 popover-info text-center">
@@ -1361,9 +1361,9 @@ class CustomerProfile extends React.Component {
                                   <div className="col-sm-10 col-sm-offset-1">
                                     <ProgressBar>
                                       <ProgressBar striped active now={10} key={1} label={'Queue'} />
-                                      <ProgressBar striped active bsStyle="info" now={30} key={2} label={'Pick-up'}/>
-                                      <ProgressBar striped active bsStyle="info" now={30} key={3} label={'Cleaning'}/>
-                                      <ProgressBar striped active bsStyle="info" now={30} key={4} label={'Drop-off'} />
+                                      <ProgressBar striped active now={30} key={2} label={'Pick-up'}/>
+                                      <ProgressBar striped active now={30} key={3} label={'Cleaning'}/>
+                                      <ProgressBar striped active now={30} key={4} label={'Drop-off'} />
                                     </ProgressBar>
                                     <div className="row">
                                       <div className="col-sm-12 popover-info text-center">
