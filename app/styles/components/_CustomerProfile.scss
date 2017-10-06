@@ -2,7 +2,7 @@
   background-color: white;
   border: 1px solid #ccc;
   padding-bottom: 150px;
-  padding-top: 40px;
+  padding-top: 30px;
 
 
 
@@ -45,10 +45,6 @@
     }
 
 
-    .panel-heading {
-      background-color: $darkBlue;
-    }
-
     .panel-primary {
       border: 1px solid #ccc;
     }
@@ -65,43 +61,49 @@
       #welcome-order-form {
         .tab-content {
           background-color: rgba(79,213,248,0.2);
-          padding: 30px 50px 30px;
+          padding: 40px 60px 40px;
           border-left: 1px solid $lightBlue;
           border-right: 1px solid $lightBlue;
           border-bottom: 1px solid $lightBlue;
+          -moz-box-shadow: 0px 0px 5px $lightBlue;
+          -webkit-box-shadow: 0px 0px 5px $lightBlue;
+          box-shadow: 0px 0px 5px $lightBlue;
           border-radius: 0px 4px 4px 4px;
         }
 
-        //   @include transition(color 0.75s ease);
-        //
-        //   &:hover, &:focus {
-        //     text-decoration: none;
-        //     color: $lightBlue;
-        //   }
-
         .nav-tabs>li.active>a {
           background-color: $lightBlue;
-          color: white;
+          color: #333;
           text-align: center;
           border-left: 1px solid $lightBlue;
           border-right: 1px solid $lightBlue;
           border-bottom: 1px solid $lightBlue;
           font-weight: bold;
+          -moz-box-shadow: 0px 0px 3px #888;
+          -webkit-box-shadow: 0px 0px 3px #888;
+          box-shadow: 0px 0px 3px #888;
+          border-radius: 4px;
+          color: #333;
+
+          &:hover, &:focus {
+            text-decoration: none;
+            color: #333;
+          }
         }
 
         .nav-tabs>li>a {
-          background-color: #ededed;
-          color: $darkBlue;
+          background-color: #ddd;
+          color: white;
           text-align: center;
           text-decoration: none;
           border-bottom: $lightBlue;
           font-weight: bold;
-            @include transition(color 0.75s ease, background-color 0.75s ease);
+          @include transition(color 0.75s ease, background-color 0.75s ease);
 
-            &:hover, &:focus {
-              text-decoration: none;
-              color: white;
-            }
+          &:hover, &:focus {
+            text-decoration: none;
+            color: #333;
+          }
         }
 
         .nav>li {
@@ -134,18 +136,18 @@
     }
 
     .breadcrumb a {
-      color: $darkBlue;
+      color: white;
       text-decoration: none;
       @include transition(color 0.75s ease);
 
       &:hover, &:focus {
         text-decoration: none;
-        color: white;
+        color: #333;
       }
     }
 
     .breadcrumb>.active {
-      color: white;
+      color: #333;
       font-weight: bold;
     }
 
@@ -187,10 +189,17 @@
       li>a {
         border: 1px solid #ddd;
         border-radius: 15px;
-        color: $darkBlue;
-        color: white;
+        color: #333;
+        font-weight: bold;
         width: 120px;
         background-color: $amber;
+        @include transition(box-shadow 0.75s ease);
+
+        &:hover {
+          -moz-box-shadow: 0px 0px 5px #888;
+          -webkit-box-shadow: 0px 0px 5px #888;
+          box-shadow: 0px 0px 5px #888;
+        }
       }
     }
 
@@ -223,7 +232,7 @@
     }
 
     .services-input-header {
-      background-color: #ededed;
+      background-color: $beige;
       padding: 5px;
       border-radius: 3px;
       margin-bottom: 5px;
@@ -265,7 +274,7 @@
     }
 
     .input-group-addon {
-      background-color: #daf5fd;
+      background-color: #ededed;
       color: $amber;
 
       .glyphicon {
@@ -282,10 +291,17 @@
     .pager li>a {
       border: 1px solid #ddd;
       border-radius: 15px;
-      color: $darkBlue;
-      color: white;
+      color: #333;
+      font-weight: bold;
       width: 120px;
       background-color: $amber;
+      @include transition(box-shadow 0.75s ease);
+
+      &:hover {
+        -moz-box-shadow: 0px 0px 5px #888;
+        -webkit-box-shadow: 0px 0px 5px #888;
+        box-shadow: 0px 0px 5px #888;
+      }
     }
 
     .order-date-time {
@@ -300,6 +316,7 @@
           background-color: #ededed;
           padding: 43px 0px 38px 26px;
           border-radius: 4px;
+          border: 1px solid #ccc;
         }
 
         p {
@@ -323,6 +340,7 @@
           background-color: rgba(252,168,11,0.2);
           padding: 18px;
           border-radius: 4px;
+          border: 1px solid $amber;
         }
       }
     }
@@ -338,15 +356,22 @@
     .pager li>a {
       border: 1px solid #ddd;
       border-radius: 15px;
-      color: $darkBlue;
-      color: white;
+      color: #333;
+      font-weight: bold;
       width: 120px;
       background-color: $amber;
+      @include transition(box-shadow 0.75s ease);
+
+      &:hover {
+        -moz-box-shadow: 0px 0px 5px #888;
+        -webkit-box-shadow: 0px 0px 5px #888;
+        box-shadow: 0px 0px 5px #888;
+      }
     }
 
     .page-header {
       margin-top: 0px;
-      color: $darkBlue;
+      color: #333;
     }
 
     .order-summary {
@@ -426,7 +451,8 @@
 
     .panel-heading {
       background-color: $amber;
-      color: white;
+      color: #333;
+      font-weight: bold;
     }
   }
 
@@ -499,7 +525,8 @@
   .completed-orders {
     .panel-heading {
       background-color: $amber;
-      color: white;
+      color: #333;
+      font-weight: bold;
     }
 
     .react-bs-table-tool-bar {

@@ -25,12 +25,14 @@
         width: 27%;
         max-width: 30%;
         border-radius: 50%;
-        @include transition(background-color 0.75s ease, border 0.75s ease);
+        @include transition(box-shadow 0.75s ease, border 0.75s ease);
 
-        &:hover, &:focus {
-          background-color: rgba(252,168,11, 0.8);
-          border-radius: 50%;
-          border: 8px solid rgba(253,187,49, 0.6);
+        &:hover {
+          background-color: $amber;
+          -moz-box-shadow: 0px 0px 60px $amber;
+          -webkit-box-shadow: 0px 0px 60px $amber;
+          box-shadow: 0px 0px 60px $amber;
+          border: 2px solid $amber;
         }
       }
     }

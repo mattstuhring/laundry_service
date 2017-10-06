@@ -720,7 +720,7 @@ class CustomerProfile extends React.Component {
               <div className="row">
                 <div className="col-sm-10 col-sm-offset-1 services-input-header">
                   <div className="col-sm-4">
-                    <p>Step 1</p>
+                    <p>STEP 1</p>
                   </div>
                   <div className="col-sm-8 text-center question">
                     <p><em>Select your service(s).</em></p>
@@ -766,7 +766,7 @@ class CustomerProfile extends React.Component {
               <div className="row">
                 <div className="col-sm-10 col-sm-offset-1 services-input-header">
                   <div className="col-sm-4">
-                    <p>Step 2</p>
+                    <p>STEP 2</p>
                   </div>
                   <div className="col-sm-8 text-center question">
                     <p><em>How many loads?</em></p>
@@ -827,7 +827,7 @@ class CustomerProfile extends React.Component {
               <div className="row">
                 <div className="col-sm-10 col-sm-offset-1 services-input-header">
                   <div className="col-sm-4">
-                    <p>Step 3</p>
+                    <p>STEP 3</p>
                   </div>
                   <div className="col-sm-8 text-center question">
                     <p><em>Any special instructions?</em></p>
@@ -846,7 +846,7 @@ class CustomerProfile extends React.Component {
                     <FormControl
                       componentClass="textarea"
                       type="text"
-                      placeholder="Your message."
+                      placeholder="Your short message."
                       name="orderInstructions"
                       value={this.state.orderInstructions}
                       onChange={this.handleChange.bind(this)}
@@ -944,7 +944,7 @@ class CustomerProfile extends React.Component {
 
 
                   <div className="col-sm-6 order-time">
-                    <ControlLabel><em>Choose a pick-up time:</em></ControlLabel>
+                    <ControlLabel><em>Select a pick-up time:</em></ControlLabel>
                     <FormGroup bsSize="large">
                       <InputGroup>
                         <InputGroup.Addon>
@@ -1269,8 +1269,6 @@ class CustomerProfile extends React.Component {
                                           <i className="fa fa-clock-o" aria-hidden="true"></i>
                                           <small><em>Your laundry will be ready for you within 48 hours</em></small>
                                         </p>
-                                        {/* Received order! */}
-                                        {/* startDate, q.time, q.address */}
                                       </div>
                                     </div>
                                   </div>
@@ -1299,9 +1297,6 @@ class CustomerProfile extends React.Component {
                                           <p><strong>Contact: </strong> {q.phone_number}</p>
                                         </div>
                                       </div>
-
-                                      {/* Pick-up in route! */}
-                                      {/* q.first_name, q.phone_number */}
                                     </div>
                                   </div>
                                 </div>
@@ -1340,9 +1335,13 @@ class CustomerProfile extends React.Component {
                                     <div className="row">
                                       <div className="col-sm-12 popover-info text-center">
                                         <Image src="images/wash-clothes.svg"/>
-                                        <h4>CLEANING IN PROGRESS!</h4>
-                                        {/* Cleaning in process! */}
-                                        {/* q.first_name, q.phone_number */}
+                                        <h4>CLEANING IN PROGRESS!!!</h4>
+                                        <div className="row driver-info">
+                                          <div className="col-sm-10 col-sm-offset-1">
+                                            <p><strong>Tech: </strong>{ q.first_name}</p>
+                                            <p><strong>Contact: </strong> {q.phone_number}</p>
+                                          </div>
+                                        </div>
                                       </div>
                                     </div>
                                   </div>
@@ -1363,7 +1362,7 @@ class CustomerProfile extends React.Component {
                                         <i className="fa fa-spinner fa-spin fa-5x fa-fw"></i>
                                         <span className="sr-only">IN PROGRESS...</span>
                                         <h4>LOCATING DRIVER...</h4>
-                                        {/* . . . Locating driver */}
+                                        <p><em>Please kindly wait, we are assigning a driver.</em></p>
                                       </div>
                                     </div>
                                   </div>
@@ -1381,8 +1380,12 @@ class CustomerProfile extends React.Component {
                                       <div className="col-sm-12 popover-info text-center">
                                         <Image src="images/bag.svg"/>
                                         <h4>DROP-OFF IN ROUTE!</h4>
-                                        {/* Drop-off in route */}
-                                        {/* q.first_name, q.phon */}
+                                        <div className="row driver-info">
+                                          <div className="col-sm-10 col-sm-offset-1">
+                                            <p><strong>Driver: </strong>{ q.first_name}</p>
+                                            <p><strong>Contact: </strong> {q.phone_number}</p>
+                                          </div>
+                                        </div>
                                       </div>
                                     </div>
                                   </div>
@@ -1391,7 +1394,7 @@ class CustomerProfile extends React.Component {
                             }
 
                             return <div key={q.id} className="order-status">
-                              <Panel header={`Order: #${q.id}`}>
+                              <Panel header={`ORDER: #${q.id}`}>
                                 <div className="row">
                                   <div className="col-sm-10 col-sm-offset-1">
                                     <div className="page-header">
@@ -1413,7 +1416,7 @@ class CustomerProfile extends React.Component {
                     <Tab eventKey={3} title="COMPLETED ORDERS">
                       <div className="row">
                         <div className="col-sm-12 completed-orders">
-                          <Panel header="Completed Orders">
+                          <Panel header="COMPLETED ORDERS">
                             <div className="row">
                               <div className="col-sm-10 col-sm-offset-1">
                                 {/* COMPLETE TABLE */}
