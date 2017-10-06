@@ -20,10 +20,6 @@
       }
     }
 
-    p {
-      margin: 15px 0 0px;
-    }
-
     i.fa {
       font-size: 10rem;
       color: $darkBlue;
@@ -44,6 +40,11 @@
 
 
   .welcome-customer {
+    .page-header {
+      margin: 20px 0 20px;
+    }
+
+
     .panel-heading {
       background-color: $darkBlue;
     }
@@ -59,10 +60,7 @@
 
 
 
-
-
     .welcome-order-form {
-      margin-top: 40px;
 
       #welcome-order-form {
         .tab-content {
@@ -74,17 +72,21 @@
           border-radius: 0px 4px 4px 4px;
         }
 
+        //   @include transition(color 0.75s ease);
+        //
+        //   &:hover, &:focus {
+        //     text-decoration: none;
+        //     color: $lightBlue;
+        //   }
+
         .nav-tabs>li.active>a {
           background-color: $lightBlue;
           color: white;
+          text-align: center;
           border-left: 1px solid $lightBlue;
           border-right: 1px solid $lightBlue;
           border-bottom: 1px solid $lightBlue;
-          @include transition(background-color 0.75s ease);
-
-          &:hover {
-            background-color: rgb(201,134,8);
-          }
+          font-weight: bold;
         }
 
         .nav-tabs>li>a {
@@ -92,14 +94,14 @@
           color: $darkBlue;
           text-align: center;
           text-decoration: none;
+          border-bottom: $lightBlue;
           font-weight: bold;
-          border-bottom: 1px solid $lightBlue;
-          @include transition(color 0.75s ease);
+            @include transition(color 0.75s ease, background-color 0.75s ease);
 
-          &:hover, &:focus {
-            text-decoration: none;
-            color: $lightBlue;
-          }
+            &:hover, &:focus {
+              text-decoration: none;
+              color: white;
+            }
         }
 
         .nav>li {
@@ -134,17 +136,17 @@
     .breadcrumb a {
       color: $darkBlue;
       text-decoration: none;
-      font-weight: bold;
       @include transition(color 0.75s ease);
 
       &:hover, &:focus {
         text-decoration: none;
-        color: $lightBlue;
+        color: white;
       }
     }
 
     .breadcrumb>.active {
       color: white;
+      font-weight: bold;
     }
 
     .panel-body {
@@ -451,9 +453,39 @@
       }
     }
 
-    .popover-info img {
-      width: 65%;
-      margin-top: 15px;
+    .popover-info {
+      img {
+        width: 65%;
+        margin-top: 25px;
+        margin-bottom: 15px;
+      }
+
+      h4 {
+        font-weight: bold;
+      }
+
+      i.fa-spin {
+        margin-top: 25px;
+        margin-bottom: 15px;
+        color: $lightBlue;
+      }
+
+      .driver-info {
+        background: $lightBlueTint;
+        padding: 10px;
+        border-radius: 4px;
+        border: 1px solid $lightBlue;
+        margin-top: 25px;
+
+        p {
+          margin: 0;
+
+          strong {
+            color: $darkBlue;
+            padding-right: 5px;
+          }
+        }
+      }
     }
   }
 

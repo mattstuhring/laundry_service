@@ -199,7 +199,7 @@ export class Login extends React.Component {
                               />
                             </InputGroup>
                             <div className="text-right">
-                              <Link to="/forgotPassword">Forgot password?</Link>
+                              <Link to="/forgotPassword"><p><small><em>Forgot password?</em></small></p></Link>
                             </div>
                           </FormGroup>
                           <div className="row btn-actions">

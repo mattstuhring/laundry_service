@@ -1186,7 +1186,6 @@ class CustomerProfile extends React.Component {
               <div className="row">
                 <div className="col-sm-12 text-center">
                   <i className="fa fa-user-o" aria-hidden="true"></i>
-                  <p>{customerFirstName}</p>
                 </div>
               </div>
             </div>
@@ -1196,6 +1195,14 @@ class CustomerProfile extends React.Component {
 
           <div className="row welcome-customer">
             <div className="col-sm-12 welcome-customer-wrapper">
+              <div className="row">
+                <div className="col-sm-10 col-sm-offset-1">
+                  <div className="page-header">
+                    <h2>Welcome, <small><em>{customerFirstName}</em></small></h2>
+                  </div>
+                </div>
+              </div>
+
 
               <div className="row welcome-order-form">
                 <div className="col-sm-10 col-sm-offset-1">
@@ -1254,7 +1261,7 @@ class CustomerProfile extends React.Component {
 
                                     <div className="row">
                                       <div className="col-sm-12 popover-info text-center">
-                                        <i className="fa fa-spinner fa-spin fa-3x fa-fw"></i>
+                                        <i className="fa fa-spinner fa-spin fa-5x fa-fw"></i>
                                         <span className="sr-only">IN PROGRESS...</span>
                                         <h4>IN PROGRESS...</h4>
                                         <p>Please kindly wait, we are processing your order.</p>
@@ -1284,7 +1291,14 @@ class CustomerProfile extends React.Component {
                                     <div className="col-sm-12 popover-info text-center">
                                       <Image src="images/driver.svg"/>
                                       <h4>PICK-UP IN ROUTE!</h4>
-                                      <p>Our driver is in route to your pick-up location.</p>
+                                      <p><em>Our driver is in route to your pick-up location.</em></p>
+
+                                      <div className="row driver-info">
+                                        <div className="col-sm-10 col-sm-offset-1">
+                                          <p><strong>Driver: </strong>{ q.first_name}</p>
+                                          <p><strong>Contact: </strong> {q.phone_number}</p>
+                                        </div>
+                                      </div>
 
                                       {/* Pick-up in route! */}
                                       {/* q.first_name, q.phone_number */}
@@ -1306,12 +1320,10 @@ class CustomerProfile extends React.Component {
                                     </ProgressBar>
                                     <div className="row">
                                       <div className="col-sm-12 popover-info text-center">
-                                        <i className="fa fa-spinner fa-spin fa-3x fa-fw"></i>
+                                        <i className="fa fa-spinner fa-spin fa-5x fa-fw"></i>
                                         <span className="sr-only">IN PROGRESS...</span>
                                         <h4>LOCATING CLEANING TECH...</h4>
-                                        <p>Please kindly wait, we are assigning a cleaning technician.</p>
-
-                                        {/* Locating cleaning tech */}
+                                        <p><em>Please kindly wait, we are assigning a cleaning technician.</em></p>
                                       </div>
                                     </div>
                                   </div>
@@ -1348,7 +1360,7 @@ class CustomerProfile extends React.Component {
                                     </ProgressBar>
                                     <div className="row">
                                       <div className="col-sm-12 popover-info text-center">
-                                        <i className="fa fa-spinner fa-spin fa-3x fa-fw"></i>
+                                        <i className="fa fa-spinner fa-spin fa-5x fa-fw"></i>
                                         <span className="sr-only">IN PROGRESS...</span>
                                         <h4>LOCATING DRIVER...</h4>
                                         {/* . . . Locating driver */}

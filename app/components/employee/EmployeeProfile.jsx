@@ -192,7 +192,7 @@ class EmployeeProfile extends React.Component {
       showModal: true,
       modal: {
         title: 'Job:',
-        message: 'Do you accept the order(s)?',
+        message: 'Do you accept the job(s)?',
         action: this.handleActive
       }
     });
@@ -216,7 +216,7 @@ class EmployeeProfile extends React.Component {
       showModal: true,
       modal: {
         title: 'Job:',
-        message: 'Whoops! Put order back into the queue?',
+        message: 'Whoops! Put order back into the laundry queue?',
         action: this.handleStepBack
       }
     });
