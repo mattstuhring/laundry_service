@@ -1,0 +1,116 @@
+.admin-container {
+  background-color: white;
+  border: 1px solid #ccc;
+  padding-bottom: 150px;
+  padding-left: 15px;
+  padding-right: 15px;
+  padding-top: 40px;
+
+
+
+
+  // .custom-divider {
+  //   .col-sm-12 {
+  //     padding: 6px;
+  //   }
+  //
+  //   hr {
+  //     border-top: 2px dotted $darkBlue;
+  //   }
+  // }
+
+
+
+
+  .profile-header {
+    .page-header {
+      padding-bottom: 9px;
+      margin: 20px 0 30px;
+      border-bottom: 2px dotted $darkBlue;
+      color: #2b5580;
+
+      h1 {
+        font-weight: bold;
+        font-size: 50px;
+      }
+    }
+
+    i.fa {
+      font-size: 15rem;
+      color: $darkBlue;
+      padding: 20px;
+      display: inline-block;
+      -moz-border-radius: 50%;
+      -webkit-border-radius: 50%;
+      border-radius: 50%;
+      -moz-box-shadow: 0px 0px 3px $lightBlue;
+      -webkit-box-shadow: 0px 0px 3px $lightBlue;
+      box-shadow: 0px 0px 3px $lightBlue;
+      background-color: rgba(79,213,248,0.2);
+      border: 1px solid $lightBlue;
+    }
+  }
+
+
+
+
+
+
+  .orders-btn {
+    margin-bottom: 30px;
+    
+    .btn-default {
+      background-color: $lightBlue;
+      color: $darkBlue;
+      width: 100%;
+      height: 200px;
+      font-weight: bold;
+      font-size: 24px;
+      border: 2px solid $darkBlue;
+      font-size: 24px;
+      box-shadow: 0px 0px 5px $darkBlue;
+      -moz-box-shadow: 0px 0px 3px $darkBlue;
+      -webkit-box-shadow: 0px 0px 3px $darkBlue;
+      @include transition(background-color 0.75s ease, color 0.75s ease);
+
+      &:hover, &:focus {
+        color: white;
+        background-color: #47bfdf;
+      }
+    }
+
+    i.fa {
+      font-size: 80px;
+      margin-bottom: 8px;
+    }
+  }
+
+  .users-btn {
+    .btn-default {
+      background-color: $amber;
+      color: $darkBlue;
+      width: 100%;
+      height: 200px;
+      font-weight: bold;
+      font-size: 24px;
+      border: 2px solid $darkBlue;
+      font-size: 24px;
+      box-shadow: 0px 0px 5px $darkBlue;
+      -moz-box-shadow: 0px 0px 3px $darkBlue;
+      -webkit-box-shadow: 0px 0px 3px $darkBlue;
+      @include transition(background-color 0.75s ease, color 0.75s ease);
+
+
+      &:hover, &:focus {
+        color: white;
+        background-color: #e29709;
+      }
+    }
+
+    i.fa {
+      font-size: 80px;
+      margin-bottom: 8px;
+    }
+  }
+
+}

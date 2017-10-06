@@ -384,7 +384,7 @@ class AdminUsers extends React.Component {
               <div className="row">
                 <div className="col-sm-12 text-center">
                   <div className="page-header">
-                    <h1>Admin<small><em> - Manage All Users</em></small></h1>
+                    <h1>ADMIN<small><em> - Manage All Users</em></small></h1>
                   </div>
                 </div>
               </div>
