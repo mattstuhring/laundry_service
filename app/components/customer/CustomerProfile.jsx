@@ -1085,7 +1085,7 @@ class CustomerProfile extends React.Component {
                         <div className="row order-total">
                           <div className="col-sm-12 text-center">
                             <strong>
-                              <h4>Total: ${this.state.orderTotalCost}</h4>
+                              <h4><strong>Total: </strong> ${this.state.orderTotalCost}</h4>
                             </strong>
                           </div>
                         </div>
