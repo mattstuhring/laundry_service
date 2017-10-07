@@ -830,7 +830,7 @@ class CustomerProfile extends React.Component {
                     <p>STEP 3</p>
                   </div>
                   <div className="col-sm-8 text-center question">
-                    <p><em>Any special instructions?</em></p>
+                    <p><em>Instructions<small> - optional</small></em></p>
                   </div>
                 </div>
               </div>
@@ -1179,7 +1179,7 @@ class CustomerProfile extends React.Component {
               <div className="row">
                 <div className="col-sm-12 text-center">
                   <div className="page-header">
-                    <h1>PROFILE</h1>
+                    <h1>ACCOUNT</h1>
                   </div>
                 </div>
               </div>
