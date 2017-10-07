@@ -167,41 +167,44 @@ export class Login extends React.Component {
                 <Tabs defaultActiveKey={1} activeKey={this.state.key} onSelect={this.handleSelect} id="loginTabs">
                   <Tab eventKey={1} title="LOG IN">
                     <div className="row">
-                      <div className="col-sm-10 col-sm-offset-1">
+                      <div className="col-sm-12">
                         <form onSubmit={this.handleLogin.bind(this)}>
-                          <FormGroup controlId="email">
-                            <InputGroup>
-                              <InputGroup.Addon>
-                                <span className="glyphicon glyphicon-envelope" aria-hidden="true"></span>
-                              </InputGroup.Addon>
-                              <FormControl
-                                type="text"
-                                bsSize="large"
-                                placeholder="Email"
-                                name="email"
-                                value={this.state.email}
-                                onChange={this.handleChange.bind(this)}
-                              />
-                            </InputGroup>
-                          </FormGroup>
-                          <FormGroup controlId="user">
-                            <InputGroup>
-                              <InputGroup.Addon>
-                                <span className="glyphicon glyphicon-lock" aria-hidden="true"></span>
-                              </InputGroup.Addon>
-                              <FormControl
-                                type="password"
-                                bsSize="large"
-                                placeholder="Password"
-                                name="password"
-                                value={this.state.password}
-                                onChange={this.handleChange.bind(this)}
-                              />
-                            </InputGroup>
-                            <div className="text-right">
-                              <Link to="/forgotPassword"><p><small><em>Forgot password?</em></small></p></Link>
-                            </div>
-                          </FormGroup>
+                          <div className="login-form-wrapper">
+                            <FormGroup controlId="email">
+                              <InputGroup>
+                                <InputGroup.Addon>
+                                  <span className="glyphicon glyphicon-envelope" aria-hidden="true"></span>
+                                </InputGroup.Addon>
+                                <FormControl
+                                  type="text"
+                                  bsSize="large"
+                                  placeholder="Email"
+                                  name="email"
+                                  value={this.state.email}
+                                  onChange={this.handleChange.bind(this)}
+                                />
+                              </InputGroup>
+                            </FormGroup>
+                            <FormGroup controlId="user">
+                              <InputGroup>
+                                <InputGroup.Addon>
+                                  <span className="glyphicon glyphicon-lock" aria-hidden="true"></span>
+                                </InputGroup.Addon>
+                                <FormControl
+                                  type="password"
+                                  bsSize="large"
+                                  placeholder="Password"
+                                  name="password"
+                                  value={this.state.password}
+                                  onChange={this.handleChange.bind(this)}
+                                />
+                              </InputGroup>
+                              <div className="text-right">
+                                <Link to="/forgotPassword"><p><small><em>Forgot password?</em></small></p></Link>
+                              </div>
+                            </FormGroup>
+                          </div>
+
                           <div className="row btn-actions">
                             <div className="col-sm-12 text-center">
                               <Button
@@ -236,7 +239,7 @@ export class Login extends React.Component {
                   {/* SIGN UP */}
                   <Tab eventKey={2} title="SIGN UP">
                     <div className="row">
-                      <div className="col-sm-10 col-sm-offset-1">
+                      <div className="col-sm-12">
                         <form onSubmit={this.handleSubmit.bind(this)}>
                           <div className="row">
                             <div className="col-sm-6">

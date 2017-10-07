@@ -208,21 +208,21 @@ class AdminUsers extends React.Component {
     return (
       <div>
         <Button
-          bsStyle="warning"
-          bsSize="small"
-          onClick={() => this.openAccess()}
-        >
-          <span className="glyphicon glyphicon-lock" aria-hidden="true"></span>
-          {' '}Access
-        </Button>
-        {' '}
-        <Button
           bsStyle="danger"
           bsSize="small"
           onClick={() => this.openRemoveUser('customer')}
         >
           <span className="glyphicon glyphicon-remove" aria-hidden="true"></span>
           {' '}Delete User
+        </Button>
+        {' '}
+        <Button
+          bsStyle="warning"
+          bsSize="small"
+          onClick={() => this.openAccess()}
+        >
+          <span className="glyphicon glyphicon-lock" aria-hidden="true"></span>
+          {' '}Access
         </Button>
       </div>
     );

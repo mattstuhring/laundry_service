@@ -58,8 +58,9 @@
 
   .orders-btn {
     margin-bottom: 30px;
-    
+
     .btn-default {
+      border-radius: 20px;
       background-color: $lightBlue;
       color: $darkBlue;
       width: 100%;
@@ -87,6 +88,7 @@
 
   .users-btn {
     .btn-default {
+      border-radius: 20px;
       background-color: $amber;
       color: $darkBlue;
       width: 100%;
