@@ -129,7 +129,6 @@ class CustomerProfile extends React.Component {
     this.setState({ orderPickupTime: time });
   }
 
-
   handleSelect(key) {
     this.setState({ key });
   }
@@ -228,60 +227,49 @@ class CustomerProfile extends React.Component {
 
 
 
+
+
+
+
+
+
+
+
+
+
       if (orderPickupTime !== '') {
-        // // get moments
-        // let scheduleTime = moment(this.state.orderPickupTime, 'hh:mm A');
-        // let now = moment();
-        // scheduleTime = moment(scheduleTime).format('hh:mm A');
-        // now = moment(now).format('hh:mm A');
-        // let lastCall = moment('05:01 PM', 'hh:mm A');
-        // lastCall = moment(lastCall).format('hh:mm A');
-
-
         // get moments
-        let future = moment(this.state.orderPickupTime, 'hh:mm A');
+        let selectedTime = moment(this.state.orderPickupTime, 'hh:mm A');
         const now = moment().format('hh:mm A');
-        const end = moment(future, "hh:mm A");
-        const scheduleTime = moment(end).format('hh:mm A');
-        const start = moment(now, "hh:mm A");
-        let lastCall = moment('05:01 PM', 'hh:mm A');
+        const current = moment(now, "hh:mm A");
+        const formatSelectedTime = moment(selectedTime).format('hh:mm A');
+        const lastCall = moment('05:00 PM', 'hh:mm A');
 
-        // if "now" time is a 30min passed 05:01 PM
-        // set order pick-up date to tomorrows date
-        let diffLastNow = lastCall.diff(start);
+        const dur = moment.duration(current.diff(lastCall)).asMilliseconds();
+        const mins = dur / 60000;
+        console.log(mins, '********* mins current last call');
 
+        // calculate mins between selected time and current time
+        const d = moment.duration(selectedTime.diff(current)).asMilliseconds();
+        const min = d / 60000;
+        console.log(min, '************* selected time current');
 
-        console.log(now, '****************** now');
-        console.log(diffLastNow, '******************** dif last call');
-        console.log(scheduleTime, '************** scheduleTime')
+        // if current time > lastCall
+        if (mins < 0) {
 
-
-        // if passed 05:01 PM
-        if (diffLastNow < 0) {
-          // today
-          const today = moment();
-
-          // tomorrow
-          let tomorrow = today.add('days', 1);
-
-          // tomorrow formatted
-          tomorrow = moment(tomorrow).format('MM-DD-YYYY');
-          console.log(tomorrow, '************* tomorrow');
-
-          this.setState({ orderPickupDate: tomorrow, orderPickupTime: scheduleTime});
-        } else {
-          // calculate the duration
-          const d = moment.duration(future.diff(now)).asMilliseconds();
-
-          // convert milliseconds to minutes
-          const min = d / 60000;
-
+          // selected time must be 30 mins > the current time
           if (min < 30) {
             this.props.setToast('Please choose a later pick-up time.', {type: 'error'});
             return;
           }
+
+          this.setState({ orderPickupTime: formatSelectedTime});
         }
+      } else {
+        this.setState({ orderPickupDate: formatSelectedTime });
       }
+
+
 
       if (customerAddress === '' || customerPhoneNumber === '' || orderPickupTime === '') {
         this.props.setToast('Please check the form & try agian.', {type: 'error'});
@@ -291,6 +279,15 @@ class CustomerProfile extends React.Component {
       this.setState({formKey: key, activeServices: false, activeInfo: false, activePayment: true});
     }
   }
+
+
+
+
+
+
+
+
+
 
 
 
@@ -596,7 +593,7 @@ class CustomerProfile extends React.Component {
       const start = moment(now, "hh:mm A");
       let lastCall = moment('05:01 PM', 'hh:mm A');
 
-      // if "now" time is a 30min passed 05:01 PM
+      // if current time is passed 05:01 PM
       // set order pick-up date to tomorrows date
       let time = lastCall.diff(start);
 
