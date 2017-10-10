@@ -63,77 +63,89 @@ export class ResetPassword extends React.Component {
 
   render() {
     return (
-      <div className="row user-login">
-        <div className="col-sm-6 col-sm-offset-3">
-          <Panel>
-            <div className="row">
-              <div className="col-sm-12 text-center">
-                <PageHeader>Reset Password</PageHeader>
-              </div>
-            </div>
-            <div className="row">
-              <div className="col-sm-8 col-sm-offset-2">
-                <form onSubmit={this.handleSubmit.bind(this)}>
-                  <FormGroup controlId="user" validationState={this.getPasswordValidationState()}>
-                    <InputGroup>
-                      <InputGroup.Addon>
-                        <span className="glyphicon glyphicon-lock" aria-hidden="true"></span>
-                      </InputGroup.Addon>
-                      <FormControl
-                        type="password"
-                        bsSize="large"
-                        placeholder="Password"
-                        name="password"
-                        value={this.state.password}
-                        onChange={this.handleChange.bind(this)}
-                      />
-                    </InputGroup>
-                  </FormGroup>
+      <div className="row reset-password">
+        <div className="col-xs-12 col-sm-10 col-sm-offset-1">
 
-
-                  <FormGroup controlId="user" validationState={this.getValidationState()}>
-                    <InputGroup>
-                      <InputGroup.Addon>
-                        <span className="glyphicon glyphicon-lock" aria-hidden="true"></span>
-                      </InputGroup.Addon>
-                      <FormControl
-                        type="password"
-                        bsSize="large"
-                        placeholder="Retype password"
-                        name="passwordCheck"
-                        value={this.state.passwordCheck}
-                        onChange={this.handleChange.bind(this)}
-                      />
-                      <FormControl.Feedback />
-                    </InputGroup>
-                    <HelpBlock>Passwords must match</HelpBlock>
-                  </FormGroup>
-
-                  <div className="row btn-actions">
-                    <div className="col-sm-6">
-                      <Button
-                        bsStyle="primary"
-                        type="submit"
-                        block
-                      >
-                        Send
-                      </Button>
-                    </div>
-                    <div className="col-sm-6">
-                      <Button
-                        bsStyle="primary"
-                        type="button"
-                        onClick={() => browserHistory.push('/login')}
-                        block
-                      >
-                        Cancel
-                      </Button>
-                    </div>
+          <div className="row reset-header">
+            <div className="col-sm-8 col-sm-offset-2">
+              <div className="row">
+                <div className="col-sm-12 text-center">
+                  <div className="page-header">
+                    <h1>PASSWORD <small><em>- Reset!</em></small></h1>
                   </div>
-                </form>
+                </div>
+              </div>
+              <div className="row">
+                <div className="col-sm-12 text-center">
+                  <i className="fa fa-lock" aria-hidden="true"></i>
+                </div>
               </div>
             </div>
-          </Panel>
+          </div>
+
+
+          <div className="row">
+            <div className="col-xs-10 col-xs-offset-1 col-sm-6 col-sm-offset-3">
+              <form onSubmit={this.handleSubmit.bind(this)}>
+                <FormGroup controlId="user" validationState={this.getPasswordValidationState()}>
+                  <InputGroup>
+                    <InputGroup.Addon>
+                      <span className="glyphicon glyphicon-lock" aria-hidden="true"></span>
+                    </InputGroup.Addon>
+                    <FormControl
+                      type="password"
+                      bsSize="large"
+                      placeholder="Password"
+                      name="password"
+                      value={this.state.password}
+                      onChange={this.handleChange.bind(this)}
+                    />
+                  </InputGroup>
+                </FormGroup>
+
+
+                <FormGroup controlId="user" validationState={this.getValidationState()}>
+                  <InputGroup>
+                    <InputGroup.Addon>
+                      <span className="glyphicon glyphicon-lock" aria-hidden="true"></span>
+                    </InputGroup.Addon>
+                    <FormControl
+                      type="password"
+                      bsSize="large"
+                      placeholder="Re-type password"
+                      name="passwordCheck"
+                      value={this.state.passwordCheck}
+                      onChange={this.handleChange.bind(this)}
+                    />
+                    <FormControl.Feedback />
+                  </InputGroup>
+                  <HelpBlock><small><em>* Passwords must match</em></small></HelpBlock>
+                </FormGroup>
+
+                <div className="row btn-actions">
+                  <div className="col-xs-6 col-sm-6">
+                    <Button
+                      bsStyle="primary"
+                      type="submit"
+                      block
+                    >
+                      SUBMIT
+                    </Button>
+                  </div>
+                  <div className="col-xs-6 col-sm-6">
+                    <Button
+                      bsStyle="primary"
+                      type="button"
+                      onClick={() => browserHistory.push('/login')}
+                      block
+                    >
+                      CANCEL
+                    </Button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
         </div>
       </div>
     )

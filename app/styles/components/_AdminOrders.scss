@@ -70,6 +70,7 @@
       a.page-link {
         background-color: $darkBlue;
         border-color: $darkBlue;
+        z-index: 1;
       }
 
       button.btn.btn-link {
@@ -112,7 +113,7 @@
         .react-bs-table-search-clear-btn {
           background-color: $darkBlue;
           color: white;
-          z-index: 0;
+          z-index: 1;
         }
       }
 
@@ -170,6 +171,7 @@
       button.btn.btn-link {
         text-decoration: none;
         color: $amber;
+        z-index: 1;
         @include transition(color 0.5s ease);
 
         &:hover, &:focus {
@@ -278,6 +280,7 @@
             .react-bs-table-search-clear-btn {
               background-color: $amber;
               color: white;
+              z-index: 1;
             }
           }
 
@@ -308,6 +311,7 @@
             .react-bs-table-search-clear-btn {
               background-color: $lightBlue;
               color: white;
+              z-index: 1;
             }
           }
 

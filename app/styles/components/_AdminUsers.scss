@@ -1,212 +1,257 @@
-.admin-users {
-  padding-bottom: 150px;
-  padding-top: 40px;
+@media only screen and (max-width : 480px) {
+  .admin-users {
+    padding-bottom: 150px;
+    padding-top: 40px;
+    background-color: white;
+    border: 1px solid #ccc;
 
 
-  .profile-header {
-    .page-header {
-      padding-bottom: 9px;
-      margin: 20px 0 30px;
-      border-bottom: 2px dotted $darkBlue;
-      color: #2b5580;
+    .profile-header {
+      .page-header {
+        padding-bottom: 9px;
+        margin: 20px 0 30px;
+        border-bottom: 2px dotted $darkBlue;
+        color: #2b5580;
 
-      h1 {
-        font-weight: bold;
-        font-size: 50px;
+        h1 {
+          font-weight: bold;
+          font-size: 37px;
+        }
       }
-    }
 
-    i.fa {
-      font-size: 13rem;
-      color: $darkBlue;
-      padding: 28px 28px;
-      display: inline-block;
-      -moz-border-radius: 50%;
-      -webkit-border-radius: 50%;
-      border-radius: 50%;
-      -moz-box-shadow: 0px 0px 3px $lightBlue;
-      -webkit-box-shadow: 0px 0px 3px $lightBlue;
-      box-shadow: 0px 0px 3px $lightBlue;
-      background-color: rgba(79,213,248,0.2);
-      border: 1px solid $lightBlue;
-    }
-  }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  .employee {
-    .expand-row {
-      padding: 10px;
-
-      th {
-        background-color: $lightBlue;
-        text-transform: capitalize;
-      }
-    }
-
-    input.form-control.my-custom-class {
-      width: 50%;
-      margin-left: 50%;
-    }
-
-    a.page-link {
-      background-color: $lightBlue;
-      border-color: $lightBlue;
-    }
-
-    button.btn.btn-link {
-      text-decoration: none;
-      @include transition(color 0.5s ease);
-
-      &:hover, &:focus {
+      i.fa {
+        font-size: 13rem;
         color: $darkBlue;
+        padding: 28px 28px;
+        display: inline-block;
+        -moz-border-radius: 50%;
+        -webkit-border-radius: 50%;
+        border-radius: 50%;
+        -moz-box-shadow: 0px 0px 3px $lightBlue;
+        -webkit-box-shadow: 0px 0px 3px $lightBlue;
+        box-shadow: 0px 0px 3px $lightBlue;
+        background-color: rgba(79,213,248,0.2);
+        border: 1px solid $lightBlue;
+      }
+    }
+
+
+
+
+
+
+    .employee {
+      .expand-row {
+        padding: 10px;
+
+        th {
+          background-color: $lightBlue;
+          text-transform: capitalize;
+        }
+      }
+
+      input.form-control.my-custom-class {
+        width: 50%;
+        margin-left: 50%;
+      }
+
+      a.page-link {
+        background-color: $lightBlue;
+        border-color: $lightBlue;
+        z-index: 1;
+      }
+
+      button.btn.btn-link {
+        text-decoration: none;
+        @include transition(color 0.5s ease);
+
+        &:hover, &:focus {
+          color: $darkBlue;
+          font-weight: bold;
+        }
+      }
+
+      .panel-primary {
+        border: 1px solid $lightBlue;
+        -moz-box-shadow: 0px 0px 3px $lightBlue;
+        -webkit-box-shadow: 0px 0px 3px $lightBlue;
+        box-shadow: 0px 0px 3px $lightBlue;
+        margin-bottom: 40px;
+      }
+
+      .panel-heading {
+        background-color: $lightBlue;
+        border-color: $lightBlue;
         font-weight: bold;
       }
-    }
 
-    .panel-primary {
-      border: 1px solid $lightBlue;
-      -moz-box-shadow: 0px 0px 3px $lightBlue;
-      -webkit-box-shadow: 0px 0px 3px $lightBlue;
-      box-shadow: 0px 0px 3px $lightBlue;
-      margin-bottom: 40px;
-    }
+      .panel-body {
+        background-color: $lightBlueTint;
+        padding: 15px;
+      }
 
-    .panel-heading {
-      background-color: $lightBlue;
-      border-color: $lightBlue;
-      font-weight: bold;
-    }
+      .btn.btn-link {
+        padding: 0px 12px;
+      }
 
-    .panel-body {
-      background-color: $lightBlueTint;
-      padding: 30px;
-    }
-
-    .btn.btn-link {
-      padding: 0px 12px;
-    }
-
-    .react-bs-table-tool-bar {
-      padding: 14px;
-      background-color: $lightGrey;
+      .react-bs-table-tool-bar {
+        padding: 14px;
+        background-color: $lightGrey;
 
 
-      .react-bs-table-search-clear-btn {
-        background-color: $lightBlue;
-        color: white;
-        z-index: 0;
+        .react-bs-table-search-clear-btn {
+          background-color: $lightBlue;
+          color: white;
+          z-index: 1;
+        }
+      }
+
+      .react-bs-table-container {
+        background-color: white;
+        border-radius: 4px;
+        border: 1px solid $darkGrey;
+
+        .react-bs-table-pagination {
+          margin-left: 15px;
+          margin-right: 15px;
+        }
+      }
+
+      .react-bs-container-header {
+        .table>thead>tr>th {
+          font-size: 80%;
+        }
+      }
+
+      .react-bs-container-body {
+        .table>tbody>tr>td {
+          font-size: 80%;
+        }
+      }
+
+      .react-bs-table-search-form {
+        margin-bottom: 0px;
+
+        input.form-control.my-custom-class {
+          width: 100%;
+          margin-left: 0px;
+        }
       }
     }
 
-    .react-bs-table-container {
-      background-color: white;
-      border-radius: 4px;
-      border: 1px solid $darkGrey;
 
-      .react-bs-table-pagination {
-        margin-left: 15px;
-        margin-right: 15px;
+
+
+
+
+    .customer {
+      .expand-row {
+        padding: 10px;
+
+        th {
+          background-color: $lightBlue;
+          text-transform: capitalize;
+        }
       }
-    }
-  }
 
-
-
-
-
-
-
-
-
-  .customer {
-    .expand-row {
-      padding: 10px;
-
-      th {
-        background-color: $lightBlue;
-        text-transform: capitalize;
+      input.form-control.my-custom-class {
+        width: 50%;
+        margin-left: 50%;
       }
-    }
 
-    input.form-control.my-custom-class {
-      width: 50%;
-      margin-left: 50%;
-    }
-
-    a.page-link {
-      background-color: $amber;
-      border-color: $amber;
-    }
-
-    button.btn.btn-link {
-      text-decoration: none;
-      @include transition(color 0.5s ease);
-
-      &:hover, &:focus {
-        color: $darkBlue;
-        font-weight: bold;
-      }
-    }
-
-    .panel-primary {
-      border: 1px solid $amber;
-      -moz-box-shadow: 0px 0px 3px $amber;
-      -webkit-box-shadow: 0px 0px 3px $amber;
-      box-shadow: 0px 0px 3px $amber;
-      margin-bottom: 40px;
-    }
-
-    .panel-heading {
-      background-color: $amber;
-      border-color: $amber;
-      font-weight: bold;
-    }
-
-    .panel-body {
-      background-color: $amberTint;
-      padding: 30px;
-    }
-
-    .btn.btn-link {
-      padding: 0px 12px;
-    }
-
-    .react-bs-table-tool-bar {
-      padding: 14px;
-      background-color: $lightGrey;
-
-
-      .react-bs-table-search-clear-btn {
+      a.page-link {
         background-color: $amber;
-        color: white;
-        z-index: 0;
+        border-color: $amber;
+        z-index: 1;
+      }
+
+      button.btn.btn-link {
+        text-decoration: none;
+        @include transition(color 0.5s ease);
+
+        &:hover, &:focus {
+          color: $darkBlue;
+          font-weight: bold;
+        }
+      }
+
+      .panel-primary {
+        border: 1px solid $amber;
+        -moz-box-shadow: 0px 0px 3px $amber;
+        -webkit-box-shadow: 0px 0px 3px $amber;
+        box-shadow: 0px 0px 3px $amber;
+        margin-bottom: 40px;
+      }
+
+      .panel-heading {
+        background-color: $amber;
+        border-color: $amber;
+        font-weight: bold;
+      }
+
+      .panel-body {
+        background-color: $amberTint;
+        padding: 15px;
+      }
+
+      .btn.btn-link {
+        padding: 0px 12px;
+      }
+
+      .react-bs-table-tool-bar {
+        padding: 14px;
+        background-color: $lightGrey;
+
+        .btn-warning {
+          padding: 5px 25px;
+          margin-top: 5px;
+        }
+
+
+        .react-bs-table-search-clear-btn {
+          background-color: $amber;
+          color: white;
+          z-index: 1;
+        }
+      }
+
+      .react-bs-table-container {
+        background-color: white;
+        border-radius: 4px;
+        border: 1px solid $darkGrey;
+
+        .react-bs-table-pagination {
+          margin-left: 15px;
+          margin-right: 15px;
+        }
+      }
+
+      .react-bs-container-header {
+        .table>thead>tr>th {
+          font-size: 80%;
+        }
+      }
+
+      .react-bs-container-body {
+        .table>tbody>tr>td {
+          font-size: 80%;
+        }
+      }
+
+      .react-bs-table-search-form {
+        margin-bottom: 0px;
+
+        input.form-control.my-custom-class {
+          width: 100%;
+          margin-left: 0px;
+        }
       }
     }
 
-    .react-bs-table-container {
-      background-color: white;
-      border-radius: 4px;
-      border: 1px solid $darkGrey;
 
-      .react-bs-table-pagination {
-        margin-left: 15px;
-        margin-right: 15px;
-      }
-    }
+
   }
+}
 
 
 
@@ -216,4 +261,214 @@
 
 
 
+
+
+
+
+
+
+@media only screen and (min-width : 481px) {
+  .admin-users {
+    padding-bottom: 150px;
+    padding-top: 40px;
+    background-color: white;
+    border: 1px solid #ccc;
+
+
+    .profile-header {
+      .page-header {
+        padding-bottom: 9px;
+        margin: 20px 0 30px;
+        border-bottom: 2px dotted $darkBlue;
+        color: #2b5580;
+
+        h1 {
+          font-weight: bold;
+          font-size: 50px;
+        }
+      }
+
+      i.fa {
+        font-size: 13rem;
+        color: $darkBlue;
+        padding: 28px 28px;
+        display: inline-block;
+        -moz-border-radius: 50%;
+        -webkit-border-radius: 50%;
+        border-radius: 50%;
+        -moz-box-shadow: 0px 0px 3px $lightBlue;
+        -webkit-box-shadow: 0px 0px 3px $lightBlue;
+        box-shadow: 0px 0px 3px $lightBlue;
+        background-color: rgba(79,213,248,0.2);
+        border: 1px solid $lightBlue;
+      }
+    }
+
+
+
+
+
+
+    .employee {
+      .expand-row {
+        padding: 10px;
+
+        th {
+          background-color: $lightBlue;
+          text-transform: capitalize;
+        }
+      }
+
+      input.form-control.my-custom-class {
+        width: 50%;
+        margin-left: 50%;
+      }
+
+      a.page-link {
+        background-color: $lightBlue;
+        border-color: $lightBlue;
+      }
+
+      button.btn.btn-link {
+        text-decoration: none;
+        @include transition(color 0.5s ease);
+
+        &:hover, &:focus {
+          color: $darkBlue;
+          font-weight: bold;
+        }
+      }
+
+      .panel-primary {
+        border: 1px solid $lightBlue;
+        -moz-box-shadow: 0px 0px 3px $lightBlue;
+        -webkit-box-shadow: 0px 0px 3px $lightBlue;
+        box-shadow: 0px 0px 3px $lightBlue;
+        margin-bottom: 40px;
+      }
+
+      .panel-heading {
+        background-color: $lightBlue;
+        border-color: $lightBlue;
+        font-weight: bold;
+      }
+
+      .panel-body {
+        background-color: $lightBlueTint;
+        padding: 30px;
+      }
+
+      .btn.btn-link {
+        padding: 0px 12px;
+      }
+
+      .react-bs-table-tool-bar {
+        padding: 14px;
+        background-color: $lightGrey;
+
+
+        .react-bs-table-search-clear-btn {
+          background-color: $lightBlue;
+          color: white;
+          z-index: 0;
+        }
+      }
+
+      .react-bs-table-container {
+        background-color: white;
+        border-radius: 4px;
+        border: 1px solid $darkGrey;
+
+        .react-bs-table-pagination {
+          margin-left: 15px;
+          margin-right: 15px;
+        }
+      }
+    }
+
+
+
+
+
+
+    .customer {
+      .expand-row {
+        padding: 10px;
+
+        th {
+          background-color: $lightBlue;
+          text-transform: capitalize;
+        }
+      }
+
+      input.form-control.my-custom-class {
+        width: 50%;
+        margin-left: 50%;
+      }
+
+      a.page-link {
+        background-color: $amber;
+        border-color: $amber;
+      }
+
+      button.btn.btn-link {
+        text-decoration: none;
+        @include transition(color 0.5s ease);
+
+        &:hover, &:focus {
+          color: $darkBlue;
+          font-weight: bold;
+        }
+      }
+
+      .panel-primary {
+        border: 1px solid $amber;
+        -moz-box-shadow: 0px 0px 3px $amber;
+        -webkit-box-shadow: 0px 0px 3px $amber;
+        box-shadow: 0px 0px 3px $amber;
+        margin-bottom: 40px;
+      }
+
+      .panel-heading {
+        background-color: $amber;
+        border-color: $amber;
+        font-weight: bold;
+      }
+
+      .panel-body {
+        background-color: $amberTint;
+        padding: 30px;
+      }
+
+      .btn.btn-link {
+        padding: 0px 12px;
+      }
+
+      .react-bs-table-tool-bar {
+        padding: 14px;
+        background-color: $lightGrey;
+
+
+        .react-bs-table-search-clear-btn {
+          background-color: $amber;
+          color: white;
+          z-index: 0;
+        }
+      }
+
+      .react-bs-table-container {
+        background-color: white;
+        border-radius: 4px;
+        border: 1px solid $darkGrey;
+
+        .react-bs-table-pagination {
+          margin-left: 15px;
+          margin-right: 15px;
+        }
+      }
+    }
+
+
+
+  }
 }

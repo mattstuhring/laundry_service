@@ -21,6 +21,25 @@ body {
 
 
 
+.modal-content {
+  .modal-header {
+    background-color: $darkBlue;
+    color: white;
+
+    .close {
+      color: white;
+      opacity: 0.7;
+    }
+  }
+
+  .btn-primary {
+    background-color: $darkBlue;
+    color: white;
+  }
+}
+
+
+
 .main {
   height: 100%;
 

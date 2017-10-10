@@ -419,21 +419,28 @@ class AdminUsers extends React.Component {
                     >User#</TableHeaderColumn>
                     <TableHeaderColumn
                       dataField='first_name'
-                      // width='100px'
+                      dataAlign='center'
+                      width='90px'
                     >First</TableHeaderColumn>
                     <TableHeaderColumn
                       dataField='last_name'
+                      dataAlign='center'
+                      width="90px"
                     >Last</TableHeaderColumn>
                     <TableHeaderColumn
                       dataField='email'
-                      // width='60px'
+                      dataAlign='center'
+                      width='150px'
+                      tdStyle={ { whiteSpace: 'normal' } }
                     >Email</TableHeaderColumn>
                     <TableHeaderColumn
                       dataField='phone_number'
-                      // width='60px'
+                      dataAlign='center'
+                      width='110px'
                     >Contact</TableHeaderColumn>
                     <TableHeaderColumn
                       dataField='created_at'
+                      dataAlign='center'
                       dataFormat={ this.startDateFormatter }
                       width='100px'
                     >Date</TableHeaderColumn>
@@ -469,25 +476,34 @@ class AdminUsers extends React.Component {
                 >User#</TableHeaderColumn>
                 <TableHeaderColumn
                   dataField='first_name'
-                  // width='100px'
+                  dataAlign='center'
+                  width='90px'
                 >First</TableHeaderColumn>
                 <TableHeaderColumn
                   dataField='last_name'
+                  dataAlign='center'
+                  width="90px"
                 >Last</TableHeaderColumn>
                 <TableHeaderColumn
                   dataField='address'
-                  // width='60px'
+                  width='150px'
+                  dataAlign='center'
+                  tdStyle={ { whiteSpace: 'normal' } }
                 >Address</TableHeaderColumn>
                 <TableHeaderColumn
                   dataField='email'
-                  // width='60px'
+                  dataAlign='center'
+                  width='150px'
+                  tdStyle={ { whiteSpace: 'normal' } }
                 >Email</TableHeaderColumn>
                 <TableHeaderColumn
                   dataField='phone_number'
-                  // width='60px'
+                  dataAlign='center'
+                  width='110px'
                 >Contact</TableHeaderColumn>
                 <TableHeaderColumn
                   dataField='created_at'
+                  dataAlign='center'
                   dataFormat={ this.startDateFormatter }
                   width='100px'
                 >Date</TableHeaderColumn>

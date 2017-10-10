@@ -55,6 +55,21 @@ import { Button } from 'react-bootstrap';
 //   });
 // });
 
+$(document).ready(function() {
+  'use strict';
+
+  $(document).on('click.nav','.navbar-collapse.in',function(e) {
+    'use strict';
+    e.preventDefault();
+
+    if( $(e.target).is('a') && $(e.target).attr('class') != 'dropdown-toggle' ) {
+      $(this).removeClass('in').addClass('collapse');
+    } else if ( $(e.target).is('i.fa-users')) {
+      $(this).removeClass('in').addClass('collapse');
+    }
+  });
+});
+
 
 export default class Navigation extends React.Component {
   constructor(props) {
