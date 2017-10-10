@@ -1193,7 +1193,7 @@ class CustomerProfile extends React.Component {
 
 
           <div className="row welcome-customer">
-            <div className="col-sm-12 welcome-customer-wrapper">
+            <div className="col-xs-12 col-sm-12 welcome-customer-wrapper">
               <div className="row">
                 <div className="col-sm-10 col-sm-offset-1">
                   <div className="page-header">
@@ -1204,7 +1204,7 @@ class CustomerProfile extends React.Component {
 
 
               <div className="row welcome-order-form">
-                <div className="col-sm-10 col-sm-offset-1">
+                <div className="col-xs-12 col-sm-10 col-sm-offset-1">
                   <Tabs activeKey={this.state.key} onSelect={this.handleSelect} id="welcome-order-form">
 
 
@@ -1236,7 +1236,7 @@ class CustomerProfile extends React.Component {
                     {/* TAB 2 -> ORDER STATUS */}
                     <Tab eventKey={2} title="ORDER STATUS">
                       <div className="row">
-                        <div className="col-sm-12">
+                        <div className="col-sm-12 order-status-wrapper">
                           {/* SUCCESS PAYMENT ALERT */}
                           {alert()}
 
@@ -1249,13 +1249,12 @@ class CustomerProfile extends React.Component {
                             if (q.step === 'Queue') {
                               step = (
                                 <div className="row order-progress">
-                                  <div className="col-sm-10 col-sm-offset-1">
+                                  <div className="col-xs-10 col-xs-offset-1 col-sm-10 col-sm-offset-1">
 
                                     <ProgressBar>
-                                      <ProgressBar striped active now={10} key={1} label={'Queue'} onClick={this.handleClick} />
-                                      <ProgressBar bsStyle="info" striped active now={30} key={2} label={'Pick-up'}/>
-                                      <ProgressBar bsStyle="info" striped active now={30} key={3} label={'Cleaning'}/>
-                                      <ProgressBar bsStyle="info" striped active now={30} key={4} label={'Drop-off'} />
+                                      <ProgressBar bsStyle="info" striped active now={33} key={1} label={'Pick-up'}/>
+                                      <ProgressBar bsStyle="info" striped active now={34} key={2} label={'Cleaning'}/>
+                                      <ProgressBar bsStyle="info" striped active now={33} key={3} label={'Drop-off'} />
                                     </ProgressBar>
 
                                     <div className="row">
@@ -1274,12 +1273,11 @@ class CustomerProfile extends React.Component {
                                 </div>);
                             } else if (q.step === 'Pick-up') {
                               step = <div className="row order-progress">
-                                <div className="col-sm-10 col-sm-offset-1">
+                                <div className="col-xs-10 col-xs-offset-1 col-sm-10 col-sm-offset-1">
                                   <ProgressBar>
-                                    <ProgressBar striped active now={10} key={1} label={'Queue'} />
-                                    <ProgressBar striped active now={30} key={2} label={'Pick-up'}/>
-                                    <ProgressBar bsStyle="info" striped active now={30} key={3} label={'Cleaning'}/>
-                                    <ProgressBar bsStyle="info" striped active now={30} key={4} label={'Drop-off'} />
+                                    <ProgressBar striped active now={33} key={1} label={'Pick-up'}/>
+                                    <ProgressBar bsStyle="info" striped active now={34} key={2} label={'Cleaning'}/>
+                                    <ProgressBar bsStyle="info" striped active now={33} key={3} label={'Drop-off'} />
                                   </ProgressBar>
 
 
@@ -1305,12 +1303,11 @@ class CustomerProfile extends React.Component {
 
                               if (q.wash_dry === null) {
                                 step = <div className="row order-progress">
-                                  <div className="col-sm-10 col-sm-offset-1">
+                                  <div className="col-xs-10 col-xs-offset-1 col-sm-10 col-sm-offset-1">
                                     <ProgressBar>
-                                      <ProgressBar striped active now={10} key={1} label={'Queue'} />
-                                      <ProgressBar striped active now={30} key={2} label={'Pick-up'}/>
-                                      <ProgressBar striped active now={30} key={3} label={'Cleaning'}/>
-                                      <ProgressBar bsStyle="info" striped active now={30} key={4} label={'Drop-off'} />
+                                      <ProgressBar striped active now={33} key={1} label={'Pick-up'}/>
+                                      <ProgressBar striped active now={34} key={2} label={'Cleaning'}/>
+                                      <ProgressBar bsStyle="info" striped active now={33} key={3} label={'Drop-off'} />
                                     </ProgressBar>
                                     <div className="row">
                                       <div className="col-sm-12 popover-info text-center">
@@ -1324,12 +1321,11 @@ class CustomerProfile extends React.Component {
                                 </div>;
                               } else {
                                 step = <div className="row order-progress">
-                                  <div className="col-sm-10 col-sm-offset-1">
+                                  <div className="col-xs-10 col-xs-offset-1 col-sm-10 col-sm-offset-1">
                                     <ProgressBar>
-                                      <ProgressBar striped active now={10} key={1} label={'Queue'} />
-                                      <ProgressBar striped active now={30} key={2} label={'Pick-up'}/>
-                                      <ProgressBar striped active now={30} key={3} label={'Cleaning'}/>
-                                      <ProgressBar bsStyle="info" striped active now={30} key={4} label={'Drop-off'} />
+                                      <ProgressBar striped active now={33} key={1} label={'Pick-up'}/>
+                                      <ProgressBar striped active now={34} key={2} label={'Cleaning'}/>
+                                      <ProgressBar bsStyle="info" striped active now={33} key={3} label={'Drop-off'} />
                                     </ProgressBar>
                                     <div className="row">
                                       <div className="col-sm-12 popover-info text-center">
@@ -1349,12 +1345,11 @@ class CustomerProfile extends React.Component {
                             } else if (q.step === 'Drop-off') {
                               if (q.dropoff === null) {
                                 step = <div className="row order-progress">
-                                  <div className="col-sm-10 col-sm-offset-1">
+                                  <div className="col-xs-10 col-xs-offset-1 col-sm-10 col-sm-offset-1">
                                     <ProgressBar>
-                                      <ProgressBar striped active now={10} key={1} label={'Queue'} />
-                                      <ProgressBar striped active now={30} key={2} label={'Pick-up'}/>
-                                      <ProgressBar striped active now={30} key={3} label={'Cleaning'}/>
-                                      <ProgressBar striped active now={30} key={4} label={'Drop-off'} />
+                                      <ProgressBar striped active now={33} key={1} label={'Pick-up'}/>
+                                      <ProgressBar striped active now={34} key={2} label={'Cleaning'}/>
+                                      <ProgressBar striped active now={33} key={3} label={'Drop-off'} />
                                     </ProgressBar>
                                     <div className="row">
                                       <div className="col-sm-12 popover-info text-center">
@@ -1368,12 +1363,11 @@ class CustomerProfile extends React.Component {
                                 </div>;
                               } else {
                                 step = <div className="row order-progress">
-                                  <div className="col-sm-10 col-sm-offset-1">
+                                  <div className="col-xs-10 col-xs-offset-1 col-sm-10 col-sm-offset-1">
                                     <ProgressBar>
-                                      <ProgressBar striped active now={10} key={1} label={'Queue'} />
-                                      <ProgressBar striped active now={30} key={2} label={'Pick-up'}/>
-                                      <ProgressBar striped active now={30} key={3} label={'Cleaning'}/>
-                                      <ProgressBar striped active now={30} key={4} label={'Drop-off'} />
+                                      <ProgressBar striped active now={33} key={1} label={'Pick-up'}/>
+                                      <ProgressBar striped active now={34} key={2} label={'Cleaning'}/>
+                                      <ProgressBar striped active now={33} key={3} label={'Drop-off'} />
                                     </ProgressBar>
                                     <div className="row">
                                       <div className="col-sm-12 popover-info text-center">
@@ -1395,7 +1389,7 @@ class CustomerProfile extends React.Component {
                             return <div key={q.id} className="order-status">
                               <Panel header={`ORDER: #${q.id}`}>
                                 <div className="row">
-                                  <div className="col-sm-10 col-sm-offset-1">
+                                  <div className="col-xs-10 col-xs-offset-1  col-sm-10 col-sm-offset-1">
                                     <div className="page-header">
                                       <h5>{startDate}</h5>
                                     </div>
@@ -1414,10 +1408,10 @@ class CustomerProfile extends React.Component {
                     {/* TAB 3 -> COMPLETED ORDERS */}
                     <Tab eventKey={3} title="COMPLETED ORDERS">
                       <div className="row">
-                        <div className="col-sm-12 completed-orders">
+                        <div className="col-xs-12 col-sm-12 completed-orders">
                           <Panel header="COMPLETED ORDERS">
                             <div className="row">
-                              <div className="col-sm-10 col-sm-offset-1">
+                              <div className="col-xs-12 col-sm-10 col-sm-offset-1">
                                 {/* COMPLETE TABLE */}
                                 <div className="complete-table">
                                   <BootstrapTable ref="completeTable" hover
