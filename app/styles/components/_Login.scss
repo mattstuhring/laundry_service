@@ -96,7 +96,6 @@
       border-radius: 0px 4px 4px 4px;
 
       #loginTabs-pane-1 {
-        padding: 30px;
         background-color: $lightBlueTint;
         border: 1px solid $lightBlue;
         -moz-box-shadow: 0px 0px 5px $lightBlue;
@@ -134,7 +133,6 @@
       }
 
       #loginTabs-pane-2 {
-        padding: 30px;
         background-color: $beige;
         border: 1px solid $amber;
         -moz-box-shadow: 0px 0px 5px $amber;
@@ -181,19 +179,7 @@
 
 
 
-/* Custom, iPhone Retina */
- @media only screen and (max-width : 320px) {
-   .login-header {
-     img {
-       width: 93%;
-     }
-   }
 
-   .user-login {
-     background-color: white;
-     padding-bottom: 100px;
-   }
- }
 
 
 
@@ -208,6 +194,24 @@
    .user-login {
      background-color: white;
      padding-bottom: 100px;
+   }
+
+   .login-row {
+    background-color: white;
+    padding-bottom: 100px;
+   }
+
+   .login-col {
+     padding-left: 0px;
+     padding-right: 0px;
+   }
+
+   #loginTabs-pane-1 {
+     padding: 15px;
+   }
+
+   #loginTabs-pane-2 {
+     padding: 15px;
    }
  }
 

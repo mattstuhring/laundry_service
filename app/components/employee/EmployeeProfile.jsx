@@ -814,6 +814,7 @@ class EmployeeProfile extends React.Component {
                     >Time</TableHeaderColumn>
                     <TableHeaderColumn
                       dataField='address'
+                      width="150px"
                       expandable={ false }
                       dataAlign='center'
                       tdStyle={ { whiteSpace: 'normal' } }
@@ -885,6 +886,7 @@ class EmployeeProfile extends React.Component {
                         <TableHeaderColumn
                           dataField='address'
                           expandable={ false }
+                          width="150px"
                           dataAlign='center'
                           tdStyle={ { whiteSpace: 'normal' } }
                         >Address</TableHeaderColumn>
@@ -951,6 +953,7 @@ class EmployeeProfile extends React.Component {
                         <TableHeaderColumn
                           dataField='address'
                           expandable={ false }
+                          width="150px"
                           dataAlign='center'
                           tdStyle={ { whiteSpace: 'normal' } }
                         >Address</TableHeaderColumn>

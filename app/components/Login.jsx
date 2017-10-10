@@ -160,8 +160,8 @@ export class Login extends React.Component {
           </div>
 
 
-          <div className="row">
-            <div className="col-xs-10 col-xs-offset-1 col-sm-6 col-sm-offset-3">
+          <div className="row login-row">
+            <div className="col-xs-10 col-xs-offset-1 col-sm-8 col-sm-offset-2 login-col">
 
               {/* LOGIN */}
               <Tabs defaultActiveKey={1} activeKey={this.state.key} onSelect={this.handleSelect} id="loginTabs">
