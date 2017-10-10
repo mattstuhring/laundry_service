@@ -64,6 +64,10 @@
       &:hover {
         background-color: #47bfdf;
       }
+
+      &:focus {
+        background-color: $lightBlue;
+      }
     }
 
 
@@ -85,6 +89,10 @@
 
       &:hover  {
         background-color: #e29709;
+      }
+
+      &:focus {
+        background-color: $amber;
       }
     }
 

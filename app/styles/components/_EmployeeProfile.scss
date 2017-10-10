@@ -230,6 +230,10 @@
           &:hover {
             background-color: #e29709;
           }
+
+          &:focus {
+            background-color: $amber
+          }
         }
 
         #my-jobs-tab-tab-2 {
@@ -244,6 +248,10 @@
 
           &:hover {
             background-color: #bdbdbd;
+          }
+
+          &:focus {
+            background-color: #ededed;
           }
         }
 
@@ -341,6 +349,23 @@
     }
   }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -546,6 +571,10 @@
 
           &:hover {
             background-color: #e29709;
+          }
+
+          &:focus {
+            background-color: $amber;
           }
         }
 

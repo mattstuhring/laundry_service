@@ -1,82 +1,123 @@
-.home {
-  height: 100%;
-  background-color: white;
-  border: 1px solid #ccc;
-
-  .col-sm-12 {
-    height: 100%;
-  }
-
-  .welcome {
-    text-align: center;
-    color: white;
-    position: relative;
-    max-width: 943px;
-    margin: 0 auto;
-    width: 100%;
-
-    .btn-img {
-      height: 100%;
-
-      img {
-        position: absolute;
-        z-index: 2;
-        left: 34.5%;
-        top: 29.5%;
-        width: 30%;
-        max-width: 30%;
-        border-radius: 50%;
-        @include transition(box-shadow 0.75s ease, border 0.75s ease);
-
-        &:hover {
-          background-color: $amber;
-          -moz-box-shadow: 0px 0px 60px $amber;
-          -webkit-box-shadow: 0px 0px 60px $amber;
-          box-shadow: 0px 0px 60px $amber;
-          border: 2px solid $amber;
-        }
-      }
-    }
-
-    .machine-img {
-      height: 100%;
-
-      img {
-        position: relative;
-        z-index: 1;
-    		top: 0;
-    		left: 0;
-        width: 90%;
-        max-width: 90%;
-      }
-    }
-  }
-}
-
-
-
-/* Custom, iPhone Retina */
- @media only screen and (max-width : 320px) {
-   .welcome {
-     top: 17%;
-   }
-
- }
-
-
-
- /* Extra Small Devices, Phones */
+/* Extra Small Devices, Phones */
  @media only screen and (max-width : 480px) {
-   .welcome {
-     top: 17%;
+   .home {
+     height: 100%;
+     background-color: white;
+     border: 1px solid #ccc;
+
+     .col-sm-12 {
+       height: 100%;
+     }
+
+     .welcome {
+       text-align: center;
+       color: white;
+       position: relative;
+       top: 18%;
+       max-width: 943px;
+       margin: 0 auto;
+       width: 100%;
+
+       .btn-img {
+         height: 100%;
+
+         img {
+          position: absolute;
+          z-index: 2;
+          left: 32.5%;
+          top: 30.5%;
+          width: 34%;
+          border-radius: 50%;
+          @include transition(box-shadow 0.75s ease, border 0.75s ease);
+
+           &:hover {
+             background-color: $amber;
+             -moz-box-shadow: 0px 0px 60px $amber;
+             -webkit-box-shadow: 0px 0px 60px $amber;
+             box-shadow: 0px 0px 60px $amber;
+             border: 2px solid $amber;
+           }
+         }
+       }
+
+       .machine-img {
+         height: 100%;
+
+         img {
+          position: relative;
+          z-index: 1;
+       		top: 0;
+       		left: 0;
+          width: 100%;
+         }
+       }
+     }
    }
  }
+
+
+
+
+
+
 
 
 
 
  @media only screen and (min-width : 481px) {
-   .welcome {
-     top: 8%;
+   .home {
+     height: 100%;
+     background-color: white;
+     border: 1px solid #ccc;
+
+     .col-sm-12 {
+       height: 100%;
+     }
+
+     .welcome {
+       text-align: center;
+       color: white;
+       position: relative;
+       max-width: 943px;
+       margin: 0 auto;
+       width: 100%;
+       top: 5%;
+
+       .btn-img {
+         height: 100%;
+
+         img {
+          position: absolute;
+          z-index: 2;
+          left: 37.5%;
+          top: 30.5%;
+          width: 25%;
+          max-width: 25%;
+          border-radius: 50%;
+          @include transition(box-shadow 0.75s ease, border 0.75s ease);
+
+           &:hover {
+             background-color: $amber;
+             -moz-box-shadow: 0px 0px 60px $amber;
+             -webkit-box-shadow: 0px 0px 60px $amber;
+             box-shadow: 0px 0px 60px $amber;
+             border: 2px solid $amber;
+           }
+         }
+       }
+
+       .machine-img {
+         height: 100%;
+
+         img {
+          position: relative;
+          z-index: 1;
+          top: 0;
+          left: 0;
+          width: 74%;
+          max-width: 74%;
+         }
+       }
+     }
    }
  }

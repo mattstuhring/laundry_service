@@ -74,7 +74,7 @@ export default class Navigation extends React.Component {
       });
   }
 
-
+  // **************************  RENDER  *******************************
   render() {
 
     const loggedIn = () => {
@@ -233,9 +233,8 @@ export default class Navigation extends React.Component {
         <nav className="navbar navbar-default navbar-fixed-top">
           <div className="container-fluid">
 
-
-                {/* NAV ACTION BTNS */}
-                {loggedIn()}
+              {/* NAV ACTION BTNS */}
+              {loggedIn()}
 
           </div>
         </nav>

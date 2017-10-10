@@ -842,7 +842,7 @@ class AdminOrders extends React.Component {
               <div className="row">
                 <div className="col-sm-12 text-center">
                   <div className="page-header">
-                    <h1>ADMIN<small><em> - Manage All Orders</em></small></h1>
+                    <h1>ADMIN<small><em> - Manage Orders</em></small></h1>
                   </div>
                 </div>
               </div>
@@ -903,6 +903,7 @@ class AdminOrders extends React.Component {
                       <TableHeaderColumn
                         dataField='address'
                         expandable={ false }
+                        width='150px'
                         dataAlign='center'
                         tdStyle={ { whiteSpace: 'normal' } }
                       >Address</TableHeaderColumn>
@@ -973,6 +974,7 @@ class AdminOrders extends React.Component {
                         <TableHeaderColumn
                           dataField='address'
                           expandable={ false }
+                          width='150px'
                           dataAlign='center'
                           tdStyle={ { whiteSpace: 'normal' } }
                         >Address</TableHeaderColumn>
@@ -1038,6 +1040,7 @@ class AdminOrders extends React.Component {
                         <TableHeaderColumn
                           dataField='address'
                           expandable={ false }
+                          width='150px'
                           dataAlign='center'
                           tdStyle={ { whiteSpace: 'normal' } }
                         >Address</TableHeaderColumn>
