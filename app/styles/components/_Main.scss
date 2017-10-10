@@ -10,15 +10,20 @@ html, body, #app, #app>div {
 body {
   font-family: 'Open Sans', sans-serif;
   padding-top: 50px;
+  font-size: 16px;
 }
 
 
 
-
+.main-height {
+  height: 100%;
+}
 
 
 
 .main {
+  height: 100%;
+
   .btn:focus {
     outline: none;
   }
@@ -33,7 +38,6 @@ body {
 
   .children {
     height: 100%;
-    background-color: white;
     margin-bottom: 50px;
   }
 
@@ -51,10 +55,10 @@ body {
 
 
   #myFooter {
-      background-color: $darkBlue;
-      color: white;
-      padding-top: 10px;
-      padding-bottom: 8px;
+    background-color: $darkBlue;
+    color: white;
+    padding-top: 10px;
+    padding-bottom: 8px;
   }
 
   #myFooter p {
@@ -62,35 +66,95 @@ body {
   }
 
   #myFooter a {
-      color: #d2d1d1;
-      text-decoration: none;
-
+    color: #d2d1d1;
+    text-decoration: none;
   }
 
   #myFooter a:hover,
   #myFooter a:focus {
-      text-decoration: none;
-      color: white;
+    text-decoration: none;
+    color: white;
   }
 
 
   #myFooter .btn {
-      color: white;
-      background-color: $amber;
-      border-radius: 20px;
-      border: none;
-      width: 150px;
-      display: block;
-      margin: 0 auto;
-      line-height: 25px;
-      @include transition(box-shadow 0.75s ease);
+    color: white;
+    background-color: $amber;
+    border-radius: 20px;
+    border: none;
+    display: block;
+    margin: 0 auto;
+    line-height: 25px;
+    @include transition(box-shadow 0.75s ease);
 
-      &:hover {
-        -moz-box-shadow: 0px 0px 5px white;
-        -webkit-box-shadow: 0px 0px 5px white;
-        box-shadow: 0px 0px 5px white;
-      }
+    &:hover {
+      -moz-box-shadow: 0px 0px 5px white;
+      -webkit-box-shadow: 0px 0px 5px white;
+      box-shadow: 0px 0px 5px white;
+    }
   }
 
 
 }
+
+
+
+
+/* Custom, iPhone Retina */
+ @media only screen and (max-width : 320px) {
+   #myFooter {
+     p {
+       font-size: 60%;
+     }
+
+     .copy-text {
+       padding-left: 20px;
+     }
+
+     .developer-text {
+       padding-right: 25px;
+     }
+
+     .btn {
+       width: 110px;
+       position: relative;
+       top: 3;
+     }
+   }
+ }
+
+
+
+ /* Extra Small Devices, Phones */
+ @media only screen and (max-width : 480px) {
+   #myFooter {
+     p {
+       font-size: 60%;
+     }
+
+     .copy-text {
+       padding-left: 20px;
+     }
+
+     .developer-text {
+       padding-right: 25px;
+     }
+
+     .btn {
+       width: 110px;
+       position: relative;
+       top: 3;
+     }
+   }
+ }
+
+
+
+ /* Extra Small Devices, Phones */
+ @media only screen and (min-width : 481px) {
+   #myFooter {
+     .btn {
+       width: 150px;
+     }
+   }
+ }

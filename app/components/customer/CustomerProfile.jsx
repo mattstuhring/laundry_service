@@ -605,7 +605,7 @@ class CustomerProfile extends React.Component {
         tomorrow = moment(tomorrow).format('MMMM Do YYYY');
         d = moment(day).format('dddd');
 
-        return <div className="col-sm-6 order-date">
+        return <div className="col-xs-12 col-sm-6 order-date">
           <div className="row">
             <div className="col-sm-12">
               <ControlLabel><em>Tomorrow's date:</em></ControlLabel>
@@ -627,7 +627,7 @@ class CustomerProfile extends React.Component {
         today = moment(today).format('MMMM Do YYYY');
         day = moment(day).format('dddd');
 
-        return <div className="col-sm-6 order-date">
+        return <div className="col-xs-12 col-sm-6 order-date">
           <div className="row">
             <div className="col-sm-12">
               <ControlLabel><em>Today's date:</em></ControlLabel>
@@ -686,18 +686,20 @@ class CustomerProfile extends React.Component {
         const day = moment();
         let d = day.add('days', 1);
         let tomorrow = today.add('days', 1);
-        tomorrow = moment(tomorrow).format('dddd, MMMM Do YYYY');
+        tomorrow = moment(tomorrow).format('MMMM Do YYYY');
+        let formatDay = moment(d).format('dddd');
 
-        return <div className="col-sm-8 text-center">
-          <p><strong>{tomorrow}</strong></p>
+        return <div className="col-xs-8 col-sm-8 text-center">
+          <p><strong>{formatDay}, </strong><small>{tomorrow}</small></p>
         </div>;
       } else {
         let today = moment();
         let day = moment();
-        today = moment(today).format('dddd, MMMM Do YYYY');
+        today = moment(today).format('MMMM Do YYYY');
+        let formatDay = moment(day).format('dddd');
 
-        return <div className="col-sm-8 text-center">
-          <p><strong>{today}</strong></p>
+        return <div className="col-xs-8 col-sm-8 text-center">
+          <p><strong>{formatDay}, </strong><small>{today}</small></p>
         </div>;
       }
     }
@@ -710,16 +712,16 @@ class CustomerProfile extends React.Component {
 
       if (formKey === 1) {
         return <div className="row order-services">
-          <div className="col-sm-10 col-sm-offset-1">
+          <div className="col-xs-12 col-sm-10 col-sm-offset-1">
             <Form horizontal>
 
               {/* SERVICES */}
               <div className="row">
-                <div className="col-sm-10 col-sm-offset-1 services-input-header">
-                  <div className="col-sm-4">
+                <div className="col-xs-10 col-xs-offset-1 col-sm-10 col-sm-offset-1 services-input-header">
+                  <div className="col-xs-4 col-sm-4">
                     <p>STEP 1</p>
                   </div>
-                  <div className="col-sm-8 text-center question">
+                  <div className="col-xs-8 col-sm-8 text-center question">
                     <p><em>Select your service(s).</em></p>
                   </div>
                 </div>
@@ -727,12 +729,12 @@ class CustomerProfile extends React.Component {
 
               <FormGroup>
                 <div className="text-center">
-                  <Col componentClass={ControlLabel} sm={3} smOffset={1}>
+                  <Col componentClass={ControlLabel} xs={3} xsOffset={1} sm={3} smOffset={1}>
                     <i className="fa fa-check-square-o" aria-hidden="true"></i>
                   </Col>
                 </div>
                 <div className="order-checkbox text-center">
-                  <Col sm={8}>
+                  <Col xs={8} sm={8}>
                     <Checkbox
                       inline
                       value={['clean', 10]}
@@ -755,17 +757,17 @@ class CustomerProfile extends React.Component {
               </FormGroup>
 
               <div className="row">
-                <div className="col-sm-10 col-sm-offset-1 tab-1-divider">
+                <div className="col-xs-10 col-xs-offset-1 col-sm-10 col-sm-offset-1 tab-1-divider">
                 </div>
               </div>
 
               {/* NUMBER OF LOADS */}
               <div className="row">
-                <div className="col-sm-10 col-sm-offset-1 services-input-header">
-                  <div className="col-sm-4">
+                <div className="col-xs-10 col-xs-offset-1 col-sm-10 col-sm-offset-1 services-input-header">
+                  <div className="col-xs-4 col-sm-4">
                     <p>STEP 2</p>
                   </div>
-                  <div className="col-sm-8 text-center question">
+                  <div className="col-xs-8 col-sm-8 text-center question">
                     <p><em>How many loads?</em></p>
                   </div>
                 </div>
@@ -773,12 +775,12 @@ class CustomerProfile extends React.Component {
 
               <FormGroup>
                 <div className="text-center">
-                  <Col componentClass={ControlLabel} sm={3} smOffset={1}>
+                  <Col componentClass={ControlLabel} xs={3} xsOffset={1} sm={3} smOffset={1}>
                     <img className="services-load-img" src="images/load.svg" />
                   </Col>
                 </div>
                 <div className="order-radio text-center">
-                  <Col sm={8}>
+                  <Col xs={8} sm={8}>
                     <Radio
                       name="radioGroup"
                       inline
@@ -816,17 +818,17 @@ class CustomerProfile extends React.Component {
               </FormGroup>
 
               <div className="row">
-                <div className="col-sm-10 col-sm-offset-1 tab-1-divider">
+                <div className="col-xs-10 col-xs-offset-1 col-sm-10 col-sm-offset-1 tab-1-divider">
                 </div>
               </div>
 
               {/* INSTRUCTIONS */}
               <div className="row">
-                <div className="col-sm-10 col-sm-offset-1 services-input-header">
-                  <div className="col-sm-4">
+                <div className="col-xs-10 col-xs-offset-1 col-sm-10 col-sm-offset-1 services-input-header">
+                  <div className="col-xs-4 col-sm-4">
                     <p>STEP 3</p>
                   </div>
-                  <div className="col-sm-8 text-center question">
+                  <div className="col-xs-8 col-sm-8 text-center question">
                     <p><em>Instructions<small> - optional</small></em></p>
                   </div>
                 </div>
@@ -834,12 +836,12 @@ class CustomerProfile extends React.Component {
 
               <FormGroup validationState={this.textareaValidationState()}>
                 <div className="text-center">
-                  <Col componentClass={ControlLabel} sm={3} smOffset={1}>
+                  <Col componentClass={ControlLabel} xs={3} xsOffset={1} sm={3} smOffset={1}>
                     <i className="fa fa-envelope-o" aria-hidden="true"></i>
                   </Col>
                 </div>
                 <div className="order-instructions text-center">
-                  <Col sm={7}>
+                  <Col xs={8} sm={7}>
                     <FormControl
                       componentClass="textarea"
                       type="text"
@@ -854,13 +856,13 @@ class CustomerProfile extends React.Component {
               </FormGroup>
 
               <div className="row">
-                <div className="col-sm-10 col-sm-offset-1 tab-1-divider">
+                <div className="col-xs-10 col-xs-offset-1 col-sm-10 col-sm-offset-1 tab-1-divider">
                 </div>
               </div>
 
               {/* ACTION BTNS */}
-              <div className="row">
-                <div className="col-sm-12">
+              <div className="row ">
+                <div className="col-xs-12 col-sm-12">
                   <Pager>
                     <Pager.Item href="#" next onClick={() => this.handleTotalCost(2)}>Next &rarr;</Pager.Item>
                   </Pager>
@@ -871,13 +873,13 @@ class CustomerProfile extends React.Component {
         </div>;
       } else if (formKey === 2) {
         return <div className="row order-info">
-          <div className="col-sm-10 col-sm-offset-1">
+          <div className="col-xs-12 col-sm-10 col-sm-offset-1">
             <Form>
 
               {/* ADDRESS */}
               <div className="row">
-                <div className="col-sm-10 col-sm-offset-1">
-                  <FormGroup bsSize="large">
+                <div className="col-xs-8 col-xs-offset-2 col-sm-10 col-sm-offset-1">
+                  <FormGroup>
                     <ControlLabel><em>Laundry pick-up location:</em></ControlLabel>
                     <InputGroup>
                       <InputGroup.Addon>
@@ -896,15 +898,15 @@ class CustomerProfile extends React.Component {
               </div>
 
               <div className="row">
-                <div className="col-sm-10 col-sm-offset-1 tab-2-divider">
+                <div className="col-xs-8 col-xs-offset-2 col-sm-10 col-sm-offset-1 tab-2-divider">
                 </div>
               </div>
 
 
               {/* CONTACT */}
               <div className="row">
-                <div className="col-sm-10 col-sm-offset-1">
-                  <FormGroup bsSize="large">
+                <div className="col-xs-8 col-xs-offset-2 col-sm-10 col-sm-offset-1">
+                  <FormGroup>
                     <ControlLabel><em>Contact:</em></ControlLabel>
                     <InputGroup>
                       <InputGroup.Addon>
@@ -923,7 +925,7 @@ class CustomerProfile extends React.Component {
               </div>
 
               <div className="row">
-                <div className="col-sm-10 col-sm-offset-1 tab-2-divider">
+                <div className="col-xs-8 col-xs-offset-2 col-sm-10 col-sm-offset-1 tab-2-divider">
                 </div>
               </div>
 
@@ -933,16 +935,16 @@ class CustomerProfile extends React.Component {
 
               {/* DATE & TIME */}
               <div className="row">
-                <div className="col-sm-10 col-sm-offset-1 order-date-time">
+                <div className="col-xs-8 col-xs-offset-2 col-sm-10 col-sm-offset-1 order-date-time">
 
 
 
-                    {checkDate()}
+                  {checkDate()}
 
 
-                  <div className="col-sm-6 order-time">
+                  <div className="col-xs-12 col-sm-6 order-time">
                     <ControlLabel><em>Select a pick-up time:</em></ControlLabel>
-                    <FormGroup bsSize="large">
+                    <FormGroup>
                       <InputGroup>
                         <InputGroup.Addon>
                           <span className="glyphicon glyphicon-time" aria-hidden="true"></span>
@@ -975,7 +977,7 @@ class CustomerProfile extends React.Component {
               </div>
 
               <div className="row">
-                <div className="col-sm-10 col-sm-offset-1 tab-2-divider">
+                <div className="col-xs-8 col-xs-offset-2 col-sm-10 col-sm-offset-1 tab-2-divider">
                 </div>
               </div>
 
@@ -993,12 +995,12 @@ class CustomerProfile extends React.Component {
 
 
               {/* ACTION BTNS */}
-              <div className="row">
+              <div className="row info-btns">
                 <Pager>
-                  <div className="col-sm-6">
+                  <div className="col-xs-5 col-xs-offset-1 col-sm-6">
                     <Pager.Item href="#" previous onClick={() => this.handleSelectKey(1)}>&larr; Back</Pager.Item>
                   </div>
-                  <div className="col-sm-6">
+                  <div className="col-xs-6 col-sm-6 next-btn">
                     <Pager.Item href="#" next onClick={() => this.handleSelectKey(3)}>Next &rarr;</Pager.Item>
                   </div>
                 </Pager>
@@ -1011,7 +1013,7 @@ class CustomerProfile extends React.Component {
 
           {/* PAYMENT */}
           <div className="row">
-            <div className="col-sm-12">
+            <div className="col-xs-12 col-sm-12">
               <div className="row">
                 <div className="col-sm-6 col-sm-offset-3 text-center">
                   <div className="page-header">
@@ -1020,11 +1022,11 @@ class CustomerProfile extends React.Component {
                 </div>
               </div>
               <div className="row">
-                <div className="col-sm-10 col-sm-offset-1">
+                <div className="col-xs-10 col-xs-offset-1 col-sm-10 col-sm-offset-1">
                   <div className="order-summary">
                     <Panel>
                       <div className="row">
-                        <div className="col-sm-4 text-center">
+                        <div className="col-xs-4 col-sm-4 text-center">
                           <span>
                             <i className="fa fa-calendar" aria-hidden="true"></i>
                           </span>
@@ -1034,42 +1036,42 @@ class CustomerProfile extends React.Component {
 
                       </div>
                       <div className="row">
-                        <div className="col-sm-10 col-sm-offset-1 order-divider">
+                        <div className="col-xs-10 col-xs-offset-1 col-sm-10 col-sm-offset-1 order-divider">
                         </div>
                       </div>
                       <div className="row">
-                        <div className="col-sm-4 text-center">
+                        <div className="col-xs-4 col-sm-4 text-center">
                           <span>
                             <i className="fa fa-clock-o" aria-hidden="true"></i>
                           </span>
                         </div>
-                        <div className="col-sm-8 text-center">
+                        <div className="col-xs-8 col-sm-8 text-center">
                           <p><strong>{this.state.orderPickupTime}</strong></p>
                         </div>
                       </div>
                       <div className="row">
-                        <div className="col-sm-10 col-sm-offset-1 order-divider">
+                        <div className="col-xs-10 col-xs-offset-1 col-sm-10 col-sm-offset-1 order-divider">
                         </div>
                       </div>
                       <div className="row">
-                        <div className="col-sm-4 text-center">
+                        <div className="col-xs-4 col-sm-4 text-center">
                           <i className="fa fa-check-square-o" aria-hidden="true"></i>
                         </div>
-                        <div className="col-sm-8 text-center">
+                        <div className="col-xs-8 col-sm-8 text-center">
                           <strong>
                             <p>{services()}</p>
                           </strong>
                         </div>
                       </div>
                       <div className="row">
-                        <div className="col-sm-10 col-sm-offset-1 order-divider">
+                        <div className="col-xs-10 col-xs-offset-1 col-sm-10 col-sm-offset-1 order-divider">
                         </div>
                       </div>
                       <div className="row">
-                        <div className="col-sm-4 text-center">
+                        <div className="col-xs-4 col-sm-4 text-center">
                           <img className="order-load-img" src="images/load.svg" />
                         </div>
-                        <div className="col-sm-8 text-center">
+                        <div className="col-xs-8 col-sm-8 text-center">
                           <strong>
                             <p>{this.state.orderLoads}</p>
                           </strong>
@@ -1112,7 +1114,7 @@ class CustomerProfile extends React.Component {
             </div>
           </div>
           <div className="row">
-            <div className="col-sm-11 col-sm-offset-1">
+            <div className="col-xs-12 col-sm-11 col-sm-offset-1">
               {/* ACTION BTNS */}
               <Pager>
                 <Pager.Item href="#" previous onClick={() => this.handleSelectKey(2)}>&larr; Back</Pager.Item>
@@ -1209,7 +1211,7 @@ class CustomerProfile extends React.Component {
                     {/* TAB 1 -> ORDER FORM */}
                     <Tab eventKey={1} title="SCHEDULE PICK-UP">
                       <div className="row">
-                        <div className="col-sm-12 order-form-panel">
+                        <div className="col-xs-12 col-sm-12 order-form-panel">
                           <Breadcrumb>
                             <Breadcrumb.Item href="#" onClick={() => {this.handleSelectKey(1)}} active={this.state.activeServices}>
                               SERVICES

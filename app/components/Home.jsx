@@ -18,8 +18,8 @@ export class Home extends React.Component {
 
   render() {
     return (
-      <div className="home">
-        <div className="row">
+      <div className="row home">
+        <div className="col-sm-12">
           <div className="welcome">
             <div className="btn-img" onClick={() => {this.handleLink()}}>
               <Image src="images/home-btn.svg"/>

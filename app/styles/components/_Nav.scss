@@ -16,6 +16,9 @@
 
   .navbar-nav > li > a {
     color: white;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    
     @include transition(color 0.75s ease);
     &:hover, &:focus {
       color: $lightBlue;
@@ -28,23 +31,83 @@
     margin-right: 30px;
   }
 
-  .navbar-brand {
-    padding: 19px 15px 37px;
-
-    .logo-img img {
-      width: 75px;
-      position: relative;
-      top: -18px;
-      border-radius: 4px;
-      padding: 5px;
-    }
-
-    .company-img img {
-      width: 270px;
-      position: relative;
-      top: -8px;
-      border-radius: 4px;
-      padding: 5px;
-    }
-  }
 }
+
+
+
+
+/* Custom, iPhone Retina */
+ @media only screen and (max-width : 320px) {
+   .navbar-brand {
+     padding-left: 0px;
+
+     .logo-img img {
+       width: 64px;
+       position: relative;
+       top: -14px;
+       border-radius: 4px;
+       padding: 5px;
+     }
+
+     .company-img img {
+       width: 170px;
+       position: relative;
+       top: -4px;
+       right: 5px;
+       border-radius: 4px;
+       padding: 5px;
+     }
+   }
+
+ }
+
+
+
+ /* Extra Small Devices, Phones */
+ @media only screen and (max-width : 480px) {
+   .navbar-brand {
+     padding-left: 0px;
+
+     .logo-img img {
+       width: 64px;
+       position: relative;
+       top: -14px;
+       border-radius: 4px;
+       padding: 5px;
+     }
+
+     .company-img img {
+       width: 170px;
+       position: relative;
+       top: -4px;
+       right: 5px;
+       border-radius: 4px;
+       padding: 5px;
+     }
+   }
+ }
+
+
+
+
+ @media only screen and (min-width : 481px) {
+   .navbar-brand {
+     padding: 17px 15px 32px;
+
+     .logo-img img {
+       width: 75px;
+       position: relative;
+       top: -14px;
+       border-radius: 4px;
+       padding: 5px;
+     }
+
+     .company-img img {
+       width: 270px;
+       position: relative;
+       top: -5px;
+       border-radius: 4px;
+       padding: 5px;
+     }
+   }
+ }

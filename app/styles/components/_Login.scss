@@ -1,6 +1,9 @@
 .user-login {
   position: absolute;
   z-index: 1 !important;
+  height: 100%;
+  background-color: white;
+  border: 1px solid #ccc;
 
 
   .login-header {
@@ -125,7 +128,7 @@
 
         .input-group-addon {
           color: #333;
-          font-size: 20px;
+          padding: 5px 12px;
           background-color: #ddd;
         }
       }
@@ -164,15 +167,53 @@
 
         .input-group-addon {
           color: #333;
-          font-size: 20px;
+          padding: 5px 12px;
           background-color: #ddd;
         }
       }
     }
-
-
-
-
-
   }
+
+
+
 }
+
+
+
+
+/* Custom, iPhone Retina */
+ @media only screen and (max-width : 320px) {
+   .login-header {
+     img {
+       width: 93%;
+     }
+   }
+
+   .user-login {
+     background-color: white;
+     padding-bottom: 100px;
+   }
+ }
+
+
+
+ /* Extra Small Devices, Phones */
+ @media only screen and (max-width : 480px) {
+   .login-header {
+     img {
+       width: 93%;
+     }
+   }
+
+   .user-login {
+     background-color: white;
+     padding-bottom: 100px;
+   }
+ }
+
+
+
+
+ @media only screen and (min-width : 481px) {
+
+ }

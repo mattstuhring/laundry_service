@@ -147,154 +147,37 @@ export class Login extends React.Component {
   // ****************************  RENDER  *********************************
   render() {
     return (
-        <div className="row user-login">
-          <div className="col-sm-12">
+      <div className="row user-login">
+        <div className="col-xs-12 col-sm-12">
 
 
-            <div className="row login-header">
-              <div className="col-sm-8 col-sm-offset-2 text-center">
-                <div className="page-header">
-                  <Image src="images/company.svg"/>
-                </div>
+          <div className="row login-header">
+            <div className="col-xs-10 col-xs-offset-1 col-sm-6 col-sm-offset-3 text-center">
+              <div className="page-header">
+                <Image src="images/company.svg"/>
               </div>
             </div>
+          </div>
 
 
-            <div className="row">
-              <div className="col-sm-10 col-sm-offset-1">
+          <div className="row">
+            <div className="col-xs-10 col-xs-offset-1 col-sm-6 col-sm-offset-3">
 
-                {/* LOGIN */}
-                <Tabs defaultActiveKey={1} activeKey={this.state.key} onSelect={this.handleSelect} id="loginTabs">
-                  <Tab eventKey={1} title="LOG IN">
-                    <div className="row">
-                      <div className="col-sm-12">
-                        <form onSubmit={this.handleLogin.bind(this)}>
-                          <div className="login-form-wrapper">
-                            <FormGroup controlId="email">
-                              <InputGroup>
-                                <InputGroup.Addon>
-                                  <span className="glyphicon glyphicon-envelope" aria-hidden="true"></span>
-                                </InputGroup.Addon>
-                                <FormControl
-                                  type="text"
-                                  bsSize="large"
-                                  placeholder="Email"
-                                  name="email"
-                                  value={this.state.email}
-                                  onChange={this.handleChange.bind(this)}
-                                />
-                              </InputGroup>
-                            </FormGroup>
-                            <FormGroup controlId="user">
-                              <InputGroup>
-                                <InputGroup.Addon>
-                                  <span className="glyphicon glyphicon-lock" aria-hidden="true"></span>
-                                </InputGroup.Addon>
-                                <FormControl
-                                  type="password"
-                                  bsSize="large"
-                                  placeholder="Password"
-                                  name="password"
-                                  value={this.state.password}
-                                  onChange={this.handleChange.bind(this)}
-                                />
-                              </InputGroup>
-                              <div className="text-right">
-                                <Link to="/forgotPassword"><p><small><em>Forgot password?</em></small></p></Link>
-                              </div>
-                            </FormGroup>
-                          </div>
-
-                          <div className="row btn-actions">
-                            <div className="col-sm-12 text-center">
-                              <Button
-                                bsStyle="primary"
-                                type="submit"
-                                block
-                              >
-                                LOG IN
-                              </Button>
-                            </div>
-                            {/* <div className="col-sm-6">
-                              <Button
-                                bsStyle="primary"
-                                type="button"
-                                onClick={() => browserHistory.push('/')}
-                                block
-                              >
-                                Cancel
-                              </Button>
-                            </div> */}
-                          </div>
-                        </form>
-                      </div>
-                    </div>
-                  </Tab>
-
-
-
-
-
-
-                  {/* SIGN UP */}
-                  <Tab eventKey={2} title="SIGN UP">
-                    <div className="row">
-                      <div className="col-sm-12">
-                        <form onSubmit={this.handleSubmit.bind(this)}>
-                          <div className="row">
-                            <div className="col-sm-6">
-                              <FormGroup controlId="user">
-                                <InputGroup>
-                                  <InputGroup.Addon>
-                                    <span className="glyphicon glyphicon-user" aria-hidden="true"></span>
-                                  </InputGroup.Addon>
-                                  <FormControl
-                                    type="text"
-                                    bsSize="large"
-                                    placeholder="First name"
-                                    name="firstName"
-                                    value={this.state.firstName}
-                                    onChange={this.handleChange.bind(this)}
-                                  />
-                                </InputGroup>
-                              </FormGroup>
-                            </div>
-                            <div className="col-sm-6">
-                              <FormGroup controlId="user">
-                                <FormControl
-                                  type="text"
-                                  bsSize="large"
-                                  placeholder="Last name"
-                                  name="lastName"
-                                  value={this.state.lastName}
-                                  onChange={this.handleChange.bind(this)}
-                                />
-                              </FormGroup>
-                            </div>
-                          </div>
-                          <FormGroup controlId="user">
-                            <InputGroup>
-                              <InputGroup.Addon>
-                                <span className="glyphicon glyphicon-home" aria-hidden="true"></span>
-                              </InputGroup.Addon>
-                              <FormControl
-                                type="text"
-                                bsSize="large"
-                                placeholder="Address"
-                                name="address"
-                                value={this.state.address}
-                                onChange={this.handleChange.bind(this)}
-                              />
-                            </InputGroup>
-                          </FormGroup>
-                          <FormGroup controlId="user">
+              {/* LOGIN */}
+              <Tabs defaultActiveKey={1} activeKey={this.state.key} onSelect={this.handleSelect} id="loginTabs">
+                <Tab eventKey={1} title="LOG IN">
+                  <div className="row">
+                    <div className="col-xs-12 col-sm-12">
+                      <form onSubmit={this.handleLogin.bind(this)}>
+                        <div className="login-form-wrapper">
+                          <FormGroup controlId="email">
                             <InputGroup>
                               <InputGroup.Addon>
                                 <span className="glyphicon glyphicon-envelope" aria-hidden="true"></span>
                               </InputGroup.Addon>
                               <FormControl
-                                type="email"
-                                bsSize="large"
+                                type="text"
+
                                 placeholder="Email"
                                 name="email"
                                 value={this.state.email}
@@ -305,100 +188,210 @@ export class Login extends React.Component {
                           <FormGroup controlId="user">
                             <InputGroup>
                               <InputGroup.Addon>
-                                <span className="glyphicon glyphicon-phone" aria-hidden="true"></span>
+                                <span className="glyphicon glyphicon-lock" aria-hidden="true"></span>
                               </InputGroup.Addon>
                               <FormControl
-                                type="text"
-                                bsSize="large"
-                                placeholder="Phone number"
-                                name="phoneNumber"
-                                value={this.state.phoneNumber}
+                                type="password"
+
+                                placeholder="Password"
+                                name="password"
+                                value={this.state.password}
                                 onChange={this.handleChange.bind(this)}
                               />
                             </InputGroup>
-                          </FormGroup>
-
-
-                          <div className="row">
-                            <div className="col-sm-6">
-                              <FormGroup controlId="user" validationState={this.getPasswordValidationState()}>
-                                <InputGroup>
-                                  <InputGroup.Addon>
-                                    <span className="glyphicon glyphicon-lock" aria-hidden="true"></span>
-                                  </InputGroup.Addon>
-                                  <FormControl
-                                    type="password"
-                                    bsSize="large"
-                                    placeholder="Password"
-                                    name="password"
-                                    value={this.state.password}
-                                    onChange={this.handleChange.bind(this)}
-                                  />
-                                </InputGroup>
-                              </FormGroup>
+                            <div className="text-right">
+                              <Link to="/forgotPassword"><p><small><em>Forgot password?</em></small></p></Link>
                             </div>
-                            <div className="col-sm-6">
-                              <FormGroup controlId="user" validationState={this.getValidationState()}>
+                          </FormGroup>
+                        </div>
+
+                        <div className="row btn-actions">
+                          <div className="col-xs-12 col-sm-12 text-center">
+                            <Button
+                              bsStyle="primary"
+                              type="submit"
+                              block
+                            >
+                              LOG IN
+                            </Button>
+                          </div>
+                          {/* <div className="col-sm-6">
+                            <Button
+                              bsStyle="primary"
+                              type="button"
+                              onClick={() => browserHistory.push('/')}
+                              block
+                            >
+                              Cancel
+                            </Button>
+                          </div> */}
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                </Tab>
+
+
+
+
+
+
+                {/* SIGN UP */}
+                <Tab eventKey={2} title="SIGN UP">
+                  <div className="row">
+                    <div className="col-sm-12">
+                      <form onSubmit={this.handleSubmit.bind(this)}>
+                        <div className="row">
+                          <div className="col-sm-6">
+                            <FormGroup controlId="user">
+                              <InputGroup>
+                                <InputGroup.Addon>
+                                  <span className="glyphicon glyphicon-user" aria-hidden="true"></span>
+                                </InputGroup.Addon>
                                 <FormControl
-                                  type="password"
-                                  bsSize="large"
-                                  placeholder="Re-type password"
-                                  name="passwordCheck"
-                                  value={this.state.passwordCheck}
+                                  type="text"
+                                  placeholder="First name"
+                                  name="firstName"
+                                  value={this.state.firstName}
                                   onChange={this.handleChange.bind(this)}
                                 />
-                                <FormControl.Feedback />
-                                <div className="text-center">
-                                  <HelpBlock><small><em>* Passwords must match</em></small></HelpBlock>
-                                </div>
-                              </FormGroup>
-                            </div>
+                              </InputGroup>
+                            </FormGroup>
                           </div>
-
-
-
-                          {/* SPAM PROTECTION */}
-                          <div className="form-group hidden">
-                            <label>Keep this field blank</label>
-                            <input
+                          <div className="col-sm-6">
+                            <FormGroup controlId="user">
+                              <FormControl
+                                type="text"
+                                placeholder="Last name"
+                                name="lastName"
+                                value={this.state.lastName}
+                                onChange={this.handleChange.bind(this)}
+                              />
+                            </FormGroup>
+                          </div>
+                        </div>
+                        <FormGroup controlId="user">
+                          <InputGroup>
+                            <InputGroup.Addon>
+                              <span className="glyphicon glyphicon-home" aria-hidden="true"></span>
+                            </InputGroup.Addon>
+                            <FormControl
                               type="text"
-                              className="form-control"
-                              name="honeypot"
-                              value={this.state.honeypot} onChange={this.handleChange.bind(this)}
+                              placeholder="Address"
+                              name="address"
+                              value={this.state.address}
+                              onChange={this.handleChange.bind(this)}
                             />
-                          </div>
+                          </InputGroup>
+                        </FormGroup>
+                        <FormGroup controlId="user">
+                          <InputGroup>
+                            <InputGroup.Addon>
+                              <span className="glyphicon glyphicon-envelope" aria-hidden="true"></span>
+                            </InputGroup.Addon>
+                            <FormControl
+                              type="email"
+                              placeholder="Email"
+                              name="email"
+                              value={this.state.email}
+                              onChange={this.handleChange.bind(this)}
+                            />
+                          </InputGroup>
+                        </FormGroup>
+                        <FormGroup controlId="user">
+                          <InputGroup>
+                            <InputGroup.Addon>
+                              <span className="glyphicon glyphicon-phone" aria-hidden="true"></span>
+                            </InputGroup.Addon>
+                            <FormControl
+                              type="text"
+                              placeholder="Phone number"
+                              name="phoneNumber"
+                              value={this.state.phoneNumber}
+                              onChange={this.handleChange.bind(this)}
+                            />
+                          </InputGroup>
+                        </FormGroup>
 
 
-                          <div className="row btn-actions">
-                            <div className="col-sm-12 text-center">
-                              <Button
-                                bsStyle="primary"
-                                type="submit"
-                                block
-                              >
-                                SIGN UP
-                              </Button>
-                            </div>
-                            {/* <div className="col-sm-6">
-                              <Button
-                                bsStyle="primary"
-                                type="button"
-                                onClick={() => browserHistory.push('/')}
-                                block
-                              >
-                                Cancel
-                              </Button>
-                            </div> */}
+                        <div className="row">
+                          <div className="col-sm-6">
+                            <FormGroup controlId="user" validationState={this.getPasswordValidationState()}>
+                              <InputGroup>
+                                <InputGroup.Addon>
+                                  <span className="glyphicon glyphicon-lock" aria-hidden="true"></span>
+                                </InputGroup.Addon>
+                                <FormControl
+                                  type="password"
+                                  placeholder="Password"
+                                  name="password"
+                                  value={this.state.password}
+                                  onChange={this.handleChange.bind(this)}
+                                />
+                              </InputGroup>
+                            </FormGroup>
                           </div>
-                        </form>
-                      </div>
+                          <div className="col-sm-6">
+                            <FormGroup controlId="user" validationState={this.getValidationState()}>
+                              <FormControl
+                                type="password"
+                                placeholder="Re-type password"
+                                name="passwordCheck"
+                                value={this.state.passwordCheck}
+                                onChange={this.handleChange.bind(this)}
+                              />
+                              <FormControl.Feedback />
+                              <div className="text-center">
+                                <HelpBlock><small><em>* Passwords must match</em></small></HelpBlock>
+                              </div>
+                            </FormGroup>
+                          </div>
+                        </div>
+
+
+
+                        {/* SPAM PROTECTION */}
+                        <div className="form-group hidden">
+                          <label>Keep this field blank</label>
+                          <input
+                            type="text"
+                            className="form-control"
+                            name="honeypot"
+                            value={this.state.honeypot} onChange={this.handleChange.bind(this)}
+                          />
+                        </div>
+
+
+                        <div className="row btn-actions">
+                          <div className="col-sm-12 text-center">
+                            <Button
+                              bsStyle="primary"
+                              type="submit"
+                              block
+                            >
+                              SIGN UP
+                            </Button>
+                          </div>
+                          {/* <div className="col-sm-6">
+                            <Button
+                              bsStyle="primary"
+                              type="button"
+                              onClick={() => browserHistory.push('/')}
+                              block
+                            >
+                              Cancel
+                            </Button>
+                          </div> */}
+                        </div>
+                      </form>
                     </div>
-                  </Tab>
-                </Tabs>
-              </div>
+                  </div>
+                </Tab>
+              </Tabs>
             </div>
           </div>
         </div>
+      </div>
     )
   }
 }
