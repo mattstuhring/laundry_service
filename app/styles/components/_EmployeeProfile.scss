@@ -1,290 +1,630 @@
-.employee-profile {
-  padding-bottom: 150px;
-  padding-top: 40px;
+/* Extra Small Devices, Phones */
+@media only screen and (max-width : 480px) {
+  .employee-profile {
+    padding-bottom: 150px;
+    padding-top: 40px;
+    background-color: white;
+    border: 1px solid #ccc;
 
 
 
 
-  .profile-header {
-    .page-header {
-      padding-bottom: 9px;
-      margin: 20px 0 20px;
-      border-bottom: 2px dotted #fca80b;
-      color: #2b5580;
+    .profile-header {
+      .page-header {
+        padding-bottom: 9px;
+        margin: 20px 0 20px;
+        border-bottom: 2px dotted #fca80b;
+        color: #2b5580;
 
-      h1 {
-        font-weight: bold;
-        font-size: 50px;
+        h1 {
+          font-weight: bold;
+          font-size: 50px;
+        }
       }
-    }
 
-    p {
-      margin: 15px 0 0px;
-    }
-
-    i.fa {
-      font-size: 15rem;
-      color: $darkBlue;
-      padding: 20px 20px;
-      display: inline-block;
-      -moz-border-radius: 100px;
-      -webkit-border-radius: 100px;
-      border-radius: 100px;
-      -moz-box-shadow: 0px 0px 3px #888;
-      -webkit-box-shadow: 0px 0px 3px #888;
-      box-shadow: 0px 0px 3px #888;
-      background-color: rgba(79,213,248,0.2);
-      border: 1px solid $lightBlue;
-    }
-  }
-
-
-
-
-
-  .queue-wrapper {
-    .page-header {
-      margin: 20px 0px 20px;
-    }
-  }
-
-
-
-  .queue {
-    .expand-row {
-      padding: 10px;
-
-      th {
-        background-color: $lightBlue;
-        text-transform: capitalize;
+      p {
+        margin: 15px 0 0px;
       }
-    }
 
-    input.form-control.my-custom-class {
-      width: 50%;
-      margin-left: 50%;
-    }
-
-    a.page-link {
-      background-color: $darkBlue;
-      border-color: $darkBlue;
-    }
-
-    button.btn.btn-link {
-      text-decoration: none;
-      @include transition(color 0.5s ease);
-
-      &:hover, &:focus {
+      i.fa {
+        font-size: 15rem;
         color: $darkBlue;
-        font-weight: bold;
+        padding: 20px 20px;
+        display: inline-block;
+        -moz-border-radius: 100px;
+        -webkit-border-radius: 100px;
+        border-radius: 100px;
+        -moz-box-shadow: 0px 0px 3px #888;
+        -webkit-box-shadow: 0px 0px 3px #888;
+        box-shadow: 0px 0px 3px #888;
+        background-color: rgba(79,213,248,0.2);
+        border: 1px solid $lightBlue;
       }
     }
 
-    .panel-primary {
-      border: 1px solid $darkBlue;
-      -moz-box-shadow: 0px 0px 3px $darkBlue;
-      -webkit-box-shadow: 0px 0px 3px $darkBlue;
-      box-shadow: 0px 0px 3px $darkBlue;
-      margin-bottom: 40px;
-    }
-
-    .panel-heading {
-      background-color: $darkBlue;
-    }
-
-    .panel-body {
-      background-color: #ededed;
-      padding: 30px;
-    }
-
-    .btn.btn-link {
-      padding: 0px 12px;
-    }
-
-    .react-bs-table-tool-bar {
-      padding: 14px;
-      background-color: $lightBlueTint;
 
 
-      .react-bs-table-search-clear-btn {
-        background-color: $darkBlue;
-        color: white;
-        z-index: 0;
+
+
+    .queue-wrapper {
+      .page-header {
+        margin: 20px 0px 20px;
       }
     }
 
-    .react-bs-table-container {
-      background-color: white;
-      border-radius: 4px;
-      border: 1px solid $darkGrey;
 
-      .react-bs-table-pagination {
-        margin-left: 15px;
-        margin-right: 15px;
+
+    .queue {
+      .expand-row {
+        padding: 10px;
+
+        th {
+          background-color: $lightBlue;
+          text-transform: capitalize;
+        }
       }
-    }
-  }
 
-
-
-  .my-jobs {
-    .expand-row {
-      padding: 10px;
-
-      th {
-        background-color: $lightBlue;
-        text-transform: capitalize;
-      }
-    }
-
-    input.form-control.my-custom-class {
-      width: 50%;
-      margin-left: 50%;
-    }
-
-    button.btn.btn-link {
-      text-decoration: none;
-      color: $amber;
-      @include transition(color 0.5s ease);
-
-      &:hover, &:focus {
-        color: rgb(201,134,8);
-        font-weight: bold;
-      }
-    }
-
-    a.page-link {
-      background-color: $amber;
-      border-color: $amber;
-    }
-
-    .panel-primary {
-      border: 1px solid $lightBlue;
-      -moz-box-shadow: 0px 0px 3px $lightBlue;
-      -webkit-box-shadow: 0px 0px 3px $lightBlue;
-      box-shadow: 0px 0px 3px $lightBlue;
-    }
-
-    .panel-primary>.panel-heading {
-      border: 1px solid $lightBlue;
-    }
-
-    .panel-heading {
-      background-color: $lightBlue;
-      border-color: $lightBlue;
-    }
-
-    .panel-body {
-      background-color: rgba(79,213,248,0.2);
-      padding: 30px;
-    }
-
-    .btn.btn-link {
-      padding: 0px 12px;
-    }
-
-
-    #my-jobs-tab {
-      .nav>li {
+      input.form-control.my-custom-class {
         width: 50%;
+        margin-left: 50%;
       }
 
-      #my-jobs-tab-tab-1 {
-        background-color: $amber;
-        color: white;
-        border: 1px solid $amber;
-        font-weight: bold;
-        text-align: center;
-        @include transition(background-color 0.75s ease);
+      a.page-link {
+        background-color: $darkBlue;
+        border-color: $darkBlue;
+      }
 
-        &:hover {
-          background-color: #e29709;
+      button.btn.btn-link {
+        text-decoration: none;
+        @include transition(color 0.5s ease);
+
+        &:hover, &:focus {
+          color: $darkBlue;
+          font-weight: bold;
         }
       }
 
-      #my-jobs-tab-tab-2 {
+      .panel-primary {
+        border: 1px solid $darkBlue;
+        -moz-box-shadow: 0px 0px 3px $darkBlue;
+        -webkit-box-shadow: 0px 0px 3px $darkBlue;
+        box-shadow: 0px 0px 3px $darkBlue;
+        margin-bottom: 40px;
+      }
+
+      .panel-heading {
+        background-color: $darkBlue;
+      }
+
+      .panel-body {
         background-color: #ededed;
-        color: $lightBlue;
-        border: 1px solid #ccc;
-        border-bottom: 1px solid #ededed;
-        font-weight: bold;
-        text-align: center;
-        @include transition(background-color 0.75s ease);
+        padding: 15px;
+      }
 
-        &:hover {
-          background-color: #bdbdbd;
+      .btn.btn-link {
+        padding: 0px 12px;
+      }
+
+      .react-bs-table-tool-bar {
+        padding: 14px;
+        background-color: $lightBlueTint;
+
+
+        .react-bs-table-search-clear-btn {
+          background-color: $darkBlue;
+          color: white;
+          z-index: 0;
         }
       }
 
-      #my-jobs-tab-pane-1 {
-        padding: 14px;
+      .react-bs-container-header {
+        .table>thead>tr>th {
+          font-size: 80%;
+        }
+      }
+
+      .react-bs-container-body {
+        .table>tbody>tr>td {
+          font-size: 80%;
+        }
+      }
+
+      .react-bs-table-container {
+        background-color: white;
+        border-radius: 4px;
+        border: 1px solid $darkGrey;
+
+        .react-bs-table-pagination {
+          margin-left: 15px;
+          margin-right: 15px;
+        }
+      }
+
+      .react-bs-table-search-form {
+        margin-bottom: 0px;
+
+        input.form-control.my-custom-class {
+          width: 100%;
+          margin-left: 0px;
+        }
+      }
+    }
+
+
+
+
+
+
+
+    .my-jobs {
+      .expand-row {
+        padding: 10px;
+
+        th {
+          background-color: $lightBlue;
+          text-transform: capitalize;
+        }
+      }
+
+      input.form-control.my-custom-class {
+        width: 50%;
+        margin-left: 50%;
+      }
+
+      button.btn.btn-link {
+        text-decoration: none;
+        color: $amber;
+        @include transition(color 0.5s ease);
+
+        &:hover, &:focus {
+          color: rgb(201,134,8);
+          font-weight: bold;
+        }
+      }
+
+      a.page-link {
         background-color: $amber;
-        border-left: 1px solid #ccc;
-        border-right: 1px solid #ccc;
-        border-bottom: 1px solid #ccc;
-        border-radius: 0px 4px 4px 4px;
+        border-color: $amber;
+      }
 
-        .react-bs-table-tool-bar {
-          background-color: #feedce;
-          padding: 15px;
-          border-radius: 4px 4px 0px 0px;
+      .panel-primary {
+        border: 1px solid $lightBlue;
+        -moz-box-shadow: 0px 0px 3px $lightBlue;
+        -webkit-box-shadow: 0px 0px 3px $lightBlue;
+        box-shadow: 0px 0px 3px $lightBlue;
+      }
 
-          .react-bs-table-search-clear-btn {
-            background-color: $amber;
-            color: white;
+      .panel-primary>.panel-heading {
+        border: 1px solid $lightBlue;
+      }
+
+      .panel-heading {
+        background-color: $lightBlue;
+        border-color: $lightBlue;
+      }
+
+      .panel-body {
+        background-color: rgba(79,213,248,0.2);
+        padding: 15px;
+      }
+
+      .btn.btn-link {
+        padding: 0px 12px;
+      }
+
+
+      #my-jobs-tab {
+        .nav>li {
+          width: 50%;
+        }
+
+        #my-jobs-tab-tab-1 {
+          background-color: $amber;
+          color: white;
+          border: 1px solid $amber;
+          font-weight: bold;
+          text-align: center;
+          font-size: 70%;
+          @include transition(background-color 0.75s ease);
+
+          &:hover {
+            background-color: #e29709;
           }
         }
 
-        .react-bs-table-container {
-          background-color: white;
-          border-radius: 4px;
+        #my-jobs-tab-tab-2 {
+          background-color: #ededed;
+          color: $lightBlue;
+          border: 1px solid #ccc;
+          border-bottom: 1px solid #ededed;
+          font-weight: bold;
+          text-align: center;
+          font-size: 70%;
+          @include transition(background-color 0.75s ease);
 
-          .react-bs-table-pagination {
-            margin-left: 15px;
-            margin-right: 15px;
-            padding-bottom: 15px;
+          &:hover {
+            background-color: #bdbdbd;
           }
+        }
+
+        #my-jobs-tab-pane-1 {
+          padding: 14px;
+          background-color: $amber;
+          border-left: 1px solid #ccc;
+          border-right: 1px solid #ccc;
+          border-bottom: 1px solid #ccc;
+          border-radius: 0px 4px 4px 4px;
+
+          .react-bs-table-tool-bar {
+            background-color: #feedce;
+            padding: 15px;
+            border-radius: 4px 4px 0px 0px;
+
+            .btn-success {
+              margin-bottom: 5px;
+              padding: 5px 13px;
+            }
+
+            .react-bs-table-search-clear-btn {
+              background-color: $amber;
+              color: white;
+            }
+          }
+
+          .react-bs-table-container {
+            background-color: white;
+            border-radius: 4px;
+
+            .react-bs-table-pagination {
+              margin-left: 15px;
+              margin-right: 15px;
+              padding-bottom: 15px;
+            }
+          }
+        }
+
+        #my-jobs-tab-pane-2 {
+          padding: 14px;
+          background-color: $lightGrey;
+          border-left: 1px solid #ccc;
+          border-right: 1px solid #ccc;
+          border-bottom: 1px solid #ccc;
+          border-radius: 0px 4px 4px 4px;
+
+          .react-bs-table-tool-bar {
+            padding: 15px;
+            background-color: $lightBlueTint;
+
+            .react-bs-table-search-clear-btn {
+              background-color: $lightBlue;
+              color: white;
+            }
+          }
+
+          .react-bs-table-container {
+            background-color: white;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+
+            .react-bs-table-pagination {
+              margin-left: 10px;
+              margin-right: 10px;
+              margin-bottom: 15px;
+            }
+          }
+        }
+
+        .react-bs-container-header {
+          .table>thead>tr>th {
+            font-size: 80%;
+          }
+        }
+
+        .react-bs-container-body {
+          .table>tbody>tr>td {
+            font-size: 80%;
+          }
+        }
+
+
+        .react-bs-table-search-form {
+          margin-bottom: 0px;
+
+          input.form-control.my-custom-class {
+            width: 100%;
+            margin-left: 0px;
+          }
+        }
+
+
+      }
+    }
+  }
+}
+
+
+
+
+@media only screen and (min-width : 481px) {
+  .employee-profile {
+    padding-bottom: 150px;
+    padding-top: 40px;
+    background-color: white;
+    border: 1px solid #ccc;
+
+    .profile-header {
+      .page-header {
+        padding-bottom: 9px;
+        margin: 20px 0 20px;
+        border-bottom: 2px dotted #fca80b;
+        color: #2b5580;
+
+        h1 {
+          font-weight: bold;
+          font-size: 50px;
         }
       }
 
-      #my-jobs-tab-pane-2 {
+      p {
+        margin: 15px 0 0px;
+      }
+
+      i.fa {
+        font-size: 15rem;
+        color: $darkBlue;
+        padding: 20px 20px;
+        display: inline-block;
+        -moz-border-radius: 100px;
+        -webkit-border-radius: 100px;
+        border-radius: 100px;
+        -moz-box-shadow: 0px 0px 3px #888;
+        -webkit-box-shadow: 0px 0px 3px #888;
+        box-shadow: 0px 0px 3px #888;
+        background-color: rgba(79,213,248,0.2);
+        border: 1px solid $lightBlue;
+      }
+    }
+
+
+
+
+
+    .queue-wrapper {
+      .page-header {
+        margin: 20px 0px 20px;
+      }
+    }
+
+
+
+    .queue {
+      .expand-row {
+        padding: 10px;
+
+        th {
+          background-color: $lightBlue;
+          text-transform: capitalize;
+        }
+      }
+
+      input.form-control.my-custom-class {
+        width: 50%;
+        margin-left: 50%;
+      }
+
+      a.page-link {
+        background-color: $darkBlue;
+        border-color: $darkBlue;
+      }
+
+      button.btn.btn-link {
+        text-decoration: none;
+        @include transition(color 0.5s ease);
+
+        &:hover, &:focus {
+          color: $darkBlue;
+          font-weight: bold;
+        }
+      }
+
+      .panel-primary {
+        border: 1px solid $darkBlue;
+        -moz-box-shadow: 0px 0px 3px $darkBlue;
+        -webkit-box-shadow: 0px 0px 3px $darkBlue;
+        box-shadow: 0px 0px 3px $darkBlue;
+        margin-bottom: 40px;
+      }
+
+      .panel-heading {
+        background-color: $darkBlue;
+      }
+
+      .panel-body {
+        background-color: #ededed;
+        padding: 30px;
+      }
+
+      .btn.btn-link {
+        padding: 0px 12px;
+      }
+
+      .react-bs-table-tool-bar {
         padding: 14px;
-        background-color: $lightGrey;
-        border-left: 1px solid #ccc;
-        border-right: 1px solid #ccc;
-        border-bottom: 1px solid #ccc;
-        border-radius: 0px 4px 4px 4px;
+        background-color: $lightBlueTint;
 
-        .react-bs-table-tool-bar {
-          padding: 15px;
-          background-color: $lightBlueTint;
 
-          .react-bs-table-search-clear-btn {
-            background-color: $lightBlue;
-            color: white;
+        .react-bs-table-search-clear-btn {
+          background-color: $darkBlue;
+          color: white;
+          z-index: 0;
+        }
+      }
+
+      .react-bs-table-container {
+        background-color: white;
+        border-radius: 4px;
+        border: 1px solid $darkGrey;
+
+        .react-bs-table-pagination {
+          margin-left: 15px;
+          margin-right: 15px;
+        }
+      }
+    }
+
+
+
+    .my-jobs {
+      .expand-row {
+        padding: 10px;
+
+        th {
+          background-color: $lightBlue;
+          text-transform: capitalize;
+        }
+      }
+
+      input.form-control.my-custom-class {
+        width: 50%;
+        margin-left: 50%;
+      }
+
+      button.btn.btn-link {
+        text-decoration: none;
+        color: $amber;
+        @include transition(color 0.5s ease);
+
+        &:hover, &:focus {
+          color: rgb(201,134,8);
+          font-weight: bold;
+        }
+      }
+
+      a.page-link {
+        background-color: $amber;
+        border-color: $amber;
+      }
+
+      .panel-primary {
+        border: 1px solid $lightBlue;
+        -moz-box-shadow: 0px 0px 3px $lightBlue;
+        -webkit-box-shadow: 0px 0px 3px $lightBlue;
+        box-shadow: 0px 0px 3px $lightBlue;
+      }
+
+      .panel-primary>.panel-heading {
+        border: 1px solid $lightBlue;
+      }
+
+      .panel-heading {
+        background-color: $lightBlue;
+        border-color: $lightBlue;
+      }
+
+      .panel-body {
+        background-color: rgba(79,213,248,0.2);
+        padding: 30px;
+      }
+
+      .btn.btn-link {
+        padding: 0px 12px;
+      }
+
+
+      #my-jobs-tab {
+        .nav>li {
+          width: 50%;
+        }
+
+        #my-jobs-tab-tab-1 {
+          background-color: $amber;
+          color: white;
+          border: 1px solid $amber;
+          font-weight: bold;
+          text-align: center;
+          @include transition(background-color 0.75s ease);
+
+          &:hover {
+            background-color: #e29709;
           }
         }
 
-        .react-bs-table-container {
-          background-color: white;
-          border-radius: 4px;
+        #my-jobs-tab-tab-2 {
+          background-color: #ededed;
+          color: $lightBlue;
           border: 1px solid #ccc;
+          border-bottom: 1px solid #ededed;
+          font-weight: bold;
+          text-align: center;
+          @include transition(background-color 0.75s ease);
 
-          .react-bs-table-pagination {
-            margin-left: 10px;
-            margin-right: 10px;
-            margin-bottom: 15px;
+          &:hover {
+            background-color: #bdbdbd;
+          }
+        }
+
+        #my-jobs-tab-pane-1 {
+          padding: 14px;
+          background-color: $amber;
+          border-left: 1px solid #ccc;
+          border-right: 1px solid #ccc;
+          border-bottom: 1px solid #ccc;
+          border-radius: 0px 4px 4px 4px;
+
+          .react-bs-table-tool-bar {
+            background-color: #feedce;
+            padding: 15px;
+            border-radius: 4px 4px 0px 0px;
+
+            .react-bs-table-search-clear-btn {
+              background-color: $amber;
+              color: white;
+            }
+          }
+
+          .react-bs-table-container {
+            background-color: white;
+            border-radius: 4px;
+
+            .react-bs-table-pagination {
+              margin-left: 15px;
+              margin-right: 15px;
+              padding-bottom: 15px;
+            }
+          }
+        }
+
+        #my-jobs-tab-pane-2 {
+          padding: 14px;
+          background-color: $lightGrey;
+          border-left: 1px solid #ccc;
+          border-right: 1px solid #ccc;
+          border-bottom: 1px solid #ccc;
+          border-radius: 0px 4px 4px 4px;
+
+          .react-bs-table-tool-bar {
+            padding: 15px;
+            background-color: $lightBlueTint;
+
+            .react-bs-table-search-clear-btn {
+              background-color: $lightBlue;
+              color: white;
+            }
+          }
+
+          .react-bs-table-container {
+            background-color: white;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+
+            .react-bs-table-pagination {
+              margin-left: 10px;
+              margin-right: 10px;
+              margin-bottom: 15px;
+            }
           }
         }
       }
     }
   }
-
-
-
-
-
-
-
-
 }

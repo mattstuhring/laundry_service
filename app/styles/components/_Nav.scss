@@ -1,68 +1,3 @@
-.top-nav {
-
-  .navbar-fixed-top {
-    z-index: 2 !important;
-  }
-
-  .navbar-default {
-    background-color: $darkBlue;
-    border-color: $darkBlue;
-  }
-
-  .navbar-nav > li > a.active-link {
-    color: $lightBlue;
-    font-weight: bold;
-  }
-
-  .navbar-nav > li > a {
-    color: white;
-    padding-top: 20px;
-    padding-bottom: 20px;
-    
-    @include transition(color 0.75s ease);
-    &:hover, &:focus {
-      color: $lightBlue;
-      text-decoration: none;
-      background-color: transparent;
-    }
-  }
-
-  .navbar-nav.navbar-right {
-    margin-right: 30px;
-  }
-
-}
-
-
-
-
-/* Custom, iPhone Retina */
- @media only screen and (max-width : 320px) {
-   .navbar-brand {
-     padding-left: 0px;
-
-     .logo-img img {
-       width: 64px;
-       position: relative;
-       top: -14px;
-       border-radius: 4px;
-       padding: 5px;
-     }
-
-     .company-img img {
-       width: 170px;
-       position: relative;
-       top: -4px;
-       right: 5px;
-       border-radius: 4px;
-       padding: 5px;
-     }
-   }
-
- }
-
-
-
  /* Extra Small Devices, Phones */
  @media only screen and (max-width : 480px) {
    .navbar-brand {
@@ -84,6 +19,41 @@
        border-radius: 4px;
        padding: 5px;
      }
+   }
+
+   .top-nav {
+
+     .navbar-fixed-top {
+       z-index: 2 !important;
+     }
+
+     .navbar-default {
+       background-color: $darkBlue;
+       border-color: $darkBlue;
+     }
+
+     .navbar-nav > li > a.active-link {
+       color: $lightBlue;
+       font-weight: bold;
+     }
+
+     .navbar-nav > li > a {
+       color: white;
+       padding-top: 20px;
+       padding-bottom: 20px;
+
+       @include transition(color 0.75s ease);
+       &:hover, &:focus {
+         color: $lightBlue;
+         text-decoration: none;
+         background-color: transparent;
+       }
+     }
+
+     .navbar-nav.navbar-right {
+       margin-right: 30px;
+     }
+
    }
  }
 
@@ -109,5 +79,45 @@
        border-radius: 4px;
        padding: 5px;
      }
+   }
+
+   .top-nav {
+    //  .navbar-default {
+    //    padding-bottom: 7px;
+    //  }
+
+     .navbar-brand {
+       padding: 15px 15px 41px;
+     }
+
+     .navbar-fixed-top {
+       z-index: 2 !important;
+     }
+
+     .navbar-default {
+       background-color: $darkBlue;
+       border-color: $darkBlue;
+     }
+
+     .navbar-nav > li > a.active-link {
+       color: $lightBlue;
+       font-weight: bold;
+     }
+
+     .navbar-nav > li > a {
+       color: white;
+
+       @include transition(color 0.75s ease);
+       &:hover, &:focus {
+         color: $lightBlue;
+         text-decoration: none;
+         background-color: transparent;
+       }
+     }
+
+     .navbar-nav.navbar-right {
+       margin-right: 30px;
+     }
+
    }
  }
