@@ -30,25 +30,25 @@ export class Login extends React.Component {
 
     axios.post('/api/token', customer)
       .then(() => {
-        let profile;
+        // let profile;
+        //
+        // if (document.cookie) {
+        //   const cookie = document.cookie.split(';');
+        //   const status = cookie[0];
+        //   const access = cookie[1].trim();
+        //
+        //   if (access === 'access=admin') {
+        //     profile = '/adminContainer';
+        //   } else if (access === 'access=employee') {
+        //     profile = '/employeeProfile';
+        //   } else if (access === 'access=customer') {
+        //     profile = '/customerProfile';
+        //   } else {
+        //     profile = '/login';
+        //   }
+        // }
 
-        if (document.cookie) {
-          const cookie = document.cookie.split(';');
-          const status = cookie[0];
-          const access = cookie[1].trim();
-
-          if (access === 'access=admin') {
-            profile = '/adminContainer';
-          } else if (access === 'access=employee') {
-            profile = '/employeeProfile';
-          } else if (access === 'access=customer') {
-            profile = '/customerProfile';
-          } else {
-            profile = '/login';
-          }
-        }
-
-        browserHistory.push(profile);
+        browserHistory.push('/customerProfile');
       })
       .catch((err) => {
         console.log(err);
