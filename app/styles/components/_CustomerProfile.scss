@@ -269,7 +269,6 @@
     .breadcrumb {
       padding: 10px 20px;
       background-color: rgba(252,168,11,0.9);
-      margin-bottom: 40px;
     }
 
     .breadcrumb a {
@@ -342,6 +341,10 @@
 
 
   .order-info {
+    .input-group .form-control {
+      z-index: 1;
+    }
+
     .col-sm-10 {
       padding: 0px;
     }
@@ -351,6 +354,10 @@
       margin-top: 1rem;
       border: 0;
       border-top: 2px dotted $lightBlue;
+    }
+
+    .glyphicon {
+      font-size: 25px;
     }
 
     .glyphicon-calendar {
@@ -367,6 +374,7 @@
       width: 80px;
       font-size: 80%;
       margin-right: 28px;
+      margin-left: 28px;
       background-color: $amber;
       @include transition(box-shadow 0.75s ease);
 
@@ -380,6 +388,11 @@
 
 
   .order-payment {
+    .pager {
+      margin: 0px;
+      padding-bottom: 15px;
+    }
+
     .pager li>a {
       border: 1px solid #ddd;
       border-radius: 15px;
@@ -406,7 +419,7 @@
 
     .order-summary {
       margin-top: 0px;
-      margin-bottom: 20px;
+      padding: 15px 15px 0px;
 
       .panel-body {
         padding: 20px;
@@ -420,7 +433,7 @@
 
       i.fa-calendar {
         position: relative;
-        top: 19px;
+        top: 12px;
       }
 
       i.fa-check-square-o {
@@ -707,6 +720,7 @@
    .input-group-addon {
      background-color: #ededed;
      color: $amber;
+     font-size: 25px;
    }
 
    .order-date-time {

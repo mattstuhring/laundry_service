@@ -896,7 +896,7 @@ class CustomerProfile extends React.Component {
               {/* ADDRESS */}
               <div className="row">
                 <div className="col-xs-8 col-xs-offset-2 col-sm-10 col-sm-offset-1">
-                  <FormGroup>
+                  <FormGroup bsSize="large">
                     <ControlLabel><em>Laundry pick-up location:</em></ControlLabel>
                     <InputGroup>
                       <InputGroup.Addon>
@@ -923,7 +923,7 @@ class CustomerProfile extends React.Component {
               {/* CONTACT */}
               <div className="row">
                 <div className="col-xs-8 col-xs-offset-2 col-sm-10 col-sm-offset-1">
-                  <FormGroup>
+                  <FormGroup bsSize="large">
                     <ControlLabel><em>Contact:</em></ControlLabel>
                     <InputGroup>
                       <InputGroup.Addon>
@@ -961,7 +961,7 @@ class CustomerProfile extends React.Component {
 
                   <div className="col-xs-12 col-sm-6 order-time">
                     <ControlLabel><em>Select a pick-up time:</em></ControlLabel>
-                    <FormGroup>
+                    <FormGroup bsSize="large">
                       <InputGroup>
                         <InputGroup.Addon>
                           <span className="glyphicon glyphicon-time" aria-hidden="true"></span>
@@ -1039,7 +1039,7 @@ class CustomerProfile extends React.Component {
                 </div>
               </div>
               <div className="row">
-                <div className="col-xs-10 col-xs-offset-1 col-sm-10 col-sm-offset-1">
+                <div className="col-xs-12 col-sm-10 col-sm-offset-1">
                   <div className="order-summary">
                     <Panel>
                       <div className="row">

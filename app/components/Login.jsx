@@ -182,7 +182,7 @@ export class Login extends React.Component {
                       {/* <form onSubmit={this.handleLogin.bind(this)}> */}
                       <form>
                         <div className="login-form-wrapper">
-                          <FormGroup controlId="email">
+                          <FormGroup controlId="email" bsSize="large">
                             <InputGroup>
                               <InputGroup.Addon>
                                 <span className="glyphicon glyphicon-envelope" aria-hidden="true"></span>
@@ -197,7 +197,7 @@ export class Login extends React.Component {
                               />
                             </InputGroup>
                           </FormGroup>
-                          <FormGroup controlId="user">
+                          <FormGroup controlId="user" bsSize="large">
                             <InputGroup>
                               <InputGroup.Addon>
                                 <span className="glyphicon glyphicon-lock" aria-hidden="true"></span>
@@ -256,7 +256,7 @@ export class Login extends React.Component {
                       <form onSubmit={this.handleSubmit.bind(this)}>
                         <div className="row">
                           <div className="col-sm-6">
-                            <FormGroup controlId="user">
+                            <FormGroup controlId="user" bsSize="large">
                               <InputGroup>
                                 <InputGroup.Addon>
                                   <span className="glyphicon glyphicon-user" aria-hidden="true"></span>
@@ -272,7 +272,7 @@ export class Login extends React.Component {
                             </FormGroup>
                           </div>
                           <div className="col-sm-6">
-                            <FormGroup controlId="user">
+                            <FormGroup controlId="user" bsSize="large">
                               <FormControl
                                 type="text"
                                 placeholder="Last name"
@@ -283,7 +283,7 @@ export class Login extends React.Component {
                             </FormGroup>
                           </div>
                         </div>
-                        <FormGroup controlId="user">
+                        <FormGroup controlId="user" bsSize="large">
                           <InputGroup>
                             <InputGroup.Addon>
                               <span className="glyphicon glyphicon-home" aria-hidden="true"></span>
@@ -297,7 +297,7 @@ export class Login extends React.Component {
                             />
                           </InputGroup>
                         </FormGroup>
-                        <FormGroup controlId="user">
+                        <FormGroup controlId="user" bsSize="large">
                           <InputGroup>
                             <InputGroup.Addon>
                               <span className="glyphicon glyphicon-envelope" aria-hidden="true"></span>
@@ -311,7 +311,7 @@ export class Login extends React.Component {
                             />
                           </InputGroup>
                         </FormGroup>
-                        <FormGroup controlId="user">
+                        <FormGroup controlId="user" bsSize="large">
                           <InputGroup>
                             <InputGroup.Addon>
                               <span className="glyphicon glyphicon-phone" aria-hidden="true"></span>
@@ -329,7 +329,7 @@ export class Login extends React.Component {
 
                         <div className="row">
                           <div className="col-sm-6">
-                            <FormGroup controlId="user" validationState={this.getPasswordValidationState()}>
+                            <FormGroup controlId="user" bsSize="large" validationState={this.getPasswordValidationState()}>
                               <InputGroup>
                                 <InputGroup.Addon>
                                   <span className="glyphicon glyphicon-lock" aria-hidden="true"></span>
@@ -345,7 +345,7 @@ export class Login extends React.Component {
                             </FormGroup>
                           </div>
                           <div className="col-sm-6">
-                            <FormGroup controlId="user" validationState={this.getValidationState()}>
+                            <FormGroup controlId="user" bsSize="large" validationState={this.getValidationState()}>
                               <FormControl
                                 type="password"
                                 placeholder="Re-type password"
