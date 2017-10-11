@@ -1,12 +1,43 @@
  /* Extra Small Devices, Phones */
  @media only screen and (max-width : 480px) {
+   #navbar-collapse-1 {
+     a {
+       &:hover, &:focus {
+         background-color: $darkBlue;
+       }
+     }
+
+     .navbar-nav>.open>a:focus {
+       color: $lightBlue;
+     }
+
+    .open .dropdown-menu {
+      background-color: #ededed;
+      border-radius: 4px;
+      margin-bottom: 10px;
+    }
+
+     .open .dropdown-menu>li>a {
+       color: #333;
+     }
+
+     .navbar-nav.navbar-right {
+       margin-right: 0px;
+     }
+
+     .navbar-nav.navbar-right>li {
+       border-bottom: 1px dotted $amber;
+     }
+   }
+
+
    .navbar-brand {
      padding-left: 0px;
 
      .logo-img img {
-       width: 64px;
+       width: 58px;
        position: relative;
-       top: -14px;
+       top: -12px;
        border-radius: 4px;
        padding: 5px;
      }
