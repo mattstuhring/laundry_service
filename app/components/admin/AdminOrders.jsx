@@ -70,30 +70,37 @@ class AdminOrders extends React.Component {
 
 
   componentWillMount() {
-    axios.get('/api/authAdmin')
-    .then((res) => {
-      const data = res.data[0];
-      this.setState({firstName: data.firstName});
+    if (localStorage.length > 0) {
+      const user = JSON.parse( localStorage.getItem( 'user' ) );
+      const token = user.token;
 
-      return axios.get('/api/admin')
+      axios.get('/api/authAdmin', { headers: {token} })
         .then((res) => {
-          this.setState({
-            queueOrders: res.data[0],
-            completeOrders: res.data[1],
-            activeOrders: res.data[2],
-            selectedActiveOrders: [],
-            selectedQueueOrders: [],
-            selectedCompleteOrders: []
-          });
+          const data = res.data[0];
+          this.setState({firstName: data.firstName});
+
+          return axios.get('/api/admin')
+            .then((res) => {
+              this.setState({
+                queueOrders: res.data[0],
+                completeOrders: res.data[1],
+                activeOrders: res.data[2],
+                selectedActiveOrders: [],
+                selectedQueueOrders: [],
+                selectedCompleteOrders: []
+              });
+            })
+            .catch((err) => {
+              console.log(err);
+            });
         })
         .catch((err) => {
           console.log(err);
+          browserHistory.push('/login');
         });
-    })
-    .catch((err) => {
-      console.log(err);
+    } else {
       browserHistory.push('/login');
-    });
+    }
   }
 
 
@@ -103,33 +110,39 @@ class AdminOrders extends React.Component {
     const { selectedQueueOrders } = this.state;
     const check = 'active';
 
-    axios.put('/api/admin', {selectedQueueOrders, check})
-      .then((r) => {
-        this.refs.queueTable.cleanSelected();
+    if (localStorage.length > 0) {
+      const user = JSON.parse( localStorage.getItem( 'user' ) );
+      const token = user.token;
+      axios.put('/api/admin', {selectedQueueOrders, check}, { headers: {token} })
+        .then((r) => {
+          this.refs.queueTable.cleanSelected();
 
-        this.refs.queueTable.setState({
-          selectedRowKeys: []
-        });
-
-        return axios.get('/api/admin')
-          .then((res) => {
-
-            this.setState({
-              queueOrders: res.data[0],
-              completeOrders: res.data[1],
-              activeOrders: res.data[2],
-              selectedQueueOrders: [],
-              selectedActiveOrders: [],
-              showModal: false
-            });
-          })
-          .catch((err) => {
-            console.log(err);
+          this.refs.queueTable.setState({
+            selectedRowKeys: []
           });
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+
+          return axios.get('/api/admin')
+            .then((res) => {
+
+              this.setState({
+                queueOrders: res.data[0],
+                completeOrders: res.data[1],
+                activeOrders: res.data[2],
+                selectedQueueOrders: [],
+                selectedActiveOrders: [],
+                showModal: false
+              });
+            })
+            .catch((err) => {
+              console.log(err);
+            });
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    } else {
+      browserHistory.push('/login');
+    }
   }
 
 
@@ -139,32 +152,38 @@ class AdminOrders extends React.Component {
   handleComplete() {
     const { selectedActiveOrders } = this.state;
 
-    axios.post('/api/admin', { selectedActiveOrders })
-      .then((r) => {
-        this.refs.activeTable.cleanSelected();
-        this.refs.activeTable.setState({
-          selectedRowKeys: []
-        });
-
-        return axios.get('/api/admin')
-          .then((res) => {
-
-            this.setState({
-              showModal: false,
-              queueOrders: res.data[0],
-              completeOrders: res.data[1],
-              activeOrders: res.data[2],
-              selectedActiveOrders: [],
-              selectedQueueOrders: []
-            });
-          })
-          .catch((err) => {
-            console.log(err);
+    if (localStorage.length > 0) {
+      const user = JSON.parse( localStorage.getItem( 'user' ) );
+      const token = user.token;
+      axios.post('/api/admin', { selectedActiveOrders }, { headers: {token} })
+        .then((r) => {
+          this.refs.activeTable.cleanSelected();
+          this.refs.activeTable.setState({
+            selectedRowKeys: []
           });
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+
+          return axios.get('/api/admin')
+            .then((res) => {
+
+              this.setState({
+                showModal: false,
+                queueOrders: res.data[0],
+                completeOrders: res.data[1],
+                activeOrders: res.data[2],
+                selectedActiveOrders: [],
+                selectedQueueOrders: []
+              });
+            })
+            .catch((err) => {
+              console.log(err);
+            });
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    } else {
+      browserHistory.push('/login');
+    }
   }
 
 
@@ -181,46 +200,53 @@ class AdminOrders extends React.Component {
       selectedOrders = this.state.selectedCompleteOrders;
     }
 
-    axios.put('/api/adminDeleteOrder', {selectedOrders})
-      .then((r) => {
-        if (table === 'queue') {
-          this.refs.queueTable.cleanSelected();
-          this.refs.queueTable.setState({
-            selectedRowKeys: []
-          });
-        } else if (table === 'active') {
-          this.refs.activeTable.cleanSelected();
-          this.refs.activeTable.setState({
-            selectedRowKeys: []
-          });
-        } else if (table === 'complete') {
-          this.refs.completeTable.cleanSelected();
-          this.refs.completeTable.setState({
-            selectedRowKeys: []
-          });
-        }
+    if (localStorage.length > 0) {
+      const user = JSON.parse( localStorage.getItem( 'user' ) );
+      const token = user.token;
 
-        return axios.get('/api/admin')
-          .then((res) => {
-            this.setState({
-              showModal: false,
-              queueOrders: res.data[0],
-              completeOrders: res.data[1],
-              activeOrders: res.data[2],
-              selectedActiveOrders: [],
-              selectedQueueOrders: [],
-              selectedCompleteOrders: [],
-              table: ''
+      axios.put('/api/adminDeleteOrder', {selectedOrders}, { headers: {token} })
+        .then((r) => {
+          if (table === 'queue') {
+            this.refs.queueTable.cleanSelected();
+            this.refs.queueTable.setState({
+              selectedRowKeys: []
             });
-          })
-          .catch((err) => {
-            console.log(err);
-          });
-      })
-      .catch((err) => {
-        console.log(err);
-        return;
-      });
+          } else if (table === 'active') {
+            this.refs.activeTable.cleanSelected();
+            this.refs.activeTable.setState({
+              selectedRowKeys: []
+            });
+          } else if (table === 'complete') {
+            this.refs.completeTable.cleanSelected();
+            this.refs.completeTable.setState({
+              selectedRowKeys: []
+            });
+          }
+
+          return axios.get('/api/admin', { headers: {token} })
+            .then((res) => {
+              this.setState({
+                showModal: false,
+                queueOrders: res.data[0],
+                completeOrders: res.data[1],
+                activeOrders: res.data[2],
+                selectedActiveOrders: [],
+                selectedQueueOrders: [],
+                selectedCompleteOrders: [],
+                table: ''
+              });
+            })
+            .catch((err) => {
+              console.log(err);
+            });
+        })
+        .catch((err) => {
+          console.log(err);
+          return;
+        });
+    } else {
+      browserHistory.push('/login');
+    }
   }
 
 
@@ -236,39 +262,46 @@ class AdminOrders extends React.Component {
       selectedOrders = this.state.selectedActiveOrders;
     }
 
-    axios.put('/api/adminRemoveOrder', { selectedOrders })
-      .then((r) => {
-        if (table === 'queue') {
-          this.refs.queueTable.cleanSelected();
-          this.refs.queueTable.setState({
-            selectedRowKeys: []
-          });
-        } else if (table === 'active') {
-          this.refs.activeTable.cleanSelected();
-          this.refs.activeTable.setState({
-            selectedRowKeys: []
-          });
-        }
+    if (localStorage.length > 0) {
+      const user = JSON.parse( localStorage.getItem( 'user' ) );
+      const token = user.token;
 
-        return axios.get(`/api/admin`)
-          .then((res) => {
-            this.setState({
-              showModal: false,
-              queueOrders: res.data[0],
-              completeOrders: res.data[1],
-              activeOrders: res.data[2],
-              selectedActiveOrders: [],
-              selectedQueueOrders: [],
-              table: ''
+      axios.put('/api/adminRemoveOrder', { selectedOrders }, { headers: {token} })
+        .then((r) => {
+          if (table === 'queue') {
+            this.refs.queueTable.cleanSelected();
+            this.refs.queueTable.setState({
+              selectedRowKeys: []
             });
-          })
-          .catch((err) => {
-            console.log(err);
-          });
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+          } else if (table === 'active') {
+            this.refs.activeTable.cleanSelected();
+            this.refs.activeTable.setState({
+              selectedRowKeys: []
+            });
+          }
+
+          return axios.get(`/api/admin`, { headers: {token} })
+            .then((res) => {
+              this.setState({
+                showModal: false,
+                queueOrders: res.data[0],
+                completeOrders: res.data[1],
+                activeOrders: res.data[2],
+                selectedActiveOrders: [],
+                selectedQueueOrders: [],
+                table: ''
+              });
+            })
+            .catch((err) => {
+              console.log(err);
+            });
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    } else {
+      browserHistory.push('/login');
+    }
   }
 
 

@@ -11,7 +11,6 @@ const jwt = require('jsonwebtoken');
 const router = express.Router();
 
 
-// router.get('/authCustomer', checkAuth, (req, res, next) => {
 router.get('/authCustomer', checkAuth, (req, res, next) => {
   const { userId, access } = req.token;
 

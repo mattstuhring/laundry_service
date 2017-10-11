@@ -66,27 +66,34 @@ class EmployeeProfile extends React.Component {
 
 
   componentWillMount() {
-    axios.get('/api/authEmployee')
-    .then((res) => {
-      const data = res.data[0];
-      this.setState({firstName: data.firstName});
+    if (localStorage.length > 0) {
+      const user = JSON.parse( localStorage.getItem( 'user' ) );
+      const token = user.token;
 
-      return axios.get(`/api/employeeOrders`)
+      axios.get('/api/authEmployee', { headers: {token} })
         .then((res) => {
-          this.setState({
-            queueOrders: res.data[0],
-            completeOrders: res.data[1],
-            activeOrders: res.data[2]
-          });
+          const data = res.data[0];
+          this.setState({firstName: data.firstName});
+
+          return axios.get(`/api/employeeOrders`, { headers: {token} })
+            .then((res) => {
+              this.setState({
+                queueOrders: res.data[0],
+                completeOrders: res.data[1],
+                activeOrders: res.data[2]
+              });
+            })
+            .catch((err) => {
+              console.log(err);
+            });
         })
         .catch((err) => {
           console.log(err);
+          browserHistory.push('/login');
         });
-    })
-    .catch((err) => {
-      console.log(err);
+    } else {
       browserHistory.push('/login');
-    });
+    }
   }
 
 
@@ -94,31 +101,38 @@ class EmployeeProfile extends React.Component {
     const { selectedQueueOrders } = this.state;
     const check = 'active';
 
-    axios.put(`/api/employeeOrders`, {selectedQueueOrders, check})
-      .then((r) => {
-        this.refs.queueTable.cleanSelected();
-        this.refs.queueTable.reset();
-        this.refs.queueTable.setState({
-          selectedRowKeys: []
-        });
+    if (localStorage.length > 0) {
+      const user = JSON.parse( localStorage.getItem( 'user' ) );
+      const token = user.token;
 
-        return axios.get(`/api/employeeOrders`)
-          .then((res) => {
-            this.setState({
-              showModal: false,
-              queueOrders: res.data[0],
-              completeOrders: res.data[1],
-              activeOrders: res.data[2],
-              selectedQueueOrders: [],
-            });
-          })
-          .catch((err) => {
-            console.log(err);
+      axios.put(`/api/employeeOrders`, {selectedQueueOrders, check}, {headers: {token}})
+        .then((r) => {
+          this.refs.queueTable.cleanSelected();
+          this.refs.queueTable.reset();
+          this.refs.queueTable.setState({
+            selectedRowKeys: []
           });
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+
+          return axios.get(`/api/employeeOrders`, {headers: {token}})
+            .then((res) => {
+              this.setState({
+                showModal: false,
+                queueOrders: res.data[0],
+                completeOrders: res.data[1],
+                activeOrders: res.data[2],
+                selectedQueueOrders: [],
+              });
+            })
+            .catch((err) => {
+              console.log(err);
+            });
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    } else {
+      browserHistory.push('/login');
+    }
   }
 
 
@@ -126,64 +140,78 @@ class EmployeeProfile extends React.Component {
     const { orderId, orderStep } = this.state;
     const { selectedActiveOrders } = this.state;
 
-    axios.post('/api/employeeOrders/', {selectedActiveOrders})
-      .then((r) => {
-        this.refs.activeTable.cleanSelected();
-        this.refs.activeTable.reset();
-        this.refs.activeTable.setState({
-          selectedRowKeys: []
-        });
+    if (localStorage.length > 0) {
+      const user = JSON.parse( localStorage.getItem( 'user' ) );
+      const token = user.token;
 
-        return axios.get(`/api/employeeOrders`)
-          .then((res) => {
-            this.setState({
-              showModal: false,
-              queueOrders: res.data[0],
-              completeOrders: res.data[1],
-              activeOrders: res.data[2],
-              selectedActiveOrders: [],
-              selectedQueueOrders: []
-            });
-          })
-          .catch((err) => {
-            console.log(err);
+      axios.post('/api/employeeOrders/', {selectedActiveOrders}, {headers: {token}})
+        .then((r) => {
+          this.refs.activeTable.cleanSelected();
+          this.refs.activeTable.reset();
+          this.refs.activeTable.setState({
+            selectedRowKeys: []
           });
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+
+          return axios.get(`/api/employeeOrders`, {headers: {token}})
+            .then((res) => {
+              this.setState({
+                showModal: false,
+                queueOrders: res.data[0],
+                completeOrders: res.data[1],
+                activeOrders: res.data[2],
+                selectedActiveOrders: [],
+                selectedQueueOrders: []
+              });
+            })
+            .catch((err) => {
+              console.log(err);
+            });
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    } else {
+      browserHistory.push('/login');
+    }
   }
 
 
   handleStepBack() {
     const { selectedActiveOrders } = this.state;
 
-    axios.put('/api/employeeRemoveOrder', { selectedActiveOrders })
-      .then((r) => {
-        this.refs.activeTable.cleanSelected();
-        this.refs.activeTable.reset();
-        this.refs.activeTable.setState({
-          selectedRowKeys: []
-        });
+    if (localStorage.length > 0) {
+      const user = JSON.parse( localStorage.getItem( 'user' ) );
+      const token = user.token;
 
-        return axios.get(`/api/employeeOrders`)
-          .then((res) => {
-            this.setState({
-              showModal: false,
-              queueOrders: res.data[0],
-              completeOrders: res.data[1],
-              activeOrders: res.data[2],
-              selectedActiveOrders: [],
-              selectedQueueOrders: []
-            });
-          })
-          .catch((err) => {
-            console.log(err);
+      axios.put('/api/employeeRemoveOrder', { selectedActiveOrders }, {headers: {token}})
+        .then((r) => {
+          this.refs.activeTable.cleanSelected();
+          this.refs.activeTable.reset();
+          this.refs.activeTable.setState({
+            selectedRowKeys: []
           });
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+
+          return axios.get(`/api/employeeOrders`, {headers: {token}})
+            .then((res) => {
+              this.setState({
+                showModal: false,
+                queueOrders: res.data[0],
+                completeOrders: res.data[1],
+                activeOrders: res.data[2],
+                selectedActiveOrders: [],
+                selectedQueueOrders: []
+              });
+            })
+            .catch((err) => {
+              console.log(err);
+            });
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    } else {
+      browserHistory.push('/login');
+    }
   }
 
 

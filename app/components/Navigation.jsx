@@ -81,6 +81,8 @@ export default class Navigation extends React.Component {
   handleLogOut() {
     axios.delete('api/token')
       .then(() => {
+        localStorage.clear();
+        
         this.props.setToast('You are now logged out!', {type: 'success'});
         browserHistory.push('/');
       })
@@ -96,11 +98,9 @@ export default class Navigation extends React.Component {
       let navLinks;
       let profile;
 
-      console.log(localStorage, '************** before localStorage');
 
       if (localStorage.length > 0) {
         const user = JSON.parse( localStorage.getItem( 'user' ) );
-        console.log(user, '************** nav user')
         const userAccess = user.access;
 
         if (userAccess === 'admin') {

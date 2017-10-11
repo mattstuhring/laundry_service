@@ -4,7 +4,6 @@ const stripe = require('../constants/stripe');
 const knex = require('../knex');
 const express = require('express');
 const { checkAuth } = require('./auth-middleware');
-
 const router = express.Router();
 
 
