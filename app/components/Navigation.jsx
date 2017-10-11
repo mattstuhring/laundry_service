@@ -180,64 +180,64 @@ export default class Navigation extends React.Component {
               </ul>
             </div>
           );
+
+          return (
+            <div>
+              <div className="navbar-header">
+                <div className="navbar-brand" href="#">
+                  <span className="logo-img">
+                    <Link to={profile}>
+                      <img alt="Laundry" src="images/logo.svg"/>
+                    </Link>
+                  </span>
+                  <span className="company-img">
+                    <Link to={profile}>
+                      <img alt="Laundry" src="images/company.svg"/>
+                    </Link>
+                  </span>
+                </div>
+                <button type="button" className="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse-1" aria-expanded="false">
+                  <span className="sr-only">Toggle navigation</span>
+                  <span className="icon-bar"></span>
+                  <span className="icon-bar"></span>
+                  <span className="icon-bar"></span>
+                </button>
+              </div>
+
+              {navLinks}
+            </div>
+          );
+        } else {
+          profile = '/';
+
+          return (
+            <div>
+              <div className="navbar-header">
+                <div className="navbar-brand" href="#">
+                  <span className="logo-img">
+                    <Link to={profile}>
+                      <img alt="Laundry" src="images/logo.svg"/>
+                    </Link>
+                  </span>
+                </div>
+                <button type="button" className="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse-1" aria-expanded="false">
+                  <span className="sr-only">Toggle navigation</span>
+                  <span className="icon-bar"></span>
+                  <span className="icon-bar"></span>
+                  <span className="icon-bar"></span>
+                </button>
+              </div>
+
+              <div className="collapse navbar-collapse" id="navbar-collapse-1">
+                <ul className="nav navbar-nav navbar-right">
+                  <li>
+                    <IndexLink to="/faq" activeClassName="active-link">FAQ</IndexLink>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          );
         }
-
-        return (
-          <div>
-            <div className="navbar-header">
-              <div className="navbar-brand" href="#">
-                <span className="logo-img">
-                  <Link to={profile}>
-                    <img alt="Laundry" src="images/logo.svg"/>
-                  </Link>
-                </span>
-                <span className="company-img">
-                  <Link to={profile}>
-                    <img alt="Laundry" src="images/company.svg"/>
-                  </Link>
-                </span>
-              </div>
-              <button type="button" className="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse-1" aria-expanded="false">
-                <span className="sr-only">Toggle navigation</span>
-                <span className="icon-bar"></span>
-                <span className="icon-bar"></span>
-                <span className="icon-bar"></span>
-              </button>
-            </div>
-
-            {navLinks}
-          </div>
-        );
-      } else {
-        profile = '/';
-
-        return (
-          <div>
-            <div className="navbar-header">
-              <div className="navbar-brand" href="#">
-                <span className="logo-img">
-                  <Link to={profile}>
-                    <img alt="Laundry" src="images/logo.svg"/>
-                  </Link>
-                </span>
-              </div>
-              <button type="button" className="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse-1" aria-expanded="false">
-                <span className="sr-only">Toggle navigation</span>
-                <span className="icon-bar"></span>
-                <span className="icon-bar"></span>
-                <span className="icon-bar"></span>
-              </button>
-            </div>
-
-            <div className="collapse navbar-collapse" id="navbar-collapse-1">
-              <ul className="nav navbar-nav navbar-right">
-                <li>
-                  <IndexLink to="/faq" activeClassName="active-link">FAQ</IndexLink>
-                </li>
-              </ul>
-            </div>
-          </div>
-        );
       }
 
 
