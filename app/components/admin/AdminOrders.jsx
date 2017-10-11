@@ -79,7 +79,7 @@ class AdminOrders extends React.Component {
           const data = res.data[0];
           this.setState({firstName: data.firstName});
 
-          return axios.get('/api/admin')
+          return axios.get('/api/admin', { headers: {token} })
             .then((res) => {
               this.setState({
                 queueOrders: res.data[0],
@@ -113,6 +113,7 @@ class AdminOrders extends React.Component {
     if (localStorage.length > 0) {
       const user = JSON.parse( localStorage.getItem( 'user' ) );
       const token = user.token;
+
       axios.put('/api/admin', {selectedQueueOrders, check}, { headers: {token} })
         .then((r) => {
           this.refs.queueTable.cleanSelected();
@@ -121,7 +122,7 @@ class AdminOrders extends React.Component {
             selectedRowKeys: []
           });
 
-          return axios.get('/api/admin')
+          return axios.get('/api/admin', { headers: {token} })
             .then((res) => {
 
               this.setState({
@@ -155,6 +156,7 @@ class AdminOrders extends React.Component {
     if (localStorage.length > 0) {
       const user = JSON.parse( localStorage.getItem( 'user' ) );
       const token = user.token;
+      
       axios.post('/api/admin', { selectedActiveOrders }, { headers: {token} })
         .then((r) => {
           this.refs.activeTable.cleanSelected();
@@ -162,7 +164,7 @@ class AdminOrders extends React.Component {
             selectedRowKeys: []
           });
 
-          return axios.get('/api/admin')
+          return axios.get('/api/admin', { headers: {token} })
             .then((res) => {
 
               this.setState({
