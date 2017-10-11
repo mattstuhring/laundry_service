@@ -18,11 +18,12 @@ export class Login extends React.Component {
       passwordCheck: '',
       honeypot: ''
     }
+
+    this.handleLogin = this.handleLogin.bind(this);
   }
 
   // LOGIN
-  handleLogin(event) {
-    event.preventDefault();
+  handleLogin() {
 
     const { email, password } = this.state;
     const customer = { email, password };
@@ -211,7 +212,7 @@ export class Login extends React.Component {
                             <Button
                               bsStyle="primary"
                               type="button"
-                              onClick={() => this.handleLogin.bind(this)}
+                              onClick={() => {this.handleLogin()}}
                               block
                             >
                               LOG IN
