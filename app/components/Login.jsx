@@ -28,34 +28,32 @@ export class Login extends React.Component {
     const { email, password } = this.state;
     const customer = { email, password };
 
-    // axios.post('/api/token', customer)
-    //   .then(() => {
-    //     let profile;
-    //
-    //     if (document.cookie) {
-    //       const cookie = document.cookie.split(';');
-    //       const status = cookie[0];
-    //       const access = cookie[1].trim();
-    //
-    //       if (access === 'access=admin') {
-    //         profile = '/adminContainer';
-    //       } else if (access === 'access=employee') {
-    //         profile = '/employeeProfile';
-    //       } else if (access === 'access=customer') {
-    //         profile = '/customerProfile';
-    //       } else {
-    //         profile = '/login';
-    //       }
-    //     }
-    //
-    //     browserHistory.push('/customerProfile');
-    //   })
-    //   .catch((err) => {
-    //     console.log(err);
-    //     this.props.setToast('Invalid email or password!', {type: 'error'});
-    //   });
+    axios.post('/api/token', customer)
+      .then(() => {
+        let profile;
 
-      browserHistory.push('/customerProfile');
+        if (document.cookie) {
+          const cookie = document.cookie.split(';');
+          const status = cookie[0];
+          const access = cookie[1].trim();
+
+          if (access === 'access=admin') {
+            profile = '/adminContainer';
+          } else if (access === 'access=employee') {
+            profile = '/employeeProfile';
+          } else if (access === 'access=customer') {
+            profile = '/customerProfile';
+          } else {
+            profile = '/login';
+          }
+        }
+
+        browserHistory.push(profile);
+      })
+      .catch((err) => {
+        console.log(err);
+        this.props.setToast('Invalid email or password!', {type: 'error'});
+      });
   }
 
 
