@@ -91,6 +91,9 @@ export default class Navigation extends React.Component {
 
   // **************************  RENDER  *******************************
   render() {
+
+    console.log(JSON.parse( localStorage.getItem( 'user' ) ), 'nav Stored token!');
+
     const loggedIn = () => {
       let navLinks;
       let profile;
