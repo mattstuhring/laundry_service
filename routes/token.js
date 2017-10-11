@@ -33,23 +33,25 @@ router.post('/token', (req, res, next) => {
         { expiresIn: '30 days' }
       );
 
-      res.cookie('accessToken', token, {
-        httpOnly: true,
-        expires: expiry,
-        secure: router.get('env') === 'production'
-      });
+      console.log(token, '**************** token')
 
-      res.cookie('loggedIn', true, {
-        expires: expiry,
-        secure: router.get('env') === 'production'
-      });
+      // res.cookie('accessToken', token, {
+      //   httpOnly: true,
+      //   expires: expiry,
+      //   secure: router.get('env') === 'production'
+      // });
+      //
+      // res.cookie('loggedIn', true, {
+      //   expires: expiry,
+      //   secure: router.get('env') === 'production'
+      // });
+      //
+      // res.cookie('access', user.access, {
+      //   expires: expiry,
+      //   secure: router.get('env') === 'production'
+      // });
 
-      res.cookie('access', user.access, {
-        expires: expiry,
-        secure: router.get('env') === 'production'
-      });
-
-      res.sendStatus(200);
+      res.send(token);
     })
     .catch(bcrypt.MISMATCH_ERROR, () => {
       throw boom.create(401, 'Invalid username or password.');

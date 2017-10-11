@@ -3,6 +3,7 @@ import { browserHistory, withRouter, Link } from 'react-router';
 import axios from 'axios';
 import {Tabs, Tab, Button, FormGroup, FormControl, InputGroup, Panel, PageHeader, HelpBlock, Alert, Image} from 'react-bootstrap';
 import { ToastContainer, toast } from 'react-toastify';
+import jwtDecode from 'jwt-decode';
 
 export class Login extends React.Component {
   constructor(props) {
@@ -29,19 +30,17 @@ export class Login extends React.Component {
     const customer = { email, password };
 
     axios.post('/api/token', customer)
-      .then(() => {
+      .then((token) => {
+        var decoded = jwtDecode(token.data);
+        console.log(decoded, '*********** decoded');
         let profile;
 
-        if (document.cookie) {
-          const cookie = document.cookie.split(';');
-          const status = cookie[0];
-          const access = cookie[1].trim();
-
-          if (access === 'access=admin') {
+        if (decoded.access) {
+          if (access === 'admin') {
             profile = '/adminContainer';
-          } else if (access === 'access=employee') {
+          } else if (access === 'employee') {
             profile = '/employeeProfile';
-          } else if (access === 'access=customer') {
+          } else if (access === 'customer') {
             profile = '/customerProfile';
           } else {
             profile = '/login';
