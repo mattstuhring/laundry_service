@@ -247,11 +247,12 @@ export default class Navigation extends React.Component {
         <nav className="navbar navbar-default navbar-fixed-top">
           <div className="container-fluid">
 
-              
+
               <div className="navbar-header">
                 <div className="navbar-brand" href="#">
                   <span className="logo-img">
-                    <Link to={profile}>
+                    {/* <Link to={profile}> */}
+                    <Link to="/">
                       <img alt="Laundry" src="images/logo.svg"/>
                     </Link>
                   </span>
