@@ -91,166 +91,186 @@ export default class Navigation extends React.Component {
 
   // **************************  RENDER  *******************************
   render() {
-
-    const loggedIn = () => {
-      let navLinks;
-      let profile;
-
-      if (localStorage) {
-        const user = JSON.parse( localStorage.getItem( 'user' ) );
-        const userAccess = user.access;
-        console.log(userAccess, '************* access');
-
-        if (userAccess === 'admin') {
-          profile = '/adminContainer';
-          navLinks = (
-            <div className="collapse navbar-collapse" id="navbar-collapse-1">
-              <ul className="nav navbar-nav navbar-right">
-                <li>
-                  <Link to="/adminOrders" activeClassName="active-link"><i className="fa fa-id-card-o fa-2x" aria-hidden="true"></i></Link>
-                </li>
-                <li>
-                  <Link to="/adminUsers" activeClassName="active-link"><i className="fa fa-users fa-2x" aria-hidden="true"></i></Link>
-                </li>
-                <li className="dropdown">
-                  <a href="#" className="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i className="fa fa-cog fa-2x" aria-hidden="true"></i></a>
-                  <ul className="dropdown-menu">
-                    <li>
-                      <a href="#" onClick={() => {this.handleLogOut()}}>LOG OUT</a>
-                    </li>
-                    <li>
-                      <IndexLink to="/faq" activeClassName="active-link">FAQ</IndexLink>
-                    </li>
-                  </ul>
-                </li>
-              </ul>
-            </div>
-          );
-        } else if (userAccess === 'employee') {
-          profile = '/employeeProfile';
-          navLinks = (
-            <div className="collapse navbar-collapse" id="navbar-collapse-1">
-              <ul className="nav navbar-nav navbar-right">
-                <li>
-                  <Link to="/employeeProfile" activeClassName="active-link"><i className="fa fa-user-circle-o fa-2x" aria-hidden="true"></i></Link>
-                </li>
-                <li className="dropdown">
-                  <a href="#" className="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i className="fa fa-cog fa-2x" aria-hidden="true"></i></a>
-                  <ul className="dropdown-menu">
-                    <li>
-                      <a href="#" onClick={() => {this.handleLogOut()}}>LOG OUT</a>
-                    </li>
-                    <li>
-                      <IndexLink to="/faq" activeClassName="active-link">FAQ</IndexLink>
-                    </li>
-                  </ul>
-                </li>
-              </ul>
-            </div>
-          );
-        } else if (userAccess === 'customer') {
-          profile = '/customerProfile';
-          navLinks = (
-            <div className="collapse navbar-collapse" id="navbar-collapse-1">
-              <ul className="nav navbar-nav navbar-right">
-                <li>
-                  <Link to="/customerProfile" activeClassName="active-link"><i className="fa fa-user-o fa-2x" aria-hidden="true"></i></Link>
-                </li>
-                <li className="dropdown">
-                  <a href="#" className="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i className="fa fa-cog fa-2x" aria-hidden="true"></i></a>
-                  <ul className="dropdown-menu">
-                    <li>
-                      <a href="#" onClick={() => {this.handleLogOut()}}>LOG OUT</a>
-                    </li>
-                    <li>
-                      <IndexLink to="/faq" activeClassName="active-link">FAQ</IndexLink>
-                    </li>
-                  </ul>
-                </li>
-              </ul>
-            </div>
-          );
-        } else {
-          profile = '/';
-          navLinks = (
-            <div className="collapse navbar-collapse" id="navbar-collapse-1">
-              <ul className="nav navbar-nav navbar-right">
-                <li>
-                  <IndexLink to="/faq" activeClassName="active-link">FAQ</IndexLink>
-                </li>
-              </ul>
-            </div>
-          );
-        }
-
-        return (
-          <div>
-            <div className="navbar-header">
-              <div className="navbar-brand" href="#">
-                <span className="logo-img">
-                  <Link to={profile}>
-                    <img alt="Laundry" src="images/logo.svg"/>
-                  </Link>
-                </span>
-                <span className="company-img">
-                  <Link to={profile}>
-                    <img alt="Laundry" src="images/company.svg"/>
-                  </Link>
-                </span>
-              </div>
-              <button type="button" className="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse-1" aria-expanded="false">
-                <span className="sr-only">Toggle navigation</span>
-                <span className="icon-bar"></span>
-                <span className="icon-bar"></span>
-                <span className="icon-bar"></span>
-              </button>
-            </div>
-
-            {navLinks}
-          </div>
-        );
-
-      } else {
-        profile = '/';
-
-        return (
-          <div>
-            <div className="navbar-header">
-              <div className="navbar-brand" href="#">
-                <span className="logo-img">
-                  <Link to={profile}>
-                    <img alt="Laundry" src="images/logo.svg"/>
-                  </Link>
-                </span>
-              </div>
-              <button type="button" className="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse-1" aria-expanded="false">
-                <span className="sr-only">Toggle navigation</span>
-                <span className="icon-bar"></span>
-                <span className="icon-bar"></span>
-                <span className="icon-bar"></span>
-              </button>
-            </div>
-
-            <div className="collapse navbar-collapse" id="navbar-collapse-1">
-              <ul className="nav navbar-nav navbar-right">
-                <li>
-                  <IndexLink to="/faq" activeClassName="active-link">FAQ</IndexLink>
-                </li>
-              </ul>
-            </div>
-          </div>
-        );
-      }
-    }
+    // const loggedIn = () => {
+    //   let navLinks;
+    //   let profile;
+    //
+    //   if (document.cookie) {
+    //     const cookie = document.cookie.split(';');
+    //     const status = cookie[0];
+    //     const access = cookie[1].trim();
+    //
+    //     if (access === 'access=admin') {
+    //       profile = '/adminContainer';
+    //       navLinks = (
+    //         <div className="collapse navbar-collapse" id="navbar-collapse-1">
+    //           <ul className="nav navbar-nav navbar-right">
+    //             <li>
+    //               <Link to="/adminOrders" activeClassName="active-link"><i className="fa fa-id-card-o fa-2x" aria-hidden="true"></i></Link>
+    //             </li>
+    //             <li>
+    //               <Link to="/adminUsers" activeClassName="active-link"><i className="fa fa-users fa-2x" aria-hidden="true"></i></Link>
+    //             </li>
+    //             <li className="dropdown">
+    //               <a href="#" className="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i className="fa fa-cog fa-2x" aria-hidden="true"></i></a>
+    //               <ul className="dropdown-menu">
+    //                 <li>
+    //                   <a href="#" onClick={() => {this.handleLogOut()}}>LOG OUT</a>
+    //                 </li>
+    //                 <li>
+    //                   <IndexLink to="/faq" activeClassName="active-link">FAQ</IndexLink>
+    //                 </li>
+    //               </ul>
+    //             </li>
+    //           </ul>
+    //         </div>
+    //       );
+    //     } else if (access === 'access=employee') {
+    //       profile = '/employeeProfile';
+    //       navLinks = (
+    //         <div className="collapse navbar-collapse" id="navbar-collapse-1">
+    //           <ul className="nav navbar-nav navbar-right">
+    //             <li>
+    //               <Link to="/employeeProfile" activeClassName="active-link"><i className="fa fa-user-circle-o fa-2x" aria-hidden="true"></i></Link>
+    //             </li>
+    //             <li className="dropdown">
+    //               <a href="#" className="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i className="fa fa-cog fa-2x" aria-hidden="true"></i></a>
+    //               <ul className="dropdown-menu">
+    //                 <li>
+    //                   <a href="#" onClick={() => {this.handleLogOut()}}>LOG OUT</a>
+    //                 </li>
+    //                 <li>
+    //                   <IndexLink to="/faq" activeClassName="active-link">FAQ</IndexLink>
+    //                 </li>
+    //               </ul>
+    //             </li>
+    //           </ul>
+    //         </div>
+    //       );
+    //     } else if (access === 'access=customer') {
+    //       profile = '/customerProfile';
+    //       navLinks = (
+    //         <div className="collapse navbar-collapse" id="navbar-collapse-1">
+    //           <ul className="nav navbar-nav navbar-right">
+    //             <li>
+    //               <Link to="/customerProfile" activeClassName="active-link"><i className="fa fa-user-o fa-2x" aria-hidden="true"></i></Link>
+    //             </li>
+    //             <li className="dropdown">
+    //               <a href="#" className="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i className="fa fa-cog fa-2x" aria-hidden="true"></i></a>
+    //               <ul className="dropdown-menu">
+    //                 <li>
+    //                   <a href="#" onClick={() => {this.handleLogOut()}}>LOG OUT</a>
+    //                 </li>
+    //                 <li>
+    //                   <IndexLink to="/faq" activeClassName="active-link">FAQ</IndexLink>
+    //                 </li>
+    //               </ul>
+    //             </li>
+    //           </ul>
+    //         </div>
+    //       );
+    //     } else {
+    //       profile = '/';
+    //       navLinks = (
+    //         <div className="collapse navbar-collapse" id="navbar-collapse-1">
+    //           <ul className="nav navbar-nav navbar-right">
+    //             <li>
+    //               <IndexLink to="/faq" activeClassName="active-link">FAQ</IndexLink>
+    //             </li>
+    //           </ul>
+    //         </div>
+    //       );
+    //     }
+    //
+    //     return (
+    //       <div>
+    //         <div className="navbar-header">
+    //           <div className="navbar-brand" href="#">
+    //             <span className="logo-img">
+    //               <Link to={profile}>
+    //                 <img alt="Laundry" src="images/logo.svg"/>
+    //               </Link>
+    //             </span>
+    //             <span className="company-img">
+    //               <Link to={profile}>
+    //                 <img alt="Laundry" src="images/company.svg"/>
+    //               </Link>
+    //             </span>
+    //           </div>
+    //           <button type="button" className="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse-1" aria-expanded="false">
+    //             <span className="sr-only">Toggle navigation</span>
+    //             <span className="icon-bar"></span>
+    //             <span className="icon-bar"></span>
+    //             <span className="icon-bar"></span>
+    //           </button>
+    //         </div>
+    //
+    //         {navLinks}
+    //       </div>
+    //     );
+    //   }
+    //   else {
+    //     profile = '/';
+    //
+    //     return (
+    //       <div>
+            // <div className="navbar-header">
+            //   <div className="navbar-brand" href="#">
+            //     <span className="logo-img">
+            //       <Link to={profile}>
+            //         <img alt="Laundry" src="images/logo.svg"/>
+            //       </Link>
+            //     </span>
+            //   </div>
+            //   <button type="button" className="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse-1" aria-expanded="false">
+            //     <span className="sr-only">Toggle navigation</span>
+            //     <span className="icon-bar"></span>
+            //     <span className="icon-bar"></span>
+            //     <span className="icon-bar"></span>
+            //   </button>
+            // </div>
+            //
+            // <div className="collapse navbar-collapse" id="navbar-collapse-1">
+            //   <ul className="nav navbar-nav navbar-right">
+            //     <li>
+            //       <IndexLink to="/faq" activeClassName="active-link">FAQ</IndexLink>
+            //     </li>
+            //   </ul>
+            // </div>
+    //       </div>
+    //     );
+    //   }
+    // }
 
     return (
       <div className="top-nav">
         <nav className="navbar navbar-default navbar-fixed-top">
           <div className="container-fluid">
 
-              {/* NAV ACTION BTNS */}
-              {loggedIn()}
+              
+              <div className="navbar-header">
+                <div className="navbar-brand" href="#">
+                  <span className="logo-img">
+                    <Link to={profile}>
+                      <img alt="Laundry" src="images/logo.svg"/>
+                    </Link>
+                  </span>
+                </div>
+                <button type="button" className="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse-1" aria-expanded="false">
+                  <span className="sr-only">Toggle navigation</span>
+                  <span className="icon-bar"></span>
+                  <span className="icon-bar"></span>
+                  <span className="icon-bar"></span>
+                </button>
+              </div>
 
+              <div className="collapse navbar-collapse" id="navbar-collapse-1">
+                <ul className="nav navbar-nav navbar-right">
+                  <li>
+                    <IndexLink to="/faq" activeClassName="active-link">FAQ</IndexLink>
+                  </li>
+                </ul>
+              </div>
           </div>
         </nav>
       </div>
