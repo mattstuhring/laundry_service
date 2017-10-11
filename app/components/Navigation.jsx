@@ -96,12 +96,11 @@ export default class Navigation extends React.Component {
       let navLinks;
       let profile;
 
-      if (document.cookie) {
-        const cookie = document.cookie.split(';');
-        const status = cookie[0];
-        const access = cookie[1].trim();
+      const user = JSON.parse( localStorage.getItem( 'user' ) );
+      const userAccess = user.access;
 
-        if (access === 'access=admin') {
+      if (userAccess) {
+        if (userAccess === 'admin') {
           profile = '/adminContainer';
           navLinks = (
             <div className="collapse navbar-collapse" id="navbar-collapse-1">
@@ -126,7 +125,7 @@ export default class Navigation extends React.Component {
               </ul>
             </div>
           );
-        } else if (access === 'access=employee') {
+        } else if (userAccess === 'employee') {
           profile = '/employeeProfile';
           navLinks = (
             <div className="collapse navbar-collapse" id="navbar-collapse-1">
@@ -148,7 +147,7 @@ export default class Navigation extends React.Component {
               </ul>
             </div>
           );
-        } else if (access === 'access=customer') {
+        } else if (userAccess === 'customer') {
           profile = '/customerProfile';
           navLinks = (
             <div className="collapse navbar-collapse" id="navbar-collapse-1">
