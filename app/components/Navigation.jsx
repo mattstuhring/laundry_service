@@ -82,7 +82,7 @@ export default class Navigation extends React.Component {
     axios.delete('api/token')
       .then(() => {
         localStorage.clear();
-        
+
         this.props.setToast('You are now logged out!', {type: 'success'});
         browserHistory.push('/');
       })
@@ -118,10 +118,10 @@ export default class Navigation extends React.Component {
                   <a href="#" className="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i className="fa fa-cog fa-2x" aria-hidden="true"></i></a>
                   <ul className="dropdown-menu">
                     <li>
-                      <a href="#" onClick={() => {this.handleLogOut()}}>LOG OUT</a>
+                      <IndexLink to="/faq" activeClassName="active-link">FAQ</IndexLink>
                     </li>
                     <li>
-                      <IndexLink to="/faq" activeClassName="active-link">FAQ</IndexLink>
+                      <a href="#" onClick={() => {this.handleLogOut()}}>LOG OUT</a>
                     </li>
                   </ul>
                 </li>
@@ -140,10 +140,10 @@ export default class Navigation extends React.Component {
                   <a href="#" className="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i className="fa fa-cog fa-2x" aria-hidden="true"></i></a>
                   <ul className="dropdown-menu">
                     <li>
-                      <a href="#" onClick={() => {this.handleLogOut()}}>LOG OUT</a>
+                      <IndexLink to="/faq" activeClassName="active-link">FAQ</IndexLink>
                     </li>
                     <li>
-                      <IndexLink to="/faq" activeClassName="active-link">FAQ</IndexLink>
+                      <a href="#" onClick={() => {this.handleLogOut()}}>LOG OUT</a>
                     </li>
                   </ul>
                 </li>
@@ -162,10 +162,10 @@ export default class Navigation extends React.Component {
                   <a href="#" className="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i className="fa fa-cog fa-2x" aria-hidden="true"></i></a>
                   <ul className="dropdown-menu">
                     <li>
-                      <a href="#" onClick={() => {this.handleLogOut()}}>LOG OUT</a>
+                      <IndexLink to="/faq" activeClassName="active-link">FAQ</IndexLink>
                     </li>
                     <li>
-                      <IndexLink to="/faq" activeClassName="active-link">FAQ</IndexLink>
+                      <a href="#" onClick={() => {this.handleLogOut()}}>LOG OUT</a>
                     </li>
                   </ul>
                 </li>
