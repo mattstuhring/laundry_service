@@ -36,11 +36,11 @@ export class Login extends React.Component {
         let profile;
 
         if (decoded.access) {
-          if (access === 'admin') {
+          if (decoded.access === 'admin') {
             profile = '/adminContainer';
-          } else if (access === 'employee') {
+          } else if (decoded.access === 'employee') {
             profile = '/employeeProfile';
-          } else if (access === 'customer') {
+          } else if (decoded.access === 'customer') {
             profile = '/customerProfile';
           } else {
             profile = '/login';
