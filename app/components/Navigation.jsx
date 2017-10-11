@@ -98,7 +98,7 @@ export default class Navigation extends React.Component {
 
       console.log(localStorage, '************** before localStorage');
 
-      if (localStorage !== null) {
+      if (localStorage.length > 0) {
         const user = JSON.parse( localStorage.getItem( 'user' ) );
         console.log(user, '************** nav user')
         const userAccess = user.access;
