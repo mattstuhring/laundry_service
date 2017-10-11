@@ -81,12 +81,8 @@ class CustomerProfile extends React.Component {
 
 
   componentWillMount() {
-
-
     const user = JSON.parse( localStorage.getItem( 'user' ) );
     const token = user.token;
-
-
 
     axios.get('/api/authCustomer', { headers: {token} })
       .then((res) => {

@@ -42,7 +42,8 @@ export class Login extends React.Component {
         if (localStorage) {
           localStorage.setItem( 'user', JSON.stringify(user) );
           // console.log( JSON.parse( localStorage.getItem( 'user' ) ), '************* user local storage' );
-          console.log('Stored token!')
+          console.log(JSON.parse( localStorage.getItem( 'user' ) ), 'Stored token!');
+          alert()
         } else {
           alert("Sorry, your browser do not support local storage.");
         }
