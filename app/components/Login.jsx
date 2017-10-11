@@ -168,7 +168,8 @@ export class Login extends React.Component {
                 <Tab eventKey={1} title="LOG IN">
                   <div className="row">
                     <div className="col-xs-12 col-sm-12">
-                      <form onSubmit={this.handleLogin.bind(this)}>
+                      {/* <form onSubmit={this.handleLogin.bind(this)}> */}
+                      <form>
                         <div className="login-form-wrapper">
                           <FormGroup controlId="email">
                             <InputGroup>
@@ -209,7 +210,8 @@ export class Login extends React.Component {
                           <div className="col-xs-12 col-sm-12 text-center">
                             <Button
                               bsStyle="primary"
-                              type="submit"
+                              type="button"
+                              onClick={() => this.handleLogin.bind(this)}
                               block
                             >
                               LOG IN
