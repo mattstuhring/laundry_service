@@ -99,6 +99,7 @@ export default class Navigation extends React.Component {
       if (localStorage) {
         const user = JSON.parse( localStorage.getItem( 'user' ) );
         const userAccess = user.access;
+        console.log(userAccess, '************* access');
 
         if (userAccess === 'admin') {
           profile = '/adminContainer';
@@ -180,34 +181,34 @@ export default class Navigation extends React.Component {
               </ul>
             </div>
           );
-
-          return (
-            <div>
-              <div className="navbar-header">
-                <div className="navbar-brand" href="#">
-                  <span className="logo-img">
-                    <Link to={profile}>
-                      <img alt="Laundry" src="images/logo.svg"/>
-                    </Link>
-                  </span>
-                  <span className="company-img">
-                    <Link to={profile}>
-                      <img alt="Laundry" src="images/company.svg"/>
-                    </Link>
-                  </span>
-                </div>
-                <button type="button" className="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse-1" aria-expanded="false">
-                  <span className="sr-only">Toggle navigation</span>
-                  <span className="icon-bar"></span>
-                  <span className="icon-bar"></span>
-                  <span className="icon-bar"></span>
-                </button>
-              </div>
-
-              {navLinks}
-            </div>
-          );
         }
+
+        return (
+          <div>
+            <div className="navbar-header">
+              <div className="navbar-brand" href="#">
+                <span className="logo-img">
+                  <Link to={profile}>
+                    <img alt="Laundry" src="images/logo.svg"/>
+                  </Link>
+                </span>
+                <span className="company-img">
+                  <Link to={profile}>
+                    <img alt="Laundry" src="images/company.svg"/>
+                  </Link>
+                </span>
+              </div>
+              <button type="button" className="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse-1" aria-expanded="false">
+                <span className="sr-only">Toggle navigation</span>
+                <span className="icon-bar"></span>
+                <span className="icon-bar"></span>
+                <span className="icon-bar"></span>
+              </button>
+            </div>
+
+            {navLinks}
+          </div>
+        );
 
       } else {
         profile = '/';
@@ -242,14 +243,13 @@ export default class Navigation extends React.Component {
       }
     }
 
-
     return (
       <div className="top-nav">
         <nav className="navbar navbar-default navbar-fixed-top">
           <div className="container-fluid">
 
-            {/* NAV ACTION BTNS */}
-            {loggedIn()}
+              {/* NAV ACTION BTNS */}
+              {loggedIn()}
 
           </div>
         </nav>
