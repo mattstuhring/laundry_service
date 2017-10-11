@@ -1,197 +1,4 @@
-.user-login {
-  position: absolute;
-  z-index: 1 !important;
-  height: 100%;
-  background-color: white;
-  border: 1px solid #ccc;
-
-
-  .login-header {
-    .page-header {
-      padding-bottom: 9px;
-      margin: 50px 0 40px;
-      border-bottom: 2px dotted $darkBlue;
-      color: #2b5580;
-
-      h1 {
-        font-weight: bold;
-      }
-    }
-  }
-
-
-
-
-
-
-
-
-  #loginTabs {
-    .nav-tabs>li {
-      width: 50%;
-    }
-
-    .glyphicon {
-      font-size: 20px;
-    }
-
-    .input-lg {
-      font-size: 14px;
-    }
-
-    .btn-actions {
-      margin-bottom: 10px;
-    }
-
-    li.active>#loginTabs-tab-1 {
-      -moz-box-shadow: 0px 0px 3px #888;
-      -webkit-box-shadow: 0px 0px 3px #888;
-      box-shadow: 0px 0px 3px #888;
-      border-radius: 4px;
-      color: #333;
-    }
-
-
-    #loginTabs-tab-1 {
-      margin-right: 2px;
-      color: white;
-      background-color: $lightBlue;
-      border: 1px solid $lightBlue;
-      border-bottom-color: transparent;
-      font-weight: bold;
-      @include transition(background-color 0.75s ease);
-
-      &:hover {
-        background-color: #47bfdf;
-      }
-
-      &:focus {
-        background-color: $lightBlue;
-      }
-    }
-
-
-    li.active>#loginTabs-tab-2 {
-      -moz-box-shadow: 0px 0px 3px #888;
-      -webkit-box-shadow: 0px 0px 3px #888;
-      box-shadow: 0px 0px 3px #888;
-      border-radius: 4px;
-      color: #333;
-    }
-
-    #loginTabs-tab-2 {
-      color: white;
-      background-color: $amber;
-      border: 1px solid $amber;
-      border-bottom-color: transparent;
-      font-weight: bold;
-      @include transition(background-color 0.75s ease);
-
-      &:hover  {
-        background-color: #e29709;
-      }
-
-      &:focus {
-        background-color: $amber;
-      }
-    }
-
-
-
-
-
-    .tab-content {
-      border-radius: 0px 4px 4px 4px;
-
-      #loginTabs-pane-1 {
-        background-color: $lightBlueTint;
-        border: 1px solid $lightBlue;
-        -moz-box-shadow: 0px 0px 5px $lightBlue;
-        -webkit-box-shadow: 0px 0px 5px $lightBlue;
-        box-shadow: 0px 0px 5px $lightBlue;
-
-        form {
-          background-color: white;
-          padding: 30px;
-          border-radius: 4px;
-          border: 1px solid #ccc;
-        }
-
-        .btn-primary {
-          background-color: $lightBlue;
-          border-color: $lightBlue;
-          color: #333;
-          font-weight: bold;
-          -moz-box-shadow: 0px 0px 3px #888;
-          -webkit-box-shadow: 0px 0px 3px #888;
-          box-shadow: 0px 0px 3px #888;
-          @include transition(background-color 0.75s ease);
-
-
-          &:hover, &:focus {
-            background-color: #47bfdf;
-          }
-        }
-
-        .input-group-addon {
-          color: #333;
-          padding: 5px 12px;
-          background-color: #ddd;
-        }
-      }
-
-      #loginTabs-pane-2 {
-        background-color: $beige;
-        border: 1px solid $amber;
-        -moz-box-shadow: 0px 0px 5px $amber;
-        -webkit-box-shadow: 0px 0px 5px $amber;
-        box-shadow: 0px 0px 5px $amber;
-        border-radius: 0px 4px 4px 4px;
-
-        form {
-          background-color: white;
-          padding: 30px;
-          border-radius: 4px;
-          border: 1px solid #ccc;
-        }
-
-        .btn-primary {
-          background-color: $amber;
-          border-color: $amber;
-          color: #333;
-          font-weight: bold;
-          -moz-box-shadow: 0px 0px 3px #888;
-          -webkit-box-shadow: 0px 0px 3px #888;
-          box-shadow: 0px 0px 3px #888;
-          @include transition(background-color 0.75s ease);
-
-
-          &:hover, &:focus {
-            background-color: #e29709;
-          }
-        }
-
-        .input-group-addon {
-          color: #333;
-          padding: 5px 12px;
-          background-color: #ddd;
-        }
-      }
-    }
-  }
-
-
-
-}
-
-
-
-
-
-
-
-
- /* Extra Small Devices, Phones */
+/* Extra Small Devices, Phones */
  @media only screen and (max-width : 480px) {
    .login-header {
      img {
@@ -221,11 +28,382 @@
    #loginTabs-pane-2 {
      padding: 15px;
    }
+
+
+   .user-login {
+     position: absolute;
+     z-index: 1 !important;
+     height: 100%;
+     background-color: white;
+     border: 1px solid #ccc;
+
+
+     .login-header {
+       .page-header {
+         padding-bottom: 9px;
+         margin: 50px 0 40px;
+         border-bottom: 2px dotted $darkBlue;
+         color: #2b5580;
+
+         h1 {
+           font-weight: bold;
+         }
+       }
+     }
+
+
+
+
+
+
+
+
+     #loginTabs {
+       .nav-tabs>li {
+         width: 50%;
+       }
+
+       .glyphicon {
+         font-size: 20px;
+       }
+
+       .input-lg {
+         font-size: 14px;
+       }
+
+       .btn-actions {
+         margin-bottom: 10px;
+       }
+
+       li.active>#loginTabs-tab-1 {
+         -moz-box-shadow: 0px 0px 3px #888;
+         -webkit-box-shadow: 0px 0px 3px #888;
+         box-shadow: 0px 0px 3px #888;
+         border-radius: 4px;
+         color: #333;
+       }
+
+
+       #loginTabs-tab-1 {
+         margin-right: 2px;
+         color: white;
+         background-color: $lightBlue;
+         border: 1px solid $lightBlue;
+         border-bottom-color: transparent;
+         font-weight: bold;
+        //  @include transition(background-color 0.75s ease);
+         //
+        //  &:hover {
+        //    background-color: #47bfdf;
+        //  }
+         //
+        //  &:focus {
+        //    background-color: $lightBlue;
+        //  }
+       }
+
+
+       li.active>#loginTabs-tab-2 {
+         -moz-box-shadow: 0px 0px 3px #888;
+         -webkit-box-shadow: 0px 0px 3px #888;
+         box-shadow: 0px 0px 3px #888;
+         border-radius: 4px;
+         color: #333;
+       }
+
+       #loginTabs-tab-2 {
+         color: white;
+         background-color: $amber;
+         border: 1px solid $amber;
+         border-bottom-color: transparent;
+         font-weight: bold;
+        //  @include transition(background-color 0.75s ease);
+         //
+        //  &:hover  {
+        //    background-color: #e29709;
+        //  }
+         //
+        //  &:focus {
+        //    background-color: $amber;
+        //  }
+       }
+
+
+
+
+
+       .tab-content {
+         border-radius: 0px 4px 4px 4px;
+
+         #loginTabs-pane-1 {
+           background-color: $lightBlueTint;
+           border: 1px solid $lightBlue;
+           -moz-box-shadow: 0px 0px 5px $lightBlue;
+           -webkit-box-shadow: 0px 0px 5px $lightBlue;
+           box-shadow: 0px 0px 5px $lightBlue;
+
+           form {
+             background-color: white;
+             padding: 30px;
+             border-radius: 4px;
+             border: 1px solid #ccc;
+           }
+
+           .btn-primary {
+             background-color: $lightBlue;
+             border-color: $lightBlue;
+             color: #333;
+             font-weight: bold;
+             -moz-box-shadow: 0px 0px 3px #888;
+             -webkit-box-shadow: 0px 0px 3px #888;
+             box-shadow: 0px 0px 3px #888;
+            //  @include transition(background-color 0.75s ease);
+             //
+             //
+            //  &:hover, &:focus {
+            //    background-color: #47bfdf;
+            //  }
+           }
+
+           .input-group-addon {
+             color: #333;
+             padding: 5px 12px;
+             background-color: #ddd;
+           }
+         }
+
+         #loginTabs-pane-2 {
+           background-color: $beige;
+           border: 1px solid $amber;
+           -moz-box-shadow: 0px 0px 5px $amber;
+           -webkit-box-shadow: 0px 0px 5px $amber;
+           box-shadow: 0px 0px 5px $amber;
+           border-radius: 0px 4px 4px 4px;
+
+           form {
+             background-color: white;
+             padding: 30px;
+             border-radius: 4px;
+             border: 1px solid #ccc;
+           }
+
+           .btn-primary {
+             background-color: $amber;
+             border-color: $amber;
+             color: #333;
+             font-weight: bold;
+             -moz-box-shadow: 0px 0px 3px #888;
+             -webkit-box-shadow: 0px 0px 3px #888;
+             box-shadow: 0px 0px 3px #888;
+            //  @include transition(background-color 0.75s ease);
+             //
+             //
+            //  &:hover, &:focus {
+            //    background-color: #e29709;
+            //  }
+           }
+
+           .input-group-addon {
+             color: #333;
+             padding: 5px 12px;
+             background-color: #ddd;
+           }
+         }
+       }
+     }
+
+
+
+   }
  }
 
 
 
 
  @media only screen and (min-width : 481px) {
+   .user-login {
+     position: absolute;
+     z-index: 1 !important;
+     height: 100%;
+     background-color: white;
+     border: 1px solid #ccc;
 
+
+     .login-header {
+       .page-header {
+         padding-bottom: 9px;
+         margin: 50px 0 40px;
+         border-bottom: 2px dotted $darkBlue;
+         color: #2b5580;
+
+         h1 {
+           font-weight: bold;
+         }
+       }
+     }
+
+
+
+
+
+
+
+
+     #loginTabs {
+       .nav-tabs>li {
+         width: 50%;
+       }
+
+       .glyphicon {
+         font-size: 20px;
+       }
+
+       .input-lg {
+         font-size: 14px;
+       }
+
+       .btn-actions {
+         margin-bottom: 10px;
+       }
+
+       li.active>#loginTabs-tab-1 {
+         -moz-box-shadow: 0px 0px 3px #888;
+         -webkit-box-shadow: 0px 0px 3px #888;
+         box-shadow: 0px 0px 3px #888;
+         border-radius: 4px;
+         color: #333;
+       }
+
+
+       #loginTabs-tab-1 {
+         margin-right: 2px;
+         color: white;
+         background-color: $lightBlue;
+         border: 1px solid $lightBlue;
+         border-bottom-color: transparent;
+         font-weight: bold;
+         @include transition(background-color 0.75s ease);
+
+         &:hover {
+           background-color: #47bfdf;
+         }
+
+         &:focus {
+           background-color: $lightBlue;
+         }
+       }
+
+
+       li.active>#loginTabs-tab-2 {
+         -moz-box-shadow: 0px 0px 3px #888;
+         -webkit-box-shadow: 0px 0px 3px #888;
+         box-shadow: 0px 0px 3px #888;
+         border-radius: 4px;
+         color: #333;
+       }
+
+       #loginTabs-tab-2 {
+         color: white;
+         background-color: $amber;
+         border: 1px solid $amber;
+         border-bottom-color: transparent;
+         font-weight: bold;
+         @include transition(background-color 0.75s ease);
+
+         &:hover  {
+           background-color: #e29709;
+         }
+
+         &:focus {
+           background-color: $amber;
+         }
+       }
+
+
+
+
+
+       .tab-content {
+         border-radius: 0px 4px 4px 4px;
+
+         #loginTabs-pane-1 {
+           background-color: $lightBlueTint;
+           border: 1px solid $lightBlue;
+           -moz-box-shadow: 0px 0px 5px $lightBlue;
+           -webkit-box-shadow: 0px 0px 5px $lightBlue;
+           box-shadow: 0px 0px 5px $lightBlue;
+
+           form {
+             background-color: white;
+             padding: 30px;
+             border-radius: 4px;
+             border: 1px solid #ccc;
+           }
+
+           .btn-primary {
+             background-color: $lightBlue;
+             border-color: $lightBlue;
+             color: #333;
+             font-weight: bold;
+             -moz-box-shadow: 0px 0px 3px #888;
+             -webkit-box-shadow: 0px 0px 3px #888;
+             box-shadow: 0px 0px 3px #888;
+             @include transition(background-color 0.75s ease);
+
+
+             &:hover, &:focus {
+               background-color: #47bfdf;
+             }
+           }
+
+           .input-group-addon {
+             color: #333;
+             padding: 5px 12px;
+             background-color: #ddd;
+           }
+         }
+
+         #loginTabs-pane-2 {
+           background-color: $beige;
+           border: 1px solid $amber;
+           -moz-box-shadow: 0px 0px 5px $amber;
+           -webkit-box-shadow: 0px 0px 5px $amber;
+           box-shadow: 0px 0px 5px $amber;
+           border-radius: 0px 4px 4px 4px;
+
+           form {
+             background-color: white;
+             padding: 30px;
+             border-radius: 4px;
+             border: 1px solid #ccc;
+           }
+
+           .btn-primary {
+             background-color: $amber;
+             border-color: $amber;
+             color: #333;
+             font-weight: bold;
+             -moz-box-shadow: 0px 0px 3px #888;
+             -webkit-box-shadow: 0px 0px 3px #888;
+             box-shadow: 0px 0px 3px #888;
+             @include transition(background-color 0.75s ease);
+
+
+             &:hover, &:focus {
+               background-color: #e29709;
+             }
+           }
+
+           .input-group-addon {
+             color: #333;
+             padding: 5px 12px;
+             background-color: #ddd;
+           }
+         }
+       }
+     }
+
+
+
+   }
  }
