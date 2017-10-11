@@ -96,10 +96,10 @@ export default class Navigation extends React.Component {
       let navLinks;
       let profile;
 
-      const user = JSON.parse( localStorage.getItem( 'user' ) );
-      const userAccess = user.access;
+      if (localStorage) {
+        const user = JSON.parse( localStorage.getItem( 'user' ) );
+        const userAccess = user.access;
 
-      if (userAccess) {
         if (userAccess === 'admin') {
           profile = '/adminContainer';
           navLinks = (
@@ -208,8 +208,7 @@ export default class Navigation extends React.Component {
             {navLinks}
           </div>
         );
-      }
-      else {
+      } else {
         profile = '/';
 
         return (
@@ -240,15 +239,15 @@ export default class Navigation extends React.Component {
           </div>
         );
       }
-    }
+
 
     return (
       <div className="top-nav">
         <nav className="navbar navbar-default navbar-fixed-top">
           <div className="container-fluid">
 
-              {/* NAV ACTION BTNS */}
-              {loggedIn()}
+            {/* NAV ACTION BTNS */}
+            {loggedIn()}
 
           </div>
         </nav>
