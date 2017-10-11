@@ -8,13 +8,12 @@ const knex = require('../knex');
 const { camelizeKeys } = require('humps');
 const { checkAuth } = require('./auth-middleware');
 const jwt = require('jsonwebtoken');
-
 const router = express.Router();
 
+
+// router.get('/authCustomer', checkAuth, (req, res, next) => {
 router.get('/authCustomer', checkAuth, (req, res, next) => {
   const { userId, access } = req.token;
-  console.log(userId, '*************** user id');
-  console.log(access, '**************** access');
 
   if (access === 'customer') {
     knex('users')
@@ -25,7 +24,6 @@ router.get('/authCustomer', checkAuth, (req, res, next) => {
     })
     .then((result) => {
       const row = camelizeKeys(result);
-      console.log(row, '***************** row')
       res.send(row);
     })
     .catch((err) => {

@@ -30,21 +30,33 @@ export class Login extends React.Component {
     const customer = { email, password };
 
     axios.post('/api/token', customer)
-      .then((token) => {
-        var decoded = jwtDecode(token.data);
-        console.log(decoded, '*********** decoded');
+      .then((res) => {
+        const token = res.data;
+        const decoded = jwtDecode(res.data);
+        const user = {
+          userId: decoded.userId,
+          access: decoded.access,
+          token: token
+        };
+
+        if (localStorage) {
+          localStorage.setItem( 'user', JSON.stringify(user) );
+          // console.log( JSON.parse( localStorage.getItem( 'user' ) ), '************* user local storage' );
+          console.log('Stored token!')
+        } else {
+          alert("Sorry, your browser do not support local storage.");
+        }
+
         let profile;
 
-        if (decoded.access) {
-          if (decoded.access === 'admin') {
-            profile = '/adminContainer';
-          } else if (decoded.access === 'employee') {
-            profile = '/employeeProfile';
-          } else if (decoded.access === 'customer') {
-            profile = '/customerProfile';
-          } else {
-            profile = '/login';
-          }
+        if (decoded.access === 'admin') {
+          profile = '/adminContainer';
+        } else if (decoded.access === 'employee') {
+          profile = '/employeeProfile';
+        } else if (decoded.access === 'customer') {
+          profile = '/customerProfile';
+        } else {
+          profile = '/login';
         }
 
         browserHistory.push(profile);

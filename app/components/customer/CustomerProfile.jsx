@@ -81,7 +81,14 @@ class CustomerProfile extends React.Component {
 
 
   componentWillMount() {
-    axios.get('/api/authCustomer')
+
+
+    const user = JSON.parse( localStorage.getItem( 'user' ) );
+    const token = user.token;
+
+
+
+    axios.get('/api/authCustomer', { headers: {token} })
       .then((res) => {
         const data = res.data[0];
 
@@ -94,7 +101,7 @@ class CustomerProfile extends React.Component {
           customerPhoneNumber: data.phoneNumber
         });
 
-        return axios.get(`/api/customerOrders`)
+        return axios.get(`/api/customerOrders`, { headers: {token} })
           .then((res) => {
             this.setState({
               queueOrders: res.data[0],
