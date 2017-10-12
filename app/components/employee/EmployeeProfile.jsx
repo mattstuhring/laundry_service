@@ -66,9 +66,11 @@ class EmployeeProfile extends React.Component {
 
 
   componentWillMount() {
+    console.log(localStorage, '******** employee storage');
     if (localStorage.length > 0) {
       const user = JSON.parse( localStorage.getItem( 'user' ) );
       const token = user.token;
+      console.log(user, '***** employee user');
 
       axios.get('/api/authEmployee', { headers: {token} })
         .then((res) => {

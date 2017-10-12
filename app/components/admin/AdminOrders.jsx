@@ -70,9 +70,11 @@ class AdminOrders extends React.Component {
 
 
   componentWillMount() {
-    // if (localStorage.length > 0) {
+    console.log(localStorage, '******** admin orders storage');
+    if (localStorage.length > 0) {
       const user = JSON.parse( localStorage.getItem( 'user' ) );
       const token = user.token;
+      console.log(user, '***** admin order user');
 
       axios.get('/api/authAdmin', { headers: {token} })
         .then((res) => {
@@ -98,9 +100,9 @@ class AdminOrders extends React.Component {
           console.log(err);
           browserHistory.push('/login');
         });
-    // } else {
-    //   browserHistory.push('/login');
-    // }
+    } else {
+      browserHistory.push('/login');
+    }
   }
 
 

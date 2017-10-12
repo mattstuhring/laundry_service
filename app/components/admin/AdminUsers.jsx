@@ -47,9 +47,11 @@ class AdminUsers extends React.Component {
 
 
   componentWillMount() {
+    console.log(localStorage, '******** admin users storage');
     if (localStorage.length > 0) {
       const user = JSON.parse( localStorage.getItem( 'user' ) );
       const token = user.token;
+      console.log(user, '***** admin order user');
 
       axios.get('/api/authAdmin', { headers: {token} })
         .then((res) => {
@@ -93,7 +95,7 @@ class AdminUsers extends React.Component {
       selectedUsers = selectedCustomers;
     }
 
-    // if (localStorage.length > 0) {
+    if (localStorage.length > 0) {
       const user = JSON.parse( localStorage.getItem( 'user' ) );
       const token = user.token;
 
@@ -129,9 +131,9 @@ class AdminUsers extends React.Component {
         .catch((err) => {
           console.log(err);
         });
-    // } else {
-    //   browserHistory.push('/login');
-    // }
+    } else {
+      browserHistory.push('/login');
+    }
   }
 
 
