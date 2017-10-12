@@ -98,10 +98,10 @@ export default class Navigation extends React.Component {
       let navLinks;
       let profile;
 
-
       if (localStorage.length > 0) {
         const user = JSON.parse( localStorage.getItem( 'user' ) );
         const userAccess = user.access;
+
 
         if (userAccess === 'admin') {
           profile = '/adminContainer';

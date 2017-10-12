@@ -47,11 +47,9 @@ class AdminUsers extends React.Component {
 
 
   componentWillMount() {
-    console.log(localStorage, '******** admin users storage');
     if (localStorage.length > 0) {
       const user = JSON.parse( localStorage.getItem( 'user' ) );
       const token = user.token;
-      console.log(user, '***** admin order user');
 
       axios.get('/api/authAdmin', { headers: {token} })
         .then((res) => {
@@ -95,45 +93,42 @@ class AdminUsers extends React.Component {
       selectedUsers = selectedCustomers;
     }
 
-    if (localStorage.length > 0) {
-      const user = JSON.parse( localStorage.getItem( 'user' ) );
-      const token = user.token;
+    const user = JSON.parse( localStorage.getItem( 'user' ) );
+    const token = user.token;
 
-      axios.put('/api/adminDeleteUser', {selectedUsers}, { headers: {token} })
-        .then(() => {
-          if (table === 'employee') {
-            this.refs.employeeTable.cleanSelected();
-            this.refs.employeeTable.setState({
-              selectedRowKeys: []
-            });
-          } else if (table === 'customer') {
-            this.refs.customerTable.cleanSelected();
-            this.refs.customerTable.setState({
-              selectedRowKeys: []
-            });
-          }
+    axios.put('/api/adminDeleteUser', {selectedUsers}, { headers: {token} })
+      .then(() => {
+        if (table === 'employee') {
+          this.refs.employeeTable.cleanSelected();
+          this.refs.employeeTable.setState({
+            selectedRowKeys: []
+          });
+        } else if (table === 'customer') {
+          this.refs.customerTable.cleanSelected();
+          this.refs.customerTable.setState({
+            selectedRowKeys: []
+          });
+        }
 
-          return axios.get('/api/users', { headers: {token} })
-            .then((r) => {
-              this.setState({
-                customers: r.data[0],
-                employees: r.data[1],
-                showModal: false,
-                selectedEmployees: [],
-                selectedCustomers: [],
-                table: ''
-              })
+        return axios.get('/api/users', { headers: {token} })
+          .then((r) => {
+            this.setState({
+              customers: r.data[0],
+              employees: r.data[1],
+              showModal: false,
+              selectedEmployees: [],
+              selectedCustomers: [],
+              table: ''
             })
-            .catch((err) => {
-              console.log(err);
-            });
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    } else {
-      browserHistory.push('/login');
-    }
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+
   }
 
 
@@ -142,37 +137,32 @@ class AdminUsers extends React.Component {
 
   handleUserAccess() {
     const { selectedCustomers } = this.state;
+    const user = JSON.parse( localStorage.getItem( 'user' ) );
+    const token = user.token;
 
-    if (localStorage.length > 0) {
-      const user = JSON.parse( localStorage.getItem( 'user' ) );
-      const token = user.token;
-
-      axios.put('/api/users', {selectedCustomers}, { headers: {token} })
-        .then((res) => {
-          this.refs.customerTable.cleanSelected();
-          this.refs.customerTable.setState({
-            selectedRowKeys: []
-          });
-
-          return axios.get('/api/users')
-            .then((r) => {
-              this.setState({
-                customers: r.data[0],
-                employees: r.data[1],
-                showModal: false,
-                selectedCustomers: []
-              })
-            })
-            .catch((err) => {
-              console.log(err);
-            });
-        })
-        .catch((err) => {
-          console.log(err);
+    axios.put('/api/users', {selectedCustomers}, { headers: {token} })
+      .then((res) => {
+        this.refs.customerTable.cleanSelected();
+        this.refs.customerTable.setState({
+          selectedRowKeys: []
         });
-    } else {
-      browserHistory.push('/login');
-    }
+
+        return axios.get('/api/users', { headers: {token} })
+          .then((r) => {
+            this.setState({
+              customers: r.data[0],
+              employees: r.data[1],
+              showModal: false,
+              selectedCustomers: []
+            })
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }
 
 

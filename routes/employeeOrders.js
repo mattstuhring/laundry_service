@@ -8,12 +8,13 @@ const { camelizeKeys, decamelizeKeys } = require('humps');
 const { checkAuth } = require('./auth-middleware');
 const nodemailer = require('nodemailer');
 const smtpTransport = require('nodemailer-smtp-transport');
-
 const router = express.Router();
 
 // GET ALL EMPLOYEE ORDERS
 router.get('/employeeOrders', checkAuth, (req, res, next) => {
   const { userId, access } = req.token;
+  console.log(req.token, '******* employee order');
+
 
   if (access === 'employee') {
     knex('orders')
@@ -49,7 +50,7 @@ router.get('/employeeOrders', checkAuth, (req, res, next) => {
               .orderBy('orders.id', 'desc')
               .then((active) => {
                 orders.push(active);
-
+                console.log(orders, '*********** orders');
                 res.send(orders);
               })
               .catch((err) => {

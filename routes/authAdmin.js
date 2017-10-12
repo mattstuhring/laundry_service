@@ -13,6 +13,7 @@ const router = express.Router();
 
 router.get('/authAdmin', checkAuth, (req, res, next) => {
   const { userId, access } = req.token;
+  console.log(req.token, '********* token');
 
   if (access === 'admin') {
     knex('users')

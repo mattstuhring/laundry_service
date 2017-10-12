@@ -8,11 +8,12 @@ const knex = require('../knex');
 const { camelizeKeys } = require('humps');
 const { checkAuth } = require('./auth-middleware');
 const jwt = require('jsonwebtoken');
-
 const router = express.Router();
+
 
 router.get('/authEmployee', checkAuth, (req, res, next) => {
   const { userId, access } = req.token;
+  console.log(req.token, '*************** auth employee');
 
   if (access === 'employee') {
     knex('users')

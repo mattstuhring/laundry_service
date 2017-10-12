@@ -82,10 +82,9 @@ class CustomerProfile extends React.Component {
 
 
   componentWillMount() {
-    const user = JSON.parse( localStorage.getItem( 'user' ) );
-    const token = user.token;
-
-    // if (localStorage.length > 0) {
+    if (localStorage.length > 0) {
+      const user = JSON.parse( localStorage.getItem( 'user' ) );
+      const token = user.token;
 
       axios.get('/api/authCustomer', { headers: {token} })
         .then((res) => {
@@ -116,9 +115,9 @@ class CustomerProfile extends React.Component {
           console.log(err);
           browserHistory.push('/login');
         });
-    // } else {
-    //   browserHistory.push('/login');
-    // }
+    } else {
+      browserHistory.push('/login');
+    }
   }
 
 
@@ -225,27 +224,6 @@ class CustomerProfile extends React.Component {
     }
     else if (key === 3) {
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
       if (orderPickupTime !== '') {
         // get moments
         let selectedTime = moment(this.state.orderPickupTime, 'hh:mm A');
@@ -256,12 +234,10 @@ class CustomerProfile extends React.Component {
 
         const dur = moment.duration(current.diff(lastCall)).asMilliseconds();
         const mins = dur / 60000;
-        console.log(mins, '********* mins current last call');
 
         // calculate mins between selected time and current time
         const d = moment.duration(selectedTime.diff(current)).asMilliseconds();
         const min = d / 60000;
-        console.log(min, '************* selected time current');
 
         // if current time > lastCall
         if (mins < 0) {
@@ -293,57 +269,6 @@ class CustomerProfile extends React.Component {
 
 
 
-
-
-
-
-
-
-
-
-  // // REMOVE ORDER FROM QUEUE
-  // handleRemove() {
-  //   const { orderId } = this.state;
-  //
-  //   axios.delete(`/api/customerOrders/${orderId}`)
-  //     .then(() => {
-  //       return axios.get(`/api/customerOrders`)
-  //         .then((res) => {
-  //           this.setState({
-  //             showModal: false,
-  //             queueOrders: res.data[0],
-  //             completeOrders: res.data[1]
-  //           });
-  //         })
-  //         .catch((err) => {
-  //           console.log(err);
-  //         });
-  //     })
-  //     .catch((err) => {
-  //       console.log(err);
-  //     })
-  // }
-
-
-
-  // openRemove(id) {
-  //   this.setState({
-  //     showModal: true,
-  //     orderId: id,
-  //     modal: {
-  //       title: 'Delete Order:',
-  //       message: 'Are you sure you want to delete this order?',
-  //       action: this.handleRemove
-  //     }
-  //   });
-  // }
-
-
-
-
-
-
-
   // $$$$$$$$$$$$$$$$$$$$$$  STRIPE PAYMENT  $$$$$$$$$$$$$$$$$$$$$$$$$$$
   onToken = (token) => {
     axios.post('/api/charge',
@@ -361,53 +286,45 @@ class CustomerProfile extends React.Component {
 
         const newOrder = { customerEmail, customerAddress, orderServices, orderLoads, customerPhoneNumber, orderInstructions, orderPickupDate, orderTotalCost, orderPickupTime };
 
+        axios.post('/api/customerOrders', {newOrder}, { headers: {token} })
+          .then((res) => {
+            const data = res.data;
+            let q = Object.assign([], this.state.queueOrders);
+            q.unshift(data);
 
-
-        if (localStorage.length > 0) {
-          const user = JSON.parse( localStorage.getItem( 'user' ) );
-          const token = user.token;
-
-          axios.post('/api/customerOrders', {newOrder}, {headers: {token}})
-            .then((res) => {
-              const data = res.data;
-              let q = Object.assign([], this.state.queueOrders);
-              q.unshift(data);
-
-              this.setState({
-                queueOrders: q,
-                showModal: false,
-                customerAddress: this.state.customerAddress,
-                orderServices: [],
-                orderLoads: 0,
-                customerPhoneNumber: this.state.customerPhoneNumber,
-                orderInstructions: '',
-                orderPickupDate: moment().format('MM-DD-YYYY'),
-                formattedDate: '',
-                orderTotalCost: 0,
-                orderServiceCost: 0,
-                orderPickupTime: '',
-                key: 2,
-                formKey: 1,
-                alertVisible: true,
-                selectedServiceClean: false,
-                selectedServiceFold: false,
-                selectedLoadsOption: false
-              });
-
-              return axios.post('/api/notify', { newOrder, orderId: data.id }, {headers: {token}})
-                .then((r) => {
-                  console.log(r, '************* notify res');
-                })
-                .catch((err) => {
-                  console.log(err);
-                });
-            })
-            .catch((err) => {
-              console.log(err);
+            this.setState({
+              queueOrders: q,
+              showModal: false,
+              customerAddress: this.state.customerAddress,
+              orderServices: [],
+              orderLoads: 0,
+              customerPhoneNumber: this.state.customerPhoneNumber,
+              orderInstructions: '',
+              orderPickupDate: moment().format('MM-DD-YYYY'),
+              formattedDate: '',
+              orderTotalCost: 0,
+              orderServiceCost: 0,
+              orderPickupTime: '',
+              key: 2,
+              formKey: 1,
+              alertVisible: true,
+              selectedServiceClean: false,
+              selectedServiceFold: false,
+              selectedLoadsOption: false
             });
-        } else {
-          browserHistory.push('/login');
-        }
+
+            return axios.post('/api/notify', { newOrder, orderId: data.id })
+              .then((r) => {
+                console.log(r, '************* notify res');
+              })
+              .catch((err) => {
+                console.log(err);
+              });
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+
       })
       .catch((err) => {
         console.log(err);

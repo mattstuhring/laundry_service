@@ -66,18 +66,16 @@ class EmployeeProfile extends React.Component {
 
 
   componentWillMount() {
-    console.log(localStorage, '******** employee storage');
     if (localStorage.length > 0) {
       const user = JSON.parse( localStorage.getItem( 'user' ) );
       const token = user.token;
-      console.log(user, '***** employee user');
 
       axios.get('/api/authEmployee', { headers: {token} })
         .then((res) => {
           const data = res.data[0];
           this.setState({firstName: data.firstName});
 
-          return axios.get(`/api/employeeOrders`, { headers: {token} })
+          return axios.get('/api/employeeOrders', { headers: {token} })
             .then((res) => {
               this.setState({
                 queueOrders: res.data[0],
@@ -91,7 +89,6 @@ class EmployeeProfile extends React.Component {
         })
         .catch((err) => {
           console.log(err);
-          browserHistory.push('/login');
         });
     } else {
       browserHistory.push('/login');
@@ -102,118 +99,106 @@ class EmployeeProfile extends React.Component {
   handleActive() {
     const { selectedQueueOrders } = this.state;
     const check = 'active';
+    const user = JSON.parse( localStorage.getItem( 'user' ) );
+    const token = user.token;
 
-    if (localStorage.length > 0) {
-      const user = JSON.parse( localStorage.getItem( 'user' ) );
-      const token = user.token;
-
-      axios.put(`/api/employeeOrders`, {selectedQueueOrders, check}, {headers: {token}})
-        .then((r) => {
-          this.refs.queueTable.cleanSelected();
-          this.refs.queueTable.reset();
-          this.refs.queueTable.setState({
-            selectedRowKeys: []
-          });
-
-          return axios.get(`/api/employeeOrders`, {headers: {token}})
-            .then((res) => {
-              this.setState({
-                showModal: false,
-                queueOrders: res.data[0],
-                completeOrders: res.data[1],
-                activeOrders: res.data[2],
-                selectedQueueOrders: [],
-              });
-            })
-            .catch((err) => {
-              console.log(err);
-            });
-        })
-        .catch((err) => {
-          console.log(err);
+    axios.put(`/api/employeeOrders`, {selectedQueueOrders, check}, { headers: {token} })
+      .then((r) => {
+        this.refs.queueTable.cleanSelected();
+        this.refs.queueTable.reset();
+        this.refs.queueTable.setState({
+          selectedRowKeys: []
         });
-    } else {
-      browserHistory.push('/login');
-    }
+
+        return axios.get(`/api/employeeOrders`, { headers: {token} })
+          .then((res) => {
+            this.setState({
+              showModal: false,
+              queueOrders: res.data[0],
+              completeOrders: res.data[1],
+              activeOrders: res.data[2],
+              selectedQueueOrders: [],
+            });
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+
   }
 
 
   handleComplete() {
     const { orderId, orderStep } = this.state;
     const { selectedActiveOrders } = this.state;
+    const user = JSON.parse( localStorage.getItem( 'user' ) );
+    const token = user.token;
 
-    if (localStorage.length > 0) {
-      const user = JSON.parse( localStorage.getItem( 'user' ) );
-      const token = user.token;
-
-      axios.post('/api/employeeOrders/', {selectedActiveOrders}, {headers: {token}})
-        .then((r) => {
-          this.refs.activeTable.cleanSelected();
-          this.refs.activeTable.reset();
-          this.refs.activeTable.setState({
-            selectedRowKeys: []
-          });
-
-          return axios.get(`/api/employeeOrders`, {headers: {token}})
-            .then((res) => {
-              this.setState({
-                showModal: false,
-                queueOrders: res.data[0],
-                completeOrders: res.data[1],
-                activeOrders: res.data[2],
-                selectedActiveOrders: [],
-                selectedQueueOrders: []
-              });
-            })
-            .catch((err) => {
-              console.log(err);
-            });
-        })
-        .catch((err) => {
-          console.log(err);
+    axios.post('/api/employeeOrders/', {selectedActiveOrders}, { headers: {token} })
+      .then((r) => {
+        this.refs.activeTable.cleanSelected();
+        this.refs.activeTable.reset();
+        this.refs.activeTable.setState({
+          selectedRowKeys: []
         });
-    } else {
-      browserHistory.push('/login');
-    }
+
+        return axios.get(`/api/employeeOrders`, { headers: {token} })
+          .then((res) => {
+            this.setState({
+              showModal: false,
+              queueOrders: res.data[0],
+              completeOrders: res.data[1],
+              activeOrders: res.data[2],
+              selectedActiveOrders: [],
+              selectedQueueOrders: []
+            });
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+
   }
 
 
   handleStepBack() {
     const { selectedActiveOrders } = this.state;
+    const user = JSON.parse( localStorage.getItem( 'user' ) );
+    const token = user.token;
 
-    if (localStorage.length > 0) {
-      const user = JSON.parse( localStorage.getItem( 'user' ) );
-      const token = user.token;
-
-      axios.put('/api/employeeRemoveOrder', { selectedActiveOrders }, {headers: {token}})
-        .then((r) => {
-          this.refs.activeTable.cleanSelected();
-          this.refs.activeTable.reset();
-          this.refs.activeTable.setState({
-            selectedRowKeys: []
-          });
-
-          return axios.get(`/api/employeeOrders`, {headers: {token}})
-            .then((res) => {
-              this.setState({
-                showModal: false,
-                queueOrders: res.data[0],
-                completeOrders: res.data[1],
-                activeOrders: res.data[2],
-                selectedActiveOrders: [],
-                selectedQueueOrders: []
-              });
-            })
-            .catch((err) => {
-              console.log(err);
-            });
-        })
-        .catch((err) => {
-          console.log(err);
+    axios.put('/api/employeeRemoveOrder', { selectedActiveOrders }, { headers: {token} })
+      .then((r) => {
+        this.refs.activeTable.cleanSelected();
+        this.refs.activeTable.reset();
+        this.refs.activeTable.setState({
+          selectedRowKeys: []
         });
-    } else {
-      browserHistory.push('/login');
-    }
+
+        return axios.get(`/api/employeeOrders`, { headers: {token} })
+          .then((res) => {
+            this.setState({
+              showModal: false,
+              queueOrders: res.data[0],
+              completeOrders: res.data[1],
+              activeOrders: res.data[2],
+              selectedActiveOrders: [],
+              selectedQueueOrders: []
+            });
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+
   }
 
 
@@ -664,6 +649,7 @@ class EmployeeProfile extends React.Component {
   // ***************************  RENDER  *********************************
   render() {
     const { firstName } = this.state;
+    console.log(this.state.queueOrders, '******* queue orders');
 
 
     const queueOptions = {
@@ -818,7 +804,7 @@ class EmployeeProfile extends React.Component {
                       isKey
                       width='70px'
                       dataAlign='center'
-                      filter={ { type: 'TextFilter', delay: 1000 } }
+                      // filter={ { type: 'TextFilter', delay: 1000 } }
                       expandable={ false }
                     >Order#</TableHeaderColumn>
                     <TableHeaderColumn
@@ -889,7 +875,7 @@ class EmployeeProfile extends React.Component {
                           isKey
                           width='70px'
                           dataAlign='center'
-                          filter={ { type: 'TextFilter', delay: 1000 } }
+                          // filter={ { type: 'TextFilter', delay: 1000 } }
                           expandable={ false }
                         >Order#</TableHeaderColumn>
                         <TableHeaderColumn
@@ -955,7 +941,7 @@ class EmployeeProfile extends React.Component {
                           isKey
                           width='70px'
                           dataAlign='center'
-                          filter={ { type: 'TextFilter', delay: 1000 } }
+                          // filter={ { type: 'TextFilter', delay: 1000 } }
                           expandable={ false }
                         >Order#</TableHeaderColumn>
                         <TableHeaderColumn

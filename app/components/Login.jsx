@@ -39,13 +39,11 @@ export class Login extends React.Component {
           token: token
         };
 
-        console.log(user, '************ user');
-        console.log(localStorage, '********** localStorage');
         let profile;
 
         if (localStorage) {
           localStorage.setItem( 'user', JSON.stringify(user) );
-          console.log(JSON.parse( localStorage.getItem( 'user' ) ), 'if Stored token!');
+          console.log(JSON.parse( localStorage.getItem( 'user' ) ), 'Login stored token!');
 
           if (decoded.access === 'admin') {
             profile = '/adminContainer';
@@ -56,11 +54,13 @@ export class Login extends React.Component {
           } else {
             profile = '/login';
           }
+
+          browserHistory.push(profile);
         } else {
+          this.props.setToast('Web browser is not compatibile.', {type: 'error'});
           browserHistory.push('/login');
         }
 
-        browserHistory.push(profile);
       })
       .catch((err) => {
         console.log(err);

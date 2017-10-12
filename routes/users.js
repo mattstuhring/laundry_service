@@ -38,6 +38,8 @@ router.get('/users', checkAuth, (req, res, next) => {
       .catch((err) => {
         next(err);
       });
+  } else {
+    res.sendStatus(401);
   }
 });
 
