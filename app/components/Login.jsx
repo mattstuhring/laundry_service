@@ -39,23 +39,25 @@ export class Login extends React.Component {
           token: token
         };
 
-        if (localStorage) {
-          localStorage.setItem( 'user', JSON.stringify(user) );
-          // console.log(JSON.parse( localStorage.getItem( 'user' ) ), 'if Stored token!');
-        } else {
-          alert("Sorry, your browser do not support local storage.");
-        }
-
+        console.log(user, '************ user');
+        console.log(localStorage, '********** localStorage');
         let profile;
 
-        if (decoded.access === 'admin') {
-          profile = '/adminContainer';
-        } else if (decoded.access === 'employee') {
-          profile = '/employeeProfile';
-        } else if (decoded.access === 'customer') {
-          profile = '/customerProfile';
+        if (localStorage) {
+          localStorage.setItem( 'user', JSON.stringify(user) );
+          console.log(JSON.parse( localStorage.getItem( 'user' ) ), 'if Stored token!');
+
+          if (decoded.access === 'admin') {
+            profile = '/adminContainer';
+          } else if (decoded.access === 'employee') {
+            profile = '/employeeProfile';
+          } else if (decoded.access === 'customer') {
+            profile = '/customerProfile';
+          } else {
+            profile = '/login';
+          }
         } else {
-          profile = '/login';
+          browserHistory.push('/login');
         }
 
         browserHistory.push(profile);

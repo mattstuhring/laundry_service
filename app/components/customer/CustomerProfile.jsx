@@ -706,8 +706,9 @@ class CustomerProfile extends React.Component {
         tomorrow = moment(tomorrow).format('MMMM Do YYYY');
         let formatDay = moment(d).format('dddd');
 
-        return <div className="col-xs-8 col-sm-8 text-center">
-          <p><strong>{formatDay}, </strong><small>{tomorrow}</small></p>
+        return <div className="col-xs-8 col-sm-8 text-center date-text">
+          <p><strong>{formatDay},</strong></p>
+          <p><small>{tomorrow}</small></p>
         </div>;
       } else {
         let today = moment();
@@ -715,8 +716,9 @@ class CustomerProfile extends React.Component {
         today = moment(today).format('MMMM Do YYYY');
         let formatDay = moment(day).format('dddd');
 
-        return <div className="col-xs-8 col-sm-8 text-center">
-          <p><strong>{formatDay}, </strong><small>{today}</small></p>
+        return <div className="col-xs-8 col-sm-8 text-center date-text">
+          <p><strong>{formatDay},</strong></p>
+          <p><small>{today}</small></p>
         </div>;
       }
     }
@@ -1032,7 +1034,7 @@ class CustomerProfile extends React.Component {
           <div className="row">
             <div className="col-xs-12 col-sm-12">
               <div className="row">
-                <div className="col-sm-6 col-sm-offset-3 text-center">
+                <div className="col-xs-10 col-xs-offset-1 col-sm-6 col-sm-offset-3 text-center">
                   <div className="page-header">
                     <h2><strong>Order Summary</strong></h2>
                   </div>

@@ -98,6 +98,8 @@ body {
 
   #myFooter .btn {
     color: white;
+    position: relative;
+    top: 3px;
     background-color: $amber;
     border-radius: 20px;
     border: none;

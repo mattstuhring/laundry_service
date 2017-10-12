@@ -431,19 +431,23 @@
         color: $amber;
       }
 
-      i.fa-calendar {
-        position: relative;
-        top: 12px;
-      }
-
       i.fa-check-square-o {
         position: relative;
         left: 3px;
       }
 
+      .date-text {
+        position: relative;
+        bottom: 10px;
+
+        p {
+          margin: 0px;
+        }
+      }
+
       .order-divider {
-        margin-top: 1rem;
-        margin-bottom: 1rem;
+        margin-top: 1.25rem;
+        margin-bottom: 1.25rem;
         border: 0;
         border-top: 2px dotted $lightBlue;
       }
@@ -455,6 +459,7 @@
       .col-sm-8 p {
         position: relative;
         top: 13px;
+        font-size: 93%;
       }
 
       .order-total {
@@ -733,7 +738,7 @@
 
        .order-date-row {
          background-color: #ededed;
-         padding: 43px 0px 38px 26px;
+         padding: 26px;
          border-radius: 4px;
          border: 1px solid #ccc;
        }
@@ -757,7 +762,7 @@
 
        .form-group {
          background-color: $lightBlueTint;
-         padding: 18px;
+         padding: 10px;
          border-radius: 4px;
          border: 1px solid $lightBlue;
 
@@ -988,6 +993,15 @@
          p {
            padding-top: 10px;
            margin-bottom: 20px;
+         }
+       }
+
+       .date-text {
+         position: relative;
+         bottom: 10px;
+
+         p {
+           margin: 0px;
          }
        }
 
