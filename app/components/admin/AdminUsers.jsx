@@ -6,7 +6,7 @@ import {BootstrapTable, TableHeaderColumn, InsertButton, DeleteButton} from 'rea
 import moment from 'moment';
 import Popup from 'Popup';
 import Countdown from 'react-countdown-now';
-
+import Loader from 'react-loader';
 
 
 
@@ -26,7 +26,8 @@ class AdminUsers extends React.Component {
         title: '',
         message: '',
         action: null
-      }
+      },
+      loaded: false
     }
 
     this.close = this.close.bind(this);
@@ -79,6 +80,11 @@ class AdminUsers extends React.Component {
     }
   }
 
+
+
+  componentDidMount() {
+    this.setState({ loaded: true });
+  }
 
 
 
@@ -376,6 +382,7 @@ class AdminUsers extends React.Component {
     return (
       <div className="row admin-users">
         <div className="col-sm-12">
+          <Loader loaded={this.state.loaded}>
 
           {/* MODAL */}
           <Popup
@@ -523,6 +530,8 @@ class AdminUsers extends React.Component {
               </BootstrapTable>
             </Panel>
           </div>
+
+        </Loader>
         </div>
       </div>
     )
