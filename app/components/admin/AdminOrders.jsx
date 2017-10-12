@@ -70,7 +70,7 @@ class AdminOrders extends React.Component {
 
 
   componentWillMount() {
-    if (localStorage.length > 0) {
+    // if (localStorage.length > 0) {
       const user = JSON.parse( localStorage.getItem( 'user' ) );
       const token = user.token;
 
@@ -98,9 +98,9 @@ class AdminOrders extends React.Component {
           console.log(err);
           browserHistory.push('/login');
         });
-    } else {
-      browserHistory.push('/login');
-    }
+    // } else {
+    //   browserHistory.push('/login');
+    // }
   }
 
 
@@ -156,7 +156,7 @@ class AdminOrders extends React.Component {
     if (localStorage.length > 0) {
       const user = JSON.parse( localStorage.getItem( 'user' ) );
       const token = user.token;
-      
+
       axios.post('/api/admin', { selectedActiveOrders }, { headers: {token} })
         .then((r) => {
           this.refs.activeTable.cleanSelected();
