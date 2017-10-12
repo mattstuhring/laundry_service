@@ -85,7 +85,7 @@ class CustomerProfile extends React.Component {
     const user = JSON.parse( localStorage.getItem( 'user' ) );
     const token = user.token;
 
-    if (localStorage.length > 0) {
+    // if (localStorage.length > 0) {
 
       axios.get('/api/authCustomer', { headers: {token} })
         .then((res) => {
@@ -116,9 +116,9 @@ class CustomerProfile extends React.Component {
           console.log(err);
           browserHistory.push('/login');
         });
-    } else {
-      browserHistory.push('/login');
-    }
+    // } else {
+    //   browserHistory.push('/login');
+    // }
   }
 
 
