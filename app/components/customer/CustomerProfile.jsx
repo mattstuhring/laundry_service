@@ -691,15 +691,18 @@ class CustomerProfile extends React.Component {
                     >
                       <strong>Wash / Dry <small><em>- $10</em></small></strong>
                     </Checkbox>
-                    {' '}
-                    <Checkbox
-                      inline
-                      value={['fold', 2.50]}
-                      onChange={this.handleBoxChange.bind(this)}
-                      checked={this.state.selectedServiceFold}
-                    >
-                      <strong>Fold <small><em>- $2.50</em></small></strong>
-                    </Checkbox>
+                  </Col>
+                  <Col xs={8} sm={8}>
+                    <span className="fold-checkbox">
+                      <Checkbox
+                        inline
+                        value={['fold', 2.50]}
+                        onChange={this.handleBoxChange.bind(this)}
+                        checked={this.state.selectedServiceFold}
+                      >
+                        <strong>Fold <small><em>- $2.50</em></small></strong>
+                      </Checkbox>
+                    </span>
                   </Col>
                 </div>
               </FormGroup>
@@ -789,7 +792,7 @@ class CustomerProfile extends React.Component {
                   </Col>
                 </div>
                 <div className="order-instructions text-center">
-                  <Col xs={8} sm={7}>
+                  <Col xs={7} sm={7}>
                     <FormControl
                       componentClass="textarea"
                       type="text"
@@ -1159,8 +1162,10 @@ class CustomerProfile extends React.Component {
             </Modal.Header>
             <Modal.Body>
               <p>@LaundrySucks</p>
+              <p><em>We will begin your order as soon as the payment has been received through Venmo.</em></p>
             </Modal.Body>
             <Modal.Footer>
+              <Button onClick={this.closeVenmo}>Accept</Button>
               <Button onClick={this.closeVenmo}>Close</Button>
             </Modal.Footer>
           </Modal>

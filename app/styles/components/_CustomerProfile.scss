@@ -115,14 +115,23 @@
      em {
        color: #a5a5a5;
      }
+
+     .fold-checkbox {
+       padding-right: 42px;
+
+       .checkbox-inline {
+         padding-top: 12px;
+       }
+     }
    }
+
 
    i.fa.fa-envelope-o {
     font-size: 68px;
     color: $amber;
     position: relative;
     top: 6px;
-    right: 6px;
+    right: 15px;
    }
 
    i.fa.fa-check-square-o {
@@ -130,7 +139,7 @@
      color: $amber;
      position: relative;
      top: 5px;
-     right: 5px;
+     right: 12px;
    }
 
    .order-radio {
@@ -142,12 +151,14 @@
     padding-bottom: 10px;
     position: relative;
     top: 7px;
-    right: 17px;
+    right: 24px;
    }
 
    .order-instructions .col-sm-7 {
      position: relative;
      top: 16px;
+     left: 15px;
+     padding: 0px 4px;
    }
 
    .input-group-addon {
@@ -635,7 +646,7 @@
 
 
 
-
+// ####################  DESKTOP  #########################
 
 
 
@@ -726,21 +737,43 @@
 
    .order-checkbox .col-sm-8 {
      position: relative;
-     top: 25px;
+     top: 11px;
 
      em {
        color: #a5a5a5;
      }
+
+     .fold-checkbox {
+       padding-right: 42px;
+
+       .checkbox-inline {
+         padding-top: 12px;
+       }
+     }
+   }
+
+
+
+   .services-load-img {
+    padding-bottom: 10px;
+    position: relative;
+    top: 7px;
+    right: 7px;
    }
 
    i.fa.fa-envelope-o {
-     font-size: 68px;
-     color: $amber;
+    font-size: 68px;
+    color: $amber;
+    position: relative;
+    right: 6px;
    }
 
    i.fa.fa-check-square-o {
      font-size: 74px;
      color: $amber;
+     position: relative;
+     top: 5px;
+     right: 5px;
    }
 
    .order-radio {
@@ -748,16 +781,10 @@
      top: 25px;
    }
 
-   .services-load-img {
-    padding-bottom: 10px;
-    position: relative;
-    top: 7px;
-    right: 14px;
-   }
-
    .order-instructions .col-sm-7 {
      position: relative;
      top: 16px;
+     left: 27px;
    }
 
    .input-group-addon {
@@ -1066,7 +1093,7 @@
        }
 
        .powered-by-stripe {
-         margin-right: 5%;
+         margin-left: 5%;
        }
 
 
