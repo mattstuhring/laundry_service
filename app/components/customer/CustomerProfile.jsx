@@ -28,6 +28,7 @@ class CustomerProfile extends React.Component {
       completeOrders: [],
       showModal: false,
       showInstructionsModal: false,
+      showVenmoModal: false,
       modal: {
         title: '',
         message: '',
@@ -77,6 +78,8 @@ class CustomerProfile extends React.Component {
     this.cleanFormatter = this.cleanFormatter.bind(this);
     this.foldFormatter = this.foldFormatter.bind(this);
     this.trClassFormat = this.trClassFormat.bind(this);
+    this.openVenmo = this.openVenmo.bind(this);
+    this.closeVenmo = this.closeVenmo.bind(this);
   }
 
 
@@ -362,6 +365,14 @@ class CustomerProfile extends React.Component {
 
   openInstructions() {
     this.setState({ showInstructionsModal: true });
+  }
+
+  closeVenmo() {
+    this.setState({ showVenmoModal: false });
+  }
+
+  openVenmo() {
+    this.setState({ showVenmoModal: true });
   }
 
 
@@ -1050,7 +1061,7 @@ class CustomerProfile extends React.Component {
 
                         <div className="row checkout-row">
                           <div className="col-xs-12 col-sm-5 text-center venmo-img">
-                            <Button bsStyle="primary">
+                            <Button bsStyle="primary" onClick={() => {this.openVenmo()}}>
                               <img src="images/venmo.svg"/>
                             </Button>
                           </div>
@@ -1139,6 +1150,18 @@ class CustomerProfile extends React.Component {
             </Modal.Body>
             <Modal.Footer>
               <Button onClick={this.closeInstructions}>Close</Button>
+            </Modal.Footer>
+          </Modal>
+
+          <Modal show={this.state.showVenmoModal} onHide={this.closeVenmo}>
+            <Modal.Header closeButton>
+              <Modal.Title>Venmo Payment</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              <p>@LaundrySucks</p>
+            </Modal.Body>
+            <Modal.Footer>
+              <Button onClick={this.closeVenmo}>Close</Button>
             </Modal.Footer>
           </Modal>
 
