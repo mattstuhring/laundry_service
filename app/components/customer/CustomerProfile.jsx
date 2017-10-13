@@ -1017,6 +1017,17 @@ class CustomerProfile extends React.Component {
 
                       {getOrderInstructions()}
 
+
+
+
+
+
+
+
+
+
+
+
                       <div className="total-stripe-box">
                         <div className="row order-total">
                           <div className="col-sm-12 text-center">
@@ -1025,22 +1036,43 @@ class CustomerProfile extends React.Component {
                             </strong>
                           </div>
                         </div>
+
                         <div className="row">
-                          <div className="col-sm-12 text-center">
-                            {/* STRIPE PAYMENT BTN */}
-                            <StripeCheckout
-                              name="Laundry Service"
-                              description="Pick-up, clean, & drop-off!"
-                              amount={this.state.orderTotalCost * 100}
-                              token={this.onToken}
-                              currency="USD"
-                              stripeKey={STRIPE_PUBLISHABLE}
-                            />
+                          <div className="col-xs-10 col-xs-offset-1 col-sm-6 col-sm-offset-3 order-divider">
                           </div>
                         </div>
+
                         <div className="row">
-                          <div className="col-sm-12 text-center">
-                            <img src="images/powered_by_stripe.svg"/>
+                          <div className="col-xs-12 col-sm-12 text-center">
+                            <p><em>How would you like to pay?</em></p>
+                          </div>
+                        </div>
+
+                        <div className="row checkout-row">
+                          <div className="col-xs-12 col-sm-5 text-center venmo-img">
+                            <Button bsStyle="primary">
+                              <img src="images/venmo.svg"/>
+                            </Button>
+                          </div>
+                          <div className="col-xs-12 col-sm-2 text-center ">
+                            <h5>OR</h5>
+                          </div>
+
+                          <div className="col-xs-12 col-sm-5 text-center stripe-btn">
+                            {/* STRIPE PAYMENT BTN */}
+                            <div>
+                              <StripeCheckout
+                                name="Laundry Service"
+                                description="Pick-up, clean, & drop-off!"
+                                amount={this.state.orderTotalCost * 100}
+                                token={this.onToken}
+                                currency="USD"
+                                stripeKey={STRIPE_PUBLISHABLE}
+                              />
+                            </div>
+                            <div className="powered-by-stripe">
+                              <img src="images/powered_by_stripe.svg"/>
+                            </div>
                           </div>
                         </div>
                       </div>

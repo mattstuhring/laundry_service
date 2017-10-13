@@ -198,7 +198,7 @@
          background-color: $lightBlueTint;
          padding: 18px;
          border-radius: 4px;
-         border: 1px solid $lightBlue;
+         border: 2px solid $lightBlue;
 
        }
      }
@@ -469,13 +469,51 @@
         }
       }
 
+      .checkout-row {
+        margin-top: 10px;
+      }
+
       .total-stripe-box {
         background-color: white;
         padding: 5px 5px 12px;
         border: 1px solid #ddd;
         border-radius: 5px;
         margin-top: 20px;
+
+        h5 {
+          font-weight: bold;
+          color: $amber;
+          margin-top: 15px;
+          margin-bottom: 15px;
+        }
       }
+
+      .StripeCheckout {
+        background: none !important;
+        border-radius: 3px !important;
+        box-shadow: none !important;
+
+        span {
+          font-size: 14px !important;
+          background-image: none !important;
+          font-family: 'Open Sans', sans-serif !important;
+          box-shadow: none !important;
+          text-shadow: none !important;
+          background-color: #337ab7 !important;
+          border-color: #2e6da4 !important;
+        }
+      }
+
+      .venmo-img button {
+        padding: 4px 16px;
+        width: 122px;
+
+        img {
+          width: 77%;
+        }
+      }
+
+
     }
   }
 
@@ -764,7 +802,7 @@
          background-color: $lightBlueTint;
          padding: 10px;
          border-radius: 4px;
-         border: 1px solid $lightBlue;
+         border: 2px solid $lightBlue;
 
        }
      }
@@ -1005,12 +1043,60 @@
          }
        }
 
+       .checkout-row {
+         margin-top: 10px;
+       }
+
+       .stripe-btn {
+         padding-left: 0px;
+         text-align: left;
+       }
+
        .total-stripe-box {
          background-color: white;
          padding: 5px 5px 12px;
          border: 1px solid #ddd;
          border-radius: 5px;
          margin-top: 20px;
+
+         h5 {
+           font-weight: bold;
+           color: $amber;
+         }
+       }
+
+       .powered-by-stripe {
+         margin-right: 5%;
+       }
+
+
+       .StripeCheckout {
+         background: none !important;
+         border-radius: 3px !important;
+         box-shadow: none !important;
+
+         span {
+           font-size: 14px !important;
+           background-image: none !important;
+           font-family: 'Open Sans', sans-serif !important;
+           box-shadow: none !important;
+           text-shadow: none !important;
+           background-color: #337ab7 !important;
+           border-color: #2e6da4 !important;
+         }
+       }
+
+       .venmo-img {
+         padding-right: 0px;
+         text-align: right;
+       }
+
+       .venmo-img button {
+         padding: 4px 16px;
+
+         img {
+           width: 85px;
+         }
        }
      }
    }
