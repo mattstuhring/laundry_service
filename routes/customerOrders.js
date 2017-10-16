@@ -64,7 +64,7 @@ router.get('/customerOrders', checkAuth, (req, res, next) => {
 // CREATE NEW ORDER
 router.post('/customerOrders', checkAuth, (req, res, next) => {
   const { userId, access } = req.token;
-  const { customerEmail, customerAddress, customerPhoneNumber, orderInstructions, orderPickupDate, orderPickupTime } = req.body.newOrder;
+  const { customerEmail, customerAddress, customerPhoneNumber, orderInstructions, orderPickupDate, orderPickupTime, paymentType } = req.body.newOrder;
 
 
   let orderLoads = parseInt(req.body.newOrder.orderLoads);
@@ -85,7 +85,7 @@ router.post('/customerOrders', checkAuth, (req, res, next) => {
   if (access === 'customer') {
     knex('payments')
       .insert({
-        type: 'Credit',
+        type: paymentType,
         total: orderTotalCost
       })
       .returning('id')

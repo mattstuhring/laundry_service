@@ -81,15 +81,15 @@
         border: 1px solid $lightBlue;
         border-bottom-color: transparent;
         font-weight: bold;
-        //  @include transition(background-color 0.75s ease);
-        //
-        //  &:hover {
-        //    background-color: #47bfdf;
-        //  }
-        //
-        //  &:focus {
-        //    background-color: $lightBlue;
-        //  }
+         @include transition(background-color 0.75s ease);
+
+         &:hover {
+           background-color: #47bfdf;
+         }
+
+         &:focus {
+           background-color: $lightBlue;
+         }
       }
 
       li.active > #loginTabs-tab-2 {
@@ -106,15 +106,15 @@
         border: 1px solid $amber;
         border-bottom-color: transparent;
         font-weight: bold;
-        //  @include transition(background-color 0.75s ease);
-        //
-        //  &:hover  {
-        //    background-color: #e29709;
-        //  }
-        //
-        //  &:focus {
-        //    background-color: $amber;
-        //  }
+         @include transition(background-color 0.75s ease);
+
+         &:hover  {
+           background-color: #e29709;
+         }
+
+         &:focus {
+           background-color: $amber;
+         }
       }
 
       .tab-content {
@@ -142,12 +142,12 @@
             -moz-box-shadow: 0 0 3px #888;
             -webkit-box-shadow: 0 0 3px #888;
             box-shadow: 0 0 3px #888;
-            //  @include transition(background-color 0.75s ease);
-            //
-            //
-            //  &:hover, &:focus {
-            //    background-color: #47bfdf;
-            //  }
+             @include transition(background-color 0.75s ease);
+
+
+             &:hover, &:focus {
+               background-color: #47bfdf;
+             }
           }
 
           .input-group-addon {
@@ -180,12 +180,12 @@
             -moz-box-shadow: 0 0 3px #888;
             -webkit-box-shadow: 0 0 3px #888;
             box-shadow: 0 0 3px #888;
-            //  @include transition(background-color 0.75s ease);
-            //
-            //
-            //  &:hover, &:focus {
-            //    background-color: #e29709;
-            //  }
+             @include transition(background-color 0.75s ease);
+
+
+             &:hover, &:focus {
+               background-color: #e29709;
+             }
           }
 
           .input-group-addon {
@@ -317,6 +317,7 @@
           -moz-box-shadow: 0 0 5px $lightBlue;
           -webkit-box-shadow: 0 0 5px $lightBlue;
           box-shadow: 0 0 5px $lightBlue;
+          padding: 30px;
 
           form {
             background-color: white;
@@ -355,6 +356,7 @@
           -webkit-box-shadow: 0 0 5px $amber;
           box-shadow: 0 0 5px $amber;
           border-radius: 0 4px 4px 4px;
+          padding: 30px;
 
           form {
             background-color: white;

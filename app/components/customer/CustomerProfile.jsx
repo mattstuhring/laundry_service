@@ -29,6 +29,7 @@ class CustomerProfile extends React.Component {
       showModal: false,
       showInstructionsModal: false,
       showVenmoModal: false,
+      alertVenmoVisible: false,
       modal: {
         title: '',
         message: '',
@@ -270,9 +271,58 @@ class CustomerProfile extends React.Component {
   }
 
 
-
+  // $$$$$$$$$$$$$$$$$$$$$$  VENMO PAYMENT  $$$$$$$$$$$$$$$$$$$$$$$
   handleVenmoPayment() {
+    const { customerEmail, customerAddress, orderServices, orderLoads, customerPhoneNumber, orderInstructions, orderTotalCost, orderPickupTime } = this.state;
 
+    const paymentType = 'Venmo';
+
+    let orderPickupDate = this.state;
+    orderPickupDate = moment(orderPickupDate).format('L');
+
+    const newOrder = { customerEmail, customerAddress, orderServices, orderLoads, customerPhoneNumber, orderInstructions, orderPickupDate, orderTotalCost, orderPickupTime, paymentType };
+
+    const user = JSON.parse( localStorage.getItem( 'user' ) );
+    const token = user.token;
+
+    axios.post('/api/customerOrders', {newOrder}, { headers: {token} })
+      .then((res) => {
+        const data = res.data;
+        let q = Object.assign([], this.state.queueOrders);
+        q.unshift(data);
+
+        this.setState({
+          queueOrders: q,
+          showVenmoModal: false,
+          customerAddress: this.state.customerAddress,
+          orderServices: [],
+          orderLoads: 0,
+          customerPhoneNumber: this.state.customerPhoneNumber,
+          orderInstructions: '',
+          orderPickupDate: moment().format('MM-DD-YYYY'),
+          formattedDate: '',
+          orderTotalCost: 0,
+          orderServiceCost: 0,
+          orderPickupTime: '',
+          key: 2,
+          formKey: 1,
+          alertVenmoVisible: true,
+          selectedServiceClean: false,
+          selectedServiceFold: false,
+          selectedLoadsOption: false
+        });
+
+        return axios.post('/api/notify', { newOrder, orderId: data.id }, { headers: {token} })
+          .then((r) => {
+            console.log(r, '************* notify res');
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }
 
 
@@ -290,10 +340,15 @@ class CustomerProfile extends React.Component {
       .then((res) => {
         const { customerEmail, customerAddress, orderServices, orderLoads, customerPhoneNumber, orderInstructions, orderTotalCost, orderPickupTime } = this.state;
 
+        const paymentType = 'Credit';
+
         let orderPickupDate = this.state;
         orderPickupDate = moment(orderPickupDate).format('L');
 
-        const newOrder = { customerEmail, customerAddress, orderServices, orderLoads, customerPhoneNumber, orderInstructions, orderPickupDate, orderTotalCost, orderPickupTime };
+        const newOrder = { customerEmail, customerAddress, orderServices, orderLoads, customerPhoneNumber, orderInstructions, orderPickupDate, orderTotalCost, orderPickupTime, paymentType };
+
+        const user = JSON.parse( localStorage.getItem( 'user' ) );
+        const token = user.token;
 
         axios.post('/api/customerOrders', {newOrder}, { headers: {token} })
           .then((res) => {
@@ -322,7 +377,7 @@ class CustomerProfile extends React.Component {
               selectedLoadsOption: false
             });
 
-            return axios.post('/api/notify', { newOrder, orderId: data.id })
+            return axios.post('/api/notify', { newOrder, orderId: data.id }, { headers: {token} })
               .then((r) => {
                 console.log(r, '************* notify res');
               })
@@ -357,7 +412,7 @@ class CustomerProfile extends React.Component {
 
 
   handleAlertDismiss() {
-    this.setState({ alertVisible: false });
+    this.setState({ alertVisible: false, alertVenmoVisible: false });
   }
 
 
@@ -495,12 +550,21 @@ class CustomerProfile extends React.Component {
     // SUCCESS PAYMENT ALERT
     const alert = () => {
       if (this.state.alertVisible) {
-        return <Alert bsStyle="success" onDismiss={this.handleAlertDismiss}>
+        return <Alert bsStyle="warning" onDismiss={this.handleAlertDismiss}>
           <h4>Your Payment was a success!</h4>
           <p>Check the progress bar below to track your order.</p>
         </Alert>;
       }
     };
+
+    const venmoAlert = () => {
+      if (this.state.alertVenmoVisible) {
+        return <Alert bsStyle="warning" onDismiss={this.handleAlertDismiss}>
+          <h4>Waiting for Venmo payment to be sent!</h4>
+          <p>Check the progress bar below to track your order.</p>
+        </Alert>;
+      }
+    }
 
     const dashboard = (
       <h3>Welcome, <small>{customerFirstName}</small></h3>
@@ -1169,14 +1233,17 @@ class CustomerProfile extends React.Component {
             <Modal.Body>
               <div className="row">
                 <div className="col-xs-12 col-sm-12 text-center">
-                  <p>LaundrySucks</p>
+                  <p><small><em>Pay to:</em></small><strong> LaundrySucks</strong></p>
                   <p><em>We will begin your order as soon as the payment has been received via Venmo.</em></p>
                 </div>
               </div>
             </Modal.Body>
             <Modal.Footer>
-              <Button onClick={() => {this.handleVenmoPayment()}}>Accept</Button>
-              <Button onClick={this.closeVenmo}>Close</Button>
+              <Button onClick={() => {this.handleVenmoPayment()}}
+                bsStyle="primary"
+              >
+                Accept
+              </Button>
             </Modal.Footer>
           </Modal>
 
@@ -1246,6 +1313,7 @@ class CustomerProfile extends React.Component {
                         <div className="col-sm-12 order-status-wrapper">
                           {/* SUCCESS PAYMENT ALERT */}
                           {alert()}
+                          {venmoAlert()}
 
                           {this.state.queueOrders.map((q) => {
 
