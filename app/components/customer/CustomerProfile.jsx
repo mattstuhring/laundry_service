@@ -80,6 +80,7 @@ class CustomerProfile extends React.Component {
     this.trClassFormat = this.trClassFormat.bind(this);
     this.openVenmo = this.openVenmo.bind(this);
     this.closeVenmo = this.closeVenmo.bind(this);
+    this.handleVenmoPayment = this.handleVenmoPayment.bind(this);
   }
 
 
@@ -268,6 +269,11 @@ class CustomerProfile extends React.Component {
     }
   }
 
+
+
+  handleVenmoPayment() {
+
+  }
 
 
 
@@ -551,19 +557,19 @@ class CustomerProfile extends React.Component {
         tomorrow = moment(tomorrow).format('MMMM Do YYYY');
         d = moment(day).format('dddd');
 
-        return <div className="col-xs-12 col-sm-6 order-date">
+        return <div className="col-xs-12 col-sm-5 col-md-5 order-date">
           <div className="row">
-            <div className="col-sm-12">
+            <div className="col-sm-12 order-date-label">
               <ControlLabel><em>Tomorrow's date:</em></ControlLabel>
             </div>
           </div>
           <div className="row order-date-row">
-            <div className="col-sm-3 text-center">
+            <div className="col-xs-3 col-sm-3 text-right">
               <span className="glyphicon glyphicon-calendar" aria-hidden="true"></span>
             </div>
-            <div className="col-sm-9 text-center">
+            <div className="col-xs-9 col-sm-9 text-center">
               <p><strong>{d + ','}</strong></p>
-              <p>{tomorrow}</p>
+              <p><small><em>{tomorrow}</em></small></p>
             </div>
           </div>
         </div>;
@@ -573,19 +579,19 @@ class CustomerProfile extends React.Component {
         today = moment(today).format('MMMM Do YYYY');
         day = moment(day).format('dddd');
 
-        return <div className="col-xs-12 col-sm-6 order-date">
+        return <div className="col-xs-12 col-sm-5 col-md-5 order-date">
           <div className="row">
-            <div className="col-sm-12">
+            <div className="col-sm-12 order-date-label">
               <ControlLabel><em>Today's date:</em></ControlLabel>
             </div>
           </div>
           <div className="row order-date-row">
-            <div className="col-sm-3 text-center">
+            <div className="col-xs-3 col-sm-3 text-right">
               <span className="glyphicon glyphicon-calendar" aria-hidden="true"></span>
             </div>
-            <div className="col-sm-9 text-center">
+            <div className="col-xs-9 col-sm-9 text-center">
               <p><strong>{day + ','}</strong></p>
-              <p>{today}</p>
+              <p><small><em>{today}</em></small></p>
             </div>
           </div>
         </div>;
@@ -813,7 +819,7 @@ class CustomerProfile extends React.Component {
 
               {/* ACTION BTNS */}
               <div className="row ">
-                <div className="col-xs-12 col-sm-12">
+                <div className="col-xs-12 col-sm-10 col-sm-offset-1">
                   <Pager>
                     <Pager.Item href="#" next onClick={() => this.handleTotalCost(2)}>Next &rarr;</Pager.Item>
                   </Pager>
@@ -893,36 +899,38 @@ class CustomerProfile extends React.Component {
                   {checkDate()}
 
 
-                  <div className="col-xs-12 col-sm-6 order-time">
+                  <div className="col-xs-12 col-sm-6 col-sm-offset-1 col-md-6 col-md-offset-1 order-time-col">
                     <ControlLabel><em>Select a pick-up time:</em></ControlLabel>
-                    <FormGroup bsSize="large">
-                      <InputGroup>
-                        <InputGroup.Addon>
-                          <span className="glyphicon glyphicon-time" aria-hidden="true"></span>
-                        </InputGroup.Addon>
-                        <FormControl
-                          placeholder="Select time"
-                          componentClass="select"
-                          onChange={this.handleTimeChange}
-                          value={this.state.orderPickupTime}
-                        >
-                          <option>Select time</option>
-                          <option value="08:00 AM">08:00 AM</option>
-                          <option value="08:30 AM">08:30 AM</option>
-                          <option value="09:00 AM">09:00 AM</option>
-                          <option value="09:30 AM">09:30 AM</option>
-                          <option value="10:00 AM">10:00 AM</option>
-                          <option value="12:00 PM">12:00 PM</option>
-                          <option value="04:00 PM">04:00 PM</option>
-                          <option value="04:30 PM">04:30 PM</option>
-                          <option value="05:00 PM">05:00 PM</option>
-                        </FormControl>
-                      </InputGroup>
+                    <div className="order-time">
+                      <FormGroup bsSize="large">
+                        <InputGroup>
+                          <InputGroup.Addon>
+                            <span className="glyphicon glyphicon-time" aria-hidden="true"></span>
+                          </InputGroup.Addon>
+                          <FormControl
+                            placeholder="Select time"
+                            componentClass="select"
+                            onChange={this.handleTimeChange}
+                            value={this.state.orderPickupTime}
+                          >
+                            <option>Select time</option>
+                            <option value="08:00 AM">08:00 AM</option>
+                            <option value="08:30 AM">08:30 AM</option>
+                            <option value="09:00 AM">09:00 AM</option>
+                            <option value="09:30 AM">09:30 AM</option>
+                            <option value="10:00 AM">10:00 AM</option>
+                            <option value="12:00 PM">12:00 PM</option>
+                            <option value="04:00 PM">04:00 PM</option>
+                            <option value="04:30 PM">04:30 PM</option>
+                            <option value="05:00 PM">05:00 PM</option>
+                          </FormControl>
+                        </InputGroup>
 
-                      <div className="text-center">
-                        <HelpBlock><small>* Schedule at least 30min from current time.</small></HelpBlock>
-                      </div>
-                    </FormGroup>
+                        <div className="text-center">
+                          <HelpBlock><small>* Schedule at least 30min from current time.</small></HelpBlock>
+                        </div>
+                      </FormGroup>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -946,15 +954,13 @@ class CustomerProfile extends React.Component {
 
 
               {/* ACTION BTNS */}
-              <div className="row info-btns">
-                <Pager>
-                  <div className="col-xs-6 col-sm-6">
+              <div className="row">
+                <div className="col-xs-10 col-xs-offset-1 col-sm-10 col-sm-offset-1">
+                  <Pager>
                     <Pager.Item href="#" previous onClick={() => this.handleSelectKey(1)}>&larr; Back</Pager.Item>
-                  </div>
-                  <div className="col-xs-6 col-sm-6 next-btn">
                     <Pager.Item href="#" next onClick={() => this.handleSelectKey(3)}>Next &rarr;</Pager.Item>
-                  </div>
-                </Pager>
+                  </Pager>
+                </div>
               </div>
             </Form>
           </div>
@@ -1097,7 +1103,7 @@ class CustomerProfile extends React.Component {
             </div>
           </div>
           <div className="row">
-            <div className="col-xs-12 col-sm-11 col-sm-offset-1">
+            <div className="col-xs-10 col-xs-offset-1 col-sm-10 col-sm-offset-1">
               {/* ACTION BTNS */}
               <Pager>
                 <Pager.Item href="#" previous onClick={() => this.handleSelectKey(2)}>&larr; Back</Pager.Item>
@@ -1133,7 +1139,7 @@ class CustomerProfile extends React.Component {
 
     return (
       <div className="row customer-profile">
-        <div className="col-sm-12 customer-profile-col">
+        <div className="col-xs-12 col-sm-12 col-md-10 col-md-offset-1 customer-profile-col">
 
           {/* MODAL */}
           <Popup
@@ -1161,11 +1167,15 @@ class CustomerProfile extends React.Component {
               <Modal.Title>Venmo Payment</Modal.Title>
             </Modal.Header>
             <Modal.Body>
-              <p>@LaundrySucks</p>
-              <p><em>We will begin your order as soon as the payment has been received through Venmo.</em></p>
+              <div className="row">
+                <div className="col-xs-12 col-sm-12 text-center">
+                  <p>LaundrySucks</p>
+                  <p><em>We will begin your order as soon as the payment has been received via Venmo.</em></p>
+                </div>
+              </div>
             </Modal.Body>
             <Modal.Footer>
-              <Button onClick={this.closeVenmo}>Accept</Button>
+              <Button onClick={() => {this.handleVenmoPayment()}}>Accept</Button>
               <Button onClick={this.closeVenmo}>Close</Button>
             </Modal.Footer>
           </Modal>
@@ -1201,14 +1211,14 @@ class CustomerProfile extends React.Component {
 
 
               <div className="row welcome-order-form">
-                <div className="col-xs-12 col-sm-10 col-sm-offset-1">
+                <div className="col-xs-12 col-sm-12">
                   <Tabs activeKey={this.state.key} onSelect={this.handleSelect} id="welcome-order-form">
 
 
                     {/* TAB 1 -> ORDER FORM */}
                     <Tab eventKey={1} title="SCHEDULE PICK-UP">
                       <div className="row">
-                        <div className="col-xs-12 col-sm-12 order-form-panel">
+                        <div className="col-xs-12 col-sm-12 col-md-10 col-md-offset-1 order-form-panel">
                           <Breadcrumb>
                             <Breadcrumb.Item href="#" onClick={() => {this.handleSelectKey(1)}} active={this.state.activeServices}>
                               SERVICES
