@@ -61,6 +61,9 @@
      .navbar-default {
        background-color: $darkBlue;
        border-color: $darkBlue;
+       -moz-box-shadow: 0px 0px 3px #333;
+       -webkit-box-shadow: 0px 0px 3px #333;
+       box-shadow: 0px 0px 3px #333;
      }
 
      .navbar-nav > li > a.active-link {
@@ -113,10 +116,6 @@
    }
 
    .top-nav {
-    //  .navbar-default {
-    //    padding-bottom: 7px;
-    //  }
-
      .navbar-brand {
        padding: 15px 15px 41px;
      }
@@ -128,6 +127,9 @@
      .navbar-default {
        background-color: $darkBlue;
        border-color: $darkBlue;
+       -moz-box-shadow: 0px 0px 4px #333;
+       -webkit-box-shadow: 0px 0px 4px #333;
+       box-shadow: 0px 0px 4px #333;
      }
 
      .navbar-nav > li > a.active-link {

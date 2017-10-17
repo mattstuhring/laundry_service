@@ -24,6 +24,7 @@ class AdminOrders extends React.Component {
       queueOrders: [],
       completeOrders: [],
       activeOrders: [],
+      myOrders: [],
       selectedVenmoOrders: [],
       selectedQueueOrders: [],
       selectedActiveOrders: [],
@@ -93,6 +94,7 @@ class AdminOrders extends React.Component {
                 queueOrders: res.data[1],
                 completeOrders: res.data[2],
                 activeOrders: res.data[3],
+                myOrders: res.data[4],
                 selectedActiveOrders: [],
                 selectedQueueOrders: [],
                 selectedCompleteOrders: []
@@ -133,6 +135,7 @@ class AdminOrders extends React.Component {
               queueOrders: res.data[1],
               completeOrders: res.data[2],
               activeOrders: res.data[3],
+              myOrders: res.data[4],
               selectedVenmoOrders: [],
               selectedActiveOrders: [],
               selectedQueueOrders: [],
@@ -173,6 +176,7 @@ class AdminOrders extends React.Component {
               queueOrders: res.data[1],
               completeOrders: res.data[2],
               activeOrders: res.data[3],
+              myOrders: res.data[4],
               selectedQueueOrders: [],
               selectedActiveOrders: [],
               showModal: false
@@ -213,6 +217,7 @@ class AdminOrders extends React.Component {
               queueOrders: res.data[1],
               completeOrders: res.data[2],
               activeOrders: res.data[3],
+              myOrders: res.data[4],
               selectedActiveOrders: [],
               selectedQueueOrders: []
             });
@@ -278,6 +283,7 @@ class AdminOrders extends React.Component {
               queueOrders: res.data[1],
               completeOrders: res.data[2],
               activeOrders: res.data[3],
+              myOrders: res.data[4],
               selectedVenmoOrders: [],
               selectedActiveOrders: [],
               selectedQueueOrders: [],
@@ -334,6 +340,7 @@ class AdminOrders extends React.Component {
               queueOrders: res.data[1],
               completeOrders: res.data[2],
               activeOrders: res.data[3],
+              myOrders: res.data[4],
               selectedActiveOrders: [],
               selectedQueueOrders: [],
               table: ''
@@ -916,6 +923,19 @@ class AdminOrders extends React.Component {
       </span>
     );
 
+    const laundryQueue = (<div>
+      <h5><strong>LAUNDRY QUEUE </strong><small><em>- Work to be done!</em></small></h5>
+    </div>);
+
+
+    const myJobs = (<div>
+      <h5><strong>ORDER STATUS</strong></h5>
+    </div>);
+
+    const completeTitle = (<div>
+      <h5><strong>COMPLETED ORDERS</strong></h5>
+    </div>);
+
     const venmoOptions = {
       insertBtn: this.venmoButtons,
       clearSearch: true,
@@ -1106,7 +1126,7 @@ class AdminOrders extends React.Component {
 
               {/* QUEUE TABLE */}
               <div className="queue">
-                <Panel header="LAUNDRY QUEUE" bsStyle="primary">
+                <Panel header={laundryQueue} bsStyle="primary">
                   <BootstrapTable ref='queueTable' hover condensed
                     options={ queueOptions }
                     bordered={ false }
@@ -1174,7 +1194,7 @@ class AdminOrders extends React.Component {
 
               {/* TABS -> ACTIVE, COMPLETE */}
               <div className="my-jobs">
-                <Panel header="ALL ACTIVE JOBS" bsStyle="primary">
+                <Panel header={myJobs} bsStyle="primary">
                   <Tabs activeKey={this.state.key} onSelect={this.handleSelect} id="my-jobs-tab">
                     <Tab eventKey={1} title="ACTIVE">
                       {/* TAB 1 -> ACTIVE */}
@@ -1241,8 +1261,74 @@ class AdminOrders extends React.Component {
                       </BootstrapTable>
                     </Tab>
 
-                    <Tab eventKey={2} title="COMPLETED ORDERS">
-                      {/* TAB 2 -> COMPLETE TABLE */}
+                    <Tab eventKey={2} title="MY ORDERS">
+                      {/* TAB 2 -> MY JOBS */}
+                      <BootstrapTable ref="activeTable" hover condensed
+                        options={ activeOptions }
+                        bordered={ false }
+                        data={ this.state.myOrders }
+                        selectRow={ selectActiveRow }
+                        expandableRow={ this.isExpandableRow }
+                        expandComponent={ this.expandComponent }
+                        trClassName={this.trClassFormat}
+                        pagination
+                        insertRow
+                        search
+                        cleanSelected
+                      >
+                        <TableHeaderColumn
+                          dataField='id'
+                          isKey
+                          width='70px'
+                          dataAlign='center'
+                          // filter={ { type: 'TextFilter', delay: 1000 } }
+                          expandable={ false }
+                        >Order#</TableHeaderColumn>
+                        <TableHeaderColumn
+                          dataField='created_at'
+                          dataFormat={ this.startDateFormatter }
+                          width='90px'
+                          dataAlign='center'
+                          expandable={ false }
+                        >Date</TableHeaderColumn>
+                        <TableHeaderColumn
+                          dataField='time'
+                          width='90px'
+                          dataAlign='center'
+                          expandable={ false }
+                          dataFormat={ this.hourFormatter }
+                        >Hour</TableHeaderColumn>
+                        <TableHeaderColumn
+                          dataField='time'
+                          width='90px'
+                          dataAlign='center'
+                          expandable={ false }
+                          dataFormat={ this.countdownFormatter }
+                        >Time</TableHeaderColumn>
+                        <TableHeaderColumn
+                          dataField='address'
+                          expandable={ false }
+                          width='150px'
+                          dataAlign='center'
+                          tdStyle={ { whiteSpace: 'normal' } }
+                        >Address</TableHeaderColumn>
+                        <TableHeaderColumn
+                          dataField='step'
+                          width='90px'
+                          dataAlign='center'
+                          expandable={ false }
+                        >Step</TableHeaderColumn>
+                        <TableHeaderColumn
+                          width='80px'
+                          dataAlign='center'
+                          dataFormat={this.buttonFormatter}
+                        ></TableHeaderColumn>
+                      </BootstrapTable>
+                    </Tab>
+
+
+                    <Tab eventKey={3} title="COMPLETED">
+                      {/* TAB 3 -> COMPLETE TABLE */}
                       <BootstrapTable ref="completeTable" hover condensed
                         options={ completeOptions }
                         bordered={ false }
@@ -1305,6 +1391,7 @@ class AdminOrders extends React.Component {
               </div>
             </div>
           </div>
+
         </div>
       </div>
     )

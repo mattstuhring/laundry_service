@@ -524,7 +524,7 @@ class EmployeeProfile extends React.Component {
           >Fold</TableHeaderColumn>
           <TableHeaderColumn
             dataField='pickup'
-            width='70px'
+            width='90px'
             dataAlign='center'
             dataFormat={this.pickupFormatter}
           >Pick-up</TableHeaderColumn>
@@ -536,7 +536,7 @@ class EmployeeProfile extends React.Component {
           >Clean</TableHeaderColumn>
           <TableHeaderColumn
             dataField='dropoff'
-            width='80px'
+            width='110px'
             dataAlign='center'
             dataFormat={this.dropoffFormatter}
           >Drop-off</TableHeaderColumn>
@@ -649,8 +649,6 @@ class EmployeeProfile extends React.Component {
   // ***************************  RENDER  *********************************
   render() {
     const { firstName } = this.state;
-    console.log(this.state.queueOrders, '******* queue orders');
-
 
     const queueOptions = {
       insertBtn: this.queueButtons,
@@ -716,12 +714,12 @@ class EmployeeProfile extends React.Component {
     };
 
     const laundryQueue = (<div>
-      <h5><em>Work to be done!</em></h5>
+      <h5><strong>LAUNDRY QUEUE </strong><small><em>- Work to be done!</em></small></h5>
     </div>);
 
 
     const myJobs = (<div>
-      <h5><em>Jobs you are currently working.</em></h5>
+      <h5><strong>JOB STATUS</strong></h5>
     </div>);
 
 
@@ -855,7 +853,7 @@ class EmployeeProfile extends React.Component {
               <div className="my-jobs">
                 <Panel header={myJobs} bsStyle="primary">
                   <Tabs activeKey={this.state.key} onSelect={this.handleSelect} id="my-jobs-tab">
-                    <Tab eventKey={1} title="MY JOB(S)">
+                    <Tab eventKey={1} title="MY JOBS">
                       {/* TAB 1 -> ACTIVE */}
                       <BootstrapTable ref="activeTable" condensed hover
                         options={ activeOptions }

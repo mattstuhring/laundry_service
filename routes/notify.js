@@ -14,7 +14,7 @@ const router = express.Router();
 // EMAIL NOTIFICATION TO ADMIN & EMPLOYEES FOR NEW ORDERS
 router.post('/notify', checkAuth, (req, res, next) => {
   const { userId, access } = req.token;
-  const { customerAddress, orderServices, orderLoads, customerPhoneNumber, orderInstructions, orderPickupDate, orderPaymentTotal, orderPickupTime } = req.body.newOrder;
+  const { customerEmail, customerAddress, orderServices, orderLoads, customerPhoneNumber, orderInstructions, orderPickupDate, orderTotalCost, orderPickupTime, paymentType, paymentReceived } = req.body.newOrder;
 
   let orderId = parseInt(req.body.orderId);
 
@@ -40,7 +40,15 @@ router.post('/notify', checkAuth, (req, res, next) => {
         //      from: process.env.GMAIL_USER,
         //      to: process.env.GMAIL_USER,
         //      subject: 'Laundry Service - New Order',
-        //      text: `A new order has been submitted. Order #: ${orderId}`
+        //      html: `<div>
+        //         <h1>Laundry Sucks.</h1>
+        //         <h4>A new order has been submitted!  Go ahead and check the laundry queue.</h4>
+        //         <ul>
+        //           <li>Order #: ${orderId}</li>
+        //           <li>Address: ${customerAddress}</li>
+        //           <li>Pick-up: ${orderPickupDate}, ${orderPickupTime}</li>
+        //         </ul>
+        //       </div>`
         //   };
         //
         //   transporter.sendMail(mailOptions, (error, info) => {

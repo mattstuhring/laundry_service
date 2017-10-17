@@ -67,7 +67,26 @@ router.get('/admin', checkAuth, (req, res, next) => {
                   .then((active) => {
                     orders.push(active);
 
-                    res.send(orders);
+                    return knex('orders')
+                      .select(['orders.id', 'orders.customer_id', 'orders.employee_id', 'orders.address', 'orders.created_at', 'orders.updated_at', 'orders.time', 'orders.step', 'orders.status', 'orders.instructions', 'orders.task_id', 'settings.amount', 'settings.clean', 'settings.fold', 'tasks.pickup', 'tasks.wash_dry', 'tasks.dropoff', 'users.first_name', 'users.last_name', 'users.phone_number', 'users.email', 'payments.total'])
+                      .where('status', 'Active')
+                      .where({
+                        status: 'Active',
+                        employee_id: userId
+                      })
+                      .innerJoin('payments', 'orders.payment_id', 'payments.id')
+                      .innerJoin('settings', 'orders.setting_id', 'settings.id')
+                      .innerJoin('tasks', 'orders.task_id', 'tasks.id')
+                      .innerJoin('users', 'orders.customer_id', 'users.id')
+                      .orderBy('orders.id', 'desc')
+                      .then((myJob) => {
+                        orders.push(myJob);
+
+                        res.send(orders);
+                      })
+                      .catch((err) => {
+                        next(err);
+                      });
                   })
                   .catch((err) => {
                     next(err);
