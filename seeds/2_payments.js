@@ -5,6 +5,7 @@ exports.seed = function(knex) {
     .then(() => knex('payments').insert([
       {
         id: 1,
+        received: true,
         type: 'Credit',
         total: 10.00,
         created_at: new Date('2017-08-15 12:12:16 UTC'),
@@ -12,6 +13,7 @@ exports.seed = function(knex) {
       },
       {
         id: 2,
+        received: true,
         type: 'Credit',
         total: 10.00,
         created_at: new Date('2017-08-17 12:12:16 UTC'),

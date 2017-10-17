@@ -35,8 +35,63 @@
       }
     }
 
+    .venmo {
+      .expand-row {
+        padding: 10px;
 
+        th {
+          background-color: $lightBlue;
+          text-transform: capitalize;
+        }
+      }
 
+      .btn-success {
+        margin-bottom: 5px;
+      }
+
+      .btn-danger {
+        padding: 5px 25px;
+      }
+
+      a.page-link {
+        background-color: $darkBlue;
+        border-color: $darkBlue;
+        z-index: 1;
+      }
+
+      .venmo-title {
+        img {
+          width: 75px;
+        }
+      }
+
+      .react-bs-container-header {
+        .table>thead>tr>th {
+          font-size: 80%;
+        }
+      }
+
+      .react-bs-container-body {
+        .table>tbody>tr>td {
+          font-size: 80%;
+        }
+      }
+
+      a.page-link {
+        background-color: $darkBlue;
+        border-color: $darkBlue;
+      }
+
+      button.btn.btn-link {
+        text-decoration: none;
+        @include transition(color 0.5s ease);
+
+        &:hover, &:focus {
+          color: $darkBlue;
+          font-weight: bold;
+        }
+      }
+    }
 
 
 
@@ -385,7 +440,10 @@
     background-color: white;
     border: 1px solid #ccc;
 
-
+    .panel {
+      margin-top: 20px;
+      margin-bottom: 20px;
+    }
 
 
     .profile-header {
@@ -411,6 +469,34 @@
         -moz-box-shadow: 0px 0px 3px $lightBlue;
         -webkit-box-shadow: 0px 0px 3px $lightBlue;
         box-shadow: 0px 0px 3px $lightBlue;
+      }
+    }
+
+
+    .venmo {
+      .panel-body {
+        padding: 30px;
+      }
+
+      .venmo-title {
+        img {
+          width: 85px;
+        }
+      }
+
+      a.page-link {
+        background-color: $darkBlue;
+        border-color: $darkBlue;
+      }
+
+      button.btn.btn-link {
+        text-decoration: none;
+        @include transition(color 0.5s ease);
+
+        &:hover, &:focus {
+          color: $darkBlue;
+          font-weight: bold;
+        }
       }
     }
 
@@ -624,6 +710,7 @@
             .react-bs-table-pagination {
               margin-left: 15px;
               margin-right: 15px;
+              padding-bottom: 15px;
             }
           }
         }

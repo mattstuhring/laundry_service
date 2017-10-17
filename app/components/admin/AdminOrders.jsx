@@ -1,7 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import { browserHistory, withRouter } from 'react-router';
-import { Button, FormGroup, FormControl, InputGroup, Panel, ControlLabel, Table, Tabs, Tab, Checkbox, Radio } from 'react-bootstrap';
+import { Button, FormGroup, FormControl, InputGroup, Panel, ControlLabel, Table, Tabs, Tab, Checkbox, Radio, Image } from 'react-bootstrap';
 import {BootstrapTable, TableHeaderColumn, InsertButton, DeleteButton} from 'react-bootstrap-table';
 import moment from 'moment';
 import Popup from 'Popup';
@@ -20,9 +20,11 @@ class AdminOrders extends React.Component {
       table: '',
       firstName: '',
       orderStep: '',
+      venmoOrders: [],
       queueOrders: [],
       completeOrders: [],
       activeOrders: [],
+      selectedVenmoOrders: [],
       selectedQueueOrders: [],
       selectedActiveOrders: [],
       selectedCompleteOrders: [],
@@ -35,19 +37,24 @@ class AdminOrders extends React.Component {
     }
 
     this.close = this.close.bind(this);
+    this.openVenmo = this.openVenmo.bind(this);
     this.openActive = this.openActive.bind(this);
     this.openComplete = this.openComplete.bind(this);
     this.openRemoveOrder = this.openRemoveOrder.bind(this);
     this.openStepBack = this.openStepBack.bind(this);
+    this.handleVenmo = this.handleVenmo.bind(this);
     this.handleActive = this.handleActive.bind(this);
     this.handleComplete = this.handleComplete.bind(this);
     this.handleRemoveOrder = this.handleRemoveOrder.bind(this);
     this.handleStepBack = this.handleStepBack.bind(this);
     this.queueButtons = this.queueButtons.bind(this);
+    this.venmoButtons = this.venmoButtons.bind(this);
     this.activeButtons = this.activeButtons.bind(this);
     this.completeButtons = this.completeButtons.bind(this);
     this.onQueueRowSelect = this.onQueueRowSelect.bind(this);
     this.onQueueSelectAll = this.onQueueSelectAll.bind(this);
+    this.onVenmoRowSelect = this.onVenmoRowSelect.bind(this);
+    this.onVenmoSelectAll = this.onVenmoSelectAll.bind(this);
     this.onActiveRowSelect = this.onActiveRowSelect.bind(this);
     this.onActiveSelectAll = this.onActiveSelectAll.bind(this);
     this.onCompleteRowSelect = this.onCompleteRowSelect.bind(this);
@@ -82,9 +89,10 @@ class AdminOrders extends React.Component {
           return axios.get('/api/admin', { headers: {token} })
             .then((res) => {
               this.setState({
-                queueOrders: res.data[0],
-                completeOrders: res.data[1],
-                activeOrders: res.data[2],
+                venmoOrders: res.data[0],
+                queueOrders: res.data[1],
+                completeOrders: res.data[2],
+                activeOrders: res.data[3],
                 selectedActiveOrders: [],
                 selectedQueueOrders: [],
                 selectedCompleteOrders: []
@@ -101,6 +109,43 @@ class AdminOrders extends React.Component {
     } else {
       browserHistory.push('/login');
     }
+  }
+
+
+
+  handleVenmo() {
+    const { selectedVenmoOrders } = this.state;
+    const user = JSON.parse( localStorage.getItem( 'user' ) );
+    const token = user.token;
+
+    axios.put('/api/adminVenmo', {selectedVenmoOrders}, { headers: {token} })
+      .then(() => {
+        this.refs.venmoTable.cleanSelected();
+        this.refs.venmoTable.setState({
+          selectedRowKeys: []
+        });
+
+        return axios.get('/api/admin', { headers: {token} })
+          .then((res) => {
+            this.setState({
+              showModal: false,
+              venmoOrders: res.data[0],
+              queueOrders: res.data[1],
+              completeOrders: res.data[2],
+              activeOrders: res.data[3],
+              selectedVenmoOrders: [],
+              selectedActiveOrders: [],
+              selectedQueueOrders: [],
+              selectedCompleteOrders: []
+            });
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }
 
 
@@ -124,9 +169,10 @@ class AdminOrders extends React.Component {
           .then((res) => {
 
             this.setState({
-              queueOrders: res.data[0],
-              completeOrders: res.data[1],
-              activeOrders: res.data[2],
+              venmoOrders: res.data[0],
+              queueOrders: res.data[1],
+              completeOrders: res.data[2],
+              activeOrders: res.data[3],
               selectedQueueOrders: [],
               selectedActiveOrders: [],
               showModal: false
@@ -163,9 +209,10 @@ class AdminOrders extends React.Component {
 
             this.setState({
               showModal: false,
-              queueOrders: res.data[0],
-              completeOrders: res.data[1],
-              activeOrders: res.data[2],
+              venmoOrders: res.data[0],
+              queueOrders: res.data[1],
+              completeOrders: res.data[2],
+              activeOrders: res.data[3],
               selectedActiveOrders: [],
               selectedQueueOrders: []
             });
@@ -192,6 +239,8 @@ class AdminOrders extends React.Component {
       selectedOrders = this.state.selectedActiveOrders;
     } else if (table === 'complete') {
       selectedOrders = this.state.selectedCompleteOrders;
+    } else if (table === 'venmo') {
+      selectedOrders = this.state.selectedVenmoOrders;
     }
 
     const user = JSON.parse( localStorage.getItem( 'user' ) );
@@ -214,15 +263,22 @@ class AdminOrders extends React.Component {
           this.refs.completeTable.setState({
             selectedRowKeys: []
           });
+        } else if (table === 'venmo') {
+          this.refs.venmoTable.cleanSelected();
+          this.refs.venmoTable.setState({
+            selectedRowKeys: []
+          });
         }
 
         return axios.get('/api/admin', { headers: {token} })
           .then((res) => {
             this.setState({
               showModal: false,
-              queueOrders: res.data[0],
-              completeOrders: res.data[1],
-              activeOrders: res.data[2],
+              venmoOrders: res.data[0],
+              queueOrders: res.data[1],
+              completeOrders: res.data[2],
+              activeOrders: res.data[3],
+              selectedVenmoOrders: [],
               selectedActiveOrders: [],
               selectedQueueOrders: [],
               selectedCompleteOrders: [],
@@ -274,9 +330,10 @@ class AdminOrders extends React.Component {
           .then((res) => {
             this.setState({
               showModal: false,
-              queueOrders: res.data[0],
-              completeOrders: res.data[1],
-              activeOrders: res.data[2],
+              venmoOrders: res.data[0],
+              queueOrders: res.data[1],
+              completeOrders: res.data[2],
+              activeOrders: res.data[3],
               selectedActiveOrders: [],
               selectedQueueOrders: [],
               table: ''
@@ -296,6 +353,17 @@ class AdminOrders extends React.Component {
 
   close() {
     this.setState({ showModal: false });
+  }
+
+  openVenmo() {
+    this.setState({
+      showModal: true,
+      modal: {
+        title: 'Venmo Payment:',
+        message: 'Did you receive the customers venmo payment?',
+        action: this.handleVenmo
+      }
+    });
   }
 
 
@@ -387,6 +455,33 @@ class AdminOrders extends React.Component {
 
 
 
+
+  venmoButtons() {
+  	return (
+      <div>
+        <Button
+          bsStyle="success"
+          bsSize="small"
+          onClick={() => this.openVenmo()}
+        >
+          <span className="glyphicon glyphicon-ok" aria-hidden="true"></span>
+          {' '}Payment Received
+        </Button>
+        {' '}
+        <Button
+          bsStyle="danger"
+          bsSize="small"
+          onClick={() => this.openRemoveOrder('venmo')}
+        >
+          <span className="glyphicon glyphicon-remove" aria-hidden="true"></span>
+          {' '}Delete Order
+        </Button>
+      </div>
+    );
+  }
+
+
+
   activeButtons() {
     return (
       <div>
@@ -437,6 +532,39 @@ class AdminOrders extends React.Component {
     );
   }
 
+  onVenmoRowSelect(row, isSelected, e) {
+    let arr = Object.assign([], this.state.selectedVenmoOrders);
+
+    if (isSelected) {
+      arr.push(row);
+      this.setState({selectedVenmoOrders: arr});
+    }
+    else {
+      for (let i = 0; i < arr.length; i++) {
+        if (arr[i].id === row.id) {
+          arr.splice(i, 1);
+        }
+      }
+
+      this.setState({ selectedVenmoOrders: arr});
+    }
+  }
+
+
+
+  onVenmoSelectAll(isSelected, rows) {
+    let arr = Object.assign([], this.state.selectedVenmoOrders);
+
+    if (isSelected) {
+      for (let i = 0; i < rows.length; i++) {
+        arr.push(rows[i]);
+      }
+
+      this.setState({selectedVenmoOrders: arr});
+    } else {
+      this.setState({selectedVenmoOrders: []});
+    }
+  }
 
 
 
@@ -590,24 +718,24 @@ class AdminOrders extends React.Component {
           <TableHeaderColumn
             isKey={ true }
             dataField='amount'
-            width='60px'
+            width='90px'
             dataAlign='center'
           >Loads</TableHeaderColumn>
           <TableHeaderColumn
             dataField='clean'
-            width='90px'
+            width='110px'
             dataAlign='center'
             dataFormat={this.cleanFormatter}
           >Wash/Dry</TableHeaderColumn>
           <TableHeaderColumn
             dataField='fold'
-            width='50px'
+            width='90px'
             dataAlign='center'
             dataFormat={this.foldFormatter}
           >Fold</TableHeaderColumn>
           <TableHeaderColumn
             dataField='pickup'
-            width='70px'
+            width='100px'
             dataAlign='center'
             dataFormat={this.pickupFormatter}
           >Pick-up</TableHeaderColumn>
@@ -619,7 +747,7 @@ class AdminOrders extends React.Component {
           >Clean</TableHeaderColumn>
           <TableHeaderColumn
             dataField='dropoff'
-            width='80px'
+            width='110px'
             dataAlign='center'
             dataFormat={this.dropoffFormatter}
           >Drop-off</TableHeaderColumn>
@@ -711,14 +839,24 @@ class AdminOrders extends React.Component {
   countdownFormatter(cell, row) {
     if (row.step === 'Queue' || row.step === 'Pick-up') {
       const Completionist = () => <span>Overdue!</span>;
-      const date = moment(row.created_at).format('MM-DD-YYYY');
-      let now = date + ' ' + row.time;
 
-      return (
-        <Countdown date={now}>
-          <Completionist />
-        </Countdown>
-      );
+      let time = moment(row.time, 'hh:mm A');
+      time = moment(time, 'hh:mm A');
+      time = time.format('HH:mm:ss')
+      // console.log(time, '*********** time');
+
+      let date = moment(row.created_at);
+      date = moment(date);
+      date = date.format('ddd, DD MMM YYYY')
+      // console.log(date, '************* date');
+
+      const dateTime = date + ' ' + time;
+      // console.log(dateTime, '********* date and time');
+
+      return <Countdown date={dateTime}>
+        <Completionist />
+      </Countdown>;
+
     } else {
       return (
         '---'
@@ -771,6 +909,20 @@ class AdminOrders extends React.Component {
 
   // ***************************  RENDER  ******************************
   render() {
+    const venmoTitle = (
+      <span className="venmo-title">
+        <Image src="images/venmo-title.svg" />
+        <small><em> - Pending payments</em></small>
+      </span>
+    );
+
+    const venmoOptions = {
+      insertBtn: this.venmoButtons,
+      clearSearch: true,
+      searchField: this.customSearch,
+      expandBy: 'column',
+      expandRowBgColor: '#daf5fd'
+    };
 
     const queueOptions = {
       insertBtn: this.queueButtons,
@@ -794,6 +946,14 @@ class AdminOrders extends React.Component {
       searchField: this.customSearch,
       expandBy: 'column',
       expandRowBgColor: '#daf5fd'
+    };
+
+    const selectVenmoRow = {
+      mode: 'checkbox',
+      clickToSelect: true,
+      clickToExpand: true,
+      onSelect: this.onVenmoRowSelect,
+      onSelectAll: this.onVenmoSelectAll
     };
 
 
@@ -865,6 +1025,75 @@ class AdminOrders extends React.Component {
                     <h1>ADMIN<small><em> - Manage Orders</em></small></h1>
                   </div>
                 </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="row">
+            <div className="col-sm-12">
+              <div className="venmo">
+                <Panel header={venmoTitle}>
+                  <BootstrapTable ref='venmoTable' hover condensed
+                    options={ venmoOptions }
+                    bordered={ false }
+                    data={ this.state.venmoOrders }
+                    selectRow={ selectVenmoRow }
+                    expandableRow={ this.isExpandableRow }
+                    expandComponent={ this.expandComponent }
+                    trClassName={this.trClassFormat}
+                    pagination
+                    insertRow
+                    cleanSelected
+                  >
+                    <TableHeaderColumn
+                      dataField='id'
+                      isKey
+                      width='70px'
+                      dataAlign='center'
+                      // filter={ { type: 'TextFilter', delay: 1000 } }
+                      expandable={ false }
+                    >Order#</TableHeaderColumn>
+                    <TableHeaderColumn
+                      dataField='created_at'
+                      dataFormat={ this.startDateFormatter }
+                      width='90px'
+                      dataAlign='center'
+                      expandable={ false }
+                    >Date</TableHeaderColumn>
+                    <TableHeaderColumn
+                      dataField='time'
+                      width='90px'
+                      dataAlign='center'
+                      expandable={ false }
+                      dataFormat={ this.hourFormatter }
+                    >Hour</TableHeaderColumn>
+                    <TableHeaderColumn
+                      dataField='time'
+                      width='90px'
+                      dataAlign='center'
+                      expandable={ false }
+                      dataFormat={ this.countdownFormatter }
+                    >Time</TableHeaderColumn>
+                    <TableHeaderColumn
+                      dataField='address'
+                      expandable={ false }
+                      width='150px'
+                      dataAlign='center'
+                      tdStyle={ { whiteSpace: 'normal' } }
+                    >Address</TableHeaderColumn>
+                    <TableHeaderColumn
+                      dataField='total'
+                      width='90px'
+                      dataAlign='center'
+                      expandable={ false }
+                    >Total</TableHeaderColumn>
+                    <TableHeaderColumn
+                      width='80px'
+                      dataAlign='center'
+                      dataFormat={this.buttonFormatter}
+                    ></TableHeaderColumn>
+                  </BootstrapTable>
+                </Panel>
               </div>
             </div>
           </div>

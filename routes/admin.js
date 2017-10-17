@@ -18,39 +18,60 @@ router.get('/admin', checkAuth, (req, res, next) => {
 
   if (access === 'admin') {
     knex('orders')
-      .select(['orders.id', 'orders.customer_id', 'orders.employee_id', 'orders.address', 'orders.created_at', 'orders.updated_at', 'orders.time', 'orders.step', 'orders.status', 'orders.instructions', 'orders.task_id', 'settings.amount', 'settings.clean', 'settings.fold', 'tasks.pickup', 'tasks.wash_dry', 'tasks.dropoff', 'users.first_name', 'users.last_name', 'users.phone_number', 'users.email', 'payments.total'])
+      .select(['orders.id', 'orders.customer_id', 'orders.employee_id', 'orders.address', 'orders.created_at', 'orders.updated_at', 'orders.time', 'orders.step', 'orders.status', 'orders.instructions', 'orders.task_id', 'orders.payment_id', 'settings.amount', 'settings.clean', 'settings.fold', 'tasks.pickup', 'tasks.wash_dry', 'tasks.dropoff', 'users.first_name', 'users.last_name', 'users.phone_number', 'users.email', 'payments.total', 'payments.type', 'payments.received'])
       .innerJoin('payments', 'orders.payment_id', 'payments.id')
-      .where('status', 'Queue')
+      .where({
+        status: 'Queue',
+        received: false,
+      })
       .innerJoin('settings', 'orders.setting_id', 'settings.id')
       .innerJoin('tasks', 'orders.task_id', 'tasks.id')
       .innerJoin('users', 'orders.customer_id', 'users.id')
       .orderBy('orders.id', 'desc')
-      .then((queue) => {
-        let orders = [queue];
+      .then((venmo) => {
+        let orders = [venmo];
 
         return knex('orders')
           .select(['orders.id', 'orders.customer_id', 'orders.employee_id', 'orders.address', 'orders.created_at', 'orders.updated_at', 'orders.time', 'orders.step', 'orders.status', 'orders.instructions', 'orders.task_id', 'settings.amount', 'settings.clean', 'settings.fold', 'tasks.pickup', 'tasks.wash_dry', 'tasks.dropoff', 'users.first_name', 'users.last_name', 'users.phone_number', 'users.email', 'payments.total'])
           .innerJoin('payments', 'orders.payment_id', 'payments.id')
-          .where('status', 'Complete')
+          .where({
+            status: 'Queue',
+            received: true,
+          })
           .innerJoin('settings', 'orders.setting_id', 'settings.id')
           .innerJoin('tasks', 'orders.task_id', 'tasks.id')
           .innerJoin('users', 'orders.customer_id', 'users.id')
           .orderBy('orders.id', 'desc')
-          .then((complete) => {
-            orders.push(complete);
+          .then((queue) => {
+            orders.push(queue);
 
             return knex('orders')
               .select(['orders.id', 'orders.customer_id', 'orders.employee_id', 'orders.address', 'orders.created_at', 'orders.updated_at', 'orders.time', 'orders.step', 'orders.status', 'orders.instructions', 'orders.task_id', 'settings.amount', 'settings.clean', 'settings.fold', 'tasks.pickup', 'tasks.wash_dry', 'tasks.dropoff', 'users.first_name', 'users.last_name', 'users.phone_number', 'users.email', 'payments.total'])
-              .where('status', 'Active')
               .innerJoin('payments', 'orders.payment_id', 'payments.id')
+              .where('status', 'Complete')
               .innerJoin('settings', 'orders.setting_id', 'settings.id')
               .innerJoin('tasks', 'orders.task_id', 'tasks.id')
               .innerJoin('users', 'orders.customer_id', 'users.id')
               .orderBy('orders.id', 'desc')
-              .then((active) => {
-                orders.push(active);
+              .then((complete) => {
+                orders.push(complete);
 
-                res.send(orders);
+                return knex('orders')
+                  .select(['orders.id', 'orders.customer_id', 'orders.employee_id', 'orders.address', 'orders.created_at', 'orders.updated_at', 'orders.time', 'orders.step', 'orders.status', 'orders.instructions', 'orders.task_id', 'settings.amount', 'settings.clean', 'settings.fold', 'tasks.pickup', 'tasks.wash_dry', 'tasks.dropoff', 'users.first_name', 'users.last_name', 'users.phone_number', 'users.email', 'payments.total'])
+                  .where('status', 'Active')
+                  .innerJoin('payments', 'orders.payment_id', 'payments.id')
+                  .innerJoin('settings', 'orders.setting_id', 'settings.id')
+                  .innerJoin('tasks', 'orders.task_id', 'tasks.id')
+                  .innerJoin('users', 'orders.customer_id', 'users.id')
+                  .orderBy('orders.id', 'desc')
+                  .then((active) => {
+                    orders.push(active);
+
+                    res.send(orders);
+                  })
+                  .catch((err) => {
+                    next(err);
+                  });
               })
               .catch((err) => {
                 next(err);
@@ -63,6 +84,7 @@ router.get('/admin', checkAuth, (req, res, next) => {
       .catch((err) => {
         next(err);
       });
+
   } else {
     res.sendStatus(401);
   }

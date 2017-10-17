@@ -276,11 +276,12 @@ class CustomerProfile extends React.Component {
     const { customerEmail, customerAddress, orderServices, orderLoads, customerPhoneNumber, orderInstructions, orderTotalCost, orderPickupTime } = this.state;
 
     const paymentType = 'Venmo';
+    const paymentReceived = false;
 
     let orderPickupDate = this.state;
     orderPickupDate = moment(orderPickupDate).format('L');
 
-    const newOrder = { customerEmail, customerAddress, orderServices, orderLoads, customerPhoneNumber, orderInstructions, orderPickupDate, orderTotalCost, orderPickupTime, paymentType };
+    const newOrder = { customerEmail, customerAddress, orderServices, orderLoads, customerPhoneNumber, orderInstructions, orderPickupDate, orderTotalCost, orderPickupTime, paymentType, paymentReceived };
 
     const user = JSON.parse( localStorage.getItem( 'user' ) );
     const token = user.token;
@@ -304,6 +305,8 @@ class CustomerProfile extends React.Component {
           orderTotalCost: 0,
           orderServiceCost: 0,
           orderPickupTime: '',
+          paymentType: '',
+          paymentReceived: false,
           key: 2,
           formKey: 1,
           alertVenmoVisible: true,
@@ -341,11 +344,12 @@ class CustomerProfile extends React.Component {
         const { customerEmail, customerAddress, orderServices, orderLoads, customerPhoneNumber, orderInstructions, orderTotalCost, orderPickupTime } = this.state;
 
         const paymentType = 'Credit';
+        const paymentReceived = true;
 
         let orderPickupDate = this.state;
         orderPickupDate = moment(orderPickupDate).format('L');
 
-        const newOrder = { customerEmail, customerAddress, orderServices, orderLoads, customerPhoneNumber, orderInstructions, orderPickupDate, orderTotalCost, orderPickupTime, paymentType };
+        const newOrder = { customerEmail, customerAddress, orderServices, orderLoads, customerPhoneNumber, orderInstructions, orderPickupDate, orderTotalCost, orderPickupTime, paymentType, paymentReceived };
 
         const user = JSON.parse( localStorage.getItem( 'user' ) );
         const token = user.token;
@@ -369,6 +373,8 @@ class CustomerProfile extends React.Component {
               orderTotalCost: 0,
               orderServiceCost: 0,
               orderPickupTime: '',
+              paymentType: '',
+              paymentReceived: false,
               key: 2,
               formKey: 1,
               alertVisible: true,
@@ -550,7 +556,7 @@ class CustomerProfile extends React.Component {
     // SUCCESS PAYMENT ALERT
     const alert = () => {
       if (this.state.alertVisible) {
-        return <Alert bsStyle="warning" onDismiss={this.handleAlertDismiss}>
+        return <Alert bsStyle="success" onDismiss={this.handleAlertDismiss}>
           <h4>Your Payment was a success!</h4>
           <p>Check the progress bar below to track your order.</p>
         </Alert>;
@@ -559,7 +565,7 @@ class CustomerProfile extends React.Component {
 
     const venmoAlert = () => {
       if (this.state.alertVenmoVisible) {
-        return <Alert bsStyle="warning" onDismiss={this.handleAlertDismiss}>
+        return <Alert bsStyle="success" onDismiss={this.handleAlertDismiss}>
           <h4>Waiting for Venmo payment to be sent!</h4>
           <p>Check the progress bar below to track your order.</p>
         </Alert>;
@@ -700,8 +706,8 @@ class CustomerProfile extends React.Component {
       if (time < 0) {
         const today = moment();
         const day = moment();
-        let d = day.add('days', 1);
-        let tomorrow = today.add('days', 1);
+        let d = day.add(1, 'days');
+        let tomorrow = today.add(1, 'days');
         tomorrow = moment(tomorrow).format('MMMM Do YYYY');
         let formatDay = moment(d).format('dddd');
 
