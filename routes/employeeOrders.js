@@ -20,7 +20,10 @@ router.get('/employeeOrders', checkAuth, (req, res, next) => {
     knex('orders')
       .select(['orders.id', 'orders.customer_id', 'orders.employee_id', 'orders.address', 'orders.created_at', 'orders.updated_at', 'orders.time', 'orders.step', 'orders.status', 'orders.instructions', 'orders.task_id', 'settings.amount', 'settings.clean', 'settings.fold', 'tasks.pickup', 'tasks.wash_dry', 'tasks.dropoff', 'users.first_name', 'users.last_name', 'users.phone_number', 'users.email', 'payments.total'])
       .innerJoin('payments', 'orders.payment_id', 'payments.id')
-      .where('status', 'Queue')
+      .where({
+        status: 'Queue',
+        received: true,
+      })
       .innerJoin('settings', 'orders.setting_id', 'settings.id')
       .innerJoin('tasks', 'orders.task_id', 'tasks.id')
       .innerJoin('users', 'orders.customer_id', 'users.id')
