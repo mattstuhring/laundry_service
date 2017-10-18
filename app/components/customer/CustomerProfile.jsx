@@ -1511,19 +1511,19 @@ class CustomerProfile extends React.Component {
                                       width='70px'
                                       dataAlign='center'
                                       expandable={ false }
-                                    >Order#</TableHeaderColumn>
+                                    >ORDER#</TableHeaderColumn>
                                     <TableHeaderColumn
                                       dataField='updated_at'
                                       dataFormat={ this.endDateFormatter }
                                       width='100px'
                                       dataAlign='center'
                                       expandable={ false }
-                                    >Completed</TableHeaderColumn>
+                                    >COMPLETED</TableHeaderColumn>
                                     <TableHeaderColumn
                                       dataField='total'
                                       width='60px'
                                       dataAlign='center'
-                                    >Total</TableHeaderColumn>
+                                    >TOTAL $</TableHeaderColumn>
 
                                     <TableHeaderColumn
                                       width='80px'

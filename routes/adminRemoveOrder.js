@@ -15,9 +15,9 @@ const router = express.Router();
 
 router.put('/adminRemoveOrder', checkAuth, (req, res, next) => {
   const { userId, access } = req.token;
-  // const { orderId, orderStep } = req.params;
   const {selectedOrders} = req.body
   let stepName;
+  let column;
 
   if (access === 'admin') {
 
@@ -53,10 +53,33 @@ router.put('/adminRemoveOrder', checkAuth, (req, res, next) => {
           .where('orders.id', selectedOrders[i].id)
           .update({
             status: 'Queue',
-            step: stepName
+            step: stepName,
+            employee_id: null
           })
           .then((result) => {
             console.log(result);
+
+            if (stepName === 'Queue') {
+              column = {pickup: null};
+            } else if (stepName === 'Pick-up') {
+              column = {pickup: null};
+            } else if (stepName === 'Cleaning') {
+              column = {wash_dry: null};
+            } else if (stepName === 'Drop-off') {
+              column = {dropoff: null};
+            } else {
+              column = {dropoff: null};
+            }
+
+            return knex('tasks')
+              .where('tasks.id', selectedOrders[i].task_id)
+              .update(column)
+              .then((r) => {
+                console.log(r);
+              })
+              .catch((err) => {
+                next(err);
+              });
           })
           .catch((err) => {
             next(err);

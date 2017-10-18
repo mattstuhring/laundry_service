@@ -100,6 +100,7 @@
       a.page-link {
         background-color: $darkBlue;
         border-color: $darkBlue;
+        z-index: 1;
       }
 
       button.btn.btn-link {
@@ -282,6 +283,7 @@
       a.page-link {
         background-color: $amber;
         border-color: $amber;
+        z-index: 1;
       }
 
       .panel-primary {
@@ -529,7 +531,7 @@
       }
 
       .panel-body {
-        padding: 25px 45px 10px;
+        padding: 30px;
       }
 
       .venmo-title {
@@ -555,6 +557,23 @@
         &:hover, &:focus {
           color: $darkBlue;
           font-weight: bold;
+        }
+      }
+
+      .react-bs-table-tool-bar {
+        background-color: white;
+        padding: 10px 15px 10px;
+        border-radius: 4px 4px 0px 0px;
+      }
+
+      .react-bs-table-container {
+        background-color: white;
+        border-radius: 4px;
+
+        .react-bs-table-pagination {
+          margin-left: 15px;
+          margin-right: 15px;
+          padding-bottom: 5px;
         }
       }
 
@@ -606,6 +625,7 @@
       a.page-link {
         background-color: $darkBlue;
         border-color: $darkBlue;
+        z-index: 1;
       }
 
       button.btn.btn-link {
@@ -735,6 +755,7 @@
       a.page-link {
         background-color: $amber;
         border-color: $amber;
+        z-index: 1;
       }
 
       .panel-primary {

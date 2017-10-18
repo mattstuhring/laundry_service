@@ -429,34 +429,34 @@ class AdminUsers extends React.Component {
                       width='70px'
                       dataAlign='center'
                       filter={ { type: 'TextFilter', delay: 1000 } }
-                    >User#</TableHeaderColumn>
+                    >USER#</TableHeaderColumn>
                     <TableHeaderColumn
                       dataField='first_name'
                       dataAlign='center'
                       width='90px'
-                    >First</TableHeaderColumn>
+                    >FIRST</TableHeaderColumn>
                     <TableHeaderColumn
                       dataField='last_name'
                       dataAlign='center'
                       width="90px"
-                    >Last</TableHeaderColumn>
+                    >LAST</TableHeaderColumn>
                     <TableHeaderColumn
                       dataField='email'
                       dataAlign='center'
                       width='150px'
                       tdStyle={ { whiteSpace: 'normal' } }
-                    >Email</TableHeaderColumn>
+                    >EMAIL</TableHeaderColumn>
                     <TableHeaderColumn
                       dataField='phone_number'
                       dataAlign='center'
                       width='110px'
-                    >Contact</TableHeaderColumn>
+                    >CONTACT</TableHeaderColumn>
                     <TableHeaderColumn
                       dataField='created_at'
                       dataAlign='center'
                       dataFormat={ this.startDateFormatter }
                       width='100px'
-                    >Date</TableHeaderColumn>
+                    >DATE</TableHeaderColumn>
                   </BootstrapTable>
                 </Panel>
               </div>
@@ -486,40 +486,40 @@ class AdminUsers extends React.Component {
                   width='70px'
                   dataAlign='center'
                   filter={ { type: 'TextFilter', delay: 1000 } }
-                >User#</TableHeaderColumn>
+                >USER#</TableHeaderColumn>
                 <TableHeaderColumn
                   dataField='first_name'
                   dataAlign='center'
                   width='90px'
-                >First</TableHeaderColumn>
+                >FIRST</TableHeaderColumn>
                 <TableHeaderColumn
                   dataField='last_name'
                   dataAlign='center'
                   width="90px"
-                >Last</TableHeaderColumn>
+                >LAST</TableHeaderColumn>
                 <TableHeaderColumn
                   dataField='address'
                   width='150px'
                   dataAlign='center'
                   tdStyle={ { whiteSpace: 'normal' } }
-                >Address</TableHeaderColumn>
+                >ADDRESS</TableHeaderColumn>
                 <TableHeaderColumn
                   dataField='email'
                   dataAlign='center'
                   width='150px'
                   tdStyle={ { whiteSpace: 'normal' } }
-                >Email</TableHeaderColumn>
+                >EMAIL</TableHeaderColumn>
                 <TableHeaderColumn
                   dataField='phone_number'
                   dataAlign='center'
                   width='110px'
-                >Contact</TableHeaderColumn>
+                >CONTACT</TableHeaderColumn>
                 <TableHeaderColumn
                   dataField='created_at'
                   dataAlign='center'
                   dataFormat={ this.startDateFormatter }
                   width='100px'
-                >Date</TableHeaderColumn>
+                >DATE</TableHeaderColumn>
               </BootstrapTable>
             </Panel>
           </div>

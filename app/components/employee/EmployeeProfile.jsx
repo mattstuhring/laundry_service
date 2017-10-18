@@ -206,7 +206,7 @@ class EmployeeProfile extends React.Component {
     this.setState({
       showModal: true,
       modal: {
-        title: 'Job:',
+        title: 'JOB',
         message: 'Do you accept the job(s)?',
         action: this.handleActive
       }
@@ -218,7 +218,7 @@ class EmployeeProfile extends React.Component {
     this.setState({
       showModal: true,
       modal: {
-        title: 'Job:',
+        title: 'JOBS',
         message: 'Did you complete the job(s)',
         action: this.handleComplete
       }
@@ -230,8 +230,8 @@ class EmployeeProfile extends React.Component {
     this.setState({
       showModal: true,
       modal: {
-        title: 'Job:',
-        message: 'Whoops! Put order back into the laundry queue?',
+        title: 'JOBS',
+        message: 'WHOOPS! Put order back into the laundry queue?',
         action: this.handleStepBack
       }
     });
@@ -509,47 +509,47 @@ class EmployeeProfile extends React.Component {
             dataField='amount'
             width='60px'
             dataAlign='center'
-          >Loads</TableHeaderColumn>
+          >LOADS</TableHeaderColumn>
           <TableHeaderColumn
             dataField='clean'
             width='90px'
             dataAlign='center'
             dataFormat={this.cleanFormatter}
-          >Wash/Dry</TableHeaderColumn>
+          >WASH/DRY</TableHeaderColumn>
           <TableHeaderColumn
             dataField='fold'
             width='50px'
             dataAlign='center'
             dataFormat={this.foldFormatter}
-          >Fold</TableHeaderColumn>
+          >FOLD</TableHeaderColumn>
           <TableHeaderColumn
             dataField='pickup'
             width='90px'
             dataAlign='center'
             dataFormat={this.pickupFormatter}
-          >Pick-up</TableHeaderColumn>
+          >PICK-UP</TableHeaderColumn>
           <TableHeaderColumn
             dataField='wash_dry'
             width='80px'
             dataAlign='center'
             dataFormat={this.washFormatter}
-          >Clean</TableHeaderColumn>
+          >CLEAN</TableHeaderColumn>
           <TableHeaderColumn
             dataField='dropoff'
             width='110px'
             dataAlign='center'
             dataFormat={this.dropoffFormatter}
-          >Drop-off</TableHeaderColumn>
+          >DROP-OFF</TableHeaderColumn>
           <TableHeaderColumn
             dataField='total'
             width='80px'
             dataAlign='center'
-          >Total</TableHeaderColumn>
+          >TOTAL</TableHeaderColumn>
           <TableHeaderColumn
             dataField='instructions'
             dataAlign='center'
             tdStyle={ { whiteSpace: 'normal' } }
-          >Instructions</TableHeaderColumn>
+          >INSTRUCTIONS</TableHeaderColumn>
         </BootstrapTable>
         <BootstrapTable data={ [row] }
           condensed
@@ -564,22 +564,22 @@ class EmployeeProfile extends React.Component {
             dataField='first_name'
             width='120px'
             dataAlign='center'
-          >First</TableHeaderColumn>
+          >FIRST</TableHeaderColumn>
           <TableHeaderColumn
             dataField='last_name'
             width='120px'
             dataAlign='center'
-          >Last</TableHeaderColumn>
+          >LAST</TableHeaderColumn>
           <TableHeaderColumn
             dataField='phone_number'
             width='120px'
             dataAlign='center'
-          >Phone#</TableHeaderColumn>
+          >PHONE#</TableHeaderColumn>
           <TableHeaderColumn
             dataField='email'
             dataAlign='center'
             tdStyle={ { whiteSpace: 'normal' } }
-          >Email</TableHeaderColumn>
+          >EMAIL</TableHeaderColumn>
         </BootstrapTable>
       </div>
     );
@@ -598,44 +598,44 @@ class EmployeeProfile extends React.Component {
             dataField='amount'
             width='60px'
             dataAlign='center'
-          >Loads</TableHeaderColumn>
+          >LOADS</TableHeaderColumn>
           <TableHeaderColumn
             dataField='clean'
             width='90px'
             dataAlign='center'
             dataFormat={this.cleanFormatter}
-          >Wash/Dry</TableHeaderColumn>
+          >WASH/DRY</TableHeaderColumn>
           <TableHeaderColumn
             dataField='fold'
             width='50px'
             dataAlign='center'
             dataFormat={this.foldFormatter}
-          >Fold</TableHeaderColumn>
+          >FOLD</TableHeaderColumn>
           <TableHeaderColumn
             dataField='pickup'
             width='70px'
             dataAlign='center'
-          >Pick-up</TableHeaderColumn>
+          >PICK-UP</TableHeaderColumn>
           <TableHeaderColumn
             dataField='wash_dry'
             width='80px'
             dataAlign='center'
-          >Clean</TableHeaderColumn>
+          >CLEAN</TableHeaderColumn>
           <TableHeaderColumn
             dataField='dropoff'
             width='80px'
             dataAlign='center'
-          >Drop-off</TableHeaderColumn>
+          >DROP-OFF</TableHeaderColumn>
           <TableHeaderColumn
             dataField='total'
             width='80px'
             dataAlign='center'
-          >Total</TableHeaderColumn>
+          >TOTAL</TableHeaderColumn>
           <TableHeaderColumn
             dataField='instructions'
             dataAlign='center'
             tdStyle={ { whiteSpace: 'normal' } }
-          >Instructions</TableHeaderColumn>
+          >INSTRUCTIONS</TableHeaderColumn>
         </BootstrapTable>
       </div>
     );
@@ -804,41 +804,41 @@ class EmployeeProfile extends React.Component {
                       dataAlign='center'
                       // filter={ { type: 'TextFilter', delay: 1000 } }
                       expandable={ false }
-                    >Order#</TableHeaderColumn>
+                    >ORDER#</TableHeaderColumn>
                     <TableHeaderColumn
                       dataField='created_at'
                       dataFormat={ this.startDateFormatter }
                       width='90px'
                       dataAlign='center'
                       expandable={ false }
-                    >Date</TableHeaderColumn>
+                    >DATE</TableHeaderColumn>
                     <TableHeaderColumn
                       dataField='time'
                       width='90px'
                       dataAlign='center'
                       expandable={ false }
                       dataFormat={ this.hourFormatter }
-                    >Hour</TableHeaderColumn>
+                    >HOUR</TableHeaderColumn>
                     <TableHeaderColumn
                       dataField='time'
                       width='90px'
                       dataAlign='center'
                       expandable={ false }
                       dataFormat={ this.countdownFormatter }
-                    >Time</TableHeaderColumn>
+                    >TIME</TableHeaderColumn>
                     <TableHeaderColumn
                       dataField='address'
                       width="150px"
                       expandable={ false }
                       dataAlign='center'
                       tdStyle={ { whiteSpace: 'normal' } }
-                    >Address</TableHeaderColumn>
+                    >ADDRESS</TableHeaderColumn>
                     <TableHeaderColumn
                       dataField='step'
                       width='90px'
                       dataAlign='center'
                       expandable={ false }
-                    >Step</TableHeaderColumn>
+                    >STEP</TableHeaderColumn>
                     <TableHeaderColumn
                       width='80px'
                       dataAlign='center'
@@ -875,41 +875,41 @@ class EmployeeProfile extends React.Component {
                           dataAlign='center'
                           // filter={ { type: 'TextFilter', delay: 1000 } }
                           expandable={ false }
-                        >Order#</TableHeaderColumn>
+                        >ORDER#</TableHeaderColumn>
                         <TableHeaderColumn
                           dataField='created_at'
                           dataFormat={ this.startDateFormatter }
                           width='90px'
                           dataAlign='center'
                           expandable={ false }
-                        >Date</TableHeaderColumn>
+                        >DATE</TableHeaderColumn>
                         <TableHeaderColumn
                           dataField='time'
                           width='90px'
                           dataAlign='center'
                           expandable={ false }
                           dataFormat={ this.hourFormatter }
-                        >Hour</TableHeaderColumn>
+                        >HOUR</TableHeaderColumn>
                         <TableHeaderColumn
                           dataField='time'
                           width='90px'
                           dataAlign='center'
                           expandable={ false }
                           dataFormat={ this.countdownFormatter }
-                        >Time</TableHeaderColumn>
+                        >TIME</TableHeaderColumn>
                         <TableHeaderColumn
                           dataField='address'
                           expandable={ false }
                           width="150px"
                           dataAlign='center'
                           tdStyle={ { whiteSpace: 'normal' } }
-                        >Address</TableHeaderColumn>
+                        >ADDRESS</TableHeaderColumn>
                         <TableHeaderColumn
                           dataField='step'
                           width='90px'
                           dataAlign='center'
                           expandable={ false }
-                        >Step</TableHeaderColumn>
+                        >STEP</TableHeaderColumn>
                         <TableHeaderColumn
                           width='80px'
                           dataAlign='center'
@@ -941,36 +941,36 @@ class EmployeeProfile extends React.Component {
                           dataAlign='center'
                           // filter={ { type: 'TextFilter', delay: 1000 } }
                           expandable={ false }
-                        >Order#</TableHeaderColumn>
+                        >ORDER#</TableHeaderColumn>
                         <TableHeaderColumn
                           dataField='updated_at'
                           dataFormat={ this.endDateFormatter }
                           width='140px'
                           dataAlign='center'
                           expandable={ false }
-                        >Completed</TableHeaderColumn>
+                        >COMPLETED</TableHeaderColumn>
                         <TableHeaderColumn
                           dataField='customer_id'
                           width='60px'
                           dataAlign='center'
-                        >User#</TableHeaderColumn>
+                        >USER#</TableHeaderColumn>
                         <TableHeaderColumn
                           dataField='first_name'
                           width='120px'
                           dataAlign='center'
-                        >First</TableHeaderColumn>
+                        >FIRST</TableHeaderColumn>
                         <TableHeaderColumn
                           dataField='last_name'
                           width='120px'
                           dataAlign='center'
-                        >Last</TableHeaderColumn>
+                        >LAST</TableHeaderColumn>
                         <TableHeaderColumn
                           dataField='address'
                           expandable={ false }
                           width="150px"
                           dataAlign='center'
                           tdStyle={ { whiteSpace: 'normal' } }
-                        >Address</TableHeaderColumn>
+                        >ADDRESS</TableHeaderColumn>
                         <TableHeaderColumn
                           width='80px'
                           dataAlign='center'
