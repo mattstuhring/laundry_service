@@ -1505,7 +1505,6 @@ class CustomerProfile extends React.Component {
                                     pagination
                                     search
                                   >
-
                                     <TableHeaderColumn
                                       dataField='id'
                                       isKey
