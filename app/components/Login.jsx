@@ -161,7 +161,7 @@ export class Login extends React.Component {
   render() {
     return (
       <div className="row user-login">
-        <div className="col-xs-12 col-sm-12 col-sm-10 col-xs-offset-1">
+        <div className="col-xs-12 col-sm-10 col-sm-offset-1">
 
 
           <div className="row login-header">

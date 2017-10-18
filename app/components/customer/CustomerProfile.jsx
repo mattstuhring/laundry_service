@@ -1316,7 +1316,7 @@ class CustomerProfile extends React.Component {
                     {/* TAB 2 -> ORDER STATUS */}
                     <Tab eventKey={2} title="ORDER STATUS">
                       <div className="row">
-                        <div className="col-sm-12 order-status-wrapper">
+                        <div className="col-xs-12 col-sm-12 col-md-10 col-md-offset-1 order-status-wrapper">
                           {/* SUCCESS PAYMENT ALERT */}
                           {alert()}
                           {venmoAlert()}
@@ -1492,7 +1492,7 @@ class CustomerProfile extends React.Component {
                         <div className="col-xs-12 col-sm-12 completed-orders">
                           <Panel header="COMPLETED ORDERS">
                             <div className="row">
-                              <div className="col-xs-12 col-sm-10 col-sm-offset-1">
+                              <div className="col-xs-12 col-sm-12 col-md-10 col-md-offset-1">
                                 {/* COMPLETE TABLE */}
                                 <div className="complete-table">
                                   <BootstrapTable ref="completeTable" hover

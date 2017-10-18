@@ -581,16 +581,29 @@
       font-size: 80%;
     }
 
+    a.page-link {
+      background-color: $amber;
+      border-color: $amber;
+      z-index: 1;
+    }
+
     .panel-body {
-      padding: 24px 8px 42px;
+      padding: 10px 10px 42px;
     }
 
     .react-bs-table-tool-bar {
       margin-bottom: 5px;
       padding: 10px;
-      background-color: rgba(79,213,248,0.2);
+      background-color: $beige;
       border-radius: 4px;
-      border: 1px solid $lightBlue;
+      border: 1px solid #ddd;
+
+      .react-bs-table-search-clear-btn {
+        background-color: $amber;
+        color: white;
+        font-weight: bold;
+        z-index: 1;
+      }
     }
 
     .react-bs-container-header {
@@ -672,7 +685,7 @@
   #welcome-order-form {
     .tab-content {
       background-color: rgba(79,213,248,0.2);
-      padding: 40px 60px;
+      padding: 40px 40px 15px;
       border-left: 1px solid $lightBlue;
       border-right: 1px solid $lightBlue;
       border-bottom: 1px solid $lightBlue;
@@ -864,7 +877,7 @@
     }
 
     .panel-body {
-      padding: 24px 0 42px;
+      padding: 24px 10px 42px;
     }
   }
 
@@ -1171,7 +1184,15 @@
     }
   }
 
+
+
   .completed-orders {
+    a.page-link {
+      background-color: $amber;
+      border-color: $amber;
+      z-index: 1;
+    }
+
     .panel-heading {
       background-color: $amber;
       color: #333;
@@ -1181,9 +1202,16 @@
     .react-bs-table-tool-bar {
       margin-bottom: 5px;
       padding: 10px;
-      background-color: rgba(79,213,248,0.2);
+      background-color: $beige;
       border-radius: 4px;
-      border: 1px solid $lightBlue;
+      border: 1px solid #ddd;
+
+      .react-bs-table-search-clear-btn {
+        background-color: $amber;
+        color: white;
+        font-weight: bold;
+        z-index: 1;
+      }
     }
   }
 

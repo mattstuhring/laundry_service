@@ -719,7 +719,7 @@ class EmployeeProfile extends React.Component {
 
 
     const myJobs = (<div>
-      <h5><strong>JOB STATUS</strong></h5>
+      <h5><strong>JOB & ORDER STATUS</strong></h5>
     </div>);
 
 
