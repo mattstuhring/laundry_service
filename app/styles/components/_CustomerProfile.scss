@@ -34,9 +34,9 @@
   #welcome-order-form {
     .tab-content {
       background-color: rgba(79,213,248,0.2);
-      border-left: 1px solid $lightBlue;
-      border-right: 1px solid $lightBlue;
-      border-bottom: 1px solid $lightBlue;
+      border-left: 2px solid $lightBlue;
+      border-right: 2px solid $lightBlue;
+      border-bottom: 2px solid $lightBlue;
       -moz-box-shadow: 0 0 5px $lightBlue;
       -webkit-box-shadow: 0 0 5px $lightBlue;
       box-shadow: 0 0 5px $lightBlue;
@@ -59,13 +59,13 @@
       background-color: $lightBlue;
       color: #333;
       text-align: center;
-      border-left: 1px solid $lightBlue;
-      border-right: 1px solid $lightBlue;
-      border-bottom: 1px solid $lightBlue;
+      border-left: 2px solid $lightBlue;
+      border-right: 2px solid $lightBlue;
+      border-bottom: 2px solid $lightBlue;
       font-weight: bold;
-      -moz-box-shadow: 0 0 3px #888;
-      -webkit-box-shadow: 0 0 3px #888;
-      box-shadow: 0 0 3px #888;
+      -moz-box-shadow: 0 0 3px $lightBlue;
+      -webkit-box-shadow: 0 0 3px $lightBlue;
+      box-shadow: 0 0 3px $lightBlue;
       border-radius: 4px;
       color: #333;
 
@@ -98,7 +98,7 @@
     }
 
     .nav-tabs {
-      border-bottom: 1px solid $lightBlue;
+      border-bottom: 2px solid $lightBlue;
     }
   }
 
@@ -685,10 +685,10 @@
   #welcome-order-form {
     .tab-content {
       background-color: rgba(79,213,248,0.2);
-      padding: 40px 40px 15px;
-      border-left: 1px solid $lightBlue;
-      border-right: 1px solid $lightBlue;
-      border-bottom: 1px solid $lightBlue;
+      padding: 40px;
+      border-left: 2px solid $lightBlue;
+      border-right: 2px solid $lightBlue;
+      border-bottom: 2px solid $lightBlue;
       -moz-box-shadow: 0 0 5px $lightBlue;
       -webkit-box-shadow: 0 0 5px $lightBlue;
       box-shadow: 0 0 5px $lightBlue;
@@ -703,9 +703,9 @@
       border-right: 1px solid $lightBlue;
       border-bottom: 1px solid $lightBlue;
       font-weight: bold;
-      -moz-box-shadow: 0 0 3px #888;
-      -webkit-box-shadow: 0 0 3px #888;
-      box-shadow: 0 0 3px #888;
+      -moz-box-shadow: 0 0 3px $lightBlue;
+      -webkit-box-shadow: 0 0 3px $lightBlue;
+      box-shadow: 0 0 3px $lightBlue;
       border-radius: 4px;
       color: #333;
 
@@ -737,7 +737,7 @@
     }
 
     .nav-tabs {
-      border-bottom: 1px solid $lightBlue;
+      border-bottom: 2px solid $lightBlue;
     }
   }
 
@@ -1114,6 +1114,10 @@
   }
 
   .order-status {
+    .panel {
+      margin-bottom: 40px;
+      margin-top: 20px;
+    }
     .page-header {
       padding-bottom: 0;
       margin: 0;
@@ -1187,6 +1191,10 @@
 
 
   .completed-orders {
+    .panel {
+      margin-bottom: 0px;
+    }
+
     a.page-link {
       background-color: $amber;
       border-color: $amber;
