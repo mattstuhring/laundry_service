@@ -161,7 +161,7 @@ export class Login extends React.Component {
   render() {
     return (
       <div className="row user-login">
-        <div className="col-xs-12 col-sm-10 col-sm-offset-1">
+        <div className="col-sm-12">
 
 
           <div className="row login-header">
@@ -174,14 +174,13 @@ export class Login extends React.Component {
 
 
           <div className="row login-row">
-            <div className="col-xs-10 col-xs-offset-1 col-sm-8 col-sm-offset-2 login-col">
+            <div className="col-xs-10 col-xs-offset-1 col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2 col-lg-6 col-lg-offset-3 login-col">
 
               {/* LOGIN */}
               <Tabs defaultActiveKey={1} activeKey={this.state.key} onSelect={this.handleSelect} id="loginTabs">
                 <Tab eventKey={1} title="LOG IN">
                   <div className="row">
                     <div className="col-xs-12 col-sm-12">
-                      {/* <form onSubmit={this.handleLogin.bind(this)}> */}
                       <form>
                         <div className="login-form-wrapper">
                           <FormGroup controlId="email" bsSize="large">
@@ -350,7 +349,7 @@ export class Login extends React.Component {
                             <FormGroup controlId="user" bsSize="large" validationState={this.getValidationState()}>
                               <FormControl
                                 type="password"
-                                placeholder="Re-type password"
+                                placeholder="Retype password"
                                 name="passwordCheck"
                                 value={this.state.passwordCheck}
                                 onChange={this.handleChange.bind(this)}

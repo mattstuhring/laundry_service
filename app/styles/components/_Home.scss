@@ -28,14 +28,13 @@
           top: 30.5%;
           width: 34%;
           border-radius: 50%;
-          @include transition(box-shadow 0.75s ease, border 0.75s ease);
+          @include transition(box-shadow 0.75s ease);
 
           &:hover {
             background-color: $amber;
             -moz-box-shadow: 0 0 60px $amber;
             -webkit-box-shadow: 0 0 60px $amber;
             box-shadow: 0 0 60px $amber;
-            border: 2px solid $amber;
           }
         }
       }
@@ -97,14 +96,13 @@
           width: 25%;
           max-width: 25%;
           border-radius: 50%;
-          @include transition(box-shadow 0.75s ease, border 0.75s ease);
+          @include transition(box-shadow 0.75s ease);
 
           &:hover {
             background-color: $amber;
             -moz-box-shadow: 0 0 60px $amber;
             -webkit-box-shadow: 0 0 60px $amber;
             box-shadow: 0 0 60px $amber;
-            border: 2px solid $amber;
           }
         }
       }
