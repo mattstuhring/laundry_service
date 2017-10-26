@@ -165,7 +165,7 @@ export class Login extends React.Component {
 
 
           <div className="row login-header">
-            <div className="col-xs-10 col-xs-offset-1 col-sm-6 col-sm-offset-3 text-center">
+            <div className="col-xs-10 col-xs-offset-1 col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2 col-lg-6 col-lg-offset-3 text-center">
               <div className="page-header">
                 <Image src="images/company.svg"/>
               </div>
